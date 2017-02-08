@@ -1,0 +1,24 @@
+{# CPUSerBundle Layout : remplace FOSUserBundle/Resources/views/layout.html.twig #}
+
+{# On étend notre layout #}
+{% set LAYOUT_OPTIONS = { "isExternPage" : 1 } %}
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+
+  Bienvenue !
+
+{% endblock %}
+
+{% block extern_body %}
+   
+  {# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
+  <div class="panel">
+        <div class="panel-body">
+        {% block fos_user_content %}
+
+        {% endblock fos_user_content %}
+        </div>
+  </div>
+
+{% endblock %}

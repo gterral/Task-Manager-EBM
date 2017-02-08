@@ -1,0 +1,66 @@
+
+{#
+Ce modal reprend le modèle de modal.html.twig, mais permet d'intégrer un formulaire
+En plus des paramètres à donner pour le parent, il faut attribuer à la variable modalForm, le formulaire que l'on veut insérer
+#}
+
+{# Exemple
+    {% set modal =
+        {'title': "Mon super modal",
+        'id':'mon_modal_id',
+        'type':'primary',
+        'size':'md' }
+      %}
+    {% set modalForm = forms.myForm %}
+    {% include("@Core/IconbarBundle/components/modal/modalForm.html.twig") %}
+
+#}
+
+{% extends "CoreIconbarBundle:components/modal:modal.html.twig" %}
+
+{% if modalForm is defined %}
+    
+    {% set form = modalForm %} {# Ca ne gene pas d'utiliser form ici, puisqu'il n'est déclaré que pour ce twig #}
+
+    {% block modal_content %}
+
+        {{ form_start(form, {'attr': {'class': 'form'} }) }}
+
+
+        {% if modal.title is defined and modal.title is not null %}
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">{{ modal.title|trans|capitalize }}</h4>
+        </div>
+        {% endif %}
+
+        <div class="modal-body">
+            
+            {% block modal_body %}
+                {# Grâce à ce bloc, on peut ajouter du contenu (ex texte d'explication) avant le formulaire #}
+                {# On peut donc également y structurer nous-même notre formulaire ! #}
+            {% endblock %}
+            
+            {# C'est ici qu'on affiche les champs du formulaire #}
+            {# On affiche champs du form (automatiquement mis sous template) + champs cachés de sécurisation #} 
+            {{ form_rest(form) }}
+          
+        </div>
+
+        <div class="modal-footer">
+            {% block modal_footer %}
+
+            <button class="btn btn-default btn-pure" data-dismiss="modal" >{{ "core/iconbar.vocabular.cancel"|trans|capitalize }}</button>
+            <button class="btn btn-{{ modal.type }}" type="submit">{{ "core/iconbar.vocabular.submit"|trans|capitalize }}</button>
+
+            {% endblock %}
+        </div>                                   
+
+
+
+        {# Fermeture de la balise <form> #}
+        {{ form_end(form) }}
+
+    {% endblock %}
+
+{% endif %}

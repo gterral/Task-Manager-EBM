@@ -1,0 +1,4 @@
+services:
+#    ebm_social_network.example:
+#        class: EBM\SocialNetworkBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

@@ -1,0 +1,3 @@
+ebm_materiel_homepage:
+    path:     /
+    defaults: { _controller: EBMMaterielBundle:Default:index }

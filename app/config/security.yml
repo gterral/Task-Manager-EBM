@@ -1,0 +1,70 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/security.html
+security:
+
+    # Mode d'encryptage des mots de passe
+    encoders:
+        Core\UserBundle\Entity\User: sha512
+
+    # Roles possibles pour un utilisateur
+    role_hierarchy:
+        ROLE_STUDENT:       ROLE_USER
+        ROLE_ADMIN:         [ROLE_ADMIN, ROLE_STUDENT]
+
+    # Les providers permettent de définir la manière dont on récupère les utilisateurs qui peuvent s'authentifier
+    # Le provider "in_memory" sert à tester notre sécurité sans avoir à créer une bdd pous les utilisateurs
+    # A commenter par la suite
+    providers:
+        public:
+            id: fos_user.user_provider.username_email
+
+
+    # Definir quelles URL requierent une AUTHENTIFICATION
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        public_login:
+            # Cette expression régulière permet de prendre /login (mais pas /login_check !)
+            pattern:   ^/[a-z]+/(login|resetting|register)
+            anonymous: true # On autorise alors les anonymes sur ce pare-feu
+            form_login:
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+            remember_me:
+                secret:     %secret% # %secret% est un paramètre de parameter
+        public:
+            pattern:      ^/
+            anonymous: false
+            provider: public
+            form_login:
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+            logout:
+                path:       fos_user_security_logout
+            remember_me:
+                secret:     %secret% # %secret% est un paramètre de parameter
+        secured_area:
+                form_login:
+                    always_use_default_target_path: true
+                    default_target_path: /    #Redirection after login
+
+    # Définir les AUTORISATIONS selon l'URL
+    # C'est ici qu'on configure les drois d'accès selon les url appelées.
+    # On peut bien sûr les définir aussi dans chaque bundle, mais il vaut mieux toutes les centraliser ici, dans le sens où la gestion des utilisateurs est indépendante des bundles
+    # le /[a-z]+ est là pour la locale
+    # pour se simplifier, TOUTES LES PAGES A DESTINATION DES ADMIN doivent commencer par /admin/
+    # Ce qui ne nous empêche pas d'utiliser un même twig pour deux controllers différents !
+    # par exemple pour accéder à une page détail Creator
+
+    # A priori le $ permet de ne pas appliquer la restriction aux path descendant du path
+
+    # ATTENTION : c'est comme le routing, si path pas autorisé, symfony test le path suivant.
+    # ATTENTION 2 : un poil plus haut : public.anonymous = false, donc pour l'instant à part login/register on a accès à rien en anonymous
+    access_control:
+        - { path: ^/[a-z]+/login,             roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/[a-z]+/register,          roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/[a-z]+/resetting,         roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/[a-z]+/dashboard,         roles: IS_AUTHENTICATED_REMEMBERED }
+        - { path: ^/[a-z]+/admin,             roles: [ROLE_ADMIN] }
+        - { path: ^/,                         roles: IS_AUTHENTICATED_REMEMBERED }

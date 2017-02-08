@@ -1,0 +1,111 @@
+{# Core/IconbarBundle/Resources/views/layout/sidebar.html.twig #}
+
+<div class="site-menubar">
+    <div class="site-menubar-body">
+        <ul class="site-menu">
+
+            {% if app is defined and app is not null and app.user is defined  and app.user is not null %}
+
+                {# Dans un premier temps, définissons les différents onglets qui vont apparaître en fonction des droits de l'utilisateur #}
+
+                {% if app.user.hasRole('ROLE_ADMIN') %}
+
+                    {# Menu Administrateur #}
+                    {% set allOnglets = [
+                    {
+                    "title" : "Dashboard",
+                    "icon" : "md-view-dashboard",
+                    "route" : 'core_dashboard_homepage'
+                    },
+                    {
+                    "title" : "Network",
+                    "icon" : "md-face",
+                    "route" : 'core_dashboard_homepage'
+                    },
+                    {
+                    "title" : "GdP",
+                    "icon" : "md-calendar",
+                    "route" : 'core_dashboard_homepage'
+                    },
+                    {
+                    "title" : "Fab Lab",
+                    "icon" : "md-eyedropper",
+                    "route" : 'core_dashboard_homepage'
+                    },
+                    {
+                    "title" : "Ressources",
+                    "icon" : "md-library",
+                    "route" : 'ebmkm_homepage'
+                    },
+                    {
+                    "title" : "Utilisateurs",
+                    "icon" : "md-accounts",
+                    "route" : 'core_dashboard_homepage'
+                    }
+                    ] %}
+
+                {% else %}
+
+                    {# Rôle élève #}
+                    {% set allOnglets = [
+                    {
+                    "title" : "Dashboard",
+                    "icon" : "md-view-dashboard",
+                    "route" : 'core_dashboard_homepage'
+                    },
+                    {
+                    "title" : "Network",
+                    "icon" : "md-face",
+                    "route" : 'ebm_social_network_homepage'
+                    },
+                    {
+                    "title" : "GdP",
+                    "icon" : "md-calendar",
+                    "route" : 'ebmgdp_homepage'
+                    },
+                    {
+                    "title" : "Fab Lab",
+                    "icon" : "md-eyedropper",
+                    "route" : 'ebm_materiel_homepage'
+                    },
+                    {
+                    "title" : "Ressources",
+                    "icon" : "md-library",
+                    "route" : 'ebmkm_homepage'
+                    },
+                    {
+                    "title" : "Utilisateurs",
+                    "icon" : "md-accounts",
+                    "route" : 'core_dashboard_homepage'
+                    }
+                    ] %}
+
+                {% endif %}
+
+
+                {# Pour savoir quel onglet est actif, on va utiliser la route actuelle, et regarder à quel bundle elle appartient #}
+                {% set currentBundle = app.request.attributes.get('_route')|slice(0,9) %}
+
+                {# A présent, générons chaque onglet #}
+
+                {% for ongletInfos in allOnglets %}
+
+                    <li class="site-menu-item {% if currentBundle == ongletInfos.route|slice(0,9) %} active {% endif %}" >
+                        <a class="animsition-link" href="{{  path(ongletInfos.route) }}">
+                            <i class="site-menu-icon {{ ongletInfos.icon }}" aria-hidden="true"></i>
+                            <span class="site-menu-title">{{ ongletInfos.title }}</span>
+                            {% if ongletInfos.badge is defined and ongletInfos.badge|length > 0 %}
+                                <div class="site-menu-label">
+                                    <span class="label label-danger label-round">&nbsp;{{ ongletInfos.badge }}&nbsp;</span>
+                                </div>
+                            {% endif %}
+                        </a>
+                    </li>
+
+                {% endfor %}
+
+            {% endif %}
+
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+
+ebmkm:
+    resource: "@EBMKMBundle/Resources/config/routing.yml"
+    prefix:   /resources/
+
+ebm_materiel:
+    resource: "@EBMMaterielBundle/Resources/config/routing.yml"
+    prefix:   /material/
+
+ebmgdp:
+    resource: "@EBMGDPBundle/Resources/config/routing.yml"
+    prefix:   /gdp/
+
+ebmsocial:
+    resource: "@EBMSocialNetworkBundle/Resources/config/routing.yml"
+    prefix:   /social/
+
+core_user:
+    resource: "@CoreUserBundle/Resources/config/routing.yml"
+    prefix:   /user/
+
+core_dashboard:
+    resource: "@CoreDashboardBundle/Resources/config/routing.yml"
+    prefix:   /
+
+
+

@@ -1,0 +1,13 @@
+{% extends "@FOSUser/fosUserLayout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+
+    <div class="brand">
+        <h2 class="font-size-18">{{ 'resetting.check_email'|trans({'%email%': email,'%tokenLifetime%':tokenLifetime})|raw }}</h2>
+    </div>
+
+    <p><a href="{{ path('fos_user_security_login') }}" class="text-right"{{ 'cpuser.connect'|trans }}</a></p>
+
+{% endblock %}

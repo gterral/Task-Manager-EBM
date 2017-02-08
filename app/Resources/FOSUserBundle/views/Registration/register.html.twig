@@ -1,0 +1,14 @@
+{% extends "@FOSUser/fosUserLayout.html.twig" %}
+
+{% block fos_user_content %}
+
+
+    {% set form = forms.registerUser %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div>
+            <button type="submit" class="btn btn-primary btn-round waves-classic waves-light waves-round" >{{ "cpuser.register.submit"|trans }}</button>
+        </div>
+    {{ form_end(forms.registerUser) }}
+
+{% endblock fos_user_content %}

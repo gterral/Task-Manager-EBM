@@ -1,0 +1,11 @@
+/.idea/
+/app/config/parameters_dev.yml
+/app/config/parameters_staging.yml
+/build/
+/phpunit.xml
+/var/*
+/vendor/*
+/web/bundles/*
+/web/uploads/*
+/web/css/*
+/web/js/*

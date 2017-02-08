@@ -1,0 +1,303 @@
+/*
+SOMMAIRE :
+- nav bar
+- overlay au dessus du background et avant le page-content
+- image en background du page-content
+- pages hors BO
+- image avec un dégradé vers du transparent vers le bas
+- table et datatable
+- autres améliorations, sur les classes : modal, page, border-right, automaticBreakline, counter-md, formulaire control label
+*/
+
+a:hover
+{
+    text-decoration: none;
+}
+
+.big-text {
+    font-size: larger; /* Remplace la baslie <big> */
+}
+
+
+/***********/
+/* Nav Bar */
+/***********/
+
+.nav-quick .badge, .nav-quick .label {
+    top: 5px;
+    right: 5px;
+}
+
+.nav-quick a
+{
+    border-left: 1px solid rgba(0, 0, 0, .05);
+}
+
+.nav-quick li:first-child a
+{
+    border-left: 0px;
+}
+
+.nav-quick>.active>a
+{
+    color: #3f51b5;
+}
+
+.nav-quick>.active>a>.label
+{
+    background-color: #3f51b5;
+    color:white;
+}
+
+.site-navbar .navbar-brand-logo {
+    height: 30px;
+}
+
+.dropdown-menu-media .list-group .list-group-item a
+{
+    color: #283593;
+}
+
+.dropdown-menu-media .list-group .list-group-item a:hover
+{
+    color: #3f51b5;
+}
+
+.dropdown-menu-media .list-group .active
+{
+    background-color:#e1f5fe;
+}
+
+
+/***********************************/
+/* Overlay au dessus du background */
+/***********************************/
+
+.page-dark.layout-full:after
+{
+    background-color: rgba(33,33,33,.05)!important;
+}
+
+.page-dark.layout-full label
+{
+    color:#757575!important;
+}
+
+.page-dark.layout-full a
+{
+    margin-left:0;
+}
+
+
+/***********************/
+/* Image en background */
+/***********************/
+
+
+.page-background:before {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background-position: center top;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-color: rgba(33,33,33,.6);
+    background-image: url("../images/lockscreen.jpg");
+}
+
+.page-background .page
+{
+    background:rgba(0,0,0,0)!important;
+}
+
+.page-background .page-header h1, .page-background .page-header li, .page-background .page-header a, .page-background  .breadcrumb>li+li:before
+{
+    color:#fff!important;
+}
+
+.page-background:after {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background-color: rgba(33,33,33,.5);
+}
+
+.page-background>h1, .page-background>h2, .page-background>h3, .page-background>h4, .page-background>p,
+.page-background>div>h1, .page-background>div>h2, .page-background>div>h3, .page-background>div>h4, .page-background>div>p,
+.page-background>div>div>h1, .page-background>div>div>h2, .page-background>div>div>h3, .page-background>div>div>h4, .page-background>div>div>p
+{
+    color:white;
+}
+
+
+/*****************/
+/* Pages hors BO */
+/*****************/
+
+.logo-landing
+{
+    width:95%;
+    max-width:400px;
+}
+
+.page-dark.layout-full:after
+{
+    background-color: rgba(33,33,33,.5)!important;
+}
+
+.page-register:before {
+    background-image: url("../images/people.jpg")!important;
+}
+
+.page-register .alert
+{
+    max-width:400px!important;
+    width: 100%!important;
+}
+
+.page-dark.layout-full label
+{
+    color:#757575!important;
+}
+
+.page-dark.layout-full a
+{
+    margin-left:0;
+}
+
+.brand .brand-text
+{
+    color:#3f51b5!important;
+}
+
+.page-register .panel-body p {
+    color: #757575!important;
+}
+
+/*************************************/
+/* Image avec un dégradé transparent */
+/*************************************/
+
+.img_transparent 
+{
+    -webkit-mask-image:-webkit-gradient(linear, 0 70%, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))
+}
+
+/**********/
+/* Tables */
+/**********/
+
+.table-noColBorder>tfoot>tr>th,.table-noColBorder>tbody>tr>td
+{
+   border:0px solid #e0e0e0!important;
+    border-top: 1px solid #e0e0e0!important;
+}
+
+.table-noColBorder>thead>tr>th
+{
+    border:0px solid #e0e0e0!important;
+}
+
+.dataTables_wrapper>.row:first-child {
+  display: none!important;
+}
+
+.table a {
+    text-decoration: none!important;
+}
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th
+{
+    vertical-align: middle;
+}
+
+/********************************************************/
+/* Autres améliorations que j'ai la flemme de commenter */
+/********************************************************/
+
+
+.modal {
+    /* ... */
+    overflow-y: scroll!important; /* sinon pour les modaux multiples, au 2eme pas de scroll */
+}
+ 
+.border-right
+{
+    border-right:1px solid #e0e0e0!important;
+}
+
+.automaticBreakLine
+{
+    word-wrap: break-word;      /* IE 5.5-7 */
+    white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+    white-space: pre-wrap;  
+}
+
+.counter-md .counter-number-group, .counter-md>.counter-number, .counter-md .counter-icon
+{
+    font-size: 20px!important;
+}
+
+.page {
+    min-height: calc(100%); /* sinon il y a un espace blanc de 44 px en bas */
+}
+
+/*
+.ladda-spinner
+{
+    left:50%!important;
+    right:50%!important;
+}*/
+
+.ladda-spinner > div
+{
+    left:50%!important;
+    top:50%!important;
+}
+
+.form .control-label
+{
+    font-size: 11.2px;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.badge.up
+{
+    z-index: 996;
+}
+
+
+.form-little-select .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn)
+{
+    width:120px!important;
+}
+
+
+.btn-group-wrap {
+    text-align: center;
+}
+
+.btn-group-wrap.btn-group {
+    margin: 0 auto;
+    text-align: center;
+    width: inherit;
+    display: inline-block;
+}
+
+.page-register form {
+    width:auto!important;
+}
+
+.page-register .form-control{
+    color:#757575!important;
+}
+

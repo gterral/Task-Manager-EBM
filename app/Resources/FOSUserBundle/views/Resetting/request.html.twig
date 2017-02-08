@@ -1,0 +1,33 @@
+{% extends "@FOSUser/fosUserLayout.html.twig" %}
+
+{% block fos_user_content %}
+
+    {% trans_default_domain 'FOSUserBundle' %}
+
+
+    
+            
+    <div class="brand">
+        <h2 class="brand-text font-size-18">Réinitialisation</h2>
+    </div>
+    <br>
+
+    <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" autocomplete="off">
+
+        {% if invalid_username is defined %}
+            <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</p>
+        {% endif %}
+            
+        <div class="form-group form-material floating">
+          <input type="text" name="username" id="username" class="form-control" required  autocorrect="off" autocapitalize="off">
+          <label class="floating-label">{{ 'resetting.request.username'|trans }}</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg margin-top-40">{{ 'resetting.request.submit'|trans }}</button>
+
+        <br><br>
+        <p><a href="{{ path('fos_user_security_login') }}" class="text-right">J'ai déjà un compte</a></p>
+
+    </form>
+
+{% endblock fos_user_content %}

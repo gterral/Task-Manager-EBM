@@ -1,0 +1,7 @@
+
+{# Connaissant le User, on connait ses rôles, et donc on sait quel template afficher #}
+
+<h2>Bonjour !</h2>
+
+Cliquez sur le lien suivant pour créer votre compte :
+{{ url('fos_user_registration_register',{ 'token':user.invitation.code }) }}

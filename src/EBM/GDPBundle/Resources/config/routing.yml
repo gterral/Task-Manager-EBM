@@ -1,0 +1,3 @@
+ebmgdp_homepage:
+    path:     /
+    defaults: { _controller: EBMGDPBundle:Default:index }

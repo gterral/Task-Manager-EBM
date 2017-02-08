@@ -1,0 +1,204 @@
+{% use 'form_div_layout.html.twig' %}
+
+{# 
+chercher les noms de block ici : https://github.com/symfony/symfony/blob/master/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig 
+Pour que ça fonctionne, il faut avoir dans app/config/config.yml :
+twig:
+    form_themes:
+        - 'CoreIconbarBundle:components/form:fields.html.twig'
+
+Ne pas oublier que form_rest liste tous les form_row restants
+#}
+
+{# Construction générale d'un champ. form_label et form_errors, on le règle un peu plus loin car leur position dépendent du type de champ #}
+
+{%- block form_row -%}
+    {{- form_widget(form) -}}
+{%- endblock form_row -%}
+
+{# Obliger d'overrider form_errors pour utiliser |trans #} 
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+    <ul>
+        {%- for error in errors -%}
+            <li>{{ error.message|trans|capitalize }}</li>
+        {%- endfor -%}
+    </ul>
+    {%- endif -%}
+{%- endblock form_errors -%}
+
+
+{# formulaire imbriqué. On ne fait jamais de section distincte ! Donc on l'override comme ça = #}
+{%- block form_widget_compound -%}
+    {{- form_rest(form) -}}
+{%- endblock form_widget_compound -%}
+
+
+
+{# Construction d'un input simple #}
+
+{%- block form_widget_simple -%}
+    {%- set type = type|default('text') -%}
+    {%- set requirements = requirements|default('') -%}
+    {% set customClass = attr.class is defined and attr.class is not empty ? attr.class : "" %}
+    {% if type not in ["file","hidden"] %}
+        <div class="form-group
+        {% if attr.NOT_MATERIAL is not defined or attr.NOT_MATERIAL is empty %}form-material{% endif %}
+        {% if label is defined and label is not empty %}floating{% endif %}">
+            {% if type == "textarea" %}
+                <textarea {{ block('widget_attributes') }}  class="form-control {{ customClass }}">{{ value|default("") }}</textarea>
+            {% else %}
+                <input type="{{ type }}"  class="form-control {{ customClass }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+            {% endif %}
+            {% if label is defined and label is not empty %}
+                <label class="floating-label" for="{{ id|default("") }}">{{ label|trans }}</label>
+            {% endif %}
+            <small><span>{{- form_errors(form) -}}</span></small>
+        </div>
+    {% elseif type == "file" %}
+        {#<div class="form-group form-material">
+            {% if label is defined and label is not empty %}
+                <label class="control-label" for="{{ id|default("") }}">{{ label|trans }}</label>
+            {% endif %}
+            <input type="text" class="form-control {{ customClass }}" placeholder="{{ "%s.."|format("core/iconbar.vocabular.browse"|trans|capitalize) }}" readonly="" />
+            <input type="file" {{ block('widget_attributes') }} />
+            <small><span>{{- form_errors(form) -}}</span></small>
+        </div>#}
+        <div {% if attr.inline is defined %}style="display:inline-block;"{% endif %} class="margin-bottom-10">
+            {% if label is defined and label is not empty %}
+                <label class="control-label" for="{{ id|default("") }}">{{ label|trans }}</label>&emsp;
+            {% endif %}
+            <label class="btn btn-info btn-round waves-effect waves-light waves-round inputFile"><input type="file" {{ block('widget_attributes') }} style="display:none!important" onchange="$('#name_{{ id }}').html($(this).val());"><i class="icon md-upload"></i> {{ "cpcampaign.monitoring.briefing.upload"|trans }}</label>
+            <small><span>{{- form_errors(form) -}}</span></small>
+            <span id="name_{{ id }}"></span>
+        </div>
+    {% elseif type == "hidden" %}
+        <input type="hidden" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
+    {% endif %}
+{%- endblock form_widget_simple -%}
+
+
+
+
+{# Spécifités selon les différents types de chams #}
+
+{%- block email_widget -%}
+    {%- set type = type|default('email') -%}
+    {{ block('form_widget') }}
+{%- endblock email_widget -%}
+
+{%- block textarea_widget -%}
+    {%- set type = "textarea" -%}
+    {{ block('form_widget') }}
+{%- endblock textarea_widget -%}
+
+
+
+
+{%- block checkbox_widget -%}
+    {% set customClass = attr.class is defined and attr.class is not empty ? attr.class : "" %}
+    <span class="checkbox-custom {% if customClass|length == 0 %}checkbox-primary{% else %} {{ customClass }} {% endif %}">
+        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        <label class="control-label" for="{{ id|default("") }}">{{ label|trans }}</label>
+    </span>
+{%- endblock checkbox_widget -%}
+
+
+
+{# Champs avec plugins #}
+
+
+
+
+
+{# 
+    Select multiple. On a juste rajouté data-plugin="selectpicker" en fait ! 
+    Pour que le plugin marche, faut rajouter :
+    <!-- Boostrap select -->
+    <link rel="stylesheet" href="{{ asset('bundles/coreiconbar/theme/global/vendor/bootstrap-select/bootstrap-select.css') }}">
+    <!-- Bootstrap select -->
+    <script src="{{ asset('bundles/coreiconbar/theme/global/vendor/bootstrap-select/bootstrap-select.js') }}"></script>
+    <script src="{{ asset('bundles/coreiconbar/theme/global/js/components/bootstrap-select.js') }}"></script>
+#}
+{%- block choice_widget_collapsed -%}
+    <div class="from-group form-material">
+        {%- if required and placeholder is none and not placeholder_in_choices and not multiple and (attr.size is not defined or attr.size <= 1) -%}
+            {% set required = false %}
+        {%- endif -%}
+        {% if label is defined and label is not empty %}
+            <label class="control-label" for="{{ id|default("") }}" style="display:block">{{ label|trans }} &emsp;</label>
+        {% endif %}
+        {% set customClass = attr.class is defined and attr.class is not empty ? attr.class : "" %}
+        <select data-plugin="selectpicker" {{ block('widget_attributes') }} {% if placeholder is defined and placeholder is not empty %} title="{{ placeholder|trans }}" {% endif %} {% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
+            {%- endif -%}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    </div>
+{%- endblock choice_widget_collapsed -%}
+
+{# Input Numeric #}
+{% block numeric_widget %}
+    {% set options = options|default({}) %}
+    {% set placeholder = options.placeholder|default("Min") %}
+    {% set min = options.min|default(0) %}
+    {% set max = options.max|default(100) %}
+    {% set step = options.step|default(1) %}
+    {% set decimals = options.decimals|default(0) %}
+    {% set boostat = options.boostat|default(5) %}
+    {% set maxboostedstep = options.maxboostedstep|default(10) %}
+    <div class="form-group form-material">
+        {% if label is defined and label is not empty %}
+            <label class="control-label" for="{{ id|default("") }}">{{ label|trans }}</label>
+        {% endif %}
+
+        <input type="text" class="form-control" data-plugin="TouchSpin" data-verticalbuttons="true"
+            placeholder="{{ placeholder }}"
+            data-min="{{ min }}" 
+            data-max="{{ max }}" 
+            data-step="{{ step }}" 
+            data-decimals="{{ decimals }}"
+            data-boostat="{{ boostat }}" 
+            data-maxboostedstep="{{ maxboostedstep }}" 
+            {% if options.postfix is defined and options.postfix|length > 0 %}data-postfix="{{ options.postfix }}"{% endif %}
+            {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} />
+    </div>
+{% endblock %}
+  
+
+{# Sexe #}
+{#{% block gender_widget %}
+    {% spaceless %}
+        <div class="form-group">
+            <div class="input-group">
+              {{ "core/iconbar.vocabular.sex"|trans|capitalize }} : &emsp;
+              {{ block("radio_widget") }}
+              &emsp;<i class="fa fa-male"></i>
+              &emsp;
+              {{ block("radio_widget") }}
+              &emsp;<i class="fa fa-female"></i>
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock %}#}
+{% block gender_widget %}
+    <div class="form-group">
+        <div class="input-group">
+        {% for child in form %}
+            {{ form_widget(child) }}
+            &nbsp;<label class="control-label">{{ child.vars.label|raw }}</label>&nbsp;&nbsp;&nbsp;
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+

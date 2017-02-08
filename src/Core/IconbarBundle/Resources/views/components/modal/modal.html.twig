@@ -1,0 +1,130 @@
+{#
+Modal Simple
+Modèle :
+Créer un tableau "modal" contenant les champs suivants :
+- id (obligatoire)
+- type (primary par défaut)
+- size (md par défaut)
+- title (si nul, pas de modal header)
+- footer : type liste : modèle de chaque bouton
+--- action (dismiss, submit, "link") (si non "submit" ou "dismiss", ce sera un lien href qui pointent vers link )
+--- title (si non renseigné, prend le titre par défaut correspond au champ "action")
+--- style (colored (prend la couleur modal.type), default, pure ) (si non renseigné, prend le style par défaut correspond au champ "action")
+Plus overrider les parties suivantes :
+- modal_body
+- modal_footer (si on veut le personnaliser
+#}
+
+{#
+EXEMPLE :
+{% embed "@Core/IconbarBundle/components/modal/modal.html.twig" %}
+  {% block modal_body %}
+      <div class="modal-body">
+          Hello World !
+      </div>
+  {% endblock %}
+  {% block modal_footer %}
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Annuler</button>
+        <button type="submit" name="action" value="sendInvitationToCreators" class="btn btn-primary" >Valider</button>
+      </div>
+  {% endblock %}
+{% endembed %}
+
+#}
+
+{% if modal is defined and modal.id is defined %}
+
+    {% if modal.type is not defined or modal.type not in ['primary','danger','warning','success','info'] %}
+        {% set modal = modal|merge({'type':'primary'}) %}
+    {% endif %}
+
+    {% if modal.size is not defined or modal.size not in ['xs','sm','md','lg'] %}
+        {% set modal = modal|merge({'size':'md'}) %}
+    {% endif %}
+
+
+
+
+    <div class="modal modal-{{ modal.type}}" tabindex="-1" id="{{ modal.id}}" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-{{ modal.size}}">
+            <div class="modal-content">
+
+                {% block modal_content %} {# Pour l'overrider dans des modaux spéciaux #}
+
+                    {% if modal.title is defined and modal.title is not null %}
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">{{ modal.title|trans|capitalize }}</h4>
+                        </div>
+                    {% endif %}
+
+                    <div class="modal-body">
+                        {% block modal_body %}
+
+                        {% endblock %}
+                    </div>
+
+                    <div class="modal-footer">
+                        {% block modal_footer %}
+
+                            {% if modal.footer is defined %}
+
+                                {% for button in modal.footer %}
+
+                                    {% set btn_attribute = "type=button" %}
+                                    {% if button.action is defined and button.action is not null %}
+                                        {% if button.action == "submit" %}
+                                            {% set btn_attribute = " type=submit " %}
+                                            {% if button.title is not defined or button.title is null %}
+                                                {% set button = button|merge({'title':"core/iconbar.vocabular.submit"}) %}
+                                            {% endif %}
+                                            {% if button.style is not defined or button.style is null %}
+                                                {% set button = button|merge({'style':"colored"}) %}
+                                            {% endif %}
+                                        {% elseif button.action == "dismiss" or button.action == "cancel" %}
+                                            {% set btn_attribute = " type=button data-dismiss=modal " %}
+                                            {% if button.title is not defined or button.title is null %}
+                                                {% set button = button|merge({'title':"core/iconbar.vocabular.cancel"}) %}
+                                            {% endif %}
+                                            {% if button.style is not defined or button.style is null %}
+                                                {% set button = button|merge({'style':"pure"}) %}
+                                            {% endif %}
+                                        {% else %}
+                                            {% set btn_attribute = " href=#{path(button.action)} " %}
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if button.style is defined %}
+                                        {% if button.style == "pure" %}
+                                            {% set btn_style = "btn-default btn-pure" %}
+                                        {% elseif button.style == "colored" %}
+                                            {% set btn_style = "btn-#{modal.type}" %}
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% set btn_title = button.title|default("core/iconbar.vocabular.done") %}
+
+
+                                    {% if "type=" in btn_attribute %}
+                                        <button class="btn {{ btn_style|default("btn-default") }}" {{ btn_attribute }} >{{ btn_title|trans|capitalize }}</button>
+                                    {% else %}
+                                        <a class="btn {{ btn_style|default("btn-default") }}" {{ btn_attribute }} >{{ btn_title|trans|capitalize }}</a>
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            {% endif %}
+
+                        {% endblock %}
+
+                    </div>
+
+                {% endblock %}
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+
+{% endif %}

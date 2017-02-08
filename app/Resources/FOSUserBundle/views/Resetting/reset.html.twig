@@ -1,0 +1,14 @@
+{% extends "@FOSUser/fosUserLayout.html.twig" %}
+
+{% block fos_user_content %}
+    
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    {{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
+        {{ form_widget(form) }}
+        <div>
+            <button type="submit" id="_submit" name="_submit" class="btn btn-primary btn-block btn-lg margin-top-40"  value="{{ 'resetting.reset.submit'|trans }}">{{ 'resetting.reset.submit'|trans }}</button>
+        </div>
+    {{ form_end(form) }}
+
+{% endblock fos_user_content %}

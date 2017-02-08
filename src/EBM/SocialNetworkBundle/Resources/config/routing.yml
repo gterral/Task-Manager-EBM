@@ -1,0 +1,3 @@
+ebm_social_network_homepage:
+    path:     /
+    defaults: { _controller: EBMSocialNetworkBundle:Default:index }

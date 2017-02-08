@@ -1,0 +1,73 @@
+{# CoreIconbarBundle/Resources/views/widget/banniere.html.twig #}
+
+{# 
+Le but de ce fichier est de pouvoir afficher une bannière simplement en ajoutant un paramètre notification dans les options LAYOUT_OPTIONS 
+Champs disponibles : 
+- error (erreur commune, prime sur les autres paramètres)
+- status (info, warning, danger,success,primary) (par défaut : info)
+- title
+- message
+- actions (liste de tableaux)
+--- title
+--- type (link,  solid)
+--- link
+#}
+
+{% if LAYOUT_OPTIONS.notification is defined %}
+    
+    {# La variable suivante étant défini ici, pas de risque qu'elle override celle du développeur #}
+    {% set notification = LAYOUT_OPTIONS.notification  %}
+
+
+    
+    {% if notification.error is defined and notification.error|length > 0 %}
+        {% set notification = notification|merge( { 'status' : 'danger' } ) %}
+        {% set notification = notification|merge( { 'title' : 'core/iconbar.errors.title' } ) %}
+        {% set notification = notification|merge( { 'message' : "core/iconbar.errors.%s"|format(notification.error) } ) %}
+        {% if "." in notification.error %}
+            {% set notification = notification|merge( { 'message' : "%s"|format(notification.error) } ) %}
+        {% endif %}
+    {% endif %}
+
+    {# Si pas de status renseigné, ce sera une bannière info (couleur bleu ciel) #}
+    {% if notification.status is not defined or notification.status not in ['info','warning','danger','success']  %}
+        {% set notification = notification|merge( { 'status' : 'info' } ) %}
+    {% endif %}
+
+
+    {# Enfin on choisit l'icône relative au status #}
+    {% set allNotificationIcons = {'danger' : 'md-close', 'primary' : 'md-notifications', 'success' : 'md-check', 'warning' : 'md-info-outline', 'info' : 'md-alert-circle-o'}  %}
+    {# (pour l'instant l'icône fait tâche {% set notification = notification|merge( { 'icon' : allNotificationIcons[notification.status] } ) %} #}
+    {% set notification = notification|merge( { 'icon' : ""}) %}
+
+    
+    {# On génére notre notification #}
+    {% if notification.title is defined or notification.message is defined %}
+        
+        <div class="alert dark alert-icon alert-{{ notification.status }} alert-dismissible" role="alert" style="z-index:1">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            {% if notification.title is defined %} <big><p><i class="icon {{ notification.icon }}" aria-hidden="true"></i>{{ notification.title|trans }}</p></big> {% endif %} 
+            {% if notification.message is defined %} <p>{{ notification.message|trans }}</p> {% endif %}
+            {% if notification.actions is defined %}
+                <p class="margin-top-15">
+                    {% for buttonDescription in notification.actions %}
+                      {% if buttonDescription.title is defined and buttonDescription.title is not null %}
+                        {% set btnStyle = "btn-link white" %}
+                        {% if buttonDescription.type is defined and buttonDescription.type == "solid" %}
+                            {% set btnStyle = "btn-primary btn-inverse" %}
+                        {% endif %}
+                        {% if buttonDescription.link is not defined %}
+                            {% set buttonDescription = buttonDescription|merge( { 'link' : '#' } )  %}
+                        {% endif %}
+                        <a href="{{buttonDescription.link}}" class="btn {{btnStyle}} waves-effect waves-light" type="button">{{ buttonDescription.title|trans|capitalize }}</a>
+                      {% endif %}
+                    {% endfor %}
+                </p>
+            {% endif %}
+        </div>
+
+    {% endif %}
+
+{% endif %}

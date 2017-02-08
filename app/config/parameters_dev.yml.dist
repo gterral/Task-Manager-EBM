@@ -1,0 +1,17 @@
+# http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+
+parameters:
+
+    # A modifier selon vos paramètres de connexion à votre propre base MAMP
+    database_host: localhost      # sur serveur ubuntu 14.04, 127.0.0.1 et non pas localhost
+    database_port: 3306           # Port utilisé par mysql sur votre ordinateur
+    database_name: ebm_filrouge   # Nom de la base de donnée à utiliser
+    database_user: root           # Login d'accès à la base
+    database_password: root       # Mdp d'accès à la base
+
+# A décommenter si environnement de dev sous MAMP
+#   database.driver:        pdo_mysql
+#   database.unix_socket:   /Applications/MAMP/tmp/mysql/mysql.sock
+#doctrine:
+#    dbal:
+#      unix_socket: "%database.unix_socket%"
