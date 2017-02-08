@@ -1,9 +1,10 @@
 # Installation
 
-1. Placer le projet dans un endroit adéquat sur votre ordinateur (i.e. pas sur le Bureau ni dans "Téléchargements")
-2. Régler votre MAMP, WAMP ou similaire de manière à ce que le dossier racine du serveur (Préférences > WebServer) soit le dossier "web" de ce projet
-3. SANS le modifier au préalable, copier-coller `app/config/parameters_dev.yml.dist` au même endroit mais en enlevant le .dist. On obtient donc le fichier `app/config/parameters_dev.yml`. Dans ce nouveau fichier, modifier les paramètres pour qu'ils soient en accord avec vos accès à votre propre base MySql.
-4. Ouvrir le terminal, se placer sur ce projet au moyen de la commande cd puis executer les lignes suivantes :
+1. Cloner le projet dans un endroit adéquat sur votre ordinateur (i.e. pas sur le Bureau ni dans "Téléchargements")
+2. S'assurer de bien être placé sur la branche `dev_votre_groupe`, et non pas sur la branche `master`
+3. Régler votre MAMP, WAMP ou similaire de manière à ce que le dossier racine du serveur (Préférences > WebServer) soit le dossier "web" de ce projet
+4. SANS le modifier au préalable, copier-coller `app/config/parameters_dev.yml.dist` au même endroit mais en enlevant le .dist. On obtient donc le fichier `app/config/parameters_dev.yml`. Dans ce nouveau fichier, modifier les paramètres pour qu'ils soient en accord avec vos accès à votre propre base MySql.
+5. Ouvrir le terminal, se placer sur ce projet au moyen de la commande cd puis executer les lignes suivantes :
 
 
 ```
