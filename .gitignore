@@ -1,6 +1,7 @@
 /.idea/
 /app/config/parameters_dev.yml
 /app/config/parameters_staging.yml
+/app/bootstrap.php.cache
 /build/
 /phpunit.xml
 /var/*

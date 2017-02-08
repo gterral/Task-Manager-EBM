@@ -17,7 +17,11 @@ php bin/console assetic:dump # celle-ci prend du temps à s'executer
 php bin/console doctrine:fixtures:load
 php bin/console cache:clear
 ```
-
+6. Pour les utilisateurs sous Linux uniquement, configurer les permissions du répertoire var : 
+```
+sudo setfacl -R -m u:"www-data":rwX -m u:`whoami`:rwX var
+```
+(Cf http://symfony.com/doc/current/setup/file_permissions.html )
 # Connexion à la plateforme
 
 Acceder à l'url `localhost:xxxx/app_dev.php`
