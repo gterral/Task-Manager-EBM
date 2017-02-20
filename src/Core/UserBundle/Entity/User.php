@@ -51,6 +51,12 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Post", inversedBy= "identifiedUsers", cascade= {"persist"})
      */
     private $postIdentified;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Post", mappedBy= "writtenBy", cascade= {"persist"})
+     */
+    private $authorOf;
+
     
     
     /* qui des attributs locked & co hérités du FosUserBundle ?
@@ -99,6 +105,7 @@ class User extends BaseUser
         // your own logic
 
         $this->postIdentified = new ArrayCollection();
+        $this->authorOf = new ArrayCollection();
     }
     
     public function hasRole($role) {
@@ -209,6 +216,32 @@ class User extends BaseUser
     public function setPostIdentified($postIdentified)
     {
         $this->postIdentified = $postIdentified;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthorOf()
+    {
+        return $this->authorOf;
+    }
+
+    /**
+     * @param mixed $authorOf
+     */
+    public function setAuthorOf($authorOf)
+    {
+        $this->authorOf = $authorOf;
+    }
+
+    public function addauthorOf($authorOf)
+    {
+        $this->authorOf->add($authorOf);
+    }
+
+    public function removeauthorOf($authorOf)
+    {
+        $this->authorOf->removeElement($authorOf);
     }
 
 }

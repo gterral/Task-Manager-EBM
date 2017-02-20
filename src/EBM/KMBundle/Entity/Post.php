@@ -49,11 +49,19 @@ class Post
      */
     private $identifiedUsers;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy= "authorOf", cascade= {"persist"})
+     */
+    private $writtenBy;
+
+
     public function __construct()
     {
         $this->identifiedUsers = new ArrayCollection();
 
     }
+
 
     /**
      * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\Topic", cascade={"persist"})
@@ -181,6 +189,22 @@ class Post
     public function setTopic($topic)
     {
         $this->topic = $topic;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWrittenBy()
+    {
+        return $this->writtenBy;
+    }
+
+    /**
+     * @param mixed $writtenBy
+     */
+    public function setWrittenBy($writtenBy)
+    {
+        $this->writtenBy = $writtenBy;
     }
 
 
