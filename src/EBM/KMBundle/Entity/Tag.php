@@ -50,7 +50,7 @@ class Tag
     private $topics;
 
     /**
-     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Document", InversedBy="tags", cascade={"persist"})
+     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Document", inversedBy="tags", cascade={"persist"})
      */
     private $documents;
 
