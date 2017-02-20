@@ -231,7 +231,7 @@ class Task
      *
      * @return Task
      */
-    public function setConversation(\EBMGDPBundle\Entity\Conversation $conversation = null)
+    public function setConversation(\EBM\GDPBundle\Entity\Conversation $conversation = null)
     {
         $this->conversation = $conversation;
 

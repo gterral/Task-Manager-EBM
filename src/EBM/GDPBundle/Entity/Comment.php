@@ -29,7 +29,7 @@ class Comment
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EBM\GDPBundle\Entity\Conversation", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="EBM\GDPBundle\Entity\Conversation", inversedBy="comments",cascade={"persist"})
      *
      * @ORM\JoinColumn(nullable=false)
      */
