@@ -2,6 +2,7 @@
 
 namespace EBM\KMBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +43,21 @@ class Tag
      */
     private $type;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Topic", inversedBy="tags", cascade={"persist"})
+     * @ORM\JoinTable("topic_tags");
+     */
+    private $topics;
+
+    /**
+     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Document", inversedBy="tags", cascade={"persist"})
+     */
+    private $documents;
+
+    public function __construct(){
+        $this->topics = new ArrayCollection();
+        $this->documents = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -123,6 +139,38 @@ class Tag
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTopics()
+    {
+        return $this->topics;
+    }
+
+    /**
+     * @param mixed $topics
+     */
+    public function setTopics($topics)
+    {
+        $this->topics = $topics;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
+    }
+
+    /**
+     * @param mixed $documents
+     */
+    public function setDocuments($documents)
+    {
+        $this->documents = $documents;
     }
 }
 

@@ -44,6 +44,7 @@ class Post
     private $status;
 
     /**
+
      * @ORM\ManyToMany(targetEntity="Core\UserBundle\Entity\User", inversedBy= "postIdentified", cascade= {"persist"})
      */
     private $identifiedUsers;
@@ -54,6 +55,10 @@ class Post
 
     }
 
+    /**
+     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\Topic", cascade={"persist"})
+     */
+    private $topic;
 
 
     /**
@@ -141,6 +146,7 @@ class Post
     /**
      * @return mixed
      */
+
     public function getIdentifiedUsers()
     {
         return $this->identifiedUsers;
@@ -163,6 +169,21 @@ class Post
     {
         $this->identifiedUsers->removeElement($identifiedUser);
     }
+
+    public function getTopic()
+    {
+        return $this->topic;
+    }
+
+    /**
+     * @param mixed $topic
+     */
+    public function setTopic($topic)
+    {
+        $this->topic = $topic;
+    }
+
+
 
 }
 

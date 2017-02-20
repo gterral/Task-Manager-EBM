@@ -2,6 +2,7 @@
 
 namespace EBM\KMBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,6 +57,20 @@ class Document
      */
     private $date;
 
+    /**
+     * @Orm\OneToOne(targetEntity="EBM\KMBundle\Entity\Topic", cascade={"persist"})
+     */
+    private $commentTopic;
+
+    /**
+     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", inversedBy="documents", cascade={"persist"})
+     */
+    private $tags;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -186,5 +201,51 @@ class Document
     {
         return $this->date;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCommentTopic()
+    {
+        return $this->commentTopic;
+    }
+
+    /**
+     * @param mixed $commentTopic
+     */
+    public function setCommentTopic($commentTopic)
+    {
+        $this->commentTopic = $commentTopic;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param mixed $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+
+    public function addTag($tag){
+        $this->tags->add($tag);
+        return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     */
+    public function removeTag(Tag $tag){
+        $this->tags->removeElement($this);
+    }
+
+
 }
 
