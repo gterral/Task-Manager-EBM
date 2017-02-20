@@ -2,6 +2,7 @@
 
 namespace Core\UserBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -45,8 +46,11 @@ class User extends BaseUser
      * @ORM\Column(name="timezone", type="string", length=100)
      */
     private $timezone="Europe/Paris";
-    
 
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Post", inversedBy= "identifiedUsers", cascade= {"persist"})
+     */
+    private $postIdentified;
     
     
     /* qui des attributs locked & co hérités du FosUserBundle ?
@@ -93,6 +97,8 @@ class User extends BaseUser
     {
         parent::__construct();
         // your own logic
+
+        $this->postIdentified = new ArrayCollection();
     }
     
     public function hasRole($role) {
@@ -188,4 +194,21 @@ class User extends BaseUser
     {
         return $this->getUserGMTSeconds()/3600;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPostIdentified()
+    {
+        return $this->postIdentified;
+    }
+
+    /**
+     * @param mixed $postIdentified
+     */
+    public function setPostIdentified($postIdentified)
+    {
+        $this->postIdentified = $postIdentified;
+    }
+
 }

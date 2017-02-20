@@ -2,6 +2,7 @@
 
 namespace EBM\KMBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +42,18 @@ class Post
      * @ORM\Column(name="status", type="string", length=255)
      */
     private $status;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Core\UserBundle\Entity\User", inversedBy= "postIdentified", cascade= {"persist"})
+     */
+    private $identifiedUsers;
+
+    public function __construct()
+    {
+        $this->identifiedUsers = new ArrayCollection();
+
+    }
+
 
 
     /**
@@ -124,5 +137,32 @@ class Post
     {
         return $this->status;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIdentifiedUsers()
+    {
+        return $this->identifiedUsers;
+    }
+
+    /**
+     * @param mixed $identifiedUsers
+     */
+    public function setIdentifiedUsers($identifiedUsers)
+    {
+        $this->identifiedUsers = $identifiedUsers;
+    }
+
+    public function addIdentifiedUser($identifiedUser)
+    {
+        $this->identifiedUsers->add($identifiedUser);
+    }
+
+    public function removeIdentifiedUser($identifiedUser)
+    {
+        $this->identifiedUsers->removeElement($identifiedUser);
+    }
+
 }
 
