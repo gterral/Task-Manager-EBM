@@ -42,6 +42,10 @@ class Post
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\Topic", cascade={"persist"})
+     */
+    private $topic;
 
     /**
      * Get id
@@ -124,5 +128,23 @@ class Post
     {
         return $this->status;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTopic()
+    {
+        return $this->topic;
+    }
+
+    /**
+     * @param mixed $topic
+     */
+    public function setTopic($topic)
+    {
+        $this->topic = $topic;
+    }
+
+
 }
 

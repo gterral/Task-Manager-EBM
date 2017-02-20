@@ -2,6 +2,7 @@
 
 namespace EBM\KMBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,6 +57,26 @@ class Topic
      */
     private $nbViews;
 
+    /**
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Post", mappedBy="topic", cascade={"persist"})
+     */
+    private $posts;
+
+    /**
+     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", inversedBy="topics", cascade={"persist"})
+     */
+    private $tags;
+
+    /**
+     * @ORM\OneToOne(targetEntity="EBM\KMBundle\Entity\Document", cascade={"persist"})
+     */
+    private $document;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -186,5 +207,93 @@ class Topic
     {
         return $this->nbViews;
     }
+
+    /**
+     * @return ArrayCollection<Post>
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * @param mixed $posts
+     */
+    public function setPosts($posts)
+    {
+        $this->posts = $posts;
+    }
+
+    /**
+     * @param Post $post
+     * @return $this
+     */
+    public function addPost(Post $post){
+        $this->posts->add($post);
+        return $this;
+    }
+
+    /**
+     * @param Post $post
+     * @return $this
+     */
+    public function removePost(Post $post){
+        $this->posts->removeElement($post);
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param mixed $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+
+    /**
+     * @param Tag $tag
+     * @return $this
+     */
+    public function addTag(Tag $tag){
+        $this->tags->add($tag);
+        return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     * @return $this
+     */
+    public function removeTag(Tag $tag){
+        $this->tags->removeElement($tag);
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
+
+    /**
+     * @param mixed $document
+     */
+    public function setDocument($document)
+    {
+        $this->document = $document;
+    }
+
+
+
+
 }
 
