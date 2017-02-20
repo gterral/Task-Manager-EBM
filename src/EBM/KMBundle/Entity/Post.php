@@ -55,10 +55,16 @@ class Post
      */
     private $writtenBy;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Core\UserBundle\Entity\User", inversedBy= "$postVoted", cascade= {"persist"})
+     */
+    private $userVoter;
+
 
     public function __construct()
     {
         $this->identifiedUsers = new ArrayCollection();
+        $this->userVoter = new ArrayCollection();
 
     }
 
@@ -169,9 +175,9 @@ class Post
     }
 
     public function addIdentifiedUser($identifiedUser)
-    {
-        $this->identifiedUsers->add($identifiedUser);
-    }
+{
+    $this->identifiedUsers->add($identifiedUser);
+}
 
     public function removeIdentifiedUser($identifiedUser)
     {
@@ -206,6 +212,24 @@ class Post
     {
         $this->writtenBy = $writtenBy;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUserVoter()
+    {
+        return $this->userVoter;
+    }
+
+    /**
+     * @param mixed $userVoter
+     */
+    public function setUserVoter($userVoter)
+    {
+        $this->userVoter = $userVoter;
+    }
+
+
 
 
 

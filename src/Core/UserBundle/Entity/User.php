@@ -57,6 +57,13 @@ class User extends BaseUser
      */
     private $authorOf;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Post", inversedBy= "userVoter", cascade= {"persist"})
+     */
+    private $postVoted;
+
+
+
     
     
     /* qui des attributs locked & co hérités du FosUserBundle ?
@@ -106,6 +113,7 @@ class User extends BaseUser
 
         $this->postIdentified = new ArrayCollection();
         $this->authorOf = new ArrayCollection();
+        $this->postVoted = new ArrayCollection();
     }
     
     public function hasRole($role) {
@@ -243,5 +251,31 @@ class User extends BaseUser
     {
         $this->authorOf->removeElement($authorOf);
     }
+
+    public function addpostVoted($postVoted)
+    {
+        $this->postVoted->add($postVoted);
+    }
+
+    public function removepostVoted($postVoted)
+    {
+        $this->postVoted->removeElement($postVoted);
+    }
+    /**
+     * @return mixed
+     */
+    public function getPostVoted()
+    {
+        return $this->postVoted;
+    }
+
+    /**
+     * @param mixed $postVoted
+     */
+    public function setPostVoted($postVoted)
+    {
+        $this->postVoted = $postVoted;
+    }
+
 
 }
