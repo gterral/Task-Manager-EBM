@@ -34,22 +34,52 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
      */
     public function load(ObjectManager $entityManager)
     {
-      $task = new Task();
-      $task->setName('Faire le ménage');
-      $task->setDeadline(\DateTime::createFromFormat('d/m/Y','22/02/2017'));
-      $task->setStatus('In progress');
-      $task->setType('logistic');
+      $task1 = new Task();
+      $task1->setName('Faire le ménage');
+      $task1->setDeadline(\DateTime::createFromFormat('d/m/Y','22/02/2017'));
+      $task1->setStatus('In progress');
+      $task1->setType('logistic');
 
-      $conversation = new Conversation();
-      $task->setConversation($conversation);
+      $conversation1 = new Conversation();
+      $task1->setConversation($conversation1);
 
-      $comment = new Comment();
-      $comment->setContent('Salut les gars ouéééé');
-      $comment->setConversation($conversation);
+      $comment11 = new Comment();
+      $comment11->setContent('Salut les gars ouéééé');
+      $comment11->setConversation($conversation1);
 
-      $entityManager->persist($task);
-      $entityManager->persist($conversation);
-      $entityManager->persist($comment);
+      $comment12 = new Comment();
+      $comment12->setContent('Pas envie de faire le ménage');
+      $comment12->setConversation($conversation1);
+
+        $task2 = new Task();
+        $task2->setName('Ajouter Issues');
+        $task2->setDeadline(\DateTime::createFromFormat('d/m/Y','20/02/2017'));
+        $task2->setStatus('In progress');
+        $task2->setType('IT');
+
+        $conversation2 = new Conversation();
+        $task2->setConversation($conversation2);
+
+        $comment21 = new Comment();
+        $comment21->setContent('Dashboard - Gestion');
+        $comment21->setConversation($conversation2);
+
+        $comment22 = new Comment();
+        $comment22->setContent('Users - Gestion');
+        $comment22->setConversation($conversation2);
+
+
+
+      $entityManager->persist($task1);
+      $entityManager->persist($conversation1);
+      $entityManager->persist($comment11);
+      $entityManager->persist($comment12);
+
+      $entityManager->persist($task2);
+      $entityManager->persist($conversation2);
+      $entityManager->persist($comment21);
+      $entityManager->persist($comment22);
+
       $entityManager->flush();
     }
 }
