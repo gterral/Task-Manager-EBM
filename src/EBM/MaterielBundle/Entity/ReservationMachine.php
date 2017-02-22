@@ -57,7 +57,7 @@ class ReservationMachine
     private $validation;
 
     /**
-     * @ORM\OneToOne(targetEntity="EBM\MaterielBundle\Entity\Machine", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="EBM\MaterielBundle\Entity\Machine", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $machine;
