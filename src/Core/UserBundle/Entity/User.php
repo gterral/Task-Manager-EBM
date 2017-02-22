@@ -5,6 +5,7 @@ namespace Core\UserBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use EBM\KMBundle\Entity\CompetenceUser;
+use EBM\KMBundle\Entity\Tag;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use FOS\UserBundle\Model\User as BaseUser;
@@ -84,6 +85,12 @@ class User extends BaseUser
      */
     private $recommendSkill;
 
+    /**
+     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", mappedBy="referents", cascade={"persist"})
+     * @Orm\JoinTable("km_tag_managers")
+     */
+    private $managedTags;
+
     
     
     /* qui des attributs locked & co hérités du FosUserBundle ?
@@ -138,6 +145,7 @@ class User extends BaseUser
         $this->recommendSkill = new ArrayCollection();
         $this->createDocument = new ArrayCollection();
         $this->documentEvaluation = new ArrayCollection();
+        $this->managedTags = new ArrayCollection();
     }
     
     public function hasRole($role) {
@@ -405,6 +413,38 @@ class User extends BaseUser
         $this->createDocument = $createDocument;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getManagedTags()
+    {
+        return $this->managedTags;
+    }
 
+    /**
+     * @param mixed $managedTags
+     */
+    public function setManagedTags($managedTags)
+    {
+        $this->managedTags = $managedTags;
+    }
+
+    /**
+     * @param Tag $tag
+     * @return $this
+     */
+    public function addManagedTag(Tag $tag){
+        $this->managedTags->add($tag);
+        return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     * @return $this
+     */
+    public function removeManagedTag(Tag $tag){
+        $this->managedTags->removeElement($tag);
+        return $this;
+    }
 
 }

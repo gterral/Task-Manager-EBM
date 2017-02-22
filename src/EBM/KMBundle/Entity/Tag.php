@@ -59,9 +59,15 @@ class Tag
      */
     private $skills;
 
+    /**
+     * @Orm\ManyToMany(targetEntity="Core\UserBundle\Entity\User", inversedBy="managedTags", cascade={"persist"})
+     */
+    private $referents;
+
     public function __construct(){
         $this->topics = new ArrayCollection();
         $this->documents = new ArrayCollection();
+        $this->referents = new ArrayCollection();
     }
 
     /**
@@ -184,6 +190,32 @@ class Tag
     public function getSkills()
     {
         return $this->skills;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReferents()
+    {
+        return $this->referents;
+    }
+
+    /**
+     * @param mixed $referents
+     */
+    public function setReferents($referents)
+    {
+        $this->referents = $referents;
+    }
+
+    public function addReferent($referent){
+        $this->addReferent($referent);
+        return $this;
+    }
+
+    public function removeReferent($referent){
+        $this->removeReferent($referent);
+        return $this;
     }
 
 
