@@ -3,6 +3,7 @@
 namespace EBM\GDPBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EBM\UserInterfaceBundle\Entity\Project;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -77,6 +78,24 @@ class Task
      * @ORM\Column(name="modificationDate", type="datetime")
      */
     private $modificationDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="EBM\UserInterfaceBundle\Entity\Project", inversedBy="tasks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $project;
+
+    public function setProject(Project $project)
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    public function getProject()
+    {
+        return $this->project;
+    }
 
     /**
      * Get id

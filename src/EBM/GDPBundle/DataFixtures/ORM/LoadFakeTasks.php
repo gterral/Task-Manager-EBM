@@ -50,6 +50,7 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
       $task1->setDeadline(\DateTime::createFromFormat('d/m/Y','22/02/2017'));
       $task1->setStatus('In progress');
       $task1->setType('logistic');
+      $task1->setProject($project1);
 
       $conversation1 = new Conversation();
       $task1->setConversation($conversation1);
@@ -67,6 +68,7 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
         $task2->setDeadline(\DateTime::createFromFormat('d/m/Y','20/02/2017'));
         $task2->setStatus('In progress');
         $task2->setType('IT');
+        $task2->setProject($project1);
 
         $conversation2 = new Conversation();
         $task2->setConversation($conversation2);
@@ -78,8 +80,6 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
         $comment22 = new Comment();
         $comment22->setContent('Users - Gestion');
         $comment22->setConversation($conversation2);
-
-
 
       $entityManager->persist($task1);
       $entityManager->persist($conversation1);

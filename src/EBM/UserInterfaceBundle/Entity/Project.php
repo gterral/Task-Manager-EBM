@@ -2,8 +2,11 @@
 
 namespace EBM\UserInterfaceBundle\Entity;
 
+use Core\UserBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use EBM\GDPBundle\Entity\Task;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Project
@@ -76,6 +79,53 @@ class Project
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\UserBundle\Entity\User", mappedBy="projects")
+     */
+    private $members;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EBM\GDPBundle\Entity\Task", mappedBy="project")
+     */
+    private $tasks;
+
+    public function __construct()
+    {
+        $this->members = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
+
+    }
+
+    public function addTask(Task $task)
+    {
+        $this->tasks[] = $task;
+    }
+
+    public function removeTask(Task $task)
+    {
+        $this->tasks->removeElement($task);
+    }
+
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
+
+    public function addMember(User $member)
+    {
+        $this->members[] = $member;
+    }
+
+    public function removeMember(User $member)
+    {
+        $this->members->removeElement($member);
+    }
+
+    public function getMembers()
+    {
+        return $this->members;
+    }
 
     /**
      * @return mixed
