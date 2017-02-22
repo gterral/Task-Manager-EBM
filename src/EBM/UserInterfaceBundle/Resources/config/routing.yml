@@ -1,0 +1,3 @@
+ebm_user_interface_homepage:
+    path:     /
+    defaults: { _controller: EBMUserInterfaceBundle:Default:index }
