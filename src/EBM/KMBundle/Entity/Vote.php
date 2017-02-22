@@ -5,12 +5,12 @@ namespace EBM\KMBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * EvaluationDocument
+ * Vote
  *
- * @ORM\Table(name="evaluation_document")
- * @ORM\Entity(repositoryClass="EBM\KMBundle\Repository\EvaluationDocumentRepository")
+ * @ORM\Table(name="km_vote")
+ * @ORM\Entity(repositoryClass="EBM\KMBundle\Repository\VoteRepository")
  */
-class EvaluationDocument
+class Vote
 {
     /**
      * @var int
@@ -28,16 +28,15 @@ class EvaluationDocument
      */
     private $value;
 
+    /**
+     * @Orm\ManyToOne(targetEntity="Post", inversedBy="votes", cascade={"persist"})
+     */
+    private $post;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="documentEvaluation", cascade= {"persist"})
+     * @Orm\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="postVoted", cascade={"persist"})
      */
-    private $madeBy;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\Document", inversedBy= "linkedToEvaluation", cascade= {"persist"})
-     */
-    private $linkedToDocument;
+    private $user;
 
     /**
      * Get id
@@ -54,7 +53,7 @@ class EvaluationDocument
      *
      * @param integer $value
      *
-     * @return EvaluationDocument
+     * @return Vote
      */
     public function setValue($value)
     {
@@ -76,33 +75,33 @@ class EvaluationDocument
     /**
      * @return mixed
      */
-    public function getMadeBy()
+    public function getPost()
     {
-        return $this->madeBy;
+        return $this->post;
     }
 
     /**
-     * @param mixed $madeBy
+     * @param mixed $post
      */
-    public function setMadeBy($madeBy)
+    public function setPost($post)
     {
-        $this->madeBy = $madeBy;
+        $this->post = $post;
     }
 
     /**
      * @return mixed
      */
-    public function getLinkedToDocument()
+    public function getUser()
     {
-        return $this->linkedToDocument;
+        return $this->user;
     }
 
     /**
-     * @param mixed $linkedToDocument
+     * @param mixed $user
      */
-    public function setLinkedToDocument($linkedToDocument)
+    public function setUser($user)
     {
-        $this->linkedToDocument = $linkedToDocument;
+        $this->user = $user;
     }
 
 

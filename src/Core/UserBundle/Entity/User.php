@@ -4,6 +4,8 @@ namespace Core\UserBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use EBM\KMBundle\Entity\CompetenceUser;
+use EBM\KMBundle\Entity\Tag;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use FOS\UserBundle\Model\User as BaseUser;
@@ -58,21 +60,36 @@ class User extends BaseUser
     private $authorOf;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Post", mappedBy= "userVoter", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Vote", mappedBy= "user", cascade= {"persist"})
      */
     private $postVoted;
 
     /**
+     * @Orm\OneToMany(targetEntity="EBM\KMBundle\Entity\CompetenceUser", mappedBy="user", cascade={"persist"})
+     */
+    private $skills;
+
+    /**
      * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy="madeBy", cascade= {"persist"})
      */
-    private $makeNotation;
+    private $documentEvaluation;
 
     /**
      * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy= "createdBy", cascade= {"persist"})
      */
     private $createDocument;
 
+    /**
+     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\CompetenceUser", mappedBy="recommendations", cascade={"persist"})
+     * @Orm\JoinTable("km_recommend_skill")
+     */
+    private $recommendSkill;
 
+    /**
+     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", mappedBy="referents", cascade={"persist"})
+     * @Orm\JoinTable("km_tag_managers")
+     */
+    private $managedTags;
 
     
     
@@ -124,8 +141,11 @@ class User extends BaseUser
         $this->postIdentified = new ArrayCollection();
         $this->authorOf = new ArrayCollection();
         $this->postVoted = new ArrayCollection();
+        $this->skills = new ArrayCollection();
+        $this->recommendSkill = new ArrayCollection();
         $this->createDocument = new ArrayCollection();
-
+        $this->documentEvaluation = new ArrayCollection();
+        $this->managedTags = new ArrayCollection();
     }
     
     public function hasRole($role) {
@@ -254,22 +274,22 @@ class User extends BaseUser
         $this->authorOf = $authorOf;
     }
 
-    public function addauthorOf($authorOf)
+    public function addAuthorOf($authorOf)
     {
         $this->authorOf->add($authorOf);
     }
 
-    public function removeauthorOf($authorOf)
+    public function removeAuthorOf($authorOf)
     {
         $this->authorOf->removeElement($authorOf);
     }
 
-    public function addpostVoted($postVoted)
+    public function addPostVoted($postVoted)
     {
         $this->postVoted->add($postVoted);
     }
 
-    public function removepostVoted($postVoted)
+    public function removePostVoted($postVoted)
     {
         $this->postVoted->removeElement($postVoted);
     }
@@ -292,22 +312,94 @@ class User extends BaseUser
     /**
      * @return mixed
      */
-    public function getMakeNotation()
+    public function getSkills()
     {
-        return $this->makeNotation;
+        return $this->skills;
     }
 
     /**
-     * @param mixed $makeNotation
+     * @param mixed $skills
      */
-    public function setMakeNotation($makeNotation)
+    public function setSkills($skills)
     {
-        $this->makeNotation = $makeNotation;
+        $this->skills = $skills;
+    }
+
+    /**
+     * @param CompetenceUser $skill
+     * @return $this
+     */
+    public function addSkill(CompetenceUser $skill){
+        $this->skills->add($skill);
+        return $this;
+    }
+
+    /**
+     * @param CompetenceUser $skill
+     * @return $this
+     */
+    public function removeSkill(CompetenceUser $skill)
+    {
+        $this->skills->removeElement($skill);
+        return $this;
+    }
+
+    public function getDocumentEvaluation()
+    {
+        return $this->documentEvaluation;
+    }
+
+    /**
+     * @param mixed $documentEvaluation
+     */
+    public function setDocumentEvaluation($documentEvaluation)
+    {
+        $this->documentEvaluation = $documentEvaluation;
+    }
+
+    public function addDocumentEvaluation($documentEvaluation){
+        $this->documentEvaluation->add($documentEvaluation);
+    }
+
+    public function removeDocumentEvaluation($documentEvaluation){
+        $this->documentEvaluation->removeElement($documentEvaluation);
     }
 
     /**
      * @return mixed
      */
+    public function getRecommendSkill()
+    {
+        return $this->recommendSkill;
+    }
+
+    /**
+     * @param mixed $recommendSkill
+     */
+    public function setRecommendSkill($recommendSkill)
+    {
+        $this->recommendSkill = $recommendSkill;
+    }
+
+    /**
+     * @param CompetenceUser $skill
+     * @return $this
+     *
+     */
+    public function addRecommendSkill(CompetenceUser $skill){
+        $this->recommendSkill->add($skill);
+        return $this;
+    }
+
+    /**
+     * @param CompetenceUser $skill
+     * @return $this
+     */
+    public function removeRecommendSkill(CompetenceUser $skill){
+        $this->recommendSkill->removeElement($skill);
+        return $this;
+    }
+
     public function getCreateDocument()
     {
         return $this->createDocument;
@@ -321,6 +413,38 @@ class User extends BaseUser
         $this->createDocument = $createDocument;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getManagedTags()
+    {
+        return $this->managedTags;
+    }
 
+    /**
+     * @param mixed $managedTags
+     */
+    public function setManagedTags($managedTags)
+    {
+        $this->managedTags = $managedTags;
+    }
+
+    /**
+     * @param Tag $tag
+     * @return $this
+     */
+    public function addManagedTag(Tag $tag){
+        $this->managedTags->add($tag);
+        return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     * @return $this
+     */
+    public function removeManagedTag(Tag $tag){
+        $this->managedTags->removeElement($tag);
+        return $this;
+    }
 
 }
