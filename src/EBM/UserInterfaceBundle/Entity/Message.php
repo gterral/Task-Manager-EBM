@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Message
  *
- * @ORM\Table(name="message")
+ * @ORM\Table(name="user_interface_message")
  * @ORM\Entity(repositoryClass="EBM\UserInterfaceBundle\Repository\MessageRepository")
  */
 class Message

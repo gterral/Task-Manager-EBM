@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Project
  *
- * @ORM\Table(name="project")
+ * @ORM\Table(name="user_interface_project")
  * @ORM\Entity(repositoryClass="EBM\UserInterfaceBundle\Repository\ProjectRepository")
  */
 class Project
