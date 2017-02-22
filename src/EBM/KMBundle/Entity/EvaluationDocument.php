@@ -31,7 +31,7 @@ class EvaluationDocument
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", cascade= {"persist"})
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy= "makeNotation",cascade= {"persist"})
      */
     private $madeBy;
 

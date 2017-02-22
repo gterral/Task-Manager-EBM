@@ -63,7 +63,7 @@ class User extends BaseUser
     private $postVoted;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy="madeBy", cascade= {"persist"})
      */
     private $makeNotation;
 
