@@ -34,6 +34,17 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
      */
     public function load(ObjectManager $entityManager)
     {
+
+      $project1 = new Project();
+      $project1->setId(1);
+      $project1->setName('Projet 1 - GestionProjet');
+      $project1->setProjectType('Mécanique');
+      $project1->code('2017-01');
+      $project1->description('Le projet 1 consite en la réalisation d\'un vélo manette permettant de faire du vélo en intérieur toutes en ayant les conditions réelles extérieures de pente et difficulté de montée');
+      $project1->setIsActive(true);
+      $project1->setCreationDate(\DateTime::createFromFormat('d/m/Y','02/01/2017'));
+      $project1->setLastUpdate(\DateTime::createFromFormat('d/m/Y','22/02/2017'));
+
       $task1 = new Task();
       $task1->setName('Faire le ménage');
       $task1->setDeadline(\DateTime::createFromFormat('d/m/Y','22/02/2017'));
