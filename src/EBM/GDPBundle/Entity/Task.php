@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Task
  *
- * @ORM\Table(name="task")
+ * @ORM\Table(name="gdp_task")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\TaskRepository")
  */
 class Task
@@ -41,7 +41,7 @@ class Task
      *
      * @ORM\Column(name="status", type="string", length=255)
      */
-    private $status;
+    private $status = "OPENED";
 
     /**
      * @var \DateTime
@@ -145,6 +145,12 @@ class Task
      */
     public function setStatus($status)
     {
+        $states = ["OPENED","IN_PROGRESS","WAITING_FOR_REVIEW","VALIDATED","REJECTED","ARCHIVED"];
+
+        if (!in_array($status,$states)) {
+            throw new \Exception("Value not allowed : you must use one of these status : ".json_encode($states));
+        }
+
         $this->status = $status;
 
         return $this;

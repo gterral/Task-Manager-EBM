@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Comment
  *
- * @ORM\Table(name="comment")
+ * @ORM\Table(name="gdp_comment")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\CommentRepository")
  */
 class Comment

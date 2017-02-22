@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * DocumentTypeProject
  *
- * @ORM\Table(name="document_type_project")
+ * @ORM\Table(name="gdp_document_type_project")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\DocumentTypeProjectRepository")
  */
 class DocumentTypeProject
