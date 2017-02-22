@@ -3,6 +3,7 @@
 namespace EBM\GDPBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * DocumentProject
@@ -44,17 +45,24 @@ class DocumentProject
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="creationDate", type="datetime")
      */
     private $creationDate;
 
     /**
      * @var \DateTime
-     *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="modificationDate", type="datetime")
      */
     private $modificationDate;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="change", field={"status"})
+     * @ORM\Column(name="statusChangeDate", type="datetime")
+     */
+    private $statusChangeDate;
 
     /**
      * @ORM\ManyToOne(targetEntity="EBM\GDPBundle\Entity\DocumentTypeProject", inversedBy="documentProjects")
@@ -253,5 +261,29 @@ class DocumentProject
     public function getConversation()
     {
         return $this->conversation;
+    }
+
+    /**
+     * Set statusChangeDate
+     *
+     * @param \DateTime $statusChangeDate
+     *
+     * @return DocumentProject
+     */
+    public function setStatusChangeDate($statusChangeDate)
+    {
+        $this->statusChangeDate = $statusChangeDate;
+
+        return $this;
+    }
+
+    /**
+     * Get statusChangeDate
+     *
+     * @return \DateTime
+     */
+    public function getStatusChangeDate()
+    {
+        return $this->statusChangeDate;
     }
 }

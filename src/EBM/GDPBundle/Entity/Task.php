@@ -3,6 +3,7 @@
 namespace EBM\GDPBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Task
@@ -50,13 +51,6 @@ class Task
     private $realisationDate;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="creationDate", type="datetime", nullable=true)
-     */
-    private $creationDate;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255, nullable=true)
@@ -69,6 +63,20 @@ class Task
      */
 
     private $conversation;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="creationDate", type="datetime")
+     */
+    private $creationDate;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="modificationDate", type="datetime")
+     */
+    private $modificationDate;
 
     /**
      * Get id
@@ -246,5 +254,29 @@ class Task
     public function getConversation()
     {
         return $this->conversation;
+    }
+
+    /**
+     * Set modificationDate
+     *
+     * @param \DateTime $modificationDate
+     *
+     * @return Task
+     */
+    public function setModificationDate($modificationDate)
+    {
+        $this->modificationDate = $modificationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get modificationDate
+     *
+     * @return \DateTime
+     */
+    public function getModificationDate()
+    {
+        return $this->modificationDate;
     }
 }
