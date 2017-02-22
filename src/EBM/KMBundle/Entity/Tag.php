@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Tag
  *
- * @ORM\Table(name="tag")
+ * @ORM\Table(name="km_tag")
  * @ORM\Entity(repositoryClass="EBM\KMBundle\Repository\TagRepository")
  */
 class Tag
@@ -50,7 +50,7 @@ class Tag
     private $topics;
 
     /**
-     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Document", inversedBy="tags", cascade={"persist"})
+     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy="tags", cascade={"persist"})
      */
     private $documents;
 

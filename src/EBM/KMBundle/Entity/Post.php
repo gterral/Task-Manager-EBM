@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Post
  *
- * @ORM\Table(name="post")
+ * @ORM\Table(name="km_post")
  * @ORM\Entity(repositoryClass="EBM\KMBundle\Repository\PostRepository")
  */
 class Post
@@ -44,19 +44,21 @@ class Post
     private $status;
 
     /**
-
      * @ORM\ManyToMany(targetEntity="Core\UserBundle\Entity\User", inversedBy= "postIdentified", cascade= {"persist"})
+     * @Orm\JoinTable(name="km_users_identified_in_post")
      */
     private $identifiedUsers;
 
 
     /**
      * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy= "authorOf", cascade= {"persist"})
+     * @Orm\JoinColumn(name="author")
      */
     private $writtenBy;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Core\UserBundle\Entity\User", inversedBy= "$postVoted", cascade= {"persist"})
+     * @ORM\ManyToMany(targetEntity="Core\UserBundle\Entity\User", inversedBy= "postVoted", cascade= {"persist"})
+     * @Orm\JoinTable(name="km_votes")
      */
     private $userVoter;
 
@@ -70,7 +72,7 @@ class Post
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\Topic", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\Topic", inversedBy="posts", cascade={"persist"})
      */
     private $topic;
 

@@ -48,7 +48,7 @@ class User extends BaseUser
     private $timezone="Europe/Paris";
 
     /**
-     * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Post", inversedBy= "identifiedUsers", cascade= {"persist"})
+     * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Post", mappedBy= "identifiedUsers", cascade= {"persist"})
      */
     private $postIdentified;
 
@@ -58,7 +58,7 @@ class User extends BaseUser
     private $authorOf;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Post", inversedBy= "userVoter", cascade= {"persist"})
+     * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Post", mappedBy= "userVoter", cascade= {"persist"})
      */
     private $postVoted;
 

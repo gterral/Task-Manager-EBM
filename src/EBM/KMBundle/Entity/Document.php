@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Document
  *
- * @ORM\Table(name="document")
+ * @ORM\Table(name="km_document")
  * @ORM\Entity(repositoryClass="EBM\KMBundle\Repository\DocumentRepository")
  */
 class Document
@@ -58,7 +58,7 @@ class Document
     private $date;
 
     /**
-     * @Orm\OneToOne(targetEntity="EBM\KMBundle\Entity\Topic", cascade={"persist"})
+     * @Orm\OneToOne(targetEntity="EBM\KMBundle\Entity\Topic", mappedBy="document", cascade={"persist"})
      */
     private $commentTopic;
 

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Topic
  *
- * @ORM\Table(name="topic")
+ * @ORM\Table(name="km_topic")
  * @ORM\Entity(repositoryClass="EBM\KMBundle\Repository\TopicRepository")
  */
 class Topic
@@ -63,12 +63,12 @@ class Topic
     private $posts;
 
     /**
-     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", inversedBy="topics", cascade={"persist"})
+     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", mappedBy="topics", cascade={"persist"})
      */
     private $tags;
 
     /**
-     * @ORM\OneToOne(targetEntity="EBM\KMBundle\Entity\Document", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="EBM\KMBundle\Entity\Document", inversedBy="commentTopic", cascade={"persist"})
      */
     private $document;
 
