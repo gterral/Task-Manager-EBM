@@ -4,19 +4,26 @@ namespace EBM\GDPBundle\Controller;
 
 use EBM\GDPBundle\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use EBM\UserInterfaceBundle\Entity\Project;
 
-class DefaultController extends Controller
+class ProjectController extends Controller
 {
-    public function indexAction()
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("project",options={"mapping": {"slug":"slug"}})
+     */
+    public function viewTasksAction(Project $project)
     {
-        $task = new Task();
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($task);
+        return $this->render('EBMGDPBundle:Project:index.html.twig');
+    }
 
-
-
-        $em->flush();
-
-        return $this->render('EBMGDPBundle:Default:index.html.twig');
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("project",options={"mapping": {"slug":"slug"}})
+     */
+    public function viewDeliverablesAction(Project $project)
+    {
+        return $this->render('EBMGDPBundle:Project:index.html.twig');
     }
 }

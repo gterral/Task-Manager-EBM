@@ -35,26 +35,14 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
      */
     public function load(ObjectManager $entityManager)
     {
-/*
- * TODO : C'est de la merde
-
-        $project1 = new Project();
-        $project1->setName('Projet 1 - GestionProjet');
-        $project1->setProjectType('Mécanique');
-        $project1->setCode('2017-01');
-        $project1->setDescription('Le projet 1 consite en la réalisation d\'un vélo manette permettant de faire du vélo en intérieur toutes en ayant les conditions réelles extérieures de pente et difficulté de montée');
-        $project1->setIsActive(true);
-        $project1->setCreationDate(\DateTime::createFromFormat('d/m/Y','02/01/2017'));
-        $project1->setLastUpdate(\DateTime::createFromFormat('d/m/Y','22/02/2017'));
 
         $task1 = new Task();
         $task1->setName('Faire le ménage');
         $task1->setDeadline(\DateTime::createFromFormat('d/m/Y','22/02/2017'));
         $task1->setStatus('IN_PROGRESS');
         $task1->setType('logistic');
-        $task1->setProject($project1);
 
-        $conversation1 = new Conversation();
+        /* $conversation1 = new Conversation();
         $task1->setConversation($conversation1);
 
         $comment11 = new Comment();
@@ -81,9 +69,10 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
 
         $comment22 = new Comment();
         $comment22->setContent('Users - Gestion');
-        $comment22->setConversation($conversation2);
+        $comment22->setConversation($conversation2);*/
 
         $entityManager->persist($task1);
+        /*
         $entityManager->persist($conversation1);
         $entityManager->persist($comment11);
         $entityManager->persist($comment12);
@@ -91,9 +80,9 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
         $entityManager->persist($task2);
         $entityManager->persist($conversation2);
         $entityManager->persist($comment21);
-        $entityManager->persist($comment22);
+        $entityManager->persist($comment22);*/
 
         $entityManager->flush();
-*/
+
     }
 }

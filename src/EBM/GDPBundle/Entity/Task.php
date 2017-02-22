@@ -260,7 +260,7 @@ class Task
     /**
      * Set conversation
      *
-     * @param \EBMGDPBundle\Entity\Conversation $conversation
+     * @param \EBM\GDPBundle\Entity\Conversation $conversation
      *
      * @return Task
      */
@@ -274,7 +274,7 @@ class Task
     /**
      * Get conversation
      *
-     * @return \EBMGDPBundle\Entity\Conversation
+     * @return \EBM\GDPBundle\Entity\Conversation
      */
     public function getConversation()
     {
