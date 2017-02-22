@@ -67,9 +67,20 @@ class Document
      */
     private $tags;
 
+    /**
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy= "linkedToDocument", cascade= {"persist"})
+     */
+    private $linkedToEvaluation;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy= "createDocument", cascade= {"persist"})
+     */
+    private $createdBy;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->linkedToEvaluation = new ArrayCollection();
     }
 
     /**
@@ -244,6 +255,38 @@ class Document
      */
     public function removeTag(Tag $tag){
         $this->tags->removeElement($this);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLinkedToEvaluation()
+    {
+        return $this->linkedToEvaluation;
+    }
+
+    /**
+     * @param mixed $linkedToEvaluation
+     */
+    public function setLinkedToEvaluation($linkedToEvaluation)
+    {
+        $this->linkedToEvaluation = $linkedToEvaluation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param mixed $createdBy
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
     }
 
 

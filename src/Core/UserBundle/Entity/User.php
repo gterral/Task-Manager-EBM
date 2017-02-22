@@ -69,6 +69,16 @@ class User extends BaseUser
     private $skills;
 
     /**
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", cascade= {"persist"})
+     */
+    private $makeNotation;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy= "createdBy", cascade= {"persist"})
+     */
+    private $createDocument;
+
+    /**
      * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\CompetenceUser", mappedBy="recommendations", cascade={"persist"})
      * @Orm\JoinTable("km_recommend_skill")
      */
@@ -126,6 +136,8 @@ class User extends BaseUser
         $this->postVoted = new ArrayCollection();
         $this->skills = new ArrayCollection();
         $this->recommendSkill = new ArrayCollection();
+        $this->createDocument = new ArrayCollection();
+
     }
     
     public function hasRole($role) {
@@ -318,9 +330,23 @@ class User extends BaseUser
      * @param CompetenceUser $skill
      * @return $this
      */
-    public function removeSkill(CompetenceUser $skill){
+    public function removeSkill(CompetenceUser $skill)
+    {
         $this->skills->removeElement($skill);
         return $this;
+    }
+
+    public function getMakeNotation()
+    {
+        return $this->makeNotation;
+    }
+
+    /**
+     * @param mixed $makeNotation
+     */
+    public function setMakeNotation($makeNotation)
+    {
+        $this->makeNotation = $makeNotation;
     }
 
     /**
@@ -356,6 +382,19 @@ class User extends BaseUser
     public function removeRecommendSkill(CompetenceUser $skill){
         $this->recommendSkill->removeElement($skill);
         return $this;
+    }
+
+    public function getCreateDocument()
+    {
+        return $this->createDocument;
+    }
+
+    /**
+     * @param mixed $createDocument
+     */
+    public function setCreateDocument($createDocument)
+    {
+        $this->createDocument = $createDocument;
     }
 
 
