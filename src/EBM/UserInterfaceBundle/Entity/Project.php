@@ -28,7 +28,7 @@ class Project
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
@@ -70,7 +70,7 @@ class Project
     /**
      * @var \DateTime
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="creation_date", type="datetime")
+     * @ORM\Column(name="last_update", type="datetime")
      */
     private $lastUpdate;
 
@@ -81,7 +81,7 @@ class Project
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EBM\UserBundle\Entity\User", mappedBy="projects")
+     * @ORM\ManyToMany(targetEntity="Core\UserBundle\Entity\User", mappedBy="projects")
      */
     private $members;
 
