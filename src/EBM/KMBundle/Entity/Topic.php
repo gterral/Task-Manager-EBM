@@ -41,21 +41,21 @@ class Topic
      *
      * @ORM\Column(name="status", type="string", length=255)
      */
-    private $status;
+    private $status = "default";
 
     /**
      * @var bool
      *
      * @ORM\Column(name="pinned", type="boolean")
      */
-    private $pinned;
+    private $pinned = false;
 
     /**
      * @var int
      *
      * @ORM\Column(name="nbViews", type="integer")
      */
-    private $nbViews;
+    private $nbViews = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Post", mappedBy="topic", cascade={"persist"})
@@ -72,10 +72,16 @@ class Topic
      */
     private $document;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User")
+     */
+    private $creator;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->date = new \DateTime();
     }
 
     /**
@@ -187,14 +193,11 @@ class Topic
     /**
      * Set nbViews
      *
-     * @param integer $nbViews
-     *
      * @return Topic
      */
-    public function setNbViews($nbViews)
+    public function increaseNbViews()
     {
-        $this->nbViews = $nbViews;
-
+        $this->nbViews ++;
         return $this;
     }
 
@@ -230,6 +233,9 @@ class Topic
      */
     public function addPost(Post $post){
         $this->posts->add($post);
+
+        $post->setTopic($this); //Association avec le topic
+
         return $this;
     }
 
@@ -292,8 +298,20 @@ class Topic
         $this->document = $document;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCreator()
+    {
+        return $this->creator;
+    }
 
-
-
+    /**
+     * @param mixed $creator
+     */
+    public function setCreator($creator)
+    {
+        $this->creator = $creator;
+    }
 }
 

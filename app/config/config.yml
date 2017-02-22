@@ -59,7 +59,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form_themes:
-        - 'Core/IconbarBundle:components/form:fields.html.twig'
+        - 'CoreIconbarBundle:components/form:fields.html.twig'
 
 # Doctrine Configuration
 doctrine:

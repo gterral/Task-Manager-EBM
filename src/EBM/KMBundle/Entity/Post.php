@@ -2,6 +2,7 @@
 
 namespace EBM\KMBundle\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -61,11 +62,18 @@ class Post
      */
     private $votes;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User")
+     */
+    private $author;
 
     public function __construct()
     {
         $this->identifiedUsers = new ArrayCollection();
         $this->votes = new ArrayCollection();
+        $this->userVoter = new ArrayCollection();
+        $this->date = new \DateTime();
+        $this->status = "default";
     }
 
 
@@ -242,11 +250,26 @@ class Post
      * @param $vote
      * @return $this
      */
-    public function removeVote($vote){
+    public function removeVote($vote)
+    {
         $this->votes->removeElement($vote);
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
 
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
 }
 
