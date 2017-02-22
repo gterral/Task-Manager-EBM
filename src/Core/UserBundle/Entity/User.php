@@ -62,6 +62,16 @@ class User extends BaseUser
      */
     private $postVoted;
 
+    /**
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", cascade= {"persist"})
+     */
+    private $makeNotation;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy= "createdBy", cascade= {"persist"})
+     */
+    private $createDocument;
+
 
 
     
@@ -114,6 +124,8 @@ class User extends BaseUser
         $this->postIdentified = new ArrayCollection();
         $this->authorOf = new ArrayCollection();
         $this->postVoted = new ArrayCollection();
+        $this->createDocument = new ArrayCollection();
+
     }
     
     public function hasRole($role) {
@@ -276,6 +288,39 @@ class User extends BaseUser
     {
         $this->postVoted = $postVoted;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMakeNotation()
+    {
+        return $this->makeNotation;
+    }
+
+    /**
+     * @param mixed $makeNotation
+     */
+    public function setMakeNotation($makeNotation)
+    {
+        $this->makeNotation = $makeNotation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreateDocument()
+    {
+        return $this->createDocument;
+    }
+
+    /**
+     * @param mixed $createDocument
+     */
+    public function setCreateDocument($createDocument)
+    {
+        $this->createDocument = $createDocument;
+    }
+
 
 
 }
