@@ -1,73 +1,100 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nicolas
- * Date: 22/02/2017
- * Time: 09:45
- */
 
 namespace EBM\UserInterfaceBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * User
+ *
+ * @ORM\Table(name="user")
+ * @ORM\Entity(repositoryClass="EBM\UserInterfaceBundle\Repository\UserRepository")
+ */
 class User
 {
-
     /**
      * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="surname", type="string", length=255)
      */
     private $surname;
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="promotion", type="integer")
      */
     private $promotion;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
 
     /**
      * @var array
+     *
+     * @ORM\Column(name="competences", type="array")
      */
     private $competences;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="timeout", type="datetime")
      */
     private $timeout;
 
     /**
-     * @var boolean
+     * @var bool
+     *
+     * @ORM\Column(name="is_active", type="boolean")
      */
-    private $is_active;
+    private $isActive;
 
     /**
      * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="creation_date", type="datetime")
      */
-    private $creation_date;
+    private $creationDate;
 
     /**
      * @var \DateTime
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="last_update", type="datetime")
      */
-    private $last_update;
+    private $lastUpdate;
+
 
     /**
+     * Get id
+     *
      * @return int
      */
     public function getId()
@@ -76,14 +103,22 @@ class User
     }
 
     /**
-     * @param int $id
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return User
      */
-    public function setId($id)
+    public function setName($name)
     {
-        $this->id = $id;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
+     * Get name
+     *
      * @return string
      */
     public function getName()
@@ -92,14 +127,22 @@ class User
     }
 
     /**
-     * @param string $name
+     * Set surname
+     *
+     * @param string $surname
+     *
+     * @return User
      */
-    public function setName($name)
+    public function setSurname($surname)
     {
-        $this->name = $name;
+        $this->surname = $surname;
+
+        return $this;
     }
 
     /**
+     * Get surname
+     *
      * @return string
      */
     public function getSurname()
@@ -108,14 +151,22 @@ class User
     }
 
     /**
-     * @param string $surname
+     * Set promotion
+     *
+     * @param integer $promotion
+     *
+     * @return User
      */
-    public function setSurname($surname)
+    public function setPromotion($promotion)
     {
-        $this->surname = $surname;
+        $this->promotion = $promotion;
+
+        return $this;
     }
 
     /**
+     * Get promotion
+     *
      * @return int
      */
     public function getPromotion()
@@ -124,14 +175,22 @@ class User
     }
 
     /**
-     * @param int $promotion
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return User
      */
-    public function setPromotion($promotion)
+    public function setDescription($description)
     {
-        $this->promotion = $promotion;
+        $this->description = $description;
+
+        return $this;
     }
 
     /**
+     * Get description
+     *
      * @return string
      */
     public function getDescription()
@@ -140,14 +199,22 @@ class User
     }
 
     /**
-     * @param string $description
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return User
      */
-    public function setDescription($description)
+    public function setEmail($email)
     {
-        $this->description = $description;
+        $this->email = $email;
+
+        return $this;
     }
 
     /**
+     * Get email
+     *
      * @return string
      */
     public function getEmail()
@@ -156,14 +223,22 @@ class User
     }
 
     /**
-     * @param string $email
+     * Set competences
+     *
+     * @param array $competences
+     *
+     * @return User
      */
-    public function setEmail($email)
+    public function setCompetences($competences)
     {
-        $this->email = $email;
+        $this->competences = $competences;
+
+        return $this;
     }
 
     /**
+     * Get competences
+     *
      * @return array
      */
     public function getCompetences()
@@ -172,14 +247,22 @@ class User
     }
 
     /**
-     * @param array $competences
+     * Set timeout
+     *
+     * @param \DateTime $timeout
+     *
+     * @return User
      */
-    public function setCompetences($competences)
+    public function setTimeout($timeout)
     {
-        $this->competences = $competences;
+        $this->timeout = $timeout;
+
+        return $this;
     }
 
     /**
+     * Get timeout
+     *
      * @return \DateTime
      */
     public function getTimeout()
@@ -188,61 +271,75 @@ class User
     }
 
     /**
-     * @param \DateTime $timeout
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return User
      */
-    public function setTimeout($timeout)
+    public function setIsActive($isActive)
     {
-        $this->timeout = $timeout;
+        $this->isActive = $isActive;
+
+        return $this;
     }
 
     /**
-     * @return boolean
+     * Get isActive
+     *
+     * @return bool
      */
-    public function isIsActive()
+    public function getIsActive()
     {
-        return $this->is_active;
+        return $this->isActive;
     }
 
     /**
-     * @param boolean $is_active
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     *
+     * @return User
      */
-    public function setIsActive($is_active)
+    public function setCreationDate($creationDate)
     {
-        $this->is_active = $is_active;
+        $this->creationDate = $creationDate;
+
+        return $this;
     }
 
     /**
+     * Get creationDate
+     *
      * @return \DateTime
      */
     public function getCreationDate()
     {
-        return $this->creation_date;
+        return $this->creationDate;
     }
 
     /**
-     * @param \DateTime $creation_date
+     * Set lastUpdate
+     *
+     * @param \DateTime $lastUpdate
+     *
+     * @return User
      */
-    public function setCreationDate($creation_date)
+    public function setLastUpdate($lastUpdate)
     {
-        $this->creation_date = $creation_date;
+        $this->lastUpdate = $lastUpdate;
+
+        return $this;
     }
 
     /**
+     * Get lastUpdate
+     *
      * @return \DateTime
      */
     public function getLastUpdate()
     {
-        return $this->last_update;
+        return $this->lastUpdate;
     }
-
-    /**
-     * @param \DateTime $last_update
-     */
-    public function setLastUpdate($last_update)
-    {
-        $this->last_update = $last_update;
-    }
-
-
-
 }
+

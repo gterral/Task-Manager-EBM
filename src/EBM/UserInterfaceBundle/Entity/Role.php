@@ -1,39 +1,82 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nicolas
- * Date: 22/02/2017
- * Time: 09:44
- */
 
 namespace EBM\UserInterfaceBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Role
+ *
+ * @ORM\Table(name="role")
+ * @ORM\Entity(repositoryClass="EBM\UserInterfaceBundle\Repository\RoleRepository")
+ */
 class Role
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
      */
     private $type;
 
-
     /**
      * @var string
+     *
+     * @ORM\Column(name="role_type", type="string", length=255)
      */
-    private $role_type;
+    private $roleType;
 
     /**
      * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="creation_date", type="datetime")
      */
-    private $creation_date;
+    private $creationDate;
 
     /**
      * @var \DateTime
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="last_update", type="datetime")
      */
-    private $last_update;
+    private $lastUpdate;
+
 
     /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Role
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
      * @return string
      */
     public function getType()
@@ -42,61 +85,75 @@ class Role
     }
 
     /**
-     * @param string $type
+     * Set roleType
+     *
+     * @param string $roleType
+     *
+     * @return Role
      */
-    public function setType($type)
+    public function setRoleType($roleType)
     {
-        $this->type = $type;
+        $this->roleType = $roleType;
+
+        return $this;
     }
 
     /**
+     * Get roleType
+     *
      * @return string
      */
     public function getRoleType()
     {
-        return $this->role_type;
+        return $this->roleType;
     }
 
     /**
-     * @param string $role_type
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     *
+     * @return Role
      */
-    public function setRoleType($role_type)
+    public function setCreationDate($creationDate)
     {
-        $this->role_type = $role_type;
+        $this->creationDate = $creationDate;
+
+        return $this;
     }
 
     /**
+     * Get creationDate
+     *
      * @return \DateTime
      */
     public function getCreationDate()
     {
-        return $this->creation_date;
+        return $this->creationDate;
     }
 
     /**
-     * @param \DateTime $creation_date
+     * Set lastUpdate
+     *
+     * @param \DateTime $lastUpdate
+     *
+     * @return Role
      */
-    public function setCreationDate($creation_date)
+    public function setLastUpdate($lastUpdate)
     {
-        $this->creation_date = $creation_date;
+        $this->lastUpdate = $lastUpdate;
+
+        return $this;
     }
 
     /**
+     * Get lastUpdate
+     *
      * @return \DateTime
      */
     public function getLastUpdate()
     {
-        return $this->last_update;
+        return $this->lastUpdate;
     }
-
-    /**
-     * @param \DateTime $last_update
-     */
-    public function setLastUpdate($last_update)
-    {
-        $this->last_update = $last_update;
-    }
-
-
-
 }
+

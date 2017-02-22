@@ -2,71 +2,101 @@
 
 namespace EBM\UserInterfaceBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 /**
- * Created by PhpStorm.
- * User: Nicolas
- * Date: 22/02/2017
- * Time: 09:37
+ * Project
+ *
+ * @ORM\Table(name="project")
+ * @ORM\Entity(repositoryClass="EBM\UserInterfaceBundle\Repository\ProjectRepository")
  */
 class Project
 {
     /**
      * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="project_type", type="string", length=255)
      */
-    private $project_type;
+    private $projectType;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=255, unique=true)
      */
     private $code;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
-     * @var boolean
+     * @var bool
+     *
+     * @ORM\Column(name="is_active", type="boolean")
      */
-    private $is_active;
+    private $isActive;
 
     /**
      * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="creation_date", type="datetime")
      */
-    private $creation_date;
+    private $creationDate;
 
     /**
      * @var \DateTime
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="creation_date", type="datetime")
      */
-    private $last_update;
+    private $lastUpdate;
 
     /**
-     * @return string
+     * @Gedmo\Slug(fields={"code"})
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
-    public function getCode()
+    private $slug;
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
     {
-        return $this->code;
+        return $this->slug;
     }
 
     /**
-     * @param string $code
+     * @param mixed $slug
      */
-    public function setCode($code)
+    public function setSlug($slug)
     {
-        $this->code = $code;
+        $this->slug = $slug;
     }
 
+
     /**
+     * Get id
+     *
      * @return int
      */
     public function getId()
@@ -75,14 +105,22 @@ class Project
     }
 
     /**
-     * @param int $id
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Project
      */
-    public function setId($id)
+    public function setName($name)
     {
-        $this->id = $id;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
+     * Get name
+     *
      * @return string
      */
     public function getName()
@@ -91,30 +129,70 @@ class Project
     }
 
     /**
-     * @param string $name
+     * Set projectType
+     *
+     * @param string $projectType
+     *
+     * @return Project
      */
-    public function setName($name)
+    public function setProjectType($projectType)
     {
-        $this->name = $name;
+        $this->projectType = $projectType;
+
+        return $this;
     }
 
     /**
+     * Get projectType
+     *
      * @return string
      */
     public function getProjectType()
     {
-        return $this->project_type;
+        return $this->projectType;
     }
 
     /**
-     * @param string $project_type
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return Project
      */
-    public function setProjectType($project_type)
+    public function setCode($code)
     {
-        $this->project_type = $project_type;
+        $this->code = $code;
+
+        return $this;
     }
 
     /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Project
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
      * @return string
      */
     public function getDescription()
@@ -123,60 +201,75 @@ class Project
     }
 
     /**
-     * @param string $description
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return Project
      */
-    public function setDescription($description)
+    public function setIsActive($isActive)
     {
-        $this->description = $description;
+        $this->isActive = $isActive;
+
+        return $this;
     }
 
     /**
-     * @return boolean
+     * Get isActive
+     *
+     * @return bool
      */
-    public function isIsActive()
+    public function getIsActive()
     {
-        return $this->is_active;
+        return $this->isActive;
     }
 
     /**
-     * @param boolean $is_active
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     *
+     * @return Project
      */
-    public function setIsActive($is_active)
+    public function setCreationDate($creationDate)
     {
-        $this->is_active = $is_active;
+        $this->creationDate = $creationDate;
+
+        return $this;
     }
 
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
 
     /**
+     * Set lastUpdate
+     *
+     * @param \DateTime $lastUpdate
+     *
+     * @return Project
+     */
+    public function setLastUpdate($lastUpdate)
+    {
+        $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    /**
+     * Get lastUpdate
+     *
      * @return \DateTime
      */
     public function getLastUpdate()
     {
-        return $this->last_update;
+        return $this->lastUpdate;
     }
-
-    /**
-     * @param \DateTime $last_update
-     */
-    public function setLastUpdate($last_update)
-    {
-        $this->last_update = $last_update;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCreationDate()
-    {
-        return $this->creation_date;
-    }
-
-    /**
-     * @param mixed $creation_date
-     */
-    public function setCreationDate($creation_date)
-    {
-        $this->creation_date = $creation_date;
-    }
-
 }
+
