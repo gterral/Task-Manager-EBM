@@ -51,9 +51,9 @@ class Publication
     private $content;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EBM\SocialNetworkBundle\Entity\Theme", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", cascade={"persist"})
      */
-    private $themes;
+    private $tags;
 
     public function __construct()
     {
@@ -167,39 +167,7 @@ class Publication
         return $this->compteurComment;
     }
 
-    /**
-     * Add theme
-     *
-     * @param \EBM\SocialNetworkBundle\Entity\Theme $theme
-     *
-     * @return Publication
-     */
-    public function addTheme(\EBM\SocialNetworkBundle\Entity\Theme $theme)
-    {
-        $this->themes[] = $theme;
 
-        return $this;
-    }
-
-    /**
-     * Remove theme
-     *
-     * @param \EBM\SocialNetworkBundle\Entity\Theme $theme
-     */
-    public function removeTheme(\EBM\SocialNetworkBundle\Entity\Theme $theme)
-    {
-        $this->themes->removeElement($theme);
-    }
-
-    /**
-     * Get themes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getThemes()
-    {
-        return $this->themes;
-    }
 
     public function increaseComment()
     {
@@ -219,5 +187,21 @@ class Publication
     public function decreaseLike()
     {
         $this->compteurLike--;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param mixed $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
     }
 }

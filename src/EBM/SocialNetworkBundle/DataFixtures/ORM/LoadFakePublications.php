@@ -11,6 +11,7 @@ namespace Core\UserBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use EBM\SocialNetworkBundle\Entity\Comment;
+use EBM\SocialNetworkBundle\Entity\Likes;
 use EBM\SocialNetworkBundle\Entity\Publication;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -40,9 +41,13 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $comment1->setContent('Je commit sur GIT');
         $comment1->setPublication($pub1);
 
+        $like2 = new Likes();
+        $like2->setPublication($pub2);
+
         $manager->persist($pub1);
         $manager->persist($pub2);
         $manager->persist($comment1);
+        $manager->persist($like2);
         $manager->flush();
     }
 }
