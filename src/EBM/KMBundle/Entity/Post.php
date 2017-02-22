@@ -57,17 +57,15 @@ class Post
     private $writtenBy;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Core\UserBundle\Entity\User", inversedBy= "postVoted", cascade= {"persist"})
-     * @Orm\JoinTable(name="km_votes")
+     * @ORM\OneToMany(targetEntity="Vote", mappedBy= "post", cascade= {"persist"})
      */
-    private $userVoter;
+    private $votes;
 
 
     public function __construct()
     {
         $this->identifiedUsers = new ArrayCollection();
-        $this->userVoter = new ArrayCollection();
-
+        $this->votes = new ArrayCollection();
     }
 
 
@@ -218,21 +216,36 @@ class Post
     /**
      * @return mixed
      */
-    public function getUserVoter()
+    public function getVotes()
     {
-        return $this->userVoter;
+        return $this->votes;
     }
 
     /**
-     * @param mixed $userVoter
+     * @param mixed $votes
      */
-    public function setUserVoter($userVoter)
+    public function setVotes($votes)
     {
-        $this->userVoter = $userVoter;
+        $this->votes = $votes;
     }
 
+    /**
+     * @param $vote
+     * @return $this
+     */
+    public function addVote($vote){
+        $this->votes->add($vote);
+        return $this;
+    }
 
-
+    /**
+     * @param $vote
+     * @return $this
+     */
+    public function removeVote($vote){
+        $this->votes->removeElement($vote);
+        return $this;
+    }
 
 
 }

@@ -54,6 +54,11 @@ class Tag
      */
     private $documents;
 
+    /**
+     * @Orm\OneToMany(targetEntity="CompetenceUser", mappedBy="tag" ,cascade={"persist"})
+     */
+    private $skills;
+
     public function __construct(){
         $this->topics = new ArrayCollection();
         $this->documents = new ArrayCollection();
@@ -172,5 +177,15 @@ class Tag
     {
         $this->documents = $documents;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSkills()
+    {
+        return $this->skills;
+    }
+
+
 }
 
