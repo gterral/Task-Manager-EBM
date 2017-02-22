@@ -200,4 +200,24 @@ class Publication
     {
         return $this->themes;
     }
+
+    public function increaseComment()
+    {
+        $this->compteurComment++;
+    }
+
+    public function decreaseComment()
+    {
+        $this->compteurComment--;
+    }
+
+    public function increaseLike()
+    {
+        $this->compteurLike++;
+    }
+
+    public function decreaseLike()
+    {
+        $this->compteurLike--;
+    }
 }

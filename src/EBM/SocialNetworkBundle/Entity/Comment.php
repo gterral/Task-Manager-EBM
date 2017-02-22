@@ -10,6 +10,7 @@ use EBM\SocialNetworkBundle\Entity\Publication;
  *
  * @ORM\Table(name="SocialNetworkComment")
  * @ORM\Entity(repositoryClass="EBM\SocialNetworkBundle\Repository\CommentRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comment
 {
@@ -128,4 +129,21 @@ class Comment
     {
         return $this->publication;
     }
+
+    /**
+     * @ORM\PrePersist
+    */
+    public function increase()
+    {
+        $this->getPublication()->increaseComment();
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function decrease()
+    {
+        $this->getPublication()->decreaseComment();
+    }
+
 }
