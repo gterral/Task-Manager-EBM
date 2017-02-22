@@ -1,0 +1,21 @@
+{% extends "EBMKMBundle::bundleLayout.html.twig" %}
+{% block content_body %}
+    <table class="table">
+        <tr>
+            <th>Nom du topic</th>
+            <th>Date de création</th>
+            <th>Créateur</th>
+            <th>Nombre de vues</th>
+        </tr>
+        {% for topic in topics %}
+            <tr>
+                <td><a href="{{ path('ebmkm_forum_topic', { id: topic.id }) }}">{{ topic.title }}</a></td>
+                <td>{{ topic.date | date('d-M-Y H:i:s') }}</td>
+                <td>{{ topic.creator.username }}</td>
+                <td>{{ topic.nbViews }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ path('ebmkm_forum_create_topic') }}">Nouveau</a>
+{% endblock %}
+
