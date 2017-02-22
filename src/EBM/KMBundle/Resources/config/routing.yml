@@ -1,3 +1,21 @@
 ebmkm_homepage:
     path:     /
     defaults: { _controller: EBMKMBundle:Default:index }
+
+# --- Routes du forum ---
+ebmkm_forum_homepage:
+    path:     /forum/
+    defaults: { _controller: EBMKMBundle:Forum:index }
+    #TODO : ajouter un système de pagination
+
+ebmkm_forum_topic:
+    path:     /forum/topic/{id}
+    defaults: { _controller: EBMKMBundle:Forum:viewTopic }
+
+ebmkm_forum_create_topic:
+    path:     /forum/create
+    defaults: { _controller: EBMKMBundle:Forum:createTopic }
+
+ebmkm_forum_answer_topic:
+    path:    /forum/answer/{id}
+    defaults: { _controller: EBMKMBundle:Forum:answerTopic }

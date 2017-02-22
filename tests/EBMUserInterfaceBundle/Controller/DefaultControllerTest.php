@@ -1,6 +1,6 @@
 <?php
 
-namespace EBM\KMBundle\Tests\Controller;
+namespace EBM\UserInterfaceBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

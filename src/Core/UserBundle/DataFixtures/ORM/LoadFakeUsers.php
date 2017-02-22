@@ -43,7 +43,26 @@ class LoadFakeUsers implements FixtureInterface, ContainerAwareInterface
         $userStudent->setPassword($encoder->encodePassword($userStudent, 'ebm_toto'));
         $userStudent->setEnabled(true);
         $userStudent->addRole("ROLE_STUDENT");
+/*
+ * Bande de bolosses
+ * TODO
+        $project_names = array(
+            'Developpement module1',
+            'Developpement module2',
+            'CycloAppart',
+            'Tremonor',
+            'MonUniformeScolaire'
+        );
 
+        foreach ($project_names as $name_p) {
+            // On crée la catégorie
+            $project = new Project();
+            $project->setName($name_p);
+
+            // On la persiste
+            $manager->persist($project);
+        }
+*/
         $manager->persist($userAdmin);
         $manager->persist($userStudent);
         $manager->flush();

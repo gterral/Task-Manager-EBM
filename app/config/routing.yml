@@ -1,4 +1,3 @@
-
 ebmkm:
     resource: "@EBMKMBundle/Resources/config/routing.yml"
     prefix:   /resources/

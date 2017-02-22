@@ -4,7 +4,7 @@
 
 {# Titre de l'onglet #}
 {% block title %}
-    Dashboard
+    Ressources
 {% endblock %}
 
 {# CSS propres à cette page #}
@@ -16,21 +16,12 @@
 {# Contenu de la page #}
 
 {% block content_body %}
+<ul>
+    <li><a href="{{ path('ebmkm_forum_homepage') }}">Accéder au forum</a></li>
+    <li><a href="#">Ressources documentaires</a></li>
+    <li><a href="#">Analytics</a></li>
+</ul>
 
-
-    {# Image d'accueil #}
-    <div style="position:fixed;width: 100%;height:100%;top:0;left:0;
-        background:url('http://wallpapercave.com/wp/JOPHIL2.jpg');
-        background-size:cover ">
-        <h1 style="color:white;
-        position:fixed;
-        display: block;
-        top:calc( 50% - 40px );
-        right: 5%;
-        font-size:80px;">
-            Hello World !
-        </h1>
-    </div>
 {% endblock %}
 
 
