@@ -29,11 +29,14 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
         $this->container = $container;
     }
 
+    /**
+     * @param ObjectManager $entityManager
+     */
     public function load(ObjectManager $entityManager)
     {
       $task = new Task();
       $task->setName('Faire le ménage');
-      $task->setDeadline(date());
+      $task->setDeadline(\DateTime::createFromFormat('d/m/Y','22/02/2017'));
       $task->setStatus('In progress');
       $task->setType('logistic');
 
@@ -42,7 +45,6 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
 
       $comment = new Comment();
       $comment->setContent('Salut les gars ouéééé');
-
       $comment->setConversation($conversation);
 
       $entityManager->persist($task);
