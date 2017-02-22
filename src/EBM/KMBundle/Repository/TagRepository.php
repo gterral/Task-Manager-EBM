@@ -10,4 +10,20 @@ namespace EBM\KMBundle\Repository;
  */
 class TagRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Return all tags from a given type.
+     *
+     * @param $type
+     * @return array
+     */
+    public function getTagsByType($type) {
+        $qb = $this
+            ->createQueryBuilder('t')
+            ->where('t.type = :type')
+            ->setParameter('type', $type)
+            ->getQuery()
+            ;
+
+        return $qb->getResult();
+    }
 }
