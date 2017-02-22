@@ -3,9 +3,11 @@
 namespace Core\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EBM\UserInterfaceBundle\Entity\Project;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Table(name="core_user")
@@ -40,14 +42,39 @@ class User extends BaseUser
 
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="promotion", type="integer")
+     */
+    private $promotion;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\UserInterfaceBundle\Entity\Project", inversedBy="members")
+     * @ORM\JoinTable(name="core_user_project")
+     */
+    private $projects;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="competences", type="array")
+     */
+    private $competences;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="timezone", type="string", length=100)
      */
     private $timezone="Europe/Paris";
-    
 
-    
     
     /* qui des attributs locked & co hérités du FosUserBundle ?
      
@@ -76,7 +103,76 @@ class User extends BaseUser
     3. Expired
     4. CredentialsExpired
      */
-    
+
+    // Notez le singulier, on ajoute un seul projet à la fois
+    public function addProject(Project $project)
+    {
+        // Ici, on utilise l'ArrayCollection vraiment comme un tableau
+        $this->projects[] = $project;
+        $project->addMember($this);
+    }
+
+    public function removeProject(Project $project)
+    {
+        // Ici on utilise une méthode de l'ArrayCollection, pour supprimer le projet en argument
+        $this->projects->removeElement($project);
+        $project->removeMember($this);
+    }
+
+    // Notez le pluriel, on récupère une liste de catégories ici !
+    public function getProjects()
+    {
+        return $this->projects;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCompetences()
+    {
+        return $this->competences;
+    }
+
+    /**
+     * @param array $competences
+     */
+    public function setCompetences($competences)
+    {
+        $this->competences = $competences;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPromotion()
+    {
+        return $this->promotion;
+    }
+
+    /**
+     * @param int $promotion
+     */
+    public function setPromotion($promotion)
+    {
+        $this->promotion = $promotion;
+    }
+
     public function getHighestRole()
     {
         $rolesSortedByImportance = ['ROLE_ADMIN', 'ROLE_STUDENT'];
@@ -93,6 +189,7 @@ class User extends BaseUser
     {
         parent::__construct();
         // your own logic
+        $this->projects = new ArrayCollection();
     }
     
     public function hasRole($role) {

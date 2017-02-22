@@ -5,7 +5,7 @@ namespace EBM\GDPBundle\Controller;
 use EBM\GDPBundle\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends Controller
+class ProjectController extends Controller
 {
     public function indexAction()
     {
@@ -17,6 +17,6 @@ class DefaultController extends Controller
 
         $em->flush();
 
-        return $this->render('EBMGDPBundle:Default:index.html.twig');
+        return $this->render('EBMGDPBundle:Project:index.html.twig');
     }
 }

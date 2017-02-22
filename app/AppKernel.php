@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new EBM\MaterielBundle\EBMMaterielBundle(),
             new EBM\GDPBundle\EBMGDPBundle(),
             new EBM\SocialNetworkBundle\EBMSocialNetworkBundle(),
+            new EBM\UserInterfaceBundle\EBMUserInterfaceBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'staging'], true)) {

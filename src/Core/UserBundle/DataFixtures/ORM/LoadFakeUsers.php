@@ -11,6 +11,7 @@ namespace Core\UserBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Core\UserBundle\Entity\User;
+use EBM\UserInterfaceBundle\Entity\Project;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -43,6 +44,23 @@ class LoadFakeUsers implements FixtureInterface, ContainerAwareInterface
         $userStudent->setPassword($encoder->encodePassword($userStudent, 'ebm_toto'));
         $userStudent->setEnabled(true);
         $userStudent->addRole("ROLE_STUDENT");
+
+        $project_names = array(
+            'Développement module1',
+            'Développement module2',
+            'CycloAppart',
+            'Tremonor',
+            'MonUniformeScolaire'
+        );
+
+        foreach ($project_names as $name_p) {
+            // On crée la catégorie
+            $project = new Project();
+            $project->setName($name_p);
+
+            // On la persiste
+            $manager->persist($project);
+        }
 
         $manager->persist($userAdmin);
         $manager->persist($userStudent);

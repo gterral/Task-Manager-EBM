@@ -1,3 +1,7 @@
+ebm_user_interface:
+    resource: "@EBMUserInterfaceBundle/Resources/config/routing.yml"
+    prefix:   /
+
 
 ebmkm:
     resource: "@EBMKMBundle/Resources/config/routing.yml"
