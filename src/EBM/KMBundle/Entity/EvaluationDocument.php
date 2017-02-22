@@ -28,10 +28,8 @@ class EvaluationDocument
      */
     private $value;
 
-
-
     /**
-     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", cascade= {"persist"})
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="documentEvaluation", cascade= {"persist"})
      */
     private $madeBy;
 

@@ -69,9 +69,9 @@ class User extends BaseUser
     private $skills;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy="madeBy", cascade= {"persist"})
      */
-    private $makeNotation;
+    private $documentEvaluation;
 
     /**
      * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy= "createdBy", cascade= {"persist"})
@@ -137,7 +137,7 @@ class User extends BaseUser
         $this->skills = new ArrayCollection();
         $this->recommendSkill = new ArrayCollection();
         $this->createDocument = new ArrayCollection();
-
+        $this->documentEvaluation = new ArrayCollection();
     }
     
     public function hasRole($role) {
@@ -336,17 +336,25 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getMakeNotation()
+    public function getDocumentEvaluation()
     {
-        return $this->makeNotation;
+        return $this->documentEvaluation;
     }
 
     /**
-     * @param mixed $makeNotation
+     * @param mixed $documentEvaluation
      */
-    public function setMakeNotation($makeNotation)
+    public function setDocumentEvaluation($documentEvaluation)
     {
-        $this->makeNotation = $makeNotation;
+        $this->documentEvaluation = $documentEvaluation;
+    }
+
+    public function addDocumentEvaluation($documentEvaluation){
+        $this->documentEvaluation->add($documentEvaluation);
+    }
+
+    public function removeDocumentEvaluation($documentEvaluation){
+        $this->documentEvaluation->removeElement($documentEvaluation);
     }
 
     /**
