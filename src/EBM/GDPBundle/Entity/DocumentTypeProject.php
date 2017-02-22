@@ -3,11 +3,12 @@
 namespace EBM\GDPBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * DocumentTypeProject
  *
- * @ORM\Table(name="document_type_project")
+ * @ORM\Table(name="gdp_document_type_project")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\DocumentTypeProjectRepository")
  */
 class DocumentTypeProject
@@ -35,6 +36,21 @@ class DocumentTypeProject
      */
 
     private $documentProjects;
+
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="creationDate", type="datetime")
+     */
+    private $creationDate;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="modificationDate", type="datetime")
+     */
+    private $modificationDate;
 
 
 
@@ -111,5 +127,53 @@ class DocumentTypeProject
     public function getDocumentProjects()
     {
         return $this->documentProjects;
+    }
+
+    /**
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     *
+     * @return DocumentTypeProject
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * Set modificationDate
+     *
+     * @param \DateTime $modificationDate
+     *
+     * @return DocumentTypeProject
+     */
+    public function setModificationDate($modificationDate)
+    {
+        $this->modificationDate = $modificationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get modificationDate
+     *
+     * @return \DateTime
+     */
+    public function getModificationDate()
+    {
+        return $this->modificationDate;
     }
 }

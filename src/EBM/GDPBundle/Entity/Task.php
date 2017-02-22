@@ -3,11 +3,12 @@
 namespace EBM\GDPBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Task
  *
- * @ORM\Table(name="task")
+ * @ORM\Table(name="gdp_task")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\TaskRepository")
  */
 class Task
@@ -40,7 +41,7 @@ class Task
      *
      * @ORM\Column(name="status", type="string", length=255)
      */
-    private $status;
+    private $status = "OPENED";
 
     /**
      * @var \DateTime
@@ -48,13 +49,6 @@ class Task
      * @ORM\Column(name="realisationDate", type="datetime", nullable=true)
      */
     private $realisationDate;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="creationDate", type="datetime", nullable=true)
-     */
-    private $creationDate;
 
     /**
      * @var string
@@ -69,6 +63,20 @@ class Task
      */
 
     private $conversation;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="creationDate", type="datetime")
+     */
+    private $creationDate;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="modificationDate", type="datetime")
+     */
+    private $modificationDate;
 
     /**
      * Get id
@@ -137,6 +145,12 @@ class Task
      */
     public function setStatus($status)
     {
+        $states = ["OPENED","IN_PROGRESS","WAITING_FOR_REVIEW","VALIDATED","REJECTED","ARCHIVED"];
+
+        if (!in_array($status,$states)) {
+            throw new \Exception("Value not allowed : you must use one of these status : ".json_encode($states));
+        }
+
         $this->status = $status;
 
         return $this;
@@ -246,5 +260,29 @@ class Task
     public function getConversation()
     {
         return $this->conversation;
+    }
+
+    /**
+     * Set modificationDate
+     *
+     * @param \DateTime $modificationDate
+     *
+     * @return Task
+     */
+    public function setModificationDate($modificationDate)
+    {
+        $this->modificationDate = $modificationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get modificationDate
+     *
+     * @return \DateTime
+     */
+    public function getModificationDate()
+    {
+        return $this->modificationDate;
     }
 }

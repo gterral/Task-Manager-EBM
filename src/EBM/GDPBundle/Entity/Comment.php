@@ -3,11 +3,12 @@
 namespace EBM\GDPBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Comment
  *
- * @ORM\Table(name="comment")
+ * @ORM\Table(name="gdp_comment")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\CommentRepository")
  */
 class Comment
@@ -33,8 +34,23 @@ class Comment
      *
      * @ORM\JoinColumn(nullable=false)
      */
-
     private $conversation;
+
+
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="creationDate", type="datetime")
+     */
+    private $creationDate;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="modificationDate", type="datetime")
+     */
+    private $modificationDate;
 
 
     /**
@@ -95,5 +111,53 @@ class Comment
     public function getConversation()
     {
         return $this->conversation;
+    }
+
+    /**
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     *
+     * @return Comment
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * Set modificationDate
+     *
+     * @param \DateTime $modificationDate
+     *
+     * @return Comment
+     */
+    public function setModificationDate($modificationDate)
+    {
+        $this->modificationDate = $modificationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get modificationDate
+     *
+     * @return \DateTime
+     */
+    public function getModificationDate()
+    {
+        return $this->modificationDate;
     }
 }
