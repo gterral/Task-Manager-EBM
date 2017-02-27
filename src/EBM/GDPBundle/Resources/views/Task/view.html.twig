@@ -7,7 +7,7 @@
 
 {# CSS propres à cette page #}
 {% block stylesheets %}
-
+<link rel="stylesheet" href="{{ asset("bundles/coreiconbar/css/plugins/pages/profile.min.css") }}">
 {% endblock %}
 
 
@@ -15,25 +15,62 @@
 
 {% block content_body %}
 
-    <h1>Vue detail de la tâche: {{ task.name }}</h1>
-    <div id="info_task">
-        <ul>
-            <li>Deadline: {{ task.deadline|date('Y-m-d') }}</li>
-            <li>Status: {{ task.status }}</li>
-            <li>Type: {{ task.type }}</li>
-            <li>Date Création: {{ task.creationDate|date('Y-m-d') }}</li>
-        </ul>
-    </div>
-    <div id="body_task">
-        {{task.description }}
-    </div>
-    <div id="comment">
-        <h4>Commentaires</h4>
-        {%  if task.conversation.comments is not null %}
-            {% for comment in task.conversation.comments %}
-                <h5>{{ comment.content }}</h5>
-            {% endfor %}
-        {%  endif %}
+    <div class="page-profile">
+        <div class="page-content">
+            <div class="panel">
+                <div class="panel-head">
+                    <h3 class="panel-title">Vue detail de la tâche: {{ task.name }}</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="info_task">
+                        <ul>
+                            <li>Deadline: {{ task.deadline|date('Y-m-d') }}</li>
+                            <li>Status: {{ task.status }}</li>
+                            <li>Type: {{ task.type }}</li>
+                            <li>Date Création: {{ task.creationDate|date('Y-m-d') }}</li>
+                        </ul>
+                    </div>
+
+                    <div id="body_task">
+                        {{task.description }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <h3 class="panel-title">Messages
+                        <span class="badge badge-danger">{{ task.conversation.comments|length }}</span>
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+                    <ul class="list-group">
+                        {%  if task.conversation.comments is not null %}
+                            {% for comment in task.conversation.comments %}
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a class="avatar">
+                                                <img class="img-responsive" src="{{ asset("bundles/coreiconbar/images/avatar5.png") }}"
+                                                     alt="profile picture">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">Nom utilisateur
+                                                <span>a posté</span>
+                                            </h4>
+                                            <small>{{ comment.creationDate|date("Y-m-d") }}</small>
+                                            <div class="profile-brief">{{ comment.content }}</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        {%  endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
