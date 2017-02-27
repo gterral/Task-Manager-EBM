@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="gdp_task")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\TaskRepository")
- * @UniqueEntity(fields="name", message="Une tâche existe déjà avec ce titre.")
  */
 class Task
 {
@@ -30,7 +29,7 @@ class Task
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      * @Assert\Length(min=8)
      */
     private $name;

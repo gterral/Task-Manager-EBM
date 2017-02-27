@@ -13,14 +13,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AdvertType extends AbstractType
+class TaskType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('title',     TextType::class)
             ->add('description',      TextareaType::class)
-            ->add('deadline',      DateType::class)
+            ->add('deadline',      DateTimeType::class)
             ->add('status',   ChoiceType::class ,  array(
                 'choices'  => array(
                     'Ouverte' => 'OPENED',
@@ -29,7 +29,7 @@ class AdvertType extends AbstractType
                     'Validé' => 'VALIDATED',
                     'Rejecté' => 'REJECTED',
                     'Archivé' => 'ARCHIVED'),))
-            ->add('realisationDate',      DateType::class)
+            ->add('realisationDate',      DateTimeType::class)
             ->add('type',    ChoiceType::class,  array(
                 'choices'  => array(
                     'Mécanique' => 'mecanique',

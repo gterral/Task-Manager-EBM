@@ -25,7 +25,7 @@ class TaskController2 extends Controller
 
                 // On enregistre notre objet $task dans la base de données, par exemple
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($form);
+                $em->persist($task);
                 $em->flush();
 
                 $request->getSession()->getFlashBag()->add('notice', 'Tâche bien enregistrée.');
