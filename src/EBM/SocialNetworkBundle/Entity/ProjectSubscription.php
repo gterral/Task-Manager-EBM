@@ -29,7 +29,7 @@ class ProjectSubscription
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EBM\CoreUserBundle\Entity\User", inversedBy="projectSubscriptions",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="projectSubscriptions",cascade={"persist"})
      *
      * @ORM\JoinColumn(nullable=false)
      */

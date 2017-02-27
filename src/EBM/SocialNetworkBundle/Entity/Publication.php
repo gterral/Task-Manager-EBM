@@ -4,6 +4,7 @@ namespace EBM\SocialNetworkBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use EBM\KMBundle\Entity\Tag;
 
 /**
  * Publication
@@ -203,5 +204,29 @@ class Publication
     public function setTags($tags)
     {
         $this->tags = $tags;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param Tag $tag
+     *
+     * @return Publication
+     */
+    public function addTag(Tag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param Tag $tag
+     */
+    public function removeTag(Tag $tag)
+    {
+        $this->tags->removeElement($tag);
     }
 }

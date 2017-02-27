@@ -15,6 +15,7 @@ use EBM\SocialNetworkBundle\Entity\Likes;
 use EBM\SocialNetworkBundle\Entity\Publication;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use EBM\KMBundle\Entity\Tag;
 
 class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
 {
@@ -28,11 +29,21 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $this->container = $container;
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
 
+        $tag1 = new Tag();
+
+        $tag1->setName('Mécanique');
+        $tag1->setDescription('Tag de méca');
+        $tag1->setType('type meca');
+
         $pub1 = new Publication();
         $pub1->setContent('ptdr');
+        $pub1->addTag($tag1);
 
         $pub2 = new Publication();
         $pub2->setContent('Je push sur GIT');
@@ -44,10 +55,12 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $like2 = new Likes();
         $like2->setPublication($pub2);
 
+        //$manager->persist($tag1);
         $manager->persist($pub1);
         $manager->persist($pub2);
         $manager->persist($comment1);
         $manager->persist($like2);
         $manager->flush();
+
     }
 }
