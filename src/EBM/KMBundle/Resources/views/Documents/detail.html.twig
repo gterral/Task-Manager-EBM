@@ -15,14 +15,15 @@
     {% endif %}
 
     {% if document.commentTopic %}
-        {% for post in topic.document.commentTopic.posts %}
+        {% for post in document.commentTopic.posts %}
             <div class="well"><strong>{{ post.author.username }}</strong> -- {{ post.date | date('d-M-Y H:i:s') }}<p>{{ post.content }}</p></div>
         {% endfor %}
     {% endif %}
 
     {% if not document.commentTopic %}
         <h3>Publier un premier commentaire</h3>
-
     {% endif %}
+
+    {{ form(form) }}
 
 {% endblock %}

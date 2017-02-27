@@ -10,7 +10,10 @@ namespace EBM\KMBundle\Controller;
 
 
 use EBM\KMBundle\Entity\Document;
+use EBM\KMBundle\Entity\Post;
+use EBM\KMBundle\Entity\Topic;
 use EBM\KMBundle\Form\DocumentType;
+use EBM\KMBundle\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +29,7 @@ class DocumentController extends Controller
 
         return $this->render('EBMKMBundle:Documents:index.html.twig', array("documents" => $documents));
     }
-    
+
     /**
      * @Security("has_role('ROLE_USER')")
      *
@@ -72,9 +75,44 @@ class DocumentController extends Controller
 
     }
 
-    public function detailAction($id){
+    public function detailAction($id, Request $request){
+        /** @var Document $document */
         $document = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->find($id);
-        return $this->render('EBMKMBundle:Documents:detail.html.twig', array('document' => $document));
+
+        // SEE AND POST COMMENTS
+        $user = $this->getUser();
+        if($document->getCommentTopic()){
+            $topic = $document->getCommentTopic();
+        }
+        else{
+            $topic = new Topic();
+            $topic
+                ->setTitle($document->getName())
+                ->setCreator($user);
+            $document->setCommentTopic($topic);
+        }
+
+        $post = new Post();
+        $post->setTopic($topic);
+        $post->setAuthor($this->getUser());
+
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($topic);
+            $em->persist($post);
+            $em->persist($document);
+            $em->flush();
+            return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $topic->getId()));
+        }
+
+        return $this->render('EBMKMBundle:Documents:detail.html.twig', array(
+            'document' => $document,
+            'form' => $form->createView()
+        ));
     }
 
 }

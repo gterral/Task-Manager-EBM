@@ -82,7 +82,7 @@ class Document
     private $date;
 
     /**
-     * @Orm\OneToOne(targetEntity="EBM\KMBundle\Entity\Topic", mappedBy="document", cascade={"persist"})
+     * @Orm\OneToOne(targetEntity="EBM\KMBundle\Entity\Topic", inversedBy="document", cascade={"persist"})
      */
     private $commentTopic;
 
