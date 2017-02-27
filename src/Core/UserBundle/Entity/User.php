@@ -127,7 +127,7 @@ class User extends BaseUser
     If enabled = false DisabledException is thrown
     
     Locked = true
-    User is forbbiden to manipulate his accout, because it is locked down. That means no password reset, login etc.
+    User is forbidden to manipulate his account, because it is locked down. That means no password reset, login etc.
     This flag allows admin to ban user or don't let him register with his email again.
     LockedException is thrown.
     
@@ -509,7 +509,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection<Tag>
      */
     public function getManagedTags()
     {

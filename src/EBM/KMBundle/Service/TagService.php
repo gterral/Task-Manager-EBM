@@ -2,6 +2,7 @@
 
 namespace EBM\KMBundle\Service;
 
+use Core\UserBundle\Entity\User;
 use EBM\KMBundle\Entity\Tag;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -60,13 +61,26 @@ class TagService
      * @param $type
      * @param $user
      */
-    public function createTag($name, $type, $description, $user) {
+    public function createTag($name, $type, $description, User $user) {
         $tag = new Tag();
 
         // Tags protégés
         if(in_array($type, $this->restricted_tags))
         {
-            throw new HttpException(500, "Non implémenté");
+            if($user->getManagedTags()->contains($name))
+            {
+                $tag->setName($name);
+                $tag->setType($type);
+                $tag->setDescription($description);
+
+                $this->em->persist($tag);
+                $this->em->flush();
+
+            }
+            else {
+                throw new HttpException(500, "Non implémenté");
+            }
+
         }
         // Tags libres
         else if(in_array($type, $this->unrestricted_tags))
