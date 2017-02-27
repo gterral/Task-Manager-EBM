@@ -11,6 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="gdp_task")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\TaskRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Task
 {
@@ -79,9 +80,10 @@ class Task
      */
     private $modificationDate;
 
+    // TODO : nullable=false quand c'est prêt du côté du Julien
     /**
      * @ORM\ManyToOne(targetEntity="EBM\UserInterfaceBundle\Entity\Project", inversedBy="tasks")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $project;
 

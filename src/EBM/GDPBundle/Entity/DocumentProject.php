@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="gdp_document_project")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\DocumentProjectRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class DocumentProject
 {

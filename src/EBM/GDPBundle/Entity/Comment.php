@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="gdp_comment")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\CommentRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comment
 {
@@ -30,11 +31,11 @@ class Comment
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EBM\GDPBundle\Entity\Conversation", inversedBy="comments",cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\Conversation", mappedBy="comments")
      *
      * @ORM\JoinColumn(nullable=false)
      */
-    private $conversation;
+    private $conversations;
 
 
 
@@ -87,31 +88,6 @@ class Comment
         return $this->content;
     }
 
-    /**
-     * Set conversation
-     *
-     * @param \EBM\GDPBundle\Entity\Conversation $conversation
-     *
-     * @return Comment
-     */
-    public function setConversation(\EBM\GDPBundle\Entity\Conversation $conversation)
-    {
-        $this->conversation = $conversation;
-
-        $conversation->addComment($this);
-
-        return $this;
-    }
-
-    /**
-     * Get conversation
-     *
-     * @return \EBM\GDPBundle\Entity\Conversation
-     */
-    public function getConversation()
-    {
-        return $this->conversation;
-    }
 
     /**
      * Set creationDate
@@ -159,5 +135,46 @@ class Comment
     public function getModificationDate()
     {
         return $this->modificationDate;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->conversations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add conversation
+     *
+     * @param \EBM\GDPBundle\Entity\Conversation $conversation
+     *
+     * @return Comment
+     */
+    public function addConversation(\EBM\GDPBundle\Entity\Conversation $conversation)
+    {
+        $this->conversations[] = $conversation;
+
+        return $this;
+    }
+
+    /**
+     * Remove conversation
+     *
+     * @param \EBM\GDPBundle\Entity\Conversation $conversation
+     */
+    public function removeConversation(\EBM\GDPBundle\Entity\Conversation $conversation)
+    {
+        $this->conversations->removeElement($conversation);
+    }
+
+    /**
+     * Get conversations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getConversations()
+    {
+        return $this->conversations;
     }
 }
