@@ -16,7 +16,29 @@
 
 {% block content_body %}
 
-    hello world de gestion de matériel !
+    <!-- Page -->
+    <div class="page animsition">
+        <div class="page-header">
+            <h1 class="page-title" class="span12">Fab Lab - Plateforme de Réservations.</h1>
+        </div>
+        <div class="page-content container-fluid">
+            <!-- Panel Header -->
+            <div class="panel">
+                <div class="panel-body">
+                          <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20" href="{{ path('ebm_materiel_machines')}}">Reserver une Machine</a>
+
+
+                        <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20">Matos</a>
+
+
+                        <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20">Casiers</a>
+
+                </div>
+            <!-- End Panel Header -->
+            </div>
+        </div>
+    </div>
+    <!-- End Page -->
 
 {% endblock %}
 
