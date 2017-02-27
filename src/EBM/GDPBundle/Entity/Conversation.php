@@ -25,6 +25,7 @@ class Conversation
 
     /**
      * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\Comment", inversedBy="conversations",cascade={"persist","remove"})
+     * @ORM\JoinTable(name="gdp_conversation_comments")
      */
 
     private $comments;
