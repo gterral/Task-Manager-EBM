@@ -8,12 +8,12 @@ ebmgdp_dashboard:
 # Vue liste tache d'un projet
 ebmgdp_projecttasks:
     path:     project/{code}/tasks
-    defaults: { _controller: EBMGDPBundle:Project:viewTasks }
+    defaults: { _controller: EBMGDPBundle:Task:index }
 
 # Vue d'une tache
 ebmgdp_task:
     path:     project/{code}/task/{id}
-    defaults: { _controller: EBMGDPBundle:Task:index }
+    defaults: { _controller: EBMGDPBundle:Task:view }
 
 # Vue livrables d'un projet
 ebmgdp_projectdeliverables:

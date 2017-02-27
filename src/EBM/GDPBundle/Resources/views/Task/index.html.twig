@@ -5,7 +5,7 @@
     Gestion de projet
 {% endblock %}
 
-{# CSS propres √† cette page #}
+{# CSS propres ‡ cette page #}
 {% block stylesheets %}
 
 {% endblock %}
@@ -15,29 +15,18 @@
 
 {% block content_body %}
 
-    <h1>Vue detail de la t√¢che: {{ task.name }}</h1>
-    <div id="info_task">
-        <ul>
-            <li>Deadline: {{ task.deadline|date('Y-m-d') }}</li>
-            <li>Status: {{ task.status }}</li>
-            <li>Type: {{ task.type }}</li>
-            <li>Date Cr√©ation: {{ task.creationDate|date('Y-m-d') }}</li>
-        </ul>
-    </div>
-    <div id="body_task">
-        <!--{ task.descrition }-->
-    </div>
-    <div id="comment">
-        {%  if task.conversation.comments is not null %}
-            {% for comment in task.conversation.comments %}
-                <h5>{{ comment.content }}</h5>
-            {% endfor %}
-        {%  endif %}
-    </div>
+    <h2>Vue liste des t‚ches pour le projet: {{ project.name }}</h2>
+
+    {%  if listTasks is not null %}
+        {% for task in listTasks %}
+            <h5>{{ task.name }}</h5>
+        {% endfor %}
+    {%  endif %}
+
 {% endblock %}
 
 
-{# Scripts propres √† cette page #}
+{# Scripts propres ‡ cette page #}
 {% block scripts %}
 
 
