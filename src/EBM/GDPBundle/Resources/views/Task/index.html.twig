@@ -5,7 +5,7 @@
     Gestion de projet
 {% endblock %}
 
-{# CSS propres à cette page #}
+{# CSS propres ï¿½ cette page #}
 {% block stylesheets %}
 
 {% endblock %}
@@ -15,18 +15,61 @@
 
 {% block content_body %}
 
-    <h2>Vue liste des tâches pour le projet: {{ project.name }}</h2>
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Task List - {{ project.name|upper }}</h3>
+        </div>
 
-    {%  if listTasks is not null %}
-        {% for task in listTasks %}
-            <h5>{{ task.name }}</h5>
-        {% endfor %}
-    {%  endif %}
+        <div class="panel-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Titre</th>
+                        <th>Status</th>
+                        <th>Deadline</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%  if listTasks is not null %}
+                        {% for task in listTasks %}
+                            {% if task.status == "IN_PROGRESS" %}
+                                {% set class_var = "label label-warning" %}
+                            {% elseif task.status == "WAITING_FOR_REVIEW" %}
+                                {%  set class_var = "label label-info" %}
+                            {% elseif task.status == "VALIDATED" %}
+                                {%  set class_var = "label label-success" %}
+                            {% elseif task.status == "REJECTED" %}
+                                {%  set class_var = "label label-danger" %}
+                            {% elseif task.status == "ARCHIVED" %}
+                                {%  set class_var = "label label-active" %}
+                            {% elseif task.status == "OPENED" %}
+                                {%  set class_var = "label label-primary" %}
+                            {% endif %}
+
+                            <tr>
+                                <th>{{ task.id }}</th>
+                                <td class="subject">
+                                    <a href="{{ path('ebmgdp_task', {'code':project.code, 'id':task.id}) }}" class="">
+                                        {{ task.name }}
+                                    </a>
+                                </td>
+                                <td class="work-status">
+                                    <span class="{{ class_var }}">{{ task.status }}</span>
+                                </td>
+                                <td>{{ task.deadline|date('Y-m-d') }}</td>
+                            </tr>
+                        {% endfor %}
+                    {%  endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 {% endblock %}
 
 
-{# Scripts propres à cette page #}
+{# Scripts propres ï¿½ cette page #}
 {% block scripts %}
 
 

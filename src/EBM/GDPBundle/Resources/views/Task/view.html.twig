@@ -28,6 +28,7 @@
         {{task.description }}
     </div>
     <div id="comment">
+        <h4>Commentaires</h4>
         {%  if task.conversation.comments is not null %}
             {% for comment in task.conversation.comments %}
                 <h5>{{ comment.content }}</h5>
