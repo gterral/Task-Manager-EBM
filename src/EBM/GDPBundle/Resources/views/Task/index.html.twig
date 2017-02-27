@@ -15,8 +15,25 @@
 
 {% block content_body %}
 
-    Notre hello world de gestion de projet !
-
+    <h1>Vue detail de la tâche: {{ task.name }}</h1>
+    <div id="info_task">
+        <ul>
+            <li>Deadline: {{ task.deadline|date('Y-m-d') }}</li>
+            <li>Status: {{ task.status }}</li>
+            <li>Type: {{ task.type }}</li>
+            <li>Date Création: {{ task.creationDate|date('Y-m-d') }}</li>
+        </ul>
+    </div>
+    <div id="body_task">
+        <!--{ task.descrition }-->
+    </div>
+    <div id="comment">
+        {%  if task.conversation.comments is not null %}
+            {% for comment in task.conversation.comments %}
+                <h5>{{ comment.content }}</h5>
+            {% endfor %}
+        {%  endif %}
+    </div>
 {% endblock %}
 
 
