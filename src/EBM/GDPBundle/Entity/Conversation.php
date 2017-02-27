@@ -26,7 +26,6 @@ class Conversation
      * @ORM\OneToMany(targetEntity="EBM\GDPBundle\Entity\Comment", mappedBy="conversation")
      *
      */
-
     private $comments;
 
     /**
