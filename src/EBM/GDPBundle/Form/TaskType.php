@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,21 +19,21 @@ class TaskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title',     TextType::class)
+            ->add('name',     TextType::class)
             ->add('description',      TextareaType::class)
             ->add('deadline',      DateTimeType::class)
             ->add('status',   ChoiceType::class ,  array(
                 'choices'  => array(
                     'Ouverte' => 'OPENED',
-                    'En cours de réalisation' => 'IN_PROGRESS',
+                    'En cours de rï¿½alisation' => 'IN_PROGRESS',
                     'En attente de relecture' => 'WAITING_FOR_REVIEW',
-                    'Validé' => 'VALIDATED',
-                    'Rejecté' => 'REJECTED',
-                    'Archivé' => 'ARCHIVED'),))
+                    'ValidÃ©' => 'VALIDATED',
+                    'RejectÃ©' => 'REJECTED',
+                    'ArchivÃ©' => 'ARCHIVED'),))
             ->add('realisationDate',      DateTimeType::class)
             ->add('type',    ChoiceType::class,  array(
                 'choices'  => array(
-                    'Mécanique' => 'mecanique',
+                    'MÃ©canique' => 'mecanique',
                     'Informatique' => 'computer_science',
                     'Gestion' => 'gestion',
                     'Electronique' => 'electricity'),))

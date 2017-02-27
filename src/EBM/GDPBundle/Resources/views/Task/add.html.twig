@@ -1,7 +1,7 @@
 {% extends "@EBMGDP/bundleLayout.html.twig" %}
 
 {% block title %}
-    Ajouter une t�che
+    Ajouter une tâche
 {% endblock %}
 
 {# CSS propres � cette page #}
@@ -11,16 +11,16 @@
 
 {% block content_body %}
 
-    <h2>Ajouter une t�che</h2>
+    <h2>Ajouter une tâche</h2>
 
     {{ include("EBMGDPBundle:Task:form.html.twig") }}
 
     <p>
-        Vous ajoutez une t�che.
+        Vous ajoutez une tâche.
     </p>
 
     <p>
-        <a href="{{ path('ebmgdp_projecttasks') }}" class="btn btn-default">
+        <a href="{{ path('ebmgdp_projecttasks',{'code': project.code }) }}" class="btn btn-default">
             <i class="glyphicon glyphicon-chevron-left"></i>
             Retour à la liste des tàches.
         </a>
