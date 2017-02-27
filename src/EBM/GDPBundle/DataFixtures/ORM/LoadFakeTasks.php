@@ -80,6 +80,12 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
         $projet->setProjectType("G1G2");
         $entityManager->persist($projet);
 
+        /* @var User $user */
+        $user=$entityManager->getRepository("CoreUserBundle:User")->findOneBy(['username'=>"toto"]);
+        $user->addProject($projet);
+
+
+
         $entityManager->flush();
 
     }
