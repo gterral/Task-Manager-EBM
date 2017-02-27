@@ -1,0 +1,35 @@
+{% extends "@EBMGDP/bundleLayout.html.twig" %}
+
+{% block title %}
+    Modifier une tâche
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block content_body %}
+
+    <h2>Modifier une tâche</h2>
+
+    {{ include("EBMGDPBundle:Task:form.html.twig") }}
+
+    <p>
+        Vous éditez une tâche déjà existante.
+    </p>
+
+    <p>
+        <a href="{{ path('ebmgdp_projecttasks') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour à la liste des tâches.
+        </a>
+    </p>
+
+{% endblock %}
+
+{# Scripts propres à cette page #}
+{% block scripts %}
+
+
+{% endblock %}
