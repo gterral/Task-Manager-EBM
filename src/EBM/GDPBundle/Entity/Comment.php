@@ -32,8 +32,6 @@ class Comment
 
     /**
      * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\Conversation", mappedBy="comments")
-     *
-     * @ORM\JoinColumn(nullable=false)
      */
     private $conversations;
 

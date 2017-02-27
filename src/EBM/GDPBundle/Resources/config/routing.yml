@@ -25,6 +25,11 @@ ebmgdp_deliverable:
     path:     project/{code}/deliverable/{id}
     defaults: { _controller: EBMGDPBundle:Deliverable:index }
 
+# Vue du calendrier
+ebmgdp_calendar:
+    path:     project/{code}/calendar
+    defaults: { _controller: EBMGDPBundle:Calendar:viewCalendar }
+
 
 # TODO
 # Vue ajouter tache
