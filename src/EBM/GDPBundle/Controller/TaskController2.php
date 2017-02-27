@@ -12,7 +12,7 @@ class TaskController2 extends Controller
         return $this->render('EBMGDPBundle:Task:index.html.twig');
     }
 
-    public function addAction(Request $request)
+    public function taskCrudAction(Request $request)
     {
         // On crée un objet Advert
         $task = new Task();
@@ -21,17 +21,17 @@ class TaskController2 extends Controller
         $form = $this->createForm(TaskType::class, $task);
 
         // Si la requête est en POST
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+        if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
 
-                // On enregistre notre objet $task dans la base de données, par exemple
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($task);
-                $em->flush();
+            // On enregistre notre objet $task dans la base de données, par exemple
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($task);
+            $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Tâche bien enregistrée.');
+            $request->getSession()->getFlashBag()->add('notice', 'Tâche bien enregistrée.');
 
-                // On redirige vers la page de visualisation de la tâche nouvellement créée
-                return $this->redirectToRoute('ebmgdp_task', array('id' => $form->getId()));
+            // On redirige vers la page de visualisation de la tâche nouvellement créée
+            return $this->redirectToRoute('ebmgdp_task', array('id' => $form->getId()));
         }
 
         // À ce stade, le formulaire n'est pas valide car :
