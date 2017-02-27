@@ -9,18 +9,10 @@ use EBM\UserInterfaceBundle\Entity\Project;
 
 class ProjectController extends Controller
 {
-    /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @ParamConverter("project",options={"mapping": {"slug":"slug"}})
-     */
-    public function viewTasksAction(Project $project)
-    {
-        return $this->render('EBMGDPBundle:Project:index.html.twig');
-    }
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * @ParamConverter("project",options={"mapping": {"slug":"slug"}})
+     * @ParamConverter("project",options={"mapping": {"code":"code"}})
      */
     public function viewDeliverablesAction(Project $project)
     {

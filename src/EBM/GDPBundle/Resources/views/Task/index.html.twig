@@ -1,4 +1,3 @@
-
 {% extends "@EBMGDP/bundleLayout.html.twig" %}
 
 {# Titre de l'onglet #}
@@ -6,7 +5,7 @@
     Gestion de projet
 {% endblock %}
 
-{# CSS propres Ã  cette page #}
+{# CSS propres à cette page #}
 {% block stylesheets %}
 
 {% endblock %}
@@ -16,12 +15,18 @@
 
 {% block content_body %}
 
-    Notre hello world de gestion de projet !
+    <h2>Vue liste des tâches pour le projet: {{ project.name }}</h2>
+
+    {%  if listTasks is not null %}
+        {% for task in listTasks %}
+            <h5>{{ task.name }}</h5>
+        {% endfor %}
+    {%  endif %}
 
 {% endblock %}
 
 
-{# Scripts propres Ã  cette page #}
+{# Scripts propres à cette page #}
 {% block scripts %}
 
 

@@ -100,6 +100,7 @@ class Project
     public function addTask(Task $task)
     {
         $this->tasks[] = $task;
+        $task->setProject($this);
     }
 
     public function removeTask(Task $task)
