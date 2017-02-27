@@ -26,8 +26,7 @@ class DocumentController extends Controller
 
         return $this->render('EBMKMBundle:Documents:index.html.twig', array("documents" => $documents));
     }
-
-
+    
     /**
      * @Security("has_role('ROLE_USER')")
      *
@@ -75,7 +74,7 @@ class DocumentController extends Controller
 
     public function detailAction($id){
         $document = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->find($id);
-        return $this->render('EBMKMBundle:Document:detail.html.twiog', array('document' => $document));
+        return $this->render('EBMKMBundle:Documents:detail.html.twig', array('document' => $document));
     }
 
 }

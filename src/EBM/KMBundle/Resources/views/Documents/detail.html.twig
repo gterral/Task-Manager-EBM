@@ -1,0 +1,28 @@
+{% extends "EBMKMBundle::bundleLayout.html.twig" %}
+
+{% block content_body %}
+    <a href="{{ path('ebmkm_file_homepage') }}">Retour aux documents</a>
+    <h2>{{ document.name }}</h2>
+    <div>Auteur : {{ document.author.username }}</div>
+    <div>Description : {{ document.description }}</div>
+
+    {% if document.file %}
+        <a href="{{ asset('uploads/files/' ~ document.file) }}">Voir le fichier</a>
+    {% endif %}
+
+    {% if document.link %}
+        Lien : {{ document.link }}
+    {% endif %}
+
+    {% if document.commentTopic %}
+        {% for post in topic.document.commentTopic.posts %}
+            <div class="well"><strong>{{ post.author.username }}</strong> -- {{ post.date | date('d-M-Y H:i:s') }}<p>{{ post.content }}</p></div>
+        {% endfor %}
+    {% endif %}
+
+    {% if not document.commentTopic %}
+        <h3>Publier un premier commentaire</h3>
+
+    {% endif %}
+
+{% endblock %}
