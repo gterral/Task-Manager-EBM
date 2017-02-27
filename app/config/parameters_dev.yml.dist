@@ -9,6 +9,9 @@ parameters:
     database_user: root           # Login d'accès à la base
     database_password: root       # Mdp d'accès à la base
 
+    # Directory in which the uploaded documents will be stored
+    files_directory: '%kernel.root_dir%/../var/uploads/files'
+
 # A décommenter si environnement de dev sous MAMP
 #   database.driver:        pdo_mysql
 #   database.unix_socket:   /Applications/MAMP/tmp/mysql/mysql.sock

@@ -1,0 +1,19 @@
+{% extends "EBMKMBundle::bundleLayout.html.twig" %}
+{% block content_body %}
+    <table class="table">
+        <tr>
+            <th>Nom du document</th>
+            <th>Date de l'upload</th>
+            <th>Créateur</th>
+        </tr>
+        {% for document in documents %}
+            <tr>
+                <td><a href="{{ path('ebmkm_file_detail', { id: document.id }) }}">{{ document.name }}</a></td>
+                <td>{{ document.date | date('d-M-Y H:i:s') }}</td>
+                <td>{{ document.author.username }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ path('ebmkm_file_upload') }}">Nouveau Document</a>
+{% endblock %}
+

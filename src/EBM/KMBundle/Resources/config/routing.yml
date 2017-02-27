@@ -19,3 +19,19 @@ ebmkm_forum_create_topic:
 ebmkm_forum_answer_topic:
     path:    /forum/answer/{id}
     defaults: { _controller: EBMKMBundle:Forum:answerTopic }
+
+# --- Routes de la gestion de documents ---
+
+ebmkm_file_upload:
+    path: /documents/upload
+    defaults: { _controller: EBMKMBundle:Document:upload}
+
+ebmkm_file_homepage:
+    path: /documents
+    defaults: { _controller: EBMKMBundle:Document:index}
+
+ebmkm_file_detail:
+    path: /documents/{id}
+    defaults: { _controller: EBMKMBundle:Document:detail }
+    requirements:
+        id: '\d+'

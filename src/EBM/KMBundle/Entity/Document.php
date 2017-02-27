@@ -4,6 +4,7 @@ namespace EBM\KMBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Document
@@ -30,11 +31,34 @@ class Document
     private $name;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="path", type="string", length=255, unique=true)
+     * @ORM\Column(type="string", nullable=true)
+     *
+     * @Assert\NotBlank(message="Formats de fichiers supportés : pdf, doc, docx, odt, txt, xls, xlsx, ods, jpg, jpeg,
+     *                           png, gif, zip, rar, epub, avi, mov, mp4, mpg, mpeg, wmv")
+     * @Assert\File(mimeTypes={"application/pdf",
+     *                         "application/vnd.oasis.opendocument.text",
+     *                         "application/msword",
+     *                         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+     *                         "text/plain",
+     *                         "application/vnd.ms-excel",
+     *                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+     *                         "application/vnd.oasis.opendocument.spreadsheet",
+     *                         "image/jpeg",
+     *                         "image/png",
+     *                         "image/gif",
+     *                         "application/epub+zip",
+     *                         "application/x-rar-compressed",
+     *                         "application/zip",
+     *                         "video/mp4",
+     *                         "video/quicktime",
+     *                         "video/x-msvideo",
+     *                         "video/x-ms-wmv",
+     *                         "video/x-flv",
+     *                         "video/webm",
+     *                         "video/mpeg"})
      */
-    private $path;
+    private $file;
 
     /**
      * @var string
@@ -46,7 +70,7 @@ class Document
     /**
      * @var string
      *
-     * @ORM\Column(name="link", type="string", length=255)
+     * @ORM\Column(name="link", type="string", length=255, nullable=true)
      */
     private $link;
 
@@ -75,12 +99,13 @@ class Document
     /**
      * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy= "createDocument", cascade= {"persist"})
      */
-    private $createdBy;
+    private $author;
 
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->linkedToEvaluation = new ArrayCollection();
+        $this->date = new \DateTime();
     }
 
     /**
@@ -118,27 +143,27 @@ class Document
     }
 
     /**
-     * Set path
+     * Set file
      *
-     * @param string $path
+     * @param $file
      *
      * @return Document
      */
-    public function setPath($path)
+    public function setFile($file)
     {
-        $this->path = $path;
+        $this->file = $file;
 
         return $this;
     }
 
     /**
-     * Get path
+     * Get file
      *
      * @return string
      */
-    public function getPath()
+    public function getFile()
     {
-        return $this->path;
+        return $this->file;
     }
 
     /**
@@ -276,17 +301,20 @@ class Document
     /**
      * @return mixed
      */
-    public function getCreatedBy()
+    public function getAuthor()
     {
-        return $this->createdBy;
+        return $this->author;
     }
 
     /**
-     * @param mixed $createdBy
+     * @param mixed $author
+     *
+     * @return $this
      */
-    public function setCreatedBy($createdBy)
+    public function setAuthor($author)
     {
-        $this->createdBy = $createdBy;
+        $this->author = $author;
+        return $this;
     }
 
 
