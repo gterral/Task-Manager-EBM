@@ -6,11 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use EBM\UserInterfaceBundle\Entity\Project;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+// N'oubliez pas de rajouter ce « use », il définit le namespace pour les annotations de validation
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Task
  *
  * @ORM\Table(name="gdp_task")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\TaskRepository")
+ * @UniqueEntity(fields="name", message="Une tâche existe déjà avec ce titre.")
  */
 class Task
 {
@@ -26,14 +30,25 @@ class Task
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\Length(min=8)
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    private $description;
+
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="deadline", type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $deadline;
 
@@ -48,6 +63,7 @@ class Task
      * @var \DateTime
      *
      * @ORM\Column(name="realisationDate", type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $realisationDate;
 
@@ -69,6 +85,7 @@ class Task
      * @var \DateTime
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="creationDate", type="datetime")
+     * @Assert\DateTime()
      */
     private $creationDate;
 
@@ -76,6 +93,7 @@ class Task
      * @var \DateTime
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="modificationDate", type="datetime")
+     * @Assert\DateTime()
      */
     private $modificationDate;
 
@@ -84,6 +102,22 @@ class Task
      * @ORM\JoinColumn(nullable=false)
      */
     private $project;
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
 
     public function setProject(Project $project)
     {
