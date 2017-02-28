@@ -144,8 +144,7 @@ class TaskController extends Controller
 
             $request->getSession()->getFlashBag()->add('notice', 'Tâche bien modifiée.');
 
-            // On redirige vers la page de visualisation de la tâche nouvellement créee
-
+        return $this->redirectToRoute('ebmgdp_projecttasks', array('code' => $project->getCode()));
     }
 
 }
