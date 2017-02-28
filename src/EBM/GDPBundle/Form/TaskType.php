@@ -19,9 +19,12 @@ class TaskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',     TextType::class)
-            ->add('description',      TextareaType::class)
-            ->add('deadline',      DateTimeType::class)
+            ->add('name',     TextType::class, array(
+                'label' => 'Nom de la tâche'))
+            ->add('description',      TextareaType::class, array(
+                'label' => 'Description de la tâche'))
+            ->add('deadline',      DateTimeType::class, array(
+                'label' => 'Deadline'))
             ->add('status',   ChoiceType::class ,  array(
                 'choices'  => array(
                     'Ouverte' => 'OPENED',
@@ -29,15 +32,19 @@ class TaskType extends AbstractType
                     'En attente de relecture' => 'WAITING_FOR_REVIEW',
                     'Validé' => 'VALIDATED',
                     'Rejecté' => 'REJECTED',
-                    'Archivé' => 'ARCHIVED'),))
-            ->add('realisationDate',      DateTimeType::class)
+                    'Archivé' => 'ARCHIVED'),
+                'label' => 'Status de la tâche'))
+            ->add('realisationDate',      DateTimeType::class,array(
+                'label' => 'Date de réalisation'))
             ->add('type',    ChoiceType::class,  array(
                 'choices'  => array(
                     'Mécanique' => 'mecanique',
                     'Informatique' => 'computer_science',
                     'Gestion' => 'gestion',
-                    'Electronique' => 'electricity'),))
-            ->add('save',      SubmitType::class);
+                    'Electronique' => 'electricity'),
+                'label' => 'Type de la tâche'))
+            ->add('save',      SubmitType::class,array(
+                'label' => 'Envoyer'));
     }
 
     public function configureOptions(OptionsResolver $resolver)
