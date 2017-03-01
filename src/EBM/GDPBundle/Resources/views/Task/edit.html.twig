@@ -6,7 +6,7 @@
 
 {# CSS propres � cette page #}
 {% block stylesheets %}
-
+    <link rel="stylesheet" href="{{ asset("bundles/coreiconbar/theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.css") }}">
 {% endblock %}
 
 {% block content_body %}
@@ -26,6 +26,6 @@
 
 {# Scripts propres � cette page #}
 {% block scripts %}
-
-
+    <script src="{{ asset("bundles/coreiconbar/theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js") }}"></script>
+    <script src="{{ asset('bundles/coreiconbar/theme/global/js/components/bootstrap-datepicker.js') }}"></script>
 {% endblock %}

@@ -23,11 +23,9 @@ class TaskType extends AbstractType
                 'label' => 'Nom de la tâche'))
             ->add('description',      TextareaType::class, array(
                 'label' => 'Description de la tâche'))
-            ->add('deadline',      DateTimeType::class, array(
+            ->add('deadline',      TextType::class, array(
                 'label' => 'Deadline',
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'attr' => array('data-plugin'=>'datepicker')))
+                'attr' => array('data-plugin'=>'datepicker','class'=>'datepicker')))
             ->add('status',   ChoiceType::class ,  array(
                 'choices'  => array(
                     'Ouverte' => 'OPENED',
@@ -46,10 +44,8 @@ class TaskType extends AbstractType
                     'Electronique' => 'electricity'),
                 'label' => 'Type de la tâche',
                 'attr' => array('class' => 'form-control')))
-            ->add('realisationDate',      DateTimeType::class,array(
+            ->add('realisationDate',      TextType::class,array(
                 'label' => 'Date de réalisation',
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
                 'attr' => array('data-plugin'=>'datepicker')))
             ->add('save',      SubmitType::class,array(
                 'label' => 'Envoyer',
