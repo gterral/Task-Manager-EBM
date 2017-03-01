@@ -24,7 +24,10 @@ class TaskType extends AbstractType
             ->add('description',      TextareaType::class, array(
                 'label' => 'Description de la tâche'))
             ->add('deadline',      DateTimeType::class, array(
-                'label' => 'Deadline'))
+                'label' => 'Deadline',
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'attr' => array('data-plugin'=>'datepicker')))
             ->add('status',   ChoiceType::class ,  array(
                 'choices'  => array(
                     'Ouverte' => 'OPENED',
@@ -33,18 +36,24 @@ class TaskType extends AbstractType
                     'Validé' => 'VALIDATED',
                     'Rejecté' => 'REJECTED',
                     'Archivé' => 'ARCHIVED'),
-                'label' => 'Status de la tâche'))
-            ->add('realisationDate',      DateTimeType::class,array(
-                'label' => 'Date de réalisation'))
+                'label' => 'Status',
+                'attr' => array('class' => 'form-control')))
             ->add('type',    ChoiceType::class,  array(
                 'choices'  => array(
                     'Mécanique' => 'mecanique',
                     'Informatique' => 'computer_science',
                     'Gestion' => 'gestion',
                     'Electronique' => 'electricity'),
-                'label' => 'Type de la tâche'))
+                'label' => 'Type de la tâche',
+                'attr' => array('class' => 'form-control')))
+            ->add('realisationDate',      DateTimeType::class,array(
+                'label' => 'Date de réalisation',
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'attr' => array('data-plugin'=>'datepicker')))
             ->add('save',      SubmitType::class,array(
-                'label' => 'Envoyer'));
+                'label' => 'Envoyer',
+                'attr' => array('class' => 'btn btn-primary')));
     }
 
     public function configureOptions(OptionsResolver $resolver)
