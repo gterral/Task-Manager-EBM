@@ -29,10 +29,11 @@ class Machine
     private $dateAchat;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EBM\MaterielBundle\Entity\MachineType", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=255)
      */
-    private $type;
+    private $nom;
 
     /**
      * Get id
@@ -69,26 +70,26 @@ class Machine
     }
 
     /**
-     * Set type
+     * Set nom
      *
-     * @param \EBM\MaterielBundle\Entity\MachineType $type
+     * @param string $nom
      *
      * @return Machine
      */
-    public function setType(\EBM\MaterielBundle\Entity\MachineType $type)
+    public function setNom($nom)
     {
-        $this->type = $type;
+        $this->nom = $nom;
 
         return $this;
     }
 
     /**
-     * Get type
+     * Get nom
      *
-     * @return \EBM\MaterielBundle\Entity\MachineType
+     * @return string
      */
-    public function getType()
+    public function getNom()
     {
-        return $this->type;
+        return $this->nom;
     }
 }
