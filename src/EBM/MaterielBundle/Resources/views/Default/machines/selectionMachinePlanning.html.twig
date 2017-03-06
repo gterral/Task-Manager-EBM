@@ -16,10 +16,9 @@
 
 {% block content_body %}
     <select nom="liste machines">
-        <option><a href="{{ path('ebm_materiel_machines_planning') }}">machine1</a></option>
-        <option>machine2</option>
-        <option>machine3</option>
-        <option>machine4</option>
+        {% for machine in machines %}
+        <option>{{ machine }}</option>
+        {% endfor %}
     </select>
 {% endblock %}
 

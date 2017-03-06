@@ -18,8 +18,7 @@ class MachineController extends Controller
 
     public function selectionMachineAction()
     {
-
-        return $this->render('EBMMaterielBundle:Default/machines:selectionMachinePlanning.html.twig');
+        return $this->render('EBMMaterielBundle:Default/machines:selectionMachinePlanning.html.twig', array('machines' => $this->getListMachines()));
     }
 
     public function planningMachineAction()
@@ -30,5 +29,15 @@ class MachineController extends Controller
     public function reservationMachineAction($debut, $fin)
     {
         return $this->render('EBMMaterielBundle:Default/machines:reservationMachine.html.twig', array('debut' => $debut, 'fin' => $fin));
+    }
+
+    /*
+     * useful methods
+     */
+
+    public function getListMachines()
+    {
+        $list = array ('machine1', 'machine2');
+        return $list;
     }
 }
