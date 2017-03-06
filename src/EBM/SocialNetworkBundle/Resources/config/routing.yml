@@ -1,3 +1,11 @@
+#Vue de l'ensemble des publications --> le mur d'actualités de la personne
+#comment faire pour prendre en compte le fait de ne voir que les publications avec abonnement?
 ebm_social_network_homepage:
     path:     /social/
     defaults: { _controller: EBMSocialNetworkBundle:Default:index }
+
+
+#Vue détaillée d'une publication
+#ebm_social_network_publicationdetails:
+ #   path:     publication/{code}/details
+  #  defaults: { _controller: EBMGDPBundle:Publication:index }
