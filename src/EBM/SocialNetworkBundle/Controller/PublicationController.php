@@ -2,7 +2,9 @@
 
 namespace EBM\SocialNetworkBundle\Controller;
 
+use EBM\SocialNetworkBundle\Entity\Publication;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 
 #Recuperer les tags que l'user like
@@ -11,12 +13,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 #Afficher tous les publications qui correspondent a l'un des trois
 class PublicationController extends Controller
 {
-    public function indexAction(User $user)
-    {
-        #FAUX
-        return $this->render('EBMSocialNetworkBundle:Publication:index.html.twig', array('listPubli' => $user->getTags(),
-            'project' => $project);
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("publication",options={"mapping": {"id":"id"}})
+     */
+    public function viewAction(Publication $publication)
+    {
+        return $this->render('EBMSocialNetworkBundle:Publication:view.html.twig',
+            ['publication' => $publication]);
     }
 }
 
