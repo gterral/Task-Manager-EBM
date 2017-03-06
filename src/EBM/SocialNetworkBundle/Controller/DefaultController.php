@@ -8,6 +8,14 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('EBMSocialNetworkBundle:Default:index.html.twig');
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('EBMSocialNetworkBundle:Publication');
+
+        $listPublications = $repository->findAll();
+
+        return $this->render('EBMSocialNetworkBundle:Default:index.html.twig',
+            ['listPublications' => $listPublications]);
     }
 }

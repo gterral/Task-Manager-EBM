@@ -57,6 +57,8 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
 
         $pub2 = new Publication();
         $pub2->setContent('Je push sur GIT');
+        $pub2->addTag($tag1);
+        $pub2->setUserPublication($user1);
 
         $comment1 = new Comment();
         $comment1->setContent('Je commit sur GIT');
