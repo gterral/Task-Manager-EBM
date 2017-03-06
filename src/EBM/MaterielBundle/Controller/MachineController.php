@@ -16,6 +16,11 @@ class MachineController extends Controller
         return $this->render('EBMMaterielBundle:Default/machines:machine.html.twig');
     }
 
+    public function selectionMachineAction()
+    {
+        return $this->render('EBMMaterielBundle:Default/machines:selectionMachinePlanning.html.twig');
+    }
+
     public function planningMachineAction()
     {
         return $this->render('EBMMaterielBundle:Default/machines:planningMachine.html.twig');

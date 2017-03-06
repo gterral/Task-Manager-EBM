@@ -3,119 +3,104 @@
 
 {# Titre de l'onglet #}
 {% block title %}
-    Gestion du matériel
+    Disponibilités
 {% endblock %}
 
 {# CSS propres à cette page #}
 {% block stylesheets %}
-    <link href='https://fullcalendar.io/js/fullcalendar-3.2.0/fullcalendar.min.css' rel='stylesheet' />
-    <link href='https://fullcalendar.io/js/fullcalendar-3.2.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-    <script src='https://fullcalendar.io/js/fullcalendar-3.2.0/lib/moment.min.js'></script>
-    <script src='https://fullcalendar.io/js/fullcalendar-3.2.0/lib/jquery.min.js'></script>
-    <script src='https://fullcalendar.io/js/fullcalendar-3.2.0/fullcalendar.min.js'></script>
+    <link rel="stylesheet" href="{{ asset('dev_materiel_fullcalendar/fullcalendar.css') }}" />
 
-    <style>
-
-        body {
-            margin: 40px 10px;
-            padding: 0;
-            font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-            font-size: 14px;
-        }
-
-        #calendar {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-    </style>
 {% endblock %}
 
 
 {# Contenu de la page #}
 
 {% block content_body %}
-
-    <div id='calendar'></div>
-
+    <div id="calendar"></div>
 {% endblock %}
 
 
 {# Scripts propres à cette page #}
 {% block scripts %}
-    <script>
+    <script src="{{ asset('dev_materiel_fullcalendar/lib/moment.min.js') }}"></script>
+    <script src="{{ asset('dev_materiel_fullcalendar/fullcalendar.js') }}"></script>
+    <script src="{{ asset('dev_materiel_fullcalendar/lib/jquery-ui.min.js') }}"></script>
 
+    <script>
         $(document).ready(function() {
+
+            var data = [
+                {
+                    title: 'All Day Event',
+                    start: '2017-02-01'
+                },
+                {
+                    title: 'Long Event',
+                    start: '2017-02-07',
+                    end: '2017-02-10'
+                },
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: '2017-02-09T16:00:00'
+                },
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: '2017-02-16T16:00:00'
+                },
+                {
+                    title: 'Conference',
+                    start: '2017-02-11',
+                    end: '2017-02-13'
+                },
+                {
+                    title: 'Meeting',
+                    start: '2017-02-12T10:30:00',
+                    end: '2017-02-12T12:30:00'
+                },
+                {
+                    title: 'Lunch',
+                    start: '2017-02-12T12:00:00'
+                },
+                {
+                    title: 'Meeting',
+                    start: '2017-02-12T14:30:00'
+                },
+                {
+                    title: 'Happy Hour',
+                    start: '2017-02-12T17:30:00'
+                },
+                {
+                    title: 'Dinner',
+                    start: '2017-02-12T20:00:00'
+                },
+                {
+                    title: 'Birthday Party',
+                    start: '2017-02-13T07:00:00'
+                },
+                {
+                    title: 'Click for Google',
+                    url: 'http://google.com/',
+                    start: '2017-02-28'
+                }
+            ];
 
             $('#calendar').fullCalendar({
                 header: {
-                    left: 'prev,next today',
+                    left: 'prev,next,today',
                     center: 'title',
-                    right: 'month,agendaWeek,agendaDay,listWeek'
+                    right: 'month,agendaWeek,agendaDay'
                 },
-                defaultDate: '2017-02-12',
-                navLinks: true, // can click day/week names to navigate views
-                editable: true,
-                eventLimit: true, // allow "more" link when too many events
-                events: [
-                    {
-                        title: 'All Day Event',
-                        start: '2017-02-01'
-                    },
-                    {
-                        title: 'Long Event',
-                        start: '2017-02-07',
-                        end: '2017-02-10'
-                    },
-                    {
-                        id: 999,
-                        title: 'Repeating Event',
-                        start: '2017-02-09T16:00:00'
-                    },
-                    {
-                        id: 999,
-                        title: 'Repeating Event',
-                        start: '2017-02-16T16:00:00'
-                    },
-                    {
-                        title: 'Conference',
-                        start: '2017-02-11',
-                        end: '2017-02-13'
-                    },
-                    {
-                        title: 'Meeting',
-                        start: '2017-02-12T10:30:00',
-                        end: '2017-02-12T12:30:00'
-                    },
-                    {
-                        title: 'Lunch',
-                        start: '2017-02-12T12:00:00'
-                    },
-                    {
-                        title: 'Meeting',
-                        start: '2017-02-12T14:30:00'
-                    },
-                    {
-                        title: 'Happy Hour',
-                        start: '2017-02-12T17:30:00'
-                    },
-                    {
-                        title: 'Dinner',
-                        start: '2017-02-12T20:00:00'
-                    },
-                    {
-                        title: 'Birthday Party',
-                        start: '2017-02-13T07:00:00'
-                    },
-                    {
-                        title: 'Click for Google',
-                        url: 'http://google.com/',
-                        start: '2017-02-28'
-                    }
-                ]
+                events: data,
+
+
             });
 
-        });
 
+            $('#calendar').fullCalendar('changeView','agendaWeek');
+
+
+        });
     </script>
 {% endblock %}

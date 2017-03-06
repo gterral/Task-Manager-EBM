@@ -6,6 +6,10 @@ ebm_materiel_machines:
     path:     /machines
     defaults: { _controller: EBMMaterielBundle:Machine:machine }
 
+ebm_materiel_machines_selection:
+    path:     /machines/selection
+    defaults: { _controller: EBMMaterielBundle:Machine:selectionMachine }
+
 ebm_materiel_machines_planning:
     path:     /machines/planning
     defaults: { _controller: EBMMaterielBundle:Machine:planningMachine }
