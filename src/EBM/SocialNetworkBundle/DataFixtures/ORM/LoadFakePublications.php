@@ -8,6 +8,7 @@
 
 namespace Core\UserBundle\DataFixtures\ORM;
 
+use Core\UserBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use EBM\SocialNetworkBundle\Entity\Comment;
@@ -34,6 +35,7 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
      */
     public function load(ObjectManager $manager)
     {
+        $encoder = $this->container->get('security.password_encoder');
 
         $tag1 = new Tag();
 
@@ -41,9 +43,17 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $tag1->setDescription('Tag de méca');
         $tag1->setType('type meca');
 
+        $user1 = new User();
+        $user1->setUsername('Margot');
+        $user1->setEmail('m.quettelart@gmail.com');
+        $user1->setPassword($encoder->encodePassword($user1, 'ebm_margot'));
+        $user1->setEnabled(true);
+        $user1->addRole("ROLE_STUDENT");
+
         $pub1 = new Publication();
         $pub1->setContent('ptdr');
         $pub1->addTag($tag1);
+        $pub1->setUserPublication($user1);
 
         $pub2 = new Publication();
         $pub2->setContent('Je push sur GIT');
@@ -55,7 +65,8 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $like2 = new Likes();
         $like2->setPublication($pub2);
 
-        //$manager->persist($tag1);
+        $manager->persist($tag1);
+        $manager->persist($user1);
         $manager->persist($pub1);
         $manager->persist($pub2);
         $manager->persist($comment1);

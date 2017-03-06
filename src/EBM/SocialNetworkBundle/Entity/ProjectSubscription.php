@@ -69,5 +69,28 @@ class ProjectSubscription
     {
         return $this->date;
     }
-}
 
+    /**
+     * Set userProject
+     *
+     * @param \Core\UserBundle\Entity\User $userProject
+     *
+     * @return ProjectSubscription
+     */
+    public function setUserProject(\Core\UserBundle\Entity\User $userProject)
+    {
+        $this->userProject = $userProject;
+
+        return $this;
+    }
+
+    /**
+     * Get userProject
+     *
+     * @return \Core\UserBundle\Entity\User
+     */
+    public function getUserProject()
+    {
+        return $this->userProject;
+    }
+}

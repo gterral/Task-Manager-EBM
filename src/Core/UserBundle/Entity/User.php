@@ -4,6 +4,9 @@ namespace Core\UserBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use EBM\KMBundle\Entity\Document;
+use EBM\SocialNetworkBundle\Entity\ProjectSubscription;
+use EBM\SocialNetworkBundle\Entity\Publication;
 use EBM\UserInterfaceBundle\Entity\Project;
 use EBM\KMBundle\Entity\CompetenceUser;
 use EBM\KMBundle\Entity\Tag;
@@ -109,6 +112,11 @@ class User extends BaseUser
      * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\ProjectSubscription", mappedBy="userProject", cascade={"persist"})
      */
     private $projectSubscriptions;
+
+    /**
+     * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\Publication", mappedBy="userPublication", cascade={"persist"})
+     */
+    private $publications;
 
     /**
      * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy="madeBy", cascade= {"persist"})
@@ -617,11 +625,11 @@ class User extends BaseUser
     /**
      * Add projectSubscription
      *
-     * @param \EBM\SocialNetworkBundle\Entity\ProjectSubscription $projectSubscription
+     * @param ProjectSubscription $projectSubscription
      *
      * @return User
      */
-    public function addProjectSubscription(\EBM\SocialNetworkBundle\Entity\ProjectSubscription $projectSubscription)
+    public function addProjectSubscription(ProjectSubscription $projectSubscription)
     {
         $this->projectSubscriptions[] = $projectSubscription;
 
@@ -631,9 +639,9 @@ class User extends BaseUser
     /**
      * Remove projectSubscription
      *
-     * @param \EBM\SocialNetworkBundle\Entity\ProjectSubscription $projectSubscription
+     * @param ProjectSubscription $projectSubscription
      */
-    public function removeProjectSubscription(\EBM\SocialNetworkBundle\Entity\ProjectSubscription $projectSubscription)
+    public function removeProjectSubscription(ProjectSubscription $projectSubscription)
     {
         $this->projectSubscriptions->removeElement($projectSubscription);
     }
@@ -651,11 +659,11 @@ class User extends BaseUser
     /**
      * Add createDocument
      *
-     * @param \EBM\KMBundle\Entity\Document $createDocument
+     * @param Document $createDocument
      *
      * @return User
      */
-    public function addCreateDocument(\EBM\KMBundle\Entity\Document $createDocument)
+    public function addCreateDocument(Document $createDocument)
     {
         $this->createDocument[] = $createDocument;
 
@@ -665,10 +673,44 @@ class User extends BaseUser
     /**
      * Remove createDocument
      *
-     * @param \EBM\KMBundle\Entity\Document $createDocument
+     * @param Document $createDocument
      */
-    public function removeCreateDocument(\EBM\KMBundle\Entity\Document $createDocument)
+    public function removeCreateDocument(Document $createDocument)
     {
         $this->createDocument->removeElement($createDocument);
+    }
+
+    /**
+     * Add publication
+     *
+     * @param Publication $publication
+     *
+     * @return User
+     */
+    public function addPublication(Publication $publication)
+    {
+        $this->publications[] = $publication;
+
+        return $this;
+    }
+
+    /**
+     * Remove publication
+     *
+     * @param Publication $publication
+     */
+    public function removePublication(Publication $publication)
+    {
+        $this->publications->removeElement($publication);
+    }
+
+    /**
+     * Get publications
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPublications()
+    {
+        return $this->publications;
     }
 }

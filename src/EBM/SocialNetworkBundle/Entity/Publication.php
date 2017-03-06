@@ -31,6 +31,13 @@ class Publication
     private $date;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="publications",cascade={"persist"})
+     *
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userPublication;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="compteurLike", type="integer")
@@ -228,5 +235,29 @@ class Publication
     public function removeTag(Tag $tag)
     {
         $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Set userPublication
+     *
+     * @param \Core\UserBundle\Entity\User $userPubli
+     *
+     * @return Publication
+     */
+    public function setUserPublication(\Core\UserBundle\Entity\User $userPublication)
+    {
+        $this->userPublication = $userPublication;
+
+        return $this;
+    }
+
+    /**
+     * Get userPublication
+     *
+     * @return \Core\UserBundle\Entity\User
+     */
+    public function getUserPublication()
+    {
+        return $this->userPublication;
     }
 }
