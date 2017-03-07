@@ -4,6 +4,7 @@ namespace EBM\KMBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * CompetenceUser
@@ -164,6 +165,9 @@ class CompetenceUser
     }
 
     public function addRecommendation($user){
+        if($user == $this->getUser())
+            throw new HttpException(500, "Impossible de se recommander soi-même.");
+
         $this->recommendations->add($user);
         return $this;
     }

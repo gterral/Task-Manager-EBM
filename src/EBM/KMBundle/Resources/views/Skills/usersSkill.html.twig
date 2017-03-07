@@ -1,5 +1,10 @@
 {% extends "EBMKMBundle::bundleLayout.html.twig" %}
+
+{# Définition d'une variable si on regarde ses propres compétences ou non #}
+{% set myPage = (app.user == user) %}
+
 {% block content_body %}
+
     Compétences de l'utilisateur {{ user }}
 
     <ul>
@@ -12,12 +17,25 @@
                     <li>{{ reco.name }}</li>
                 {% endfor %}
             </ul>
-            <a href="{{ path('ebmkm_remove_skills', {'id': skill.id}) }}">X</a>
+            {% if myPage %}
+                {# Si c'est ma page, je peux enlever la compétence #}
+                <a href="{{ path('ebmkm_remove_skills', {'id': skill.id}) }}">X</a>
+            {% else %}
+                {% if skill.recommendations.contains(app.user) %}
+                    {# Cas ou on a recommandé, on propose de l'enlever #}
+                    <a href="{{ path('ebmkm_unrecommend_skills', {'user_id': user.id, 'skill_id':skill.id }) }}">Dérecommander</a>
+                {% else %}
+                    {# On propose de recommander sinon #}
+                    <a href="{{ path('ebmkm_recommend_skills', {'user_id': user.id, 'skill_id':skill.id }) }}">Recommander</a>
+                {% endif %}
+            {% endif %}
+
             {% endfor %}
         </li>
     </ul>
-
-    <a href="{{ path('ebmkm_add_skills') }}">Ajouter</a>
+    {% if myPage %}
+        <a href="{{ path('ebmkm_add_skills') }}">Ajouter</a>
+    {% endif %}
 {% endblock %}
 
 

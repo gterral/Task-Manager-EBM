@@ -50,6 +50,18 @@ ebmkm_my_skills:
     path:    /skills/me/
     defaults: { _controller: EBMKMBundle:Skills:renderUserSkills }
 
+ebmkm_other_skills:
+    path:    /skills/{id}
+    defaults: { _controller: EBMKMBundle:Skills:seeSkill }
+
+ebmkm_recommend_skills:
+    path:    /skills/{user_id}/recommand/{skill_id}
+    defaults: { _controller: EBMKMBundle:Skills:recommendSkill }
+
+ebmkm_unrecommend_skills:
+    path:    /skills/{user_id}/unrecommand/{skill_id}
+    defaults: { _controller: EBMKMBundle:Skills:unRecommendSkill }
+
 ebmkm_add_skills:
     path:    /skills/me/add/
     defaults: { _controller: EBMKMBundle:Skills:addSkill }

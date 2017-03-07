@@ -63,11 +63,18 @@ class LoadFakeTags implements FixtureInterface, ContainerAwareInterface {
         $cmp2->setTag($tag2);
         $user2->addSkill($cmp2);
 
+        // Admin sur tag 3
+        $cmp3 = new CompetenceUser();
+        $cmp3->setTag($tag3);
+        $user1->addSkill($cmp3);
+
         // Et admin le recommande
         $cmp1->addRecommendation($user1);
-        $cmp1->addRecommendation($user2); // TODO : sécurité pour pas se recommander soi même
 
         $entityManager->persist($cmp1);
+        $entityManager->persist($cmp2);
+        $entityManager->persist($cmp3);
+        $entityManager->persist($user1);
         $entityManager->persist($user2);
 
 
