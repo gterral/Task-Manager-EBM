@@ -14,20 +14,30 @@
         Lien : {{ document.link }}
     {% endif %}
 
+    {% if document.tags %}
+        <div>
+        {% for tag in document.tags %}
+            {{ tag.name }}
+        {%  endfor %}
+        </div>
+    {%  endif %}
+
     <!-- EVALUATION DU DOCUMENT -->
     <div>
     {% if grade >=0 %}
-        {{ grade }}/5
+        <div>Moyenne : {{ grade }}/5</div>
         {% if personalEvaluation %}
-            Vous avez noté ce document {{ personalEvaluation[0].value }}
+        <div>Votre note : {{ personalEvaluation[0].value }}<div>
         {%  endif %}
     {% endif %}
 
     {% if grade == -1 %}
-        Aucune évaluation n'a été soumise pour ce document. Notez-le !
-        {{ form(evaluationForm) }}
+        <div>Aucune évaluation n'a été soumise pour ce document. Notez-le !</div>
+        <div>{{ form(evaluationForm) }}</div>
     {% endif %}
     </div>
+
+    <div id="ratings"></div>
 
     <!-- DISCUSSIONS SUR LE DOCUMENT -->
     {% if document.commentTopic %}
