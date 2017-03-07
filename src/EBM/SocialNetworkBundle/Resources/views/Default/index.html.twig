@@ -28,6 +28,7 @@
                     <div class="panel">
                         <div class="panel-head">
                             <h3 class="panel-title">Vue detail de la tâche: {{ publication.userPublication.username }}</h3>
+                            <p class="panel-title">{% for tags in publication.tags %} {{ tags.name }} {% endfor %}</p>
                         </div>
                         <div class="panel-body">
 

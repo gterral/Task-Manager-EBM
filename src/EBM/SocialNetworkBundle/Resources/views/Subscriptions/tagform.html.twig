@@ -2,4 +2,5 @@
 
 <div class="well">
     {{ form(tagform) }}
+    {% for tags in usertags %} {{ tags.name }} {% endfor %}
 </div>

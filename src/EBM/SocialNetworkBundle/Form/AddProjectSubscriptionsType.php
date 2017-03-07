@@ -14,8 +14,8 @@ class AddProjectSubscriptionsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('projets', EntityType::class ,  array(
-                'class' => 'CoreUserBundle:User',
+            ->add('tags', EntityType::class ,  array(
+                'class' => 'EBMKMBundle:Tag',
                 'choice_label' => 'name',
                 'multiple' => true,
             ))

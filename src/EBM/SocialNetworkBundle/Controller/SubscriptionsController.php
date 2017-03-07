@@ -37,7 +37,8 @@ class SubscriptionsController extends Controller
 
         return $this->render('EBMSocialNetworkBundle:Subscriptions:index.html.twig', array(
             'tagform' => $tagform->createView(),
-            'projectform' => $projectform->createView()
+            'projectform' => $projectform->createView(),
+            'usertags' => $user->getTags()
         ));
     }
 }
