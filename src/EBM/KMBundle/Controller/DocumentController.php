@@ -10,9 +10,11 @@ namespace EBM\KMBundle\Controller;
 
 
 use EBM\KMBundle\Entity\Document;
+use EBM\KMBundle\Entity\EvaluationDocument;
 use EBM\KMBundle\Entity\Post;
 use EBM\KMBundle\Entity\Topic;
 use EBM\KMBundle\Form\DocumentType;
+use EBM\KMBundle\Form\EvaluationDocumentType;
 use EBM\KMBundle\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -78,6 +80,7 @@ class DocumentController extends Controller
     public function detailAction($id, Request $request){
         /** @var Document $document */
         $document = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->find($id);
+        $em = $this->getDoctrine()->getManager();
 
         // SEE AND POST COMMENTS
         $user = $this->getUser();
@@ -101,7 +104,6 @@ class DocumentController extends Controller
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($topic);
             $em->persist($post);
             $em->persist($document);
@@ -109,9 +111,38 @@ class DocumentController extends Controller
             return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $topic->getId()));
         }
 
+        // GET THE GRADE OF THE DOCUMENT OR EVALUATE IT
+        if(sizeof($document->getEvaluations()) > 0){
+            $moyenne = 0;
+            foreach ($document->getEvaluations() as $evaluation){
+                $moyenne += $evaluation->getValue();
+            }
+            $moyenne = $moyenne/sizeof($document->getEvaluations());
+        }
+        else{
+            $moyenne = -1;
+        }
+
+        $personalEvaluation = $this->getDoctrine()->getRepository('EBMKMBundle:EvaluationDocument')
+            ->findBy(['author' => $this->getUser(), 'document' => $document]);
+
+        $evaluation = new EvaluationDocument();
+        $evaluationForm = $this->createForm(EvaluationDocumentType::class, $evaluation);
+        $evaluationForm->handleRequest($request);
+        if($evaluationForm->isSubmitted() && $evaluationForm->isValid()){
+            $evaluation->setAuthor($this->getUser());
+            $evaluation->setDocument($document);
+            $em->persist($evaluation);
+            $em->flush();
+            return $this->redirectToRoute('ebmkm_file_detail', array('id' => $document->getId()));
+        }
+
         return $this->render('EBMKMBundle:Documents:detail.html.twig', array(
             'document' => $document,
-            'form' => $form->createView()
+            'grade' => $moyenne,
+            'form' => $form->createView(),
+            'personalEvaluation' => $personalEvaluation,
+            'evaluationForm' => $evaluationForm->createView()
         ));
     }
 

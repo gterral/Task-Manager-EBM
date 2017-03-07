@@ -92,9 +92,9 @@ class Document
     private $tags;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy= "linkedToDocument", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy= "document", cascade= {"persist"})
      */
-    private $linkedToEvaluation;
+    private $evaluations;
 
     /**
      * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy= "createDocument", cascade= {"persist"})
@@ -104,7 +104,7 @@ class Document
     public function __construct()
     {
         $this->tags = new ArrayCollection();
-        $this->linkedToEvaluation = new ArrayCollection();
+        $this->evaluations = new ArrayCollection();
         $this->date = new \DateTime();
     }
 
@@ -285,18 +285,37 @@ class Document
     /**
      * @return mixed
      */
-    public function getLinkedToEvaluation()
+    public function getEvaluations()
     {
-        return $this->linkedToEvaluation;
+        return $this->evaluations;
     }
 
     /**
-     * @param mixed $linkedToEvaluation
+     * @param mixed $evaluations
      */
-    public function setLinkedToEvaluation($linkedToEvaluation)
+    public function setEvaluations($evaluations)
     {
-        $this->linkedToEvaluation = $linkedToEvaluation;
+        $this->evaluations = $evaluations;
     }
+
+    /**
+     * @param EvaluationDocument $evaluation
+     * @return $this
+     */
+    public function addEvaluation(EvaluationDocument $evaluation){
+        $this->evaluations->add($evaluation);
+        return $this;
+    }
+
+    /**
+     * @param EvaluationDocument $evaluation
+     * @return $this
+     */
+    public function removeEvaluation(EvaluationDocument $evaluation){
+        $this->evaluations->removeElement($evaluation);
+        return $this;
+    }
+    
 
     /**
      * @return mixed

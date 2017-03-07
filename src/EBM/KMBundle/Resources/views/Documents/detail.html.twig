@@ -14,6 +14,22 @@
         Lien : {{ document.link }}
     {% endif %}
 
+    <!-- EVALUATION DU DOCUMENT -->
+    <div>
+    {% if grade >=0 %}
+        {{ grade }}/5
+        {% if personalEvaluation %}
+            Vous avez noté ce document {{ personalEvaluation[0].value }}
+        {%  endif %}
+    {% endif %}
+
+    {% if grade == -1 %}
+        Aucune évaluation n'a été soumise pour ce document. Notez-le !
+        {{ form(evaluationForm) }}
+    {% endif %}
+    </div>
+
+    <!-- DISCUSSIONS SUR LE DOCUMENT -->
     {% if document.commentTopic %}
         {% for post in document.commentTopic.posts %}
             <div class="well"><strong>{{ post.author.username }}</strong> -- {{ post.date | date('d-M-Y H:i:s') }}<p>{{ post.content }}</p></div>
