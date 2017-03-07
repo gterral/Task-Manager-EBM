@@ -1,11 +1,2 @@
 ebm_materiel_homepage:
     path:     /
-    defaults: { _controller: EBMMaterielBundle:Machine:index }
-
-ebm_materiel_machines:
-    path:     /machines
-    defaults: { _controller: EBMMaterielBundle:Machine:machine }
-
-ebm_materiel_planning_machine:
-    path:     /machines/planning-machine
-    defaults: { _controller: EBMMaterielBundle:Machine:planningMachine }
