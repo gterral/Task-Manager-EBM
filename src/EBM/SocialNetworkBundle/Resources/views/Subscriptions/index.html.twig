@@ -29,11 +29,24 @@
 
                             <div id="body_task">
 
-                                {{ include("EBMSocialNetworkBundle:Subscriptions:form.html.twig") }}
+                                {{ include("EBMSocialNetworkBundle:Subscriptions:tagform.html.twig") }}
 
 
                             </div>
                         </div>
+                        <div class="panel">
+                            <div class="panel-head">
+                                <h3 class="panel-title">S'abonner à des projets pour : {{ app.user.username }}</h3>
+                            </div>
+                            <div class="panel-body">
+
+                                <div id="body_task">
+
+                                    {{ include("EBMSocialNetworkBundle:Subscriptions:projectform.html.twig") }}
+
+
+                                </div>
+                            </div>
                     </div>
                 </ul>
             </div>
