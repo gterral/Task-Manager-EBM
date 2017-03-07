@@ -48,7 +48,7 @@
     <div class="page-profile">
         <div class="page-content">
             <ul>
-                {% for publication in listPublications %}
+                {% for publication in listPublications|reverse %}
                     <div class="panel">
                         <div class="panel-head">
                             <h3 class="panel-title">{{ publication.userPublication.username }}
