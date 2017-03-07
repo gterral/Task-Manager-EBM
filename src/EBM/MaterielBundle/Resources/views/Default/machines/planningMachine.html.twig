@@ -16,7 +16,12 @@
 {# Contenu de la page #}
 
 {% block content_body %}
-    <div id="calendar"></div>
+    {% if machine != 'none' %}
+        <h1 style="text-align: center">{{ machine }}</h1>
+        <div id="calendar"></div>
+    {% else %}
+        <h1>Aucune machine séléctionnée...</h1>
+    {% endif %}
 {% endblock %}
 
 

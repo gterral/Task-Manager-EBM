@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ReservationMachine
  *
- * @ORM\Table(name="reservation_machine")
+ * @ORM\Table(name="fablab_reservation_machine")
  * @ORM\Entity(repositoryClass="EBM\MaterielBundle\Repository\ReservationMachineRepository")
  */
 class ReservationMachine
@@ -58,7 +58,7 @@ class ReservationMachine
 
     /**
      * @ORM\ManyToOne(targetEntity="EBM\MaterielBundle\Entity\Machine", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $machine;
 

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Casier
  *
- * @ORM\Table(name="casier")
+ * @ORM\Table(name="fablab_casier")
  * @ORM\Entity(repositoryClass="EBM\MaterielBundle\Repository\CasierRepository")
  */
 class Casier

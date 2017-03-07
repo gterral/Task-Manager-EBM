@@ -11,8 +11,10 @@ ebm_materiel_machines_selection:
     defaults: { _controller: EBMMaterielBundle:Machine:selectionMachine }
 
 ebm_materiel_machines_planning:
-    path:     /machines/planning
-    defaults: { _controller: EBMMaterielBundle:Machine:planningMachine }
+    path:     /machines/planning/{machine}
+    defaults:
+        _controller: EBMMaterielBundle:Machine:planningMachine
+        machine: none
 
 ebm_materiel_machines_reservation:
     path:     /machines/reservation/{debut}/{fin}
