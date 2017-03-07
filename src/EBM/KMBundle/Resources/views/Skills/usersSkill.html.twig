@@ -5,16 +5,19 @@
     <ul>
         {% for skill in user.skills %}
         <li>{{ skill.tag.name }}<br/>
+            Niveau : {{ skill.level }}<br/>
             Recommandé par :
             <ul>
                 {% for reco in skill.recommendations %}
                     <li>{{ reco.name }}</li>
                 {% endfor %}
             </ul>
+            <a href="{{ path('ebmkm_remove_skills', {'id': skill.id}) }}">X</a>
             {% endfor %}
         </li>
     </ul>
 
+    <a href="{{ path('ebmkm_add_skills') }}">Ajouter</a>
 {% endblock %}
 
 

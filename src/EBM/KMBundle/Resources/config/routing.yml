@@ -46,7 +46,14 @@ ebmkm_tag_begin:
     defaults: { _controller: EBMKMBundle:Tag:getTagsByBegin }
 
 # --- Gestion des compétences ---
-ebmkm_skills_user:
-    path:    /skills/user/{id}
+ebmkm_my_skills:
+    path:    /skills/me/
     defaults: { _controller: EBMKMBundle:Skills:renderUserSkills }
 
+ebmkm_add_skills:
+    path:    /skills/me/add/
+    defaults: { _controller: EBMKMBundle:Skills:addSkill }
+
+ebmkm_remove_skills:
+    path:    /skills/me/remove/{id}
+    defaults: { _controller: EBMKMBundle:Skills:removeSkill }
