@@ -30,3 +30,8 @@ ebm_social_network_delete:
         _controller: EBMSocialNetworkBundle:Publication:delete
     requirements:
         id: \d+
+
+ebm_social_network_subscriptions:
+    path:     /subscriptions
+    defaults:
+        _controller: EBMSocialNetworkBundle:Subscriptions:index

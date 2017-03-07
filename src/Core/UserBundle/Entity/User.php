@@ -713,4 +713,12 @@ class User extends BaseUser
     {
         return $this->publications;
     }
+
+    /**
+     * @param mixed $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
 }

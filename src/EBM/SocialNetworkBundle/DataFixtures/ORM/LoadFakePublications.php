@@ -38,10 +38,14 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $encoder = $this->container->get('security.password_encoder');
 
         $tag1 = new Tag();
-
         $tag1->setName('Mécanique');
         $tag1->setDescription('Tag de méca');
         $tag1->setType('type meca');
+
+        $tag2 = new Tag();
+        $tag2->setName('Elec');
+        $tag2->setDescription('Tag de elec');
+        $tag2->setType('type elec');
 
         $user1 = new User();
         $user1->setUsername('Margot');
@@ -53,6 +57,7 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $pub1 = new Publication();
         $pub1->setContent('ptdr');
         $pub1->addTag($tag1);
+        $pub1->addTag($tag2);
         $pub1->setUserPublication($user1);
 
         $pub2 = new Publication();
