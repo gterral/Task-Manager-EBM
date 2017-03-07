@@ -8,6 +8,14 @@
 {# CSS propres � cette page #}
 {% block stylesheets %}
 
+    {%  stylesheets filter='cssrewrite,scssphp'
+    'bundles/coreiconbar/theme/global/vendor/datatables-bootstrap/dataTables.bootstrap.css'
+    'bundles/coreiconbar/theme/global/vendor/datatables-fixedheader/dataTables.fixedHeader.css'
+    'bundles/coreiconbar/theme/global/vendor/datatables-responsive/dataTables.responsive.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+
 {% endblock %}
 
 
@@ -22,6 +30,24 @@
         </div>
 
         <div class="panel-body">
+
+            {# Header : titre + barre de recherche sur le tableau #}
+            <div class="panel-heading">
+                <h3 class="panel-title"> Listing des tâches </h3>
+                <div class="panel-actions">
+                    <div class="input-search input-group-sm">
+                        <button type="submit" class="input-search-btn"><i class="icon md-search" aria-hidden="true" style="color: #757575!important;"></i> </button>
+                        <input type="text" class="form-control" name="" placeholder="Rechercher..." id="searchField">
+                    </div>
+                </div>
+            </div>
+
+            {# Tableau #}
+            {%  if listTasks is null or listTasks|length == 0 %}
+                <p class="margin-20 text-center">Aucune tâche n'a été définie pour ce projet</p>
+            {% else %}
+                {% include "EBMGDPBundle:Task:components:tasksTable.html.twig" %}
+            {% endif %}
 
                 <table class="table">
                     <thead>
@@ -89,6 +115,16 @@
 
 {# Scripts propres � cette page #}
 {% block scripts %}
+
+    {% javascripts filter='jsqueeze'
+    'bundles/coreiconbar/theme/global/vendor/datatables-fixedheader/dataTables.fixedHeader.js'
+    'bundles/coreiconbar/theme/global/vendor/datatables-bootstrap/dataTables.bootstrap.js'
+    'bundles/coreiconbar/theme/global/vendor/datatables-responsive/dataTables.responsive.js'
+    'bundles/coreiconbar/theme/global/vendor/datatables-tabletools/dataTables.tableTools.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
     <script type="text/javascript">
 
         $( document ).ready(function() {
@@ -102,12 +138,26 @@
 
                 var route = "{{ path('ebmgdp_task_edit_status', {'code':project.code}) }}";
 
-                console.log(postData)
-
                 $.post( route, postData ,function( data ) {
-                    console.log(data)
                 });
 
+            });
+
+
+            $("#tasksTable").DataTable({
+                "destroy":true,
+                "paging": false,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": false,
+                "autoWidth": false,
+                "order": [[ 2, "desc" ],[ 1, "desc" ]]
+            });
+
+            // Recherche depuis champ de recherche du header panel
+            $("#searchField").on('keyup', function (){
+                $('#tasksTable').dataTable().fnFilter(this.value);
             });
 
         });

@@ -2,6 +2,7 @@
 
 namespace EBM\GDPBundle\Controller;
 
+use Core\UserBundle\Entity\User;
 use EBM\GDPBundle\Entity\Task;
 use EBM\GDPBundle\Repository\TaskRepository;
 use EBM\UserInterfaceBundle\Entity\Project;
