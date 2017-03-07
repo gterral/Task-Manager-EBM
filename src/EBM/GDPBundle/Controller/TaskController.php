@@ -2,7 +2,9 @@
 
 namespace EBM\GDPBundle\Controller;
 
+use EBM\GDPBundle\Entity\Comment;
 use EBM\GDPBundle\Entity\Task;
+use EBM\GDPBundle\Form\CommentType;
 use EBM\GDPBundle\Repository\TaskRepository;
 use EBM\UserInterfaceBundle\Entity\Project;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -12,6 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use EBM\GDPBundle\Form\TaskType;
 use Symfony\Component\HttpFoundation\Response;
 use EBM\GDPBundle\Entity\Conversation;
+use EBM\GDPBundle\Controller\CommentController;
 
 
 class TaskController extends Controller
@@ -34,11 +37,13 @@ class TaskController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("task",options={"mapping": {"id":"id"}})
+     * @ParamConverter("project",options={"mapping": {"code":"code"}})
      */
-    public function viewAction(Task $task)
+    public function viewAction(Task $task,Request $request,Project $project)
     {
         return $this->render('EBMGDPBundle:Task:view.html.twig',
-            array('task'=> $task)
+            array('task'=> $task,
+                'project'=>$project)
         );
     }
 
