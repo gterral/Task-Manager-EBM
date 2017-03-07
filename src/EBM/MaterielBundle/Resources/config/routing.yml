@@ -14,12 +14,12 @@ ebm_materiel_machines_planning:
     path:     /machines/planning/{machineId}
     defaults:
         _controller: EBMMaterielBundle:Machine:planningMachine
-        machine: none
+        machineId: 1
 
 ebm_materiel_machines_reservation:
     path:     /machines/reservation/{machine}/{debut}/{fin}
     defaults:
         _controller: EBMMaterielBundle:Machine:reservationMachine
-        machine: none
+        machine: Guillotine
         debut:
         fin:

@@ -16,11 +16,10 @@
 {# Contenu de la page #}
 
 {% block content_body %}
-
     {% if machine != 'none' %}
         <h1 style="text-align: center">{{ machine.nom }}</h1>
         {% for event in events %}
-            <h1 style="text-align: center">{{ event.description }}</h1>
+            <p>{{ event.description }}</p>
         {% endfor %}
         <div id="calendar"></div>
     {% else %}
@@ -102,7 +101,7 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-                events: data,
+                events: {{  jsonEvents|raw }},
 
 
             });

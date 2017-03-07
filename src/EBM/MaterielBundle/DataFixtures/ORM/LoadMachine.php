@@ -27,7 +27,7 @@ class LoadMachine implements FixtureInterface
 
             $manager->persist($machine);
 
-
+/*
             $reservation = new ReservationMachine();
 
             $date = new \DateTime("now");
@@ -41,7 +41,7 @@ class LoadMachine implements FixtureInterface
 
             $reservation->setMachine($machine);
             $manager->persist($reservation);
-
+*/
         }
 
         $manager->flush();

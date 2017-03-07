@@ -59,7 +59,7 @@ class ReservationMachine
 
     /**
      * @ORM\ManyToOne(targetEntity="EBM\MaterielBundle\Entity\Machine", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $machine;
 
@@ -73,9 +73,8 @@ class ReservationMachine
 
     public function __construct()
     {
-        $this->dateCreation = new \DateTime();
+        $this->dateCreation = new \DateTime('now');
         $this->validation = false;
-        $this->user = $this->getUser();
     }
 
 

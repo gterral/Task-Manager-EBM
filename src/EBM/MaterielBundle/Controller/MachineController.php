@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -33,16 +34,41 @@ class MachineController extends Controller
 
     public function planningMachineAction($machineId)
     {
+        $reservations = $this->getAllReservationsByMachineId($machineId);
+
+
+        $jsonEvents = '[';
+
+        foreach($reservations as $reservation)
+        {
+            $json = json_encode(array(
+                'title' => $reservation->getUser()->getUsername(),
+                'start' => str_replace(' ', 'T', $reservation->getDebut()->format('Y-m-d H:i:s')),
+                'end' => str_replace(' ', 'T', $reservation->getFin()->format('Y-m-d H:i:s'))
+            ));
+
+            $jsonEvents = $jsonEvents.$json;
+
+            if($reservation !== end($reservations))
+                $jsonEvents = $jsonEvents.',';
+        }
+
+        $jsonEvents = $jsonEvents.']';
+
+
+
+        /* $json = json_encode(array('title' => 'testJson', 'start' => '2017-03-03')); */
         return $this
             ->render('EBMMaterielBundle:Default/machines:planningMachine.html.twig',
                 array(
                     'machine' => $this->getMachine($machineId),
-                    'events' => $this->getAllReservations($machineId)
+                    'events' => $reservations,
+                    'jsonEvents' => $jsonEvents
                 )
             );
     }
 
-    public function reservationMachineAction($debut, $fin, Request $request)
+    public function reservationMachineAction($machine, $debut, $fin, Request $request)
     {
         $resa_machine = new ReservationMachine();
 
@@ -55,14 +81,20 @@ class MachineController extends Controller
             $listeMachines[$machine->getNom()] = $machine;
         }
 
+
         $formBuilder
             ->add('user', TextType::class, array('disabled' => 'true', 'data' => $this->getUser()))
-            ->add('dateCreation', DateType::class, array('disabled' => 'true'))
+            /*->add('dateCreation', DateType::class, array(
+                'disabled' => 'true',
+                'data' => new \DateTime('now'),
+                'attr' => array('style' => 'display:none'
+                )
+            ))*/
             ->add('machine', ChoiceType::class, array(
                 'choices' => $listeMachines
             ))
-            ->add('debut', DateTimeType::class, array('data' => $debut))
-            ->add('fin', DateTimeType::class, array('data' => $fin))
+            ->add('debut', DateTimeType::class, array('data' => new \DateTime($debut)))
+            ->add('fin', DateTimeType::class, array('data' => new \DateTime($fin)))
             ->add('description', TextareaType::class, array('required' => 'false'))
             ->add('valider', SubmitType::class);
 
@@ -112,19 +144,14 @@ class MachineController extends Controller
         return $repository->findAll();
     }
 
-    public function getAllReservations($machineId)
+    public function getAllReservationsByMachineId($machineId)
     {
         $repositoryReservation = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository('EBMMaterielBundle:ReservationMachine');
 
-        $repositoryMachine = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('EBMMaterielBundle:Machine');
-
-        return $repositoryReservation->findBy(array('machine' => $repositoryMachine->find($machineId)));
+        return $repositoryReservation->findBy(array('machine' => $this->getMachine($machineId)));
     }
 
 }
