@@ -1,0 +1,21 @@
+{% extends "EBMKMBundle::bundleLayout.html.twig" %}
+{% block content_body %}
+    Compétences de l'utilisateur {{ user }}
+
+    <ul>
+        {% for skill in user.skills %}
+        <li>{{ skill.tag.name }}<br/>
+            Recommandé par :
+            <ul>
+                {% for reco in skill.recommendations %}
+                    <li>{{ reco.name }}</li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </li>
+    </ul>
+
+{% endblock %}
+
+
+

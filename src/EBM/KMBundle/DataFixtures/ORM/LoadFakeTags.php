@@ -10,6 +10,7 @@ namespace EBM\GDPBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use EBM\KMBundle\Entity\CompetenceUser;
 use EBM\KMBundle\Entity\Tag;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -47,6 +48,28 @@ class LoadFakeTags implements FixtureInterface, ContainerAwareInterface {
         $tag3->setDescription("La description du tag3");
         $tag3->setType("general");
         $entityManager->persist($tag3);
+
+
+        $user1 = $entityManager->getRepository('CoreUserBundle:User')->findOneBy(array('username' => 'admin'));
+        $user2 = $entityManager->getRepository('CoreUserBundle:User')->findOneBy(array('username' => 'toto'));
+
+        // Toto est compétent sur tag 1
+        $cmp1 = new CompetenceUser();
+        $cmp1->setTag($tag1);
+        $user2->addSkill($cmp1);
+
+        // Et sur tag 2
+        $cmp2 = new CompetenceUser();
+        $cmp2->setTag($tag2);
+        $user2->addSkill($cmp2);
+
+        // Et admin le recommande
+        $cmp1->addRecommendation($user1);
+        $cmp1->addRecommendation($user2); // TODO : sécurité pour pas se recommander soi même
+
+        $entityManager->persist($cmp1);
+        $entityManager->persist($user2);
+
 
         $entityManager->flush();
     }

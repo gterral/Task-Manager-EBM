@@ -27,14 +27,14 @@ class CompetenceUser
      *
      * @ORM\Column(name="validated", type="boolean")
      */
-    private $validated;
+    private $validated = false;
 
     /**
      * @var string
      *
      * @ORM\Column(name="level", type="string", length=255)
      */
-    private $level;
+    private $level = 0;
 
     /**
      * @Orm\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="skills", cascade={"persist"})

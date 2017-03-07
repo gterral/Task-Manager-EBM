@@ -44,3 +44,9 @@ ebmkm_tag_index:
 ebmkm_tag_begin:
     path:    /tags/api/begin/{begin}
     defaults: { _controller: EBMKMBundle:Tag:getTagsByBegin }
+
+# --- Gestion des compétences ---
+ebmkm_skills_user:
+    path:    /skills/user/{id}
+    defaults: { _controller: EBMKMBundle:Skills:renderUserSkills }
+

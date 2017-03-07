@@ -65,13 +65,6 @@ class User extends BaseUser
     private $description;
 
     /**
-     * @var array
-     *
-     * @ORM\Column(name="competences", type="array")
-     */
-    private $competences;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="timezone", type="string", length=100)
@@ -167,22 +160,6 @@ class User extends BaseUser
     public function getProjects()
     {
         return $this->projects;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCompetences()
-    {
-        return $this->competences;
-    }
-
-    /**
-     * @param array $competences
-     */
-    public function setCompetences($competences)
-    {
-        $this->competences = $competences;
     }
 
     /**
@@ -426,6 +403,7 @@ class User extends BaseUser
      * @return $this
      */
     public function addSkill(CompetenceUser $skill){
+        $skill->setUser($this);
         $this->skills->add($skill);
         return $this;
     }
@@ -489,6 +467,7 @@ class User extends BaseUser
      *
      */
     public function addRecommendSkill(CompetenceUser $skill){
+        $skill->setUser($this);
         $this->recommendSkill->add($skill);
         return $this;
     }
