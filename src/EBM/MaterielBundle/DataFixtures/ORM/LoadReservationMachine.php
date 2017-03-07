@@ -10,6 +10,7 @@ class LoadReservationMachine implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        /*
             $reservation = new ReservationMachine();
 
             $date = new \DateTime("now");
@@ -30,6 +31,6 @@ class LoadReservationMachine implements FixtureInterface
             $manager->persist($reservation);
 
 
-            $manager->flush();
+            $manager->flush();*/
     }
 }
