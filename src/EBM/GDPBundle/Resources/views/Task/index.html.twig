@@ -88,14 +88,23 @@
                                         <div class="form-group">
                                             <select class="form-control task-status">
                                                 <option data-task="{{ task.id }}" data-status="IN_PROGRESS" {% if task.status == 'IN_PROGRESS' %}selected{% endif %}>
-                                                    <span class="label label-warning">En cours</span>
+                                                    <span class="{{ class_var }}">En cours</span>
                                                 </option>
                                                 <option data-task="{{ task.id }}" data-status="ARCHIVED" {% if task.status == 'ARCHIVED' %}selected{% endif %}>
-                                                    <span class="label label-danger">Archiver</span>
+                                                    <span class="{{ class_var }}">Archivé</span>
                                                 </option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
+                                                <option data-task="{{ task.id }}" data-status="OPENED" {% if task.status == 'OPENED' %}selected{% endif %}>
+                                                    <span class="{{ class_var }}">Ouvert</span>
+                                                </option>
+                                                <option data-task="{{ task.id }}" data-status="WAITING_FOR_REVIEW" {% if task.status == 'WAITING_FOR_REVIEW' %}selected{% endif %}>
+                                                    <span class="{{ class_var }}">Attente Validation</span>
+                                                </option>
+                                                <option data-task="{{ task.id }}" data-status="VALIDATED" {% if task.status == 'VALIDATED' %}selected{% endif %}>
+                                                    <span class="{{ class_var }}">Validé</span>
+                                                </option>
+                                                <option data-task="{{ task.id }}" data-status="REJECTED" {% if task.status == 'REJECTED' %}selected{% endif %}>
+                                                    <span class="{{ class_var }}">Rejeté</span>
+                                                </option>
                                             </select>
                                         </div>
                                     </td>
