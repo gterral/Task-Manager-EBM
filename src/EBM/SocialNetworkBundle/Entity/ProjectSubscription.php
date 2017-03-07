@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProjectSubscription
  *
- * @ORM\Table(name="SocialNetworkProjectSubscription")
+ * @ORM\Table(name="sn_project_subscription")
  * @ORM\Entity(repositoryClass="EBM\SocialNetworkBundle\Repository\ProjectSubscriptionRepository")
  */
 class ProjectSubscription

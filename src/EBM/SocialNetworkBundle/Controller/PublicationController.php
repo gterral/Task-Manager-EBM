@@ -28,7 +28,6 @@ class PublicationController extends Controller
 
     public function addAction(Request $request)
     {
-
         $publication = new Publication();
         $form = $this->get('form.factory')->create(AddPublicationType::class, $publication);
 
@@ -43,7 +42,7 @@ class PublicationController extends Controller
         }
 
         return $this->render('EBMSocialNetworkBundle:Publication:add.html.twig', array(
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ));
     }
 }

@@ -9,7 +9,7 @@ use EBM\KMBundle\Entity\Tag;
 /**
  * Publication
  *
- * @ORM\Table(name="SocialNetworkPublication")
+ * @ORM\Table(name="sn_publication")
  * @ORM\Entity(repositoryClass="EBM\SocialNetworkBundle\Repository\PublicationRepository")
  */
 class Publication
