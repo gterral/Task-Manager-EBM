@@ -49,6 +49,11 @@ ebmgdp_calendar:
     path:     project/{code}/calendar
     defaults: { _controller: EBMGDPBundle:Calendar:viewCalendar }
 
+# Route Chager Status Tache
+ebmgdp_task_edit_status:
+    path:     project/{code}/task/status/edit
+    defaults: { _controller: EBMGDPBundle:Task:editTaskStatus }
+
 
 # TODO
 # Vue ajouter tache

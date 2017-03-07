@@ -22,50 +22,65 @@
         </div>
 
         <div class="panel-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Titre</th>
-                        <th>Status</th>
-                        <th>Deadline</th>
-                        <th>Supprimer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {%  if listTasks is not null %}
-                        {% for task in listTasks %}
-                            {% if task.status == "IN_PROGRESS" %}
-                                {% set class_var = "label label-warning" %}
-                            {% elseif task.status == "WAITING_FOR_REVIEW" %}
-                                {%  set class_var = "label label-info" %}
-                            {% elseif task.status == "VALIDATED" %}
-                                {%  set class_var = "label label-success" %}
-                            {% elseif task.status == "REJECTED" %}
-                                {%  set class_var = "label label-danger" %}
-                            {% elseif task.status == "ARCHIVED" %}
-                                {%  set class_var = "label label-info" %}
-                            {% elseif task.status == "OPENED" %}
-                                {%  set class_var = "label label-primary" %}
-                            {% endif %}
 
-                            <tr>
-                                <th>{{ task.id }}</th>
-                                <td class="subject">
-                                    <a href="{{ path('ebmgdp_task', {'code':project.code, 'id':task.id}) }}" class="">
-                                        {{ task.name }}
-                                    </a>
-                                </td>
-                                <td class="work-status">
-                                    <span class="{{ class_var }}">{{ task.status }}</span>
-                                </td>
-                                <td>{{ task.deadline|date('Y-m-d') }}</td>
-                                <td><a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}"><i class="icon md-delete" aria-hidden="true" style="color:red;font-size:20px"></i></a></td>
-                            </tr>
-                        {% endfor %}
-                    {%  endif %}
-                </tbody>
-            </table>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Titre</th>
+                            <th>Status</th>
+                            <th>Deadline</th>
+                            <th>Supprimer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%  if listTasks is not null %}
+                            {% for task in listTasks %}
+                                {% if task.status == "IN_PROGRESS" %}
+                                    {% set class_var = "label label-warning" %}
+                                {% elseif task.status == "WAITING_FOR_REVIEW" %}
+                                    {%  set class_var = "label label-info" %}
+                                {% elseif task.status == "VALIDATED" %}
+                                    {%  set class_var = "label label-success" %}
+                                {% elseif task.status == "REJECTED" %}
+                                    {%  set class_var = "label label-danger" %}
+                                {% elseif task.status == "ARCHIVED" %}
+                                    {%  set class_var = "label label-info" %}
+                                {% elseif task.status == "OPENED" %}
+                                    {%  set class_var = "label label-primary" %}
+                                {% endif %}
+
+                                <tr>
+                                    <th>{{ task.id }}</th>
+                                    <td class="subject">
+                                        <a href="{{ path('ebmgdp_task', {'code':project.code, 'id':task.id}) }}" class="">
+                                            {{ task.name }}
+                                        </a>
+                                    </td>
+                                    <td class="work-status">
+                                        {#"OPENED","IN_PROGRESS","WAITING_FOR_REVIEW","VALIDATED","REJECTED","ARCHIVED"#}
+                                        <div class="form-group">
+                                            <select class="form-control task-status">
+                                                <option data-task="{{ task.id }}" data-status="IN_PROGRESS" {% if task.status == 'IN_PROGRESS' %}selected{% endif %}>
+                                                    <span class="label label-warning">En cours</span>
+                                                </option>
+                                                <option data-task="{{ task.id }}" data-status="ARCHIVED" {% if task.status == 'ARCHIVED' %}selected{% endif %}>
+                                                    <span class="label label-danger">Archiver</span>
+                                                </option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>{{ task.deadline|date('Y-m-d') }}</td>
+                                    <td><a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}"><i class="icon md-delete" aria-hidden="true" style="color:red;font-size:20px"></i></a></td>
+                                </tr>
+                            {% endfor %}
+                        {%  endif %}
+                    </tbody>
+                </table>
+
         </div>
     </div>
 
@@ -74,6 +89,31 @@
 
 {# Scripts propres � cette page #}
 {% block scripts %}
+    <script type="text/javascript">
 
+        $( document ).ready(function() {
+
+            $(".task-status").change(function () {
+
+                var status = $(this).find(':selected').data('status');
+                var task_id = $(this).find(':selected').data('task');
+
+                var postData = {"status":status,'task_id':task_id};
+
+                var route = "{{ path('ebmgdp_task_edit_status', {'code':project.code}) }}";
+
+                console.log(postData)
+
+                $.post( route, postData ,function( data ) {
+                    console.log(data)
+                });
+
+            });
+
+        });
+
+
+
+    </script>
 
 {% endblock %}

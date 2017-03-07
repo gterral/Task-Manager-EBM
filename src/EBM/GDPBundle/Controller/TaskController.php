@@ -7,6 +7,7 @@ use EBM\GDPBundle\Repository\TaskRepository;
 use EBM\UserInterfaceBundle\Entity\Project;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use EBM\GDPBundle\Form\TaskType;
@@ -145,6 +146,30 @@ class TaskController extends Controller
             $request->getSession()->getFlashBag()->add('notice', 'Tâche bien modifiée.');
 
         return $this->redirectToRoute('ebmgdp_projecttasks', array('code' => $project->getCode()));
+    }
+
+
+    public function editTaskStatusAction(Request $request)
+    {
+        $new_status = $request->request->get("status");
+        $task_id = $request->request->get("task_id");
+
+        if(!empty($new_status) and !empty($task_id)){
+
+            $em = $this->getDoctrine()->getManager();
+            $repository = $em->getRepository("EBMGDPBundle:Task");
+            $task = $repository->find($task_id);
+
+            if($task != null)
+            {
+                $task->setStatus($new_status);
+                $this->getDoctrine()->getManager()->flush();
+                return new JsonResponse(array('success' => true));
+            }
+            return new JsonResponse(array('success' => false,'error' => "Wrong Task Id"));
+
+        }
+        return new JsonResponse(array('success' => false,'error' => "New status is empty"));
     }
 
 }
