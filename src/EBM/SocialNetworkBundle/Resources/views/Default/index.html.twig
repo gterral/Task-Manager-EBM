@@ -1,26 +1,49 @@
 
+{% extends "@EBMSocialNetwork/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Réseau Social
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+{# Contenu de la page #}
+
 {% block content_body %}
+
+    Notre hello world de Réseau Social !
+
     <div class="page-profile">
         <div class="page-content">
             <ul>
                 {% for publication in listPublications %}
 
-                <div class="panel">
-                    <div class="panel-head">
-                        <h3 class="panel-title">Vue detail de la tâche: {{ publication.userPublication.username }}</h3>
-                    </div>
-                <div class="panel-body">
+                    <div class="panel">
+                        <div class="panel-head">
+                            <h3 class="panel-title">Vue detail de la tâche: {{ publication.userPublication.username }}</h3>
+                        </div>
+                        <div class="panel-body">
 
-                    <div id="body_task">
-                        {{ publication.content }}
+                            <div id="body_task">
+                                {{ publication.content }}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
                 {% endfor %}
             </ul>
         </div>
     </div>
+
 {% endblock %}
+
+
 {# Scripts propres à cette page #}
 {% block scripts %}
+
+
 {% endblock %}
