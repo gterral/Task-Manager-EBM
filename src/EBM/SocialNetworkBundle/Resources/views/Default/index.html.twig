@@ -15,8 +15,33 @@
 {# Contenu de la page #}
 {% block body %}
 
-    <a href="{{ path('ebm_social_network_add') }}">Ajouter une publication</a>
-    <a href="{{ path('ebm_social_network_subscriptions') }}">Gérer mes tags</a>
+            <div class="page-header" style="margin-top:-30px; margin-bottom:-25px;">
+                <h1 class="page-title">Social Network</h1>
+                <ol class="breadcrumb">
+                    <li>Home</li>
+                    <li class="active">Actualités</li>
+                </ol>
+                <div class="page-header-actions">
+                    <a href="{{ path('ebm_social_network_add') }}">
+                        <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                            data-original-title="Ajouter une publication">
+                        <i class="icon md-edit" aria-hidden="true"></i>
+                    </button>
+                    </a>
+                    <a href="{{ path('ebm_social_network_homepage') }}">
+                    <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                            data-original-title="Rafraichir">
+                        <i class="icon md-refresh" aria-hidden="true"></i>
+                    </button>
+                    </a>
+                    <a href="{{ path('ebm_social_network_subscriptions') }}">
+                    <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                            data-original-title="Abonnements">
+                        <i class="icon md-settings" aria-hidden="true"></i>
+                    </button>
+                    </a>
+                </div>
+            </div>
 
 {% block content_body %}
 
@@ -24,11 +49,15 @@
         <div class="page-content">
             <ul>
                 {% for publication in listPublications %}
-
                     <div class="panel">
                         <div class="panel-head">
-                            <h3 class="panel-title">Vue detail de la tâche: {{ publication.userPublication.username }}</h3>
-                            <p class="panel-title">{% for tags in publication.tags %} {{ tags.name }} {% endfor %}</p>
+                            <h3 class="panel-title">{{ publication.userPublication.username }}
+                                {% for tags in publication.tags %}
+                                    <span class="badge badge-primary" style="float: right; margin-left: 8px;">{{ tags.name }}</span>
+                                {% endfor %}
+                                <br>
+                                <small class="margin-bottom-20 grey-500">{{ publication.date|date("m/d/Y") }}</small>
+                            </h3>
                         </div>
                         <div class="panel-body">
 

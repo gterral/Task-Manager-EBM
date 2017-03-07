@@ -1,6 +1,12 @@
-<h3>Gestion des abonnements aux tags</h3>
-
 <div class="well">
-    {{ form(tagform) }}
-    {% for tags in usertags %} {{ tags.name }} {% endfor %}
+    <div class="row">
+        <div class="col-md-3">
+            {{ form(tagform) }}
+        </div>
+        <div class="col-md-9">
+            {% for tags in usertags %}
+                <span class="badge badge-primary" style="margin-right: 8px;">{{ tags.name }}</span>
+            {% endfor %}
+        </div>
+    </div>
 </div>
