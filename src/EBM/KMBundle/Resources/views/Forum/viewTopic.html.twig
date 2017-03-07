@@ -9,5 +9,6 @@
 
     {% endfor %}
 
-    <a href="{{ path('ebmkm_forum_answer_topic', {'id': topic.id}) }}">Répondre</a>
+    <h2>Répondre</h2>
+    {{ form(form) }}
 {% endblock %}
