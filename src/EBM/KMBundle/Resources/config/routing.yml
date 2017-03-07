@@ -19,3 +19,12 @@ ebmkm_forum_create_topic:
 ebmkm_forum_answer_topic:
     path:    /forum/answer/{id}
     defaults: { _controller: EBMKMBundle:Forum:answerTopic }
+
+# --- Gestion des tags ---
+ebmkm_tag_index:
+    path:    /tags/
+    defaults: { _controller: EBMKMBundle:Tag:index }
+
+ebmkm_tag_begin:
+    path:    /tags/api/begin/{begin}
+    defaults: { _controller: EBMKMBundle:Tag:getTagsByBegin }

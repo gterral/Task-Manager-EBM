@@ -10,4 +10,38 @@ namespace EBM\KMBundle\Repository;
  */
 class TagRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Return all tags from a given type.
+     *
+     * @param $type
+     * @return array
+     */
+    public function getTagsByType($type) {
+        $qb = $this
+            ->createQueryBuilder('t')
+            ->where('t.type = :type')
+            ->setParameter('type', $type)
+            ->getQuery()
+            ;
+
+        return $qb->getResult();
+    }
+
+    /**
+     * Given the beginning of a string, grab all tags starting like it
+     * using LIKE sql instruction.
+     *
+     * @param $begin
+     * @return array
+     */
+    public function getTagsByBegin($begin) {
+        $qb = $this
+            ->createQueryBuilder('t')
+            ->where('t.name LIKE :begin')
+            ->setParameter('begin', $begin.'%')
+            ->getQuery()
+            ;
+
+        return $qb->getScalarResult();
+    }
 }
