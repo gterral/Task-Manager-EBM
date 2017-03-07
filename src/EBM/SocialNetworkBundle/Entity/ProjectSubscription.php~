@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProjectSubscription
  *
- * @ORM\Table(name="sn_project_subscription")
+ * @ORM\Table(name="SocialNetworkProjectSubscription")
  * @ORM\Entity(repositoryClass="EBM\SocialNetworkBundle\Repository\ProjectSubscriptionRepository")
  */
 class ProjectSubscription
@@ -69,28 +69,5 @@ class ProjectSubscription
     {
         return $this->date;
     }
-
-    /**
-     * Set userProject
-     *
-     * @param \Core\UserBundle\Entity\User $userProject
-     *
-     * @return ProjectSubscription
-     */
-    public function setUserProject(\Core\UserBundle\Entity\User $userProject)
-    {
-        $this->userProject = $userProject;
-
-        return $this;
-    }
-
-    /**
-     * Get userProject
-     *
-     * @return \Core\UserBundle\Entity\User
-     */
-    public function getUserProject()
-    {
-        return $this->userProject;
-    }
 }
+

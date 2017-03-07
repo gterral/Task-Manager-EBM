@@ -111,6 +111,11 @@ class User extends BaseUser
     private $projectSubscriptions;
 
     /**
+     * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\Publication", mappedBy="userPubli", cascade={"persist"})
+     */
+    private $publications;
+
+    /**
      * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy="madeBy", cascade= {"persist"})
      */
     private $documentEvaluation;
@@ -555,4 +560,120 @@ class User extends BaseUser
         return $this;
     }
 
+
+    /**
+     * Add tag
+     *
+     * @param \EBM\KMBundle\Entity\Tag $tag
+     *
+     * @return User
+     */
+    public function addTag(\EBM\KMBundle\Entity\Tag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param \EBM\KMBundle\Entity\Tag $tag
+     */
+    public function removeTag(\EBM\KMBundle\Entity\Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Add postIdentified
+     *
+     * @param \EBM\KMBundle\Entity\Post $postIdentified
+     *
+     * @return User
+     */
+    public function addPostIdentified(\EBM\KMBundle\Entity\Post $postIdentified)
+    {
+        $this->postIdentified[] = $postIdentified;
+
+        return $this;
+    }
+
+    /**
+     * Remove postIdentified
+     *
+     * @param \EBM\KMBundle\Entity\Post $postIdentified
+     */
+    public function removePostIdentified(\EBM\KMBundle\Entity\Post $postIdentified)
+    {
+        $this->postIdentified->removeElement($postIdentified);
+    }
+
+    /**
+     * Add projectSubscription
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\ProjectSubscription $projectSubscription
+     *
+     * @return User
+     */
+    public function addProjectSubscription(\EBM\SocialNetworkBundle\Entity\ProjectSubscription $projectSubscription)
+    {
+        $this->projectSubscriptions[] = $projectSubscription;
+
+        return $this;
+    }
+
+    /**
+     * Remove projectSubscription
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\ProjectSubscription $projectSubscription
+     */
+    public function removeProjectSubscription(\EBM\SocialNetworkBundle\Entity\ProjectSubscription $projectSubscription)
+    {
+        $this->projectSubscriptions->removeElement($projectSubscription);
+    }
+
+    /**
+     * Get projectSubscriptions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProjectSubscriptions()
+    {
+        return $this->projectSubscriptions;
+    }
+
+    /**
+     * Add createDocument
+     *
+     * @param \EBM\KMBundle\Entity\Document $createDocument
+     *
+     * @return User
+     */
+    public function addCreateDocument(\EBM\KMBundle\Entity\Document $createDocument)
+    {
+        $this->createDocument[] = $createDocument;
+
+        return $this;
+    }
+
+    /**
+     * Remove createDocument
+     *
+     * @param \EBM\KMBundle\Entity\Document $createDocument
+     */
+    public function removeCreateDocument(\EBM\KMBundle\Entity\Document $createDocument)
+    {
+        $this->createDocument->removeElement($createDocument);
+    }
 }

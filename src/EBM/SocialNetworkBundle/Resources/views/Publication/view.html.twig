@@ -1,14 +1,11 @@
-
+{# Contenu de la page #}
 {% block content_body %}
     <div class="page-profile">
         <div class="page-content">
-            <ul>
-                {% for publication in listPublications %}
-
-                <div class="panel">
-                    <div class="panel-head">
-                        <h3 class="panel-title">Vue detail de la tâche: {{ publication.userPublication.username }}</h3>
-                    </div>
+            <div class="panel">
+                <div class="panel-head">
+                    <h3 class="panel-title">Vue detail de la tâche: {{ publication.userPublication.username }}</h3>
+                </div>
                 <div class="panel-body">
 
                     <div id="body_task">
@@ -16,8 +13,7 @@
                     </div>
                 </div>
             </div>
-                {% endfor %}
-            </ul>
+
         </div>
     </div>
 {% endblock %}
