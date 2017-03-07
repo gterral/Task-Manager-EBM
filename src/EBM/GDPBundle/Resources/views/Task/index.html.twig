@@ -8,6 +8,26 @@
 {# CSS propres � cette page #}
 {% block stylesheets %}
 
+    {%  stylesheets filter='cssrewrite,scssphp'
+    'bundles/coreiconbar/theme/global/vendor/datatables-bootstrap/dataTables.bootstrap.css'
+    'bundles/coreiconbar/theme/global/vendor/datatables-fixedheader/dataTables.fixedHeader.css'
+    'bundles/coreiconbar/theme/global/vendor/datatables-responsive/dataTables.responsive.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    <style>
+        #tasks-action .input-search {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        #searchField {
+            height: 35px;
+        }
+        .panel-actions a {
+            color:#757575;
+        }
+    </style>
+    {% endstylesheets %}
+
 {% endblock %}
 
 
@@ -15,82 +35,28 @@
 
 {% block content_body %}
 
-    <div class="panel">
+    <div class="panel panel-bordered panel-primary">
+
+        {# Header : titre + barre de recherche sur le tableau #}
         <div class="panel-heading">
-            <h3 class="panel-title" style="display:inline-block;">Task List - {{ project.name|upper }}</h3>
-            <a href="{{ path('ebmgdp_task_add', {'code':project.code}) }}" class="panel-info btn btn-primary" style="float: right;margin-right: 20px; margin-top: 20px;">Ajouter une tâche</a>
+            <h3 class="panel-title">Task List - {{ project.name|upper }}</h3>
+            <div class="panel-actions" id="tasks-action">
+                <div class="input-search input-group-sm">
+                    <button type="submit" class="input-search-btn"><i class="icon md-search" aria-hidden="true" style="color: #757575!important;"></i> </button>
+                    <input type="text" class="form-control" name="" placeholder="Rechercher..." id="searchField">
+                </div>
+                &nbsp;
+                <a href="{{ path('ebmgdp_task_add', {'code':project.code}) }}" class="btn btn-round btn-default waves-effect waves-round">Ajouter une tâche</a>
+            </div>
         </div>
 
-        <div class="panel-body">
+        {# Tableau #}
+        {%  if listTasks is null or listTasks|length == 0 %}
+            <p class="margin-20 text-center">Aucune tâche n'a été définie pour ce projet</p>
+        {% else %}
+            {% include "EBMGDPBundle:Task/components:tasksTable.html.twig" %}
+        {% endif %}
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Titre</th>
-                            <th>Status</th>
-                            <th>Deadline</th>
-                            <th>Supprimer</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {%  if listTasks is not null %}
-                            {% for task in listTasks %}
-                                {% if task.status == "IN_PROGRESS" %}
-                                    {% set class_var = "label label-warning" %}
-                                {% elseif task.status == "WAITING_FOR_REVIEW" %}
-                                    {%  set class_var = "label label-info" %}
-                                {% elseif task.status == "VALIDATED" %}
-                                    {%  set class_var = "label label-success" %}
-                                {% elseif task.status == "REJECTED" %}
-                                    {%  set class_var = "label label-danger" %}
-                                {% elseif task.status == "ARCHIVED" %}
-                                    {%  set class_var = "label label-info" %}
-                                {% elseif task.status == "OPENED" %}
-                                    {%  set class_var = "label label-primary" %}
-                                {% endif %}
-
-                                <tr>
-                                    <th>{{ task.id }}</th>
-                                    <td class="subject">
-                                        <a href="{{ path('ebmgdp_task', {'code':project.code, 'id':task.id}) }}" class="">
-                                            {{ task.name }}
-                                        </a>
-                                    </td>
-                                    <td class="work-status">
-                                        {#"OPENED","IN_PROGRESS","WAITING_FOR_REVIEW","VALIDATED","REJECTED","ARCHIVED"#}
-                                        <div class="form-group">
-                                            <select class="form-control task-status">
-                                                <option data-task="{{ task.id }}" data-status="IN_PROGRESS" {% if task.status == 'IN_PROGRESS' %}selected{% endif %}>
-                                                    <span class="{{ class_var }}">En cours</span>
-                                                </option>
-                                                <option data-task="{{ task.id }}" data-status="ARCHIVED" {% if task.status == 'ARCHIVED' %}selected{% endif %}>
-                                                    <span class="{{ class_var }}">Archivé</span>
-                                                </option>
-                                                <option data-task="{{ task.id }}" data-status="OPENED" {% if task.status == 'OPENED' %}selected{% endif %}>
-                                                    <span class="{{ class_var }}">Ouvert</span>
-                                                </option>
-                                                <option data-task="{{ task.id }}" data-status="WAITING_FOR_REVIEW" {% if task.status == 'WAITING_FOR_REVIEW' %}selected{% endif %}>
-                                                    <span class="{{ class_var }}">Attente Validation</span>
-                                                </option>
-                                                <option data-task="{{ task.id }}" data-status="VALIDATED" {% if task.status == 'VALIDATED' %}selected{% endif %}>
-                                                    <span class="{{ class_var }}">Validé</span>
-                                                </option>
-                                                <option data-task="{{ task.id }}" data-status="REJECTED" {% if task.status == 'REJECTED' %}selected{% endif %}>
-                                                    <span class="{{ class_var }}">Rejeté</span>
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>{{ task.deadline|date('Y-m-d') }}</td>
-                                    <td><a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}"><i class="icon md-delete" aria-hidden="true" style="color:red;font-size:20px"></i></a></td>
-                                </tr>
-                            {% endfor %}
-                        {%  endif %}
-                    </tbody>
-                </table>
-
-        </div>
     </div>
 
 {% endblock %}
@@ -98,6 +64,18 @@
 
 {# Scripts propres � cette page #}
 {% block scripts %}
+
+    <script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+
+    {% javascripts filter='jsqueeze'
+    'bundles/coreiconbar/theme/global/vendor/datatables-fixedheader/dataTables.fixedHeader.js'
+    'bundles/coreiconbar/theme/global/vendor/datatables-bootstrap/dataTables.bootstrap.js'
+    'bundles/coreiconbar/theme/global/vendor/datatables-responsive/dataTables.responsive.js'
+    'bundles/coreiconbar/theme/global/vendor/datatables-tabletools/dataTables.tableTools.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
     <script type="text/javascript">
 
         $( document ).ready(function() {
@@ -111,12 +89,26 @@
 
                 var route = "{{ path('ebmgdp_task_edit_status', {'code':project.code}) }}";
 
-                console.log(postData)
-
                 $.post( route, postData ,function( data ) {
-                    console.log(data)
                 });
 
+            });
+
+
+            $("#tasksTable").DataTable({
+                "destroy":true,
+                "paging": false,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": false,
+                "autoWidth": false,
+                "order": [[ 2, "desc" ],[ 1, "desc" ]]
+            });
+
+            // Recherche depuis champ de recherche du header panel
+            $("#searchField").on('keyup', function (){
+                $('#tasksTable').dataTable().fnFilter(this.value);
             });
 
         });
