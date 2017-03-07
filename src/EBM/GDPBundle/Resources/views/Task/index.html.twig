@@ -17,7 +17,8 @@
 
     <div class="panel">
         <div class="panel-heading">
-            <h3 class="panel-title">Task List - {{ project.name|upper }}</h3>
+            <h3 class="panel-title" style="display:inline-block;">Task List - {{ project.name|upper }}</h3>
+            <a href="{{ path('ebmgdp_task_add', {'code':project.code}) }}" class="panel-info btn btn-primary" style="float: right;margin-right: 20px; margin-top: 20px;">Ajouter une tâche</a>
         </div>
 
         <div class="panel-body">
@@ -28,6 +29,7 @@
                         <th>Titre</th>
                         <th>Status</th>
                         <th>Deadline</th>
+                        <th>Supprimer</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,7 +44,7 @@
                             {% elseif task.status == "REJECTED" %}
                                 {%  set class_var = "label label-danger" %}
                             {% elseif task.status == "ARCHIVED" %}
-                                {%  set class_var = "label label-active" %}
+                                {%  set class_var = "label label-info" %}
                             {% elseif task.status == "OPENED" %}
                                 {%  set class_var = "label label-primary" %}
                             {% endif %}
@@ -58,6 +60,7 @@
                                     <span class="{{ class_var }}">{{ task.status }}</span>
                                 </td>
                                 <td>{{ task.deadline|date('Y-m-d') }}</td>
+                                <td><a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}"><i class="icon md-delete" aria-hidden="true" style="color:red;font-size:20px"></i></a></td>
                             </tr>
                         {% endfor %}
                     {%  endif %}

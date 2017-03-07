@@ -3,9 +3,16 @@
 namespace EBM\GDPBundle\Controller;
 
 use EBM\GDPBundle\Entity\Task;
+use EBM\GDPBundle\Repository\TaskRepository;
 use EBM\UserInterfaceBundle\Entity\Project;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use EBM\GDPBundle\Form\TaskType;
+use Symfony\Component\HttpFoundation\Response;
+use EBM\GDPBundle\Entity\Conversation;
+
 
 class TaskController extends Controller
 {
@@ -26,7 +33,7 @@ class TaskController extends Controller
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
-     * @ParamConverter("project",options={"mapping": {"id":"id"}})
+     * @ParamConverter("task",options={"mapping": {"id":"id"}})
      */
     public function viewAction(Task $task)
     {
@@ -35,34 +42,109 @@ class TaskController extends Controller
         );
     }
 
-    public function taskCrudAction(Request $request)
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("project",options={"mapping": {"code":"code"}})
+     */
+    public function addTaskAction(Project $project,Request $request)
     {
-        // On crée un objet Task
+        // On crï¿½e un objet Task
         $task = new Task();
+        $conversation1 = new Conversation();
+        $task->setConversation($conversation1);
+        $project->addTask($task);
 
-        // On crée le FormBuilder grâce au service form factory
+        // On crï¿½e le FormBuilder grï¿½ce au service form factory
         $form = $this->createForm(TaskType::class, $task);
 
-        // Si la requête est en POST
+        // Si la requï¿½te est en POST
         if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
 
-            // On enregistre notre objet $task dans la base de données, par exemple
+            // On enregistre notre objet $task dans la base de donnï¿½es, par exemple
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($project);
+            $em->persist($task);
+            $em->flush();
+
+            $request
+                ->getSession()
+                ->getFlashBag()
+                ->add('notice', 'TÃ¢che bien enregistrÃ©e.');
+
+            // On redirige vers la page de visualisation de la tÃ¢che nouvellement crï¿½ï¿½e
+            return $this
+                ->redirectToRoute('ebmgdp_task', array('id' => $task->getId(),'code'=>$project->getCode()));
+        }
+
+        // ï¿½ ce stade, le formulaire n'est pas valide car :
+        // - Soit la requï¿½te est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
+        // - Soit la requï¿½te est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
+        return $this->render('EBMGDPBundle:Task:add.html.twig', array(
+            'form' => $form->createView(),
+            'project' => $project
+        ));
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("task",options={"mapping": {"id":"id"}})
+     * @ParamConverter("project",options={"mapping": {"code":"code"}})
+     */
+    public function editTaskAction(Task $task,Project $project,Request $request)
+    {
+
+        if (!$task) {
+            throw $this->createNotFoundException('TÃ¢che non trouvÃ©e.');
+        }
+
+        // On crÃ©e le FormBuilder grÃ¢ce au service form factory
+        $form = $this->createForm(TaskType::class, $task);
+
+        // Si la requï¿½te est en POST
+        if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            // On enregistre notre objet $task dans la base de donnÃ©es, par exemple
+            $em->persist($task);
+            $em->flush();
+
+            $request
+                ->getSession()
+                ->getFlashBag()->add('notice', 'TÃ¢che bien modifiÃ©e.');
+
+            // On redirige vers la page de visualisation de la tÃ¢che nouvellement crÃ©ee
+            return $this->redirectToRoute('ebmgdp_task', array('id' => $task->getId(), 'code' => $project->getCode()));
+        }
+
+        // ï¿½ ce stade, le formulaire n'est pas valide car :
+        // - Soit la requï¿½te est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
+        // - Soit la requï¿½te est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
+        return $this->render('EBMGDPBundle:Task:edit.html.twig', array(
+            'form' => $form->createView(),
+            'project' => $project,
+            'task' => $task
+        ));
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("project",options={"mapping": {"code":"code"}})
+     * @ParamConverter("task",options={"mapping": {"id":"id"}})
+     */
+    public function archivedTaskAction(Task $task,Project $project, Request $request)
+    {
+        if (!$task) {
+            throw $this->createNotFoundException('TÃ¢che non trouvÃ©e.');
+        }
+
+            $task->setStatus('ARCHIVED');
             $em = $this->getDoctrine()->getManager();
             $em->persist($task);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('notice', 'Tâche bien enregistrée.');
+            $request->getSession()->getFlashBag()->add('notice', 'TÃ¢che bien modifiÃ©e.');
 
-            // On redirige vers la page de visualisation de la tâche nouvellement créée
-            return $this->redirectToRoute('ebmgdp_task', array('id' => $form->getId()));
-        }
-
-        // À ce stade, le formulaire n'est pas valide car :
-        // - Soit la requête est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
-        // - Soit la requête est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
-        return $this->render('EBMGDPBundle:Task:add.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return $this->redirectToRoute('ebmgdp_projecttasks', array('code' => $project->getCode()));
     }
 
 }

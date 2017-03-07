@@ -19,8 +19,12 @@
         <div class="page-content">
             <div class="panel">
                 <div class="panel-head">
-                    <h3 class="panel-title">Vue detail de la tâche: {{ task.name }}</h3>
-                </div>
+                    <h3 class="panel-title" style="display:inline-block;">Vue detail de la tâche: {{ task.name }}</h3>
+                    <div style="display:inline-block;float: right;margin-right: 20px; margin-top: 20px;">
+                        <a href="{{ path('ebmgdp_task_edit', {'code':task.project.code, 'id':task.id}) }}" class="panel-info btn btn-warning" >Editer la tâche</a>
+                        <a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}" class="panel-info btn btn-danger" >Archiver la tâche</a>
+                    </div>
+                    </div>
                 <div class="panel-body">
                     <div id="info_task">
                         <ul>

@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,25 +19,37 @@ class TaskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title',     TextType::class)
-            ->add('description',      TextareaType::class)
-            ->add('deadline',      DateTimeType::class)
+            ->add('name',     TextType::class, array(
+                'label' => 'Nom de la tÃ¢che'))
+            ->add('description',      TextareaType::class, array(
+                'label' => 'Description de la tÃ¢che'))
+            ->add('deadline',      TextType::class, array(
+                'label' => 'Deadline',
+                'attr' => array('data-plugin'=>'datepicker','class'=>'datepicker')))
             ->add('status',   ChoiceType::class ,  array(
                 'choices'  => array(
                     'Ouverte' => 'OPENED',
-                    'En cours de réalisation' => 'IN_PROGRESS',
+                    'En cours de rï¿½alisation' => 'IN_PROGRESS',
                     'En attente de relecture' => 'WAITING_FOR_REVIEW',
-                    'Validé' => 'VALIDATED',
-                    'Rejecté' => 'REJECTED',
-                    'Archivé' => 'ARCHIVED'),))
-            ->add('realisationDate',      DateTimeType::class)
+                    'ValidÃ©' => 'VALIDATED',
+                    'RejectÃ©' => 'REJECTED',
+                    'ArchivÃ©' => 'ARCHIVED'),
+                'label' => 'Status',
+                'attr' => array('class' => 'form-control')))
             ->add('type',    ChoiceType::class,  array(
                 'choices'  => array(
-                    'Mécanique' => 'mecanique',
+                    'MÃ©canique' => 'mecanique',
                     'Informatique' => 'computer_science',
                     'Gestion' => 'gestion',
-                    'Electronique' => 'electricity'),))
-            ->add('save',      SubmitType::class);
+                    'Electronique' => 'electricity'),
+                'label' => 'Type de la tÃ¢che',
+                'attr' => array('class' => 'form-control')))
+            ->add('realisationDate',      TextType::class,array(
+                'label' => 'Date de rÃ©alisation',
+                'attr' => array('data-plugin'=>'datepicker')))
+            ->add('save',      SubmitType::class,array(
+                'label' => 'Envoyer',
+                'attr' => array('class' => 'btn btn-primary')));
     }
 
     public function configureOptions(OptionsResolver $resolver)

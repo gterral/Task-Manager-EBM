@@ -10,6 +10,25 @@ ebmgdp_projecttasks:
     path:     project/{code}/tasks
     defaults: { _controller: EBMGDPBundle:Task:index }
 
+# Ajout d'une tache
+ebmgdp_task_add:
+    path:     project/{code}/tasks/add
+    defaults: { _controller: EBMGDPBundle:Task:addTask }
+
+# Edit d'une tache
+ebmgdp_task_edit:
+    path:     project/{code}/task/{id}/edit
+    defaults: { _controller: EBMGDPBundle:Task:editTask }
+    requirements:
+             id: \d+
+
+# Archivage d'une tache
+ebmgdp_task_archived:
+   path:     project/{code}/task/{id}/archived
+   defaults: { _controller: EBMGDPBundle:Task:archivedTask }
+   requirements:
+            id: \d+
+
 # Vue d'une tache
 ebmgdp_task:
     path:     project/{code}/task/{id}

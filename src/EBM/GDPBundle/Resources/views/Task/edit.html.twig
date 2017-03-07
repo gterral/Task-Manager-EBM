@@ -1,35 +1,31 @@
 {% extends "@EBMGDP/bundleLayout.html.twig" %}
 
 {% block title %}
-    Modifier une tâche
+    Modifier une tÃ¢che
 {% endblock %}
 
-{# CSS propres à cette page #}
+{# CSS propres ï¿½ cette page #}
 {% block stylesheets %}
-
+    <link rel="stylesheet" href="{{ asset("bundles/coreiconbar/theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.css") }}">
 {% endblock %}
 
 {% block content_body %}
 
-    <h2>Modifier une tâche</h2>
+    <h2>Modifier une tÃ¢che</h2>
 
     {{ include("EBMGDPBundle:Task:form.html.twig") }}
 
     <p>
-        Vous éditez une tâche déjà existante.
-    </p>
-
-    <p>
-        <a href="{{ path('ebmgdp_projecttasks') }}" class="btn btn-default">
+        <a href="{{ path('ebmgdp_projecttasks',{'code': project.code }) }}" class="btn btn-default">
             <i class="glyphicon glyphicon-chevron-left"></i>
-            Retour à la liste des tâches.
+            Retour Ã  la liste des tÃ¢ches.
         </a>
     </p>
 
 {% endblock %}
 
-{# Scripts propres à cette page #}
+{# Scripts propres ï¿½ cette page #}
 {% block scripts %}
-
-
+    <script src="{{ asset("bundles/coreiconbar/theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js") }}"></script>
+    <script src="{{ asset('bundles/coreiconbar/theme/global/js/components/bootstrap-datepicker.js') }}"></script>
 {% endblock %}
