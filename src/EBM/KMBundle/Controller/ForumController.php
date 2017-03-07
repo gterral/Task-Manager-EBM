@@ -72,6 +72,16 @@ class ForumController extends Controller
      * @Security("has_role('ROLE_USER')")
      */
 
+    // public function voterPour(){
+    //     if ($natureVote=="yes")
+    //  {
+    //      $value=$value + 1;
+    //  }
+    //   if ($natureVote=="non")
+    //   {
+    //      $value=$value - 1;
+    //  }
+    // }
     public function answerTopicAction($id, Request $request){
         $topic = $this->getDoctrine()->getRepository('EBMKMBundle:Topic')->find($id);
         $post = new Post();

@@ -19,6 +19,7 @@ class PostType extends AbstractType
             ->add('content', TextareaType::class, array(
                 'label' => 'Contenu du post',
                 'attr' => array('class'=>'well')
+                //TODO update le textarea
             ))
             ->add('submit', SubmitType::class, array(
                 'label' => 'Go !',
