@@ -26,4 +26,22 @@ class TagRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb->getResult();
     }
+
+    /**
+     * Given the beginning of a string, grab all tags starting like it
+     * using LIKE sql instruction.
+     *
+     * @param $begin
+     * @return array
+     */
+    public function getTagsByBegin($begin) {
+        $qb = $this
+            ->createQueryBuilder('t')
+            ->where('t.name LIKE :begin')
+            ->setParameter('begin', $begin.'%')
+            ->getQuery()
+            ;
+
+        return $qb->getScalarResult();
+    }
 }

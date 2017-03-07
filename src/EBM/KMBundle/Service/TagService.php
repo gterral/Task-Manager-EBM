@@ -6,6 +6,10 @@ use Core\UserBundle\Entity\User;
 use EBM\KMBundle\Entity\Tag;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
+/**
+ * Class TagService
+ * @package EBM\KMBundle\Service
+ */
 class TagService
 {
     private $em;
@@ -46,6 +50,16 @@ class TagService
      */
     public function getTagsByType($type) {
         return $this->em->getRepository('EBMKMBundle:Tag')->getTagsByType($type);
+    }
+
+    /**
+     * Retourne tous les tags dont le nom commence par $begin.
+     *
+     * @param $begin
+     * @return array
+     */
+    public function getTagsByBeginning($begin) {
+        return $this->em->getRepository('EBMKMBundle:Tag')->getTagsByBegin($begin);
     }
 
     /**
