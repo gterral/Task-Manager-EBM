@@ -31,9 +31,15 @@ class MachineController extends Controller
         return $this->render('EBMMaterielBundle:Default/machines:selectionMachinePlanning.html.twig', array('machines' => $this->getAllMachines()));
     }
 
-    public function planningMachineAction($machine)
+    public function planningMachineAction($machineId)
     {
-        return $this->render('EBMMaterielBundle:Default/machines:planningMachine.html.twig', array('machine' => $machine));
+        return $this
+            ->render('EBMMaterielBundle:Default/machines:planningMachine.html.twig',
+                array(
+                    'machine' => $this->getMachine($machineId),
+                    'events' => $this->getAllReservations($machineId)
+                )
+            );
     }
 
     public function reservationMachineAction($debut, $fin, Request $request)
@@ -80,12 +86,22 @@ class MachineController extends Controller
         }
 
         return $this->render('EBMMaterielBundle:Default/machines:reservationMachine.html.twig', array('form' => $form->createView()));
+
     }
 
     /*
      * useful methods
      */
 
+    public function getMachine($machineId)
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('EBMMaterielBundle:Machine');
+
+        return $repository->find($machineId);
+    }
     public function getAllMachines()
     {
         $repository = $this
@@ -94,6 +110,21 @@ class MachineController extends Controller
             ->getRepository('EBMMaterielBundle:Machine');
 
         return $repository->findAll();
+    }
+
+    public function getAllReservations($machineId)
+    {
+        $repositoryReservation = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('EBMMaterielBundle:ReservationMachine');
+
+        $repositoryMachine = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('EBMMaterielBundle:Machine');
+
+        return $repositoryReservation->findBy(array('machine' => $repositoryMachine->find($machineId)));
     }
 
 }
