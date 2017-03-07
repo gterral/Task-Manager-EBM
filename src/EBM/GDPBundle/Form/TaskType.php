@@ -4,6 +4,7 @@ namespace EBM\GDPBundle\Form;
 
 
 use EBM\GDPBundle\Entity\Task;
+use EBM\GDPBundle\Form\DataTransformer\TimestampToDatetimeTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -50,6 +51,11 @@ class TaskType extends AbstractType
             ->add('save',      SubmitType::class,array(
                 'label' => 'Envoyer',
                 'attr' => array('class' => 'btn btn-primary')));
+
+        $builder->get('deadline')
+            ->addModelTransformer(new TimestampToDatetimeTransformer());
+        $builder->get('realisationDate')
+            ->addModelTransformer(new TimestampToDatetimeTransformer());
     }
 
     public function configureOptions(OptionsResolver $resolver)
