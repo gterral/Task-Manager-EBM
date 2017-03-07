@@ -29,6 +29,7 @@ class PublicationController extends Controller
     public function addAction(Request $request)
     {
         $publication = new Publication();
+        $publication->setUserPublication($this->getUser());
         $form = $this->get('form.factory')->create(AddPublicationType::class, $publication);
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
