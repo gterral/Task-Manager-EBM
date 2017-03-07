@@ -3,6 +3,7 @@
 namespace EBM\MaterielBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Core\UserBundle\Entity\User;
 
 /**
  * ReservationMachine
@@ -62,6 +63,20 @@ class ReservationMachine
      */
     private $machine;
 
+    /**
+ * @var User $myUser
+ * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", cascade={"persist"})
+ * @ORM\JoinColumn(nullable=false)
+ */
+    private $user;
+
+
+    public function __construct()
+    {
+        $this->dateCreation = new \DateTime();
+        $this->validation = false;
+        $this->user = $this->getUser();
+    }
 
 
     /**
@@ -216,5 +231,30 @@ class ReservationMachine
     public function getMachine()
     {
         return $this->machine;
+    }
+
+
+    /**
+     * Set user
+     *
+     * @param \Core\UserBundle\Entity\User $user
+     *
+     * @return ReservationMachine
+     */
+    public function setUser(\Core\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Core\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

@@ -1,9 +1,8 @@
-
 {% extends "@EBMGDP/bundleLayout.html.twig" %}
 
 {# Titre de l'onglet #}
 {% block title %}
-    Gestion du matériel
+    Réservation d'une machine
 {% endblock %}
 
 {# CSS propres à cette page #}
@@ -11,15 +10,72 @@
 
 {% endblock %}
 
-
-{# Contenu de la page #}
-
 {% block content_body %}
 
 
-<p>{{ debut }}</p>
-    <p>{{ fin }}</p>
+    <div class="col-md-6">
+        <h1 class="page-title">Nouvelle réservation de machine du Fab Lab</h1>
 
+        {#<h4 class="example-title">Prénom et nom de l'utilisateur</h4>
+        <input type="text" class="form-control" id="inputDisabled" placeholder="Prénom nom"
+           disabled>
+
+        <h4 class="example-title">Projet associé</h4>
+        <div class="form-group">
+            <select class="form-control">
+                <option>Projet 1</option>
+                <option>Projet 2</option>
+            </select>
+        </div>
+
+        <h4 class="example-title">Machine à réserver</h4>
+        <div class="form-group">
+            <select class="form-control">
+                <option>Machine 1</option>
+                <option>Machine 2</option>
+                <option>Machine 3</option>
+                <option>Machine 4</option>
+                <option>Machine 5</option>
+            </select>
+        </div>
+
+        <h4 class="example-title">Date de début de réservation</h4>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="icon md-calendar" aria-hidden="false"></i>
+            </span>
+            <input type="text" class="form-control" data-plugin="datepicker">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="icon md-time" aria-hidden="true"></i>
+            </span>
+            <input type="text" class="form-control" data-plugin="timepicker" data-min-time="8:00"
+                       data-max-time="18:00" data-show-duration="true" />
+        </div>
+
+        <h4 class="example-title">Date de fin de réservation</h4>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="icon md-calendar" aria-hidden="false"></i>
+            </span>
+            <input type="text" class="form-control" data-plugin="datepicker">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="icon md-time" aria-hidden="true"></i>
+            </span>
+            <input type="text" class="form-control" data-plugin="timepicker" data-min-time="8:00"
+                   data-max-time="18:00" data-show-duration="true" />
+        </div>
+
+        <h4 class="example-title">Description</h4>
+        <textarea class="form-control" id="textareaDefault" rows="3"></textarea>
+
+        <button type="button" class="btn btn-block btn-success margin-top-20 col-lg-2">Valider</button>#}
+
+        {{ form(form) }}
+    </div>
 {% endblock %}
 
 
