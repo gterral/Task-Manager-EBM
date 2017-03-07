@@ -27,6 +27,7 @@ assetic:
             formatter: 'Leafo\ScssPhp\Formatter\Compressed'
     bundles:
         - CoreIconbarBundle
+        - EBMGDPBundle
 
 framework:
     #esi:             ~
