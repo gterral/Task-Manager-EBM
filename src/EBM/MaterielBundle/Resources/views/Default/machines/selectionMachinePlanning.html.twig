@@ -15,7 +15,7 @@
 {# Contenu de la page #}
 
 {% block content_body %}
-    <select nom="liste machines">
+    <select>
         {% for machine in machines %}
         <option>{{ machine.id }} {{ machine.dateAchat }}- {{ machine.nom }}</option>
         {% endfor %}
@@ -23,7 +23,7 @@
 
 
     {% for machine in machines %}
-        <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20" href="{{ path('ebm_materiel_machines_planning', {'machine': machine.nom })}}">{{ machine.nom }}</a>
+        <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20" href="{{ path('ebm_materiel_machines_planning', {'machineId': machine.id })}}">{{ machine.nom }}</a>
     {% endfor %}
 {% endblock %}
 
