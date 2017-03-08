@@ -2,6 +2,7 @@
 
 namespace EBM\KMBundle\Repository;
 
+
 /**
  * CompetenceUserRepository
  *
@@ -10,4 +11,12 @@ namespace EBM\KMBundle\Repository;
  */
 class CompetenceUserRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getCompetenceUserWithUpvotes($user) {
+        $qb = $this
+            ->createQueryBuilder('co')
+            ->where('co.user = :userid', $user->id())
+            ->getQuery();
+
+        return $qb->getResult();
+    }
 }

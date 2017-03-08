@@ -27,7 +27,6 @@ class Conversation
      * @ORM\JoinTable(name="gdp_conversation_comments")
      * @ORM\OrderBy({"modificationDate" = "DESC"})
      */
-
     private $comments;
 
     /**

@@ -3,12 +3,14 @@
 namespace EBM\SocialNetworkBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EBM\SocialNetworkBundle\Entity\Publication;
 
 /**
  * Comment
  *
- * @ORM\Table(name="SocialNetworkComment")
+ * @ORM\Table(name="sn_comment")
  * @ORM\Entity(repositoryClass="EBM\SocialNetworkBundle\Repository\CommentRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comment
 {
@@ -103,5 +105,45 @@ class Comment
     {
         return $this->date;
     }
-}
 
+    /**
+     * Set publication
+     *
+     * @param Publication $publication
+     *
+     * @return Comment
+     */
+    public function setPublication(Publication $publication)
+    {
+        $this->publication = $publication;
+
+        return $this;
+    }
+
+    /**
+     * Get publication
+     *
+     * @return Publication
+     */
+    public function getPublication()
+    {
+        return $this->publication;
+    }
+
+    /**
+     * @ORM\PrePersist
+    */
+    public function increase()
+    {
+        $this->getPublication()->increaseComment();
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function decrease()
+    {
+        $this->getPublication()->decreaseComment();
+    }
+
+}
