@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * EvaluationDocument
  *
- * @ORM\Table(name="evaluation_document")
+ * @ORM\Table(name="km_evaluation_document")
  * @ORM\Entity(repositoryClass="EBM\KMBundle\Repository\EvaluationDocumentRepository")
  */
 class EvaluationDocument
@@ -28,16 +28,15 @@ class EvaluationDocument
      */
     private $value;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="documentEvaluations", cascade= {"persist"})
+     */
+    private $author;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="documentEvaluation", cascade= {"persist"})
+     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\Document", inversedBy= "evaluations", cascade= {"persist"})
      */
-    private $madeBy;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\Document", inversedBy= "linkedToEvaluation", cascade= {"persist"})
-     */
-    private $linkedToDocument;
+    private $document;
 
     /**
      * Get id
@@ -76,33 +75,33 @@ class EvaluationDocument
     /**
      * @return mixed
      */
-    public function getMadeBy()
+    public function getAuthor()
     {
-        return $this->madeBy;
+        return $this->author;
     }
 
     /**
-     * @param mixed $madeBy
+     * @param mixed $author
      */
-    public function setMadeBy($madeBy)
+    public function setAuthor($author)
     {
-        $this->madeBy = $madeBy;
+        $this->author = $author;
     }
 
     /**
      * @return mixed
      */
-    public function getLinkedToDocument()
+    public function getDocument()
     {
-        return $this->linkedToDocument;
+        return $this->document;
     }
 
     /**
-     * @param mixed $linkedToDocument
+     * @param mixed $document
      */
-    public function setLinkedToDocument($linkedToDocument)
+    public function setDocument($document)
     {
-        $this->linkedToDocument = $linkedToDocument;
+        $this->document = $document;
     }
 
 

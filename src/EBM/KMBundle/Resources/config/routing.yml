@@ -19,3 +19,53 @@ ebmkm_forum_create_topic:
 ebmkm_forum_answer_topic:
     path:    /forum/answer/{id}
     defaults: { _controller: EBMKMBundle:Forum:answerTopic }
+
+# --- Routes de la gestion de documents ---
+
+ebmkm_file_upload:
+    path: /documents/upload
+    defaults: { _controller: EBMKMBundle:Document:upload}
+
+ebmkm_file_homepage:
+    path: /documents
+    defaults: { _controller: EBMKMBundle:Document:index}
+
+ebmkm_file_detail:
+    path: /documents/{id}
+    defaults: { _controller: EBMKMBundle:Document:detail }
+    requirements:
+        id: '\d+'
+
+# --- Gestion des tags ---
+ebmkm_tag_index:
+    path:    /tags/
+    defaults: { _controller: EBMKMBundle:Tag:index }
+
+ebmkm_tag_begin:
+    path:    /tags/api/begin/{begin}
+    defaults: { _controller: EBMKMBundle:Tag:getTagsByBegin }
+
+# --- Gestion des compétences ---
+ebmkm_my_skills:
+    path:    /skills/me/
+    defaults: { _controller: EBMKMBundle:Skills:renderUserSkills }
+
+ebmkm_other_skills:
+    path:    /skills/{id}
+    defaults: { _controller: EBMKMBundle:Skills:seeSkill }
+
+ebmkm_recommend_skills:
+    path:    /skills/{user_id}/recommand/{skill_id}
+    defaults: { _controller: EBMKMBundle:Skills:recommendSkill }
+
+ebmkm_unrecommend_skills:
+    path:    /skills/{user_id}/unrecommand/{skill_id}
+    defaults: { _controller: EBMKMBundle:Skills:unRecommendSkill }
+
+ebmkm_add_skills:
+    path:    /skills/me/add/
+    defaults: { _controller: EBMKMBundle:Skills:addSkill }
+
+ebmkm_remove_skills:
+    path:    /skills/me/remove/{id}
+    defaults: { _controller: EBMKMBundle:Skills:removeSkill }

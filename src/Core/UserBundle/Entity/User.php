@@ -4,6 +4,7 @@ namespace Core\UserBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use EBM\KMBundle\Entity\EvaluationDocument;
 use EBM\UserInterfaceBundle\Entity\Project;
 use EBM\KMBundle\Entity\CompetenceUser;
 use EBM\KMBundle\Entity\Tag;
@@ -64,13 +65,6 @@ class User extends BaseUser
     private $description;
 
     /**
-     * @var array
-     *
-     * @ORM\Column(name="competences", type="array")
-     */
-    private $competences;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="timezone", type="string", length=100)
@@ -98,12 +92,12 @@ class User extends BaseUser
     private $skills;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy="madeBy", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy="author", cascade= {"persist"})
      */
-    private $documentEvaluation;
+    private $documentEvaluations;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy= "createdBy", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy= "author", cascade= {"persist"})
      */
     private $createDocument;
 
@@ -127,7 +121,7 @@ class User extends BaseUser
     If enabled = false DisabledException is thrown
     
     Locked = true
-    User is forbbiden to manipulate his accout, because it is locked down. That means no password reset, login etc.
+    User is forbidden to manipulate his account, because it is locked down. That means no password reset, login etc.
     This flag allows admin to ban user or don't let him register with his email again.
     LockedException is thrown.
     
@@ -166,22 +160,6 @@ class User extends BaseUser
     public function getProjects()
     {
         return $this->projects;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCompetences()
-    {
-        return $this->competences;
-    }
-
-    /**
-     * @param array $competences
-     */
-    public function setCompetences($competences)
-    {
-        $this->competences = $competences;
     }
 
     /**
@@ -239,7 +217,7 @@ class User extends BaseUser
         $this->skills = new ArrayCollection();
         $this->recommendSkill = new ArrayCollection();
         $this->createDocument = new ArrayCollection();
-        $this->documentEvaluation = new ArrayCollection();
+        $this->documentEvaluations = new ArrayCollection();
         $this->managedTags = new ArrayCollection();
     }
     
@@ -425,6 +403,7 @@ class User extends BaseUser
      * @return $this
      */
     public function addSkill(CompetenceUser $skill){
+        $skill->setUser($this);
         $this->skills->add($skill);
         return $this;
     }
@@ -439,25 +418,31 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getDocumentEvaluation()
+    public function getDocumentEvaluations()
     {
-        return $this->documentEvaluation;
+        return $this->documentEvaluations;
     }
 
     /**
-     * @param mixed $documentEvaluation
+     * @param mixed $documentEvaluations
      */
-    public function setDocumentEvaluation($documentEvaluation)
+    public function setDocumentEvaluations($documentEvaluations)
     {
-        $this->documentEvaluation = $documentEvaluation;
+        $this->documentEvaluations = $documentEvaluations;
     }
 
-    public function addDocumentEvaluation($documentEvaluation){
-        $this->documentEvaluation->add($documentEvaluation);
+    /**
+     * @param EvaluationDocument $documentEvaluation
+     */
+    public function addDocumentEvaluation(EvaluationDocument $documentEvaluation){
+        $this->documentEvaluations->add($documentEvaluation);
     }
 
-    public function removeDocumentEvaluation($documentEvaluation){
-        $this->documentEvaluation->removeElement($documentEvaluation);
+    /**
+     * @param EvaluationDocument $documentEvaluation
+     */
+    public function removeDocumentEvaluation(EvaluationDocument $documentEvaluation){
+        $this->documentEvaluations->removeElement($documentEvaluation);
     }
 
     /**
@@ -482,6 +467,7 @@ class User extends BaseUser
      *
      */
     public function addRecommendSkill(CompetenceUser $skill){
+        $skill->setUser($this);
         $this->recommendSkill->add($skill);
         return $this;
     }
@@ -509,7 +495,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection<Tag>
      */
     public function getManagedTags()
     {

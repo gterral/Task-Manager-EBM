@@ -1,0 +1,55 @@
+{% extends "EBMKMBundle::bundleLayout.html.twig" %}
+
+{% block content_body %}
+    <a href="{{ path('ebmkm_file_homepage') }}">Retour aux documents</a>
+    <h2>{{ document.name }}</h2>
+    <div>Auteur : {{ document.author.username }}</div>
+    <div>Description : {{ document.description }}</div>
+
+    {% if document.file %}
+        <a href="{{ asset('uploads/files/' ~ document.file) }}">Voir le fichier</a>
+    {% endif %}
+
+    {% if document.link %}
+        Lien : {{ document.link }}
+    {% endif %}
+
+    {% if document.tags %}
+        <div>
+        {% for tag in document.tags %}
+            {{ tag.name }}
+        {%  endfor %}
+        </div>
+    {%  endif %}
+
+    <!-- EVALUATION DU DOCUMENT -->
+    <div>
+    {% if grade >=0 %}
+        <div>Moyenne : {{ grade }}/5</div>
+        {% if personalEvaluation %}
+        <div>Votre note : {{ personalEvaluation[0].value }}<div>
+        {%  endif %}
+    {% endif %}
+
+    {% if grade == -1 %}
+        <div>Aucune évaluation n'a été soumise pour ce document. Notez-le !</div>
+        <div>{{ form(evaluationForm) }}</div>
+    {% endif %}
+    </div>
+
+    <div id="ratings"></div>
+
+    <!-- DISCUSSIONS SUR LE DOCUMENT -->
+    {% if document.commentTopic %}
+        {% for post in document.commentTopic.posts %}
+            <div class="well"><strong>{{ post.author.username }}</strong> -- {{ post.date | date('d-M-Y H:i:s') }}<p>{{ post.content }}</p></div>
+        {% endfor %}
+    {% endif %}
+
+    {% if not document.commentTopic %}
+        <h3>Publier un premier commentaire</h3>
+    {% endif %}
+
+    {{ form(form) }}
+
+{% endblock %}
