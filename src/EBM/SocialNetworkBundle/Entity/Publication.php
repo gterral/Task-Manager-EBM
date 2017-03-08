@@ -4,11 +4,12 @@ namespace EBM\SocialNetworkBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use EBM\KMBundle\Entity\Tag;
 
 /**
  * Publication
  *
- * @ORM\Table(name="SocialNetworkPublication")
+ * @ORM\Table(name="sn_publication")
  * @ORM\Entity(repositoryClass="EBM\SocialNetworkBundle\Repository\PublicationRepository")
  */
 class Publication
@@ -28,6 +29,13 @@ class Publication
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="publications",cascade={"persist"})
+     *
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userPublication;
 
     /**
      * @var int
@@ -51,9 +59,9 @@ class Publication
     private $content;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EBM\SocialNetworkBundle\Entity\Theme", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", cascade={"persist"})
      */
-    private $themes;
+    private $tags;
 
     public function __construct()
     {
@@ -167,39 +175,7 @@ class Publication
         return $this->compteurComment;
     }
 
-    /**
-     * Add theme
-     *
-     * @param \EBM\SocialNetworkBundle\Entity\Theme $theme
-     *
-     * @return Publication
-     */
-    public function addTheme(\EBM\SocialNetworkBundle\Entity\Theme $theme)
-    {
-        $this->themes[] = $theme;
 
-        return $this;
-    }
-
-    /**
-     * Remove theme
-     *
-     * @param \EBM\SocialNetworkBundle\Entity\Theme $theme
-     */
-    public function removeTheme(\EBM\SocialNetworkBundle\Entity\Theme $theme)
-    {
-        $this->themes->removeElement($theme);
-    }
-
-    /**
-     * Get themes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getThemes()
-    {
-        return $this->themes;
-    }
 
     public function increaseComment()
     {
@@ -219,5 +195,69 @@ class Publication
     public function decreaseLike()
     {
         $this->compteurLike--;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param mixed $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param Tag $tag
+     *
+     * @return Publication
+     */
+    public function addTag(Tag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param Tag $tag
+     */
+    public function removeTag(Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Set userPublication
+     *
+     * @param \Core\UserBundle\Entity\User $userPubli
+     *
+     * @return Publication
+     */
+    public function setUserPublication(\Core\UserBundle\Entity\User $userPublication)
+    {
+        $this->userPublication = $userPublication;
+
+        return $this;
+    }
+
+    /**
+     * Get userPublication
+     *
+     * @return \Core\UserBundle\Entity\User
+     */
+    public function getUserPublication()
+    {
+        return $this->userPublication;
     }
 }

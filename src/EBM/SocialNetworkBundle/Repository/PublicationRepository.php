@@ -10,4 +10,27 @@ namespace EBM\SocialNetworkBundle\Repository;
  */
 class PublicationRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getPublicationWithTags(array $tagsNames)
+    {
+
+        if (!is_array($tagsNames) || empty($tagsNames)){
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder('p');
+        // On fait une jointure avec l'entité Category avec pour alias « c »
+        $qb
+            ->innerJoin('p.tags', 't')
+            ->addSelect('t')
+        ;
+        // Puis on filtre sur le nom des catégories à l'aide d'un IN
+        $qb->where($qb->expr()->in('t.name', $tagsNames));
+        // La syntaxe du IN et d'autres expressions se trouve dans la documentation Doctrine
+
+        // Enfin, on retourne le résultat
+        return $qb
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

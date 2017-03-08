@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Likes
  *
- * @ORM\Table(name="SocialNetworkLikes")
+ * @ORM\Table(name="sn_likes")
  * @ORM\Entity(repositoryClass="EBM\SocialNetworkBundle\Repository\LikesRepository")
  * @ORM\HasLifecycleCallbacks()
  */

@@ -7,8 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Likes
  *
- * @ORM\Table(name="SocialNetworkLikes")
+ * @ORM\Table(name="sn_likes")
  * @ORM\Entity(repositoryClass="EBM\SocialNetworkBundle\Repository\LikesRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Likes
 {
@@ -36,5 +37,44 @@ class Likes
     {
         return $this->id;
     }
-}
 
+    /**
+     * Set publication
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\Publication $publication
+     *
+     * @return Likes
+     */
+    public function setPublication(\EBM\SocialNetworkBundle\Entity\Publication $publication = null)
+    {
+        $this->publication = $publication;
+
+        return $this;
+    }
+
+    /**
+     * Get publication
+     *
+     * @return \EBM\SocialNetworkBundle\Entity\Publication
+     */
+    public function getPublication()
+    {
+        return $this->publication;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function increase()
+    {
+        $this->getPublication()->increaseLike();
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function decrease()
+    {
+        $this->getPublication()->decreaseLike();
+    }
+}

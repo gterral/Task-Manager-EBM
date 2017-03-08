@@ -5,9 +5,20 @@
 /app/bootstrap.php.cache
 /build/
 /phpunit.xml
-/var/*
 /vendor/*
 /web/bundles/*
 /web/uploads/*
 /web/css/*
 /web/js/*
+
+# Var directory needs to exist and so does cache, logs and sessions directories
+/var/cache/*
+/var/crons/*
+/var/logs/*
+/var/sessions/*
+/var/bootstrap.php.cache
+/var/SymfonyRequirements.php
+!var
+!var/cache/.gitkeep
+!var/logs/.gitkeep
+!var/sessions/.gitkeep
