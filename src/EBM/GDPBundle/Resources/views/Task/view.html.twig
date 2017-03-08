@@ -50,7 +50,6 @@
                         </button>
                         <div class="modal fade" id="addCommentForm" aria-hidden="true" aria-labelledby="addCommentForm" role="dialog" tabindex="-1">
                             <div id="comment">
-                                zqdzqzqdqz
                             </div>
                         </div>
                     </h3>
@@ -71,9 +70,16 @@
                                         <div class="media-body">
                                             <h4 class="media-heading">Nom utilisateur
                                                 <span>a posté</span>
-                                                <span class="" data-target="" data-toggle="modal" type="button">
+                                                <button class="" data-target="#editCommentForm{{ comment.id }}" data-toggle="modal" type="button">
                                                     <i class="icon md-edit" aria-hidden="true"></i>
-                                                </span>
+                                                </button>
+                                                <button class="" onclick="deleteComment({{ comment.id }})" type="button">
+                                                    <i class="icon md-delete" aria-hidden="true"></i>
+                                                </button>
+                                                <div class="modal fade editCommentJS" id="editCommentForm{{ comment.id }}" title= "{{ comment.id }}" aria-hidden="true" aria-labelledby="editCommentForm{{ comment.id }}" role="dialog" tabindex="-1">
+                                                    <div id="comment{{ comment.id }}">
+                                                    </div>
+                                                </div>
                                             </h4>
                                             <small>{{ comment.creationDate|date("Y-m-d") }}</small>
                                             <div class="profile-brief">{{ comment.content }}</div>
@@ -116,7 +122,50 @@ $("#addCommentForm").on('show.bs.modal',function (e) {
     });
 });
 
+$(".editCommentJS").on('show.bs.modal',function (e) {
+    var element= this;
+    var path = "{{ path('ebmgdp_task',{'code':project.code,'id':task.id }) }}";
+    path += "/comment/"+ element.title+"/edit";
+    console.log(path);
+
+    $.ajax({
+        url : path,
+        type : 'GET',
+        dataType : 'html',
+        success : function(code_html, statut){
+            $(code_html).appendTo("#comment"+element.title);
+        },
+        error : function(resultat, statut, erreur){
+        },
+        complete : function(resultat, statut){
+        }
+    });
+});
+
+var deleteComment = function(commentId) {
+    var path = "{{ path('ebmgdp_task',{'code':project.code,'id':task.id }) }}";
+    path += "/comment/"+ commentId+"/delete";
+
+    $.ajax({
+        url : path,
+        type : 'GET',
+        dataType : 'json',
+        success : function(response, statut){
+            if (response.success) {
+                location.reload();
+            }
+        },
+        error : function(resultat, statut, erreur){
+        },
+        complete : function(resultat, statut){
+        }
+    });
+
+};
+
+
 </script>
+
 
 {% endblock %}
 
