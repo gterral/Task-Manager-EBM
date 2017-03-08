@@ -1,3 +1,63 @@
-ebmgdp_homepage:
-    path:     /
+# src/EBM/GDPBundle/Resources/config/routing.yml
+
+# Vue Dashboard des projets encadrant - /encadrant/projects_dashboard
+ebmgdp_dashboard:
+    path:     dashboard
     defaults: { _controller: EBMGDPBundle:Default:index }
+
+# Vue liste tache d'un projet
+ebmgdp_projecttasks:
+    path:     project/{code}/tasks
+    defaults: { _controller: EBMGDPBundle:Task:index }
+
+# Ajout d'une tache
+ebmgdp_task_add:
+    path:     project/{code}/tasks/add
+    defaults: { _controller: EBMGDPBundle:Task:addTask }
+
+# Edit d'une tache
+ebmgdp_task_edit:
+    path:     project/{code}/task/{id}/edit
+    defaults: { _controller: EBMGDPBundle:Task:editTask }
+    requirements:
+             id: \d+
+
+# Archivage d'une tache
+ebmgdp_task_archived:
+   path:     project/{code}/task/{id}/archived
+   defaults: { _controller: EBMGDPBundle:Task:archivedTask }
+   requirements:
+            id: \d+
+
+# Vue d'une tache
+ebmgdp_task:
+    path:     project/{code}/task/{id}
+    defaults: { _controller: EBMGDPBundle:Task:view }
+
+# Vue livrables d'un projet
+ebmgdp_projectdeliverables:
+    path:     project/{code}/deliverables
+    defaults: { _controller: EBMGDPBundle:Project:viewDeliverables }
+
+# Vue d'un livrable
+ebmgdp_deliverable:
+    path:     project/{code}/deliverable/{id}
+    defaults: { _controller: EBMGDPBundle:Deliverable:index }
+
+# Vue du calendrier
+ebmgdp_calendar:
+    path:     project/{code}/calendar
+    defaults: { _controller: EBMGDPBundle:Calendar:viewCalendar }
+
+# Route Chager Status Tache
+ebmgdp_task_edit_status:
+    path:     project/{code}/task/status/edit
+    defaults: { _controller: EBMGDPBundle:Task:editTaskStatus }
+
+
+# TODO
+# Vue ajouter tache
+# Vue editer tache
+
+# Vue ajouter livrable
+# Vue editer livrable

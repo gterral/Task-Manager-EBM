@@ -6,9 +6,9 @@ use EBM\GDPBundle\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
-class DefaultController extends Controller
+class CalendarController extends Controller
 {
-    public function indexAction()
+    public function viewCalendarAction()
     {
         return $this->render('EBMGDPBundle:Default:index.html.twig');
     }
