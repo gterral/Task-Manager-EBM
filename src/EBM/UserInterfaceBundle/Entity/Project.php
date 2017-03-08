@@ -94,7 +94,6 @@ class Project
     {
         $this->members = new ArrayCollection();
         $this->tasks = new ArrayCollection();
-
     }
 
     public function addTask(Task $task)
