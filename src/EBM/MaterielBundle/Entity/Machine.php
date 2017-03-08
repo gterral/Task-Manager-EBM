@@ -2,7 +2,9 @@
 
 namespace EBM\MaterielBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use EBM\KMBundle\Entity\CompetenceUser;
 
 /**
  * Machine
@@ -34,6 +36,18 @@ class Machine
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
+    /**
+     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\CompetenceUser", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinTable(name="fablab_machine_competence")
+     */
+    private $competences;
+
+    public function __construct()
+    {
+        $this->dateAchat = new \DateTime();
+        $this->competences = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -91,5 +105,29 @@ class Machine
     public function getNom()
     {
         return $this->nom;
+    }
+
+    /**
+     * Set competences
+     *
+     * @param \EBM\KMBundle\Entity\CompetenceUser $competences
+     *
+     * @return Machine
+     */
+    public function setCompetences(\EBM\KMBundle\Entity\CompetenceUser $competences = null)
+    {
+        $this->competences = $competences;
+
+        return $this;
+    }
+
+    /**
+     * Get competences
+     *
+     * @return \EBM\KMBundle\Entity\CompetenceUser
+     */
+    public function getCompetences()
+    {
+        return $this->competences;
     }
 }

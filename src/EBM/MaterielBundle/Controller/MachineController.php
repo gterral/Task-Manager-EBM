@@ -2,6 +2,8 @@
 
 namespace EBM\MaterielBundle\Controller;
 
+use EBM\KMBundle\Entity\CompetenceUser;
+use EBM\MaterielBundle\Entity\Machine;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EBM\MaterielBundle\Entity\ReservationMachine;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -68,12 +70,42 @@ class MachineController extends Controller
             );
     }
 
+    public function ajoutMachineAction(Request $request)
+    {
+        $newMachine = new Machine();
+
+        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $newMachine);
+
+        $formBuilder
+            ->add('nom', TextType::class)
+            ->add('dateAchat', DateType::class, array('data' => new \DateTime('now')))
+            ->add('valider', SubmitType::class);
+
+        $form = $formBuilder->getForm();
+
+        if ($request->isMethod('POST')){
+            $form->handleRequest($request);
+
+            if($form->isValid()){
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($newMachine);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('message', 'Machine enregistrée.');
+
+                return $this->redirectToRoute('ebm_materiel_machines');
+            }
+        }
+
+        return $this->render('EBMMaterielBundle:Default/machines:reservationMachine.html.twig', array('form' => $form->createView()));
+    }
+
     public function reservationMachineAction($machine, $debut, $fin, Request $request)
     {
         $resa_machine = new ReservationMachine();
 
         $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $resa_machine);
-        //print_r($resa_machine);
 
         $listeMachines = array();
         foreach($this->getAllMachines() as $machine)
@@ -91,7 +123,8 @@ class MachineController extends Controller
                 )
             ))*/
             ->add('machine', ChoiceType::class, array(
-                'choices' => $listeMachines
+                'choices' => $listeMachines,
+                'data' => 2
             ))
             ->add('debut', DateTimeType::class, array('data' => new \DateTime($debut)))
             ->add('fin', DateTimeType::class, array('data' => new \DateTime($fin)))
@@ -133,6 +166,16 @@ class MachineController extends Controller
             ->getRepository('EBMMaterielBundle:Machine');
 
         return $repository->find($machineId);
+    }
+
+    public function getAllCompetences()
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('EBMKMBundle:CompetenceUser');
+
+        return $repository->findAll();
     }
     public function getAllMachines()
     {

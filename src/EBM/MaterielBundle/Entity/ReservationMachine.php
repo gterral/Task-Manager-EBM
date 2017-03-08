@@ -64,10 +64,10 @@ class ReservationMachine
     private $machine;
 
     /**
- * @var User $myUser
- * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", cascade={"persist"})
- * @ORM\JoinColumn(nullable=false)
- */
+     * @var User $myUser
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
     private $user;
 
 

@@ -20,6 +20,11 @@ ebm_materiel_machines_reservation:
     path:     /machines/reservation/{machine}/{debut}/{fin}
     defaults:
         _controller: EBMMaterielBundle:Machine:reservationMachine
-        machine: Guillotine
+        machine:
         debut:
         fin:
+
+ebm_materiel_machines_ajout:
+    path:     /machines/ajout
+    defaults:
+        _controller: EBMMaterielBundle:Machine:ajoutMachine
