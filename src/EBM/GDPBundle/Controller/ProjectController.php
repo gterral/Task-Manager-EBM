@@ -16,6 +16,10 @@ class ProjectController extends Controller
      */
     public function viewDeliverablesAction(Project $project)
     {
-        return $this->render('EBMGDPBundle:Project:index.html.twig');
+        return $this->render('EBMGDPBundle:Project:index.html.twig',
+            array('listDeliverables' => $project->getDeliverables(),
+                'project' => $project
+            )
+        );
     }
 }

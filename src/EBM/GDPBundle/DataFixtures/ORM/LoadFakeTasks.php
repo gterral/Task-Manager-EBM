@@ -13,6 +13,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Core\UserBundle\Entity\User;
 use EBM\GDPBundle\Entity\Comment;
 use EBM\GDPBundle\Entity\Conversation;
+use EBM\GDPBundle\Entity\DocumentProject;
+use EBM\GDPBundle\Entity\DocumentTypeProject;
 use EBM\GDPBundle\Entity\Task;
 use EBM\UserInterfaceBundle\Entity\Project;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -79,6 +81,26 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
         $projet->addTask($task2);
         $projet->setProjectType("G1G2");
         $entityManager->persist($projet);
+
+        $document_type1 = new DocumentTypeProject();
+        $document_type1->setName('Rapport');
+        $entityManager->persist($document_type1);
+
+        $document_type2 = new DocumentTypeProject();
+        $document_type2->setName('Presentation');
+        $entityManager->persist($document_type2);
+
+        $document_projet1 = new DocumentProject();
+        $document_projet1->setName('Compte Rendu 1');
+        $document_projet1->setDocumentTypeProject($document_type1);
+        $document_projet1->addProject($projet);
+        $entityManager->persist($document_projet1);
+
+        $document_projet2 = new DocumentProject();
+        $document_projet2->setName('Presentation 1');
+        $document_projet2->setDocumentTypeProject($document_type2);
+        $document_projet2->addProject($projet);
+        $entityManager->persist($document_projet2);
 
         /* @var User $user */
         $user=$entityManager->getRepository("CoreUserBundle:User")->findOneBy(['username'=>"toto"]);
