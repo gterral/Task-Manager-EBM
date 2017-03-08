@@ -9,7 +9,16 @@
 {# CSS propres à cette page #}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('dev_materiel_fullcalendar/fullcalendar.css') }}" />
+    <style>
+        .fc-day:hover{
+            background:lightblue;
+        }
 
+        .fc-slats
+        {
+            pointer-events: none;
+        }
+    </style>
 {% endblock %}
 
 
@@ -58,14 +67,22 @@
                     right: 'month,agendaWeek,agendaDay'
                 },
                 events: {{  jsonEvents|raw }},
+                dayClick: function(date, jsEvent, view) {
+
+                    console.log('Clicked on: ' + date.format());
+
+                    console.log('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+
+                    console.log('Current view: ' + view.name);
+
+
+                },
 
 
 
             });
 
             $('#calendar').fullCalendar('changeView','agendaWeek');
-
-            $('tr').mouseover()
 
         });
     </script>
