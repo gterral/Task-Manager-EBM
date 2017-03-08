@@ -1,0 +1,13 @@
+{% extends "EBMKMBundle::bundleLayout.html.twig" %}
+{% block content_body %}
+    Hello World! 2
+
+    {% for tag in tags %}
+        <p>{{ tag.name }}</p>
+    {% else %}
+        No tag
+    {% endfor %}
+{% endblock %}
+
+
+

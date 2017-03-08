@@ -8,7 +8,7 @@ use EBM\SocialNetworkBundle\Entity\Publication;
 /**
  * Comment
  *
- * @ORM\Table(name="SocialNetworkComment")
+ * @ORM\Table(name="sn_comment")
  * @ORM\Entity(repositoryClass="EBM\SocialNetworkBundle\Repository\CommentRepository")
  * @ORM\HasLifecycleCallbacks()
  */

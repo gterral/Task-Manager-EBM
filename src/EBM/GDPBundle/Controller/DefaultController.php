@@ -2,7 +2,6 @@
 
 namespace EBM\GDPBundle\Controller;
 
-use EBM\GDPBundle\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 

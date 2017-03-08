@@ -2,12 +2,14 @@
 
 namespace EBM\SocialNetworkBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use EBM\KMBundle\Entity\Tag;
 
 /**
  * Publication
  *
- * @ORM\Table(name="SocialNetworkPublication")
+ * @ORM\Table(name="sn_publication")
  * @ORM\Entity(repositoryClass="EBM\SocialNetworkBundle\Repository\PublicationRepository")
  */
 class Publication
@@ -29,18 +31,25 @@ class Publication
     private $date;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="publications",cascade={"persist"})
+     *
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userPublication;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="compteurLike", type="integer")
      */
-    private $compteurLike;
+    private $compteurLike = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="compteurComment", type="integer")
      */
-    private $compteurComment;
+    private $compteurComment = 0;
 
     /**
      * @var string
@@ -50,13 +59,14 @@ class Publication
     private $content;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EBM\SocialNetworkBundle\Entity\Theme", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", cascade={"persist"})
      */
-    private $themes;
+    private $tags;
 
     public function __construct()
     {
         $this->date = new \Datetime();
+        $this->themes = new ArrayCollection();
     }
 
     /**
@@ -116,5 +126,138 @@ class Publication
     {
         return $this->content;
     }
-}
 
+    /**
+     * Set compteurLike
+     *
+     * @param integer $compteurLike
+     *
+     * @return Publication
+     */
+    public function setCompteurLike($compteurLike)
+    {
+        $this->compteurLike = $compteurLike;
+
+        return $this;
+    }
+
+    /**
+     * Get compteurLike
+     *
+     * @return integer
+     */
+    public function getCompteurLike()
+    {
+        return $this->compteurLike;
+    }
+
+    /**
+     * Set compteurComment
+     *
+     * @param integer $compteurComment
+     *
+     * @return Publication
+     */
+    public function setCompteurComment($compteurComment)
+    {
+        $this->compteurComment = $compteurComment;
+
+        return $this;
+    }
+
+    /**
+     * Get compteurComment
+     *
+     * @return integer
+     */
+    public function getCompteurComment()
+    {
+        return $this->compteurComment;
+    }
+
+
+
+    public function increaseComment()
+    {
+        $this->compteurComment++;
+    }
+
+    public function decreaseComment()
+    {
+        $this->compteurComment--;
+    }
+
+    public function increaseLike()
+    {
+        $this->compteurLike++;
+    }
+
+    public function decreaseLike()
+    {
+        $this->compteurLike--;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param mixed $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param Tag $tag
+     *
+     * @return Publication
+     */
+    public function addTag(Tag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param Tag $tag
+     */
+    public function removeTag(Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Set userPublication
+     *
+     * @param \Core\UserBundle\Entity\User $userPubli
+     *
+     * @return Publication
+     */
+    public function setUserPublication(\Core\UserBundle\Entity\User $userPublication)
+    {
+        $this->userPublication = $userPublication;
+
+        return $this;
+    }
+
+    /**
+     * Get userPublication
+     *
+     * @return \Core\UserBundle\Entity\User
+     */
+    public function getUserPublication()
+    {
+        return $this->userPublication;
+    }
+}

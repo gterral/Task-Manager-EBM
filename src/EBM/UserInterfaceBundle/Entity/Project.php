@@ -345,4 +345,3 @@ class Project
         return $this->lastUpdate;
     }
 }
-
