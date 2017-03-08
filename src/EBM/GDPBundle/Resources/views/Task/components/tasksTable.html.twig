@@ -1,0 +1,76 @@
+{#
+Data Table
+Les infos sur le plugin sont ici : https://www.datatables.net/
+#}
+
+    <table id="tasksTable" class="table table-hover dataTable table-striped width-full" data-plugin="dataTable">
+        
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Titre</th>
+                <th>Status</th>
+                <th>Deadline</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+        {%  if listTasks is not null %}
+            {% for task in listTasks %}
+                {% if task.status == "IN_PROGRESS" %}
+                    {% set class_var = "label label-warning" %}
+                {% elseif task.status == "WAITING_FOR_REVIEW" %}
+                    {%  set class_var = "label label-info" %}
+                {% elseif task.status == "VALIDATED" %}
+                    {%  set class_var = "label label-success" %}
+                {% elseif task.status == "REJECTED" %}
+                    {%  set class_var = "label label-danger" %}
+                {% elseif task.status == "ARCHIVED" %}
+                    {%  set class_var = "label label-info" %}
+                {% elseif task.status == "OPENED" %}
+                    {%  set class_var = "label label-primary" %}
+                {% endif %}
+
+                <tr>
+                    <th>{{ task.id }}</th>
+                    <td class="subject">
+                        <a href="{{ path('ebmgdp_task', {'code':project.code, 'id':task.id}) }}" class="">
+                            {{ task.name }}
+                        </a>
+                    </td>
+                    <td class="work-status">
+                        {#"OPENED","IN_PROGRESS","WAITING_FOR_REVIEW","VALIDATED","REJECTED","ARCHIVED"#}
+                        <div class="form-group">
+                            <select class="form-control task-status">
+                                <option data-task="{{ task.id }}" data-status="IN_PROGRESS" {% if task.status == 'IN_PROGRESS' %}selected{% endif %}>
+                                    <span class="{{ class_var }}">En cours</span>
+                                </option>
+                                <option data-task="{{ task.id }}" data-status="ARCHIVED" {% if task.status == 'ARCHIVED' %}selected{% endif %}>
+                                    <span class="{{ class_var }}">Archivé</span>
+                                </option>
+                                <option data-task="{{ task.id }}" data-status="OPENED" {% if task.status == 'OPENED' %}selected{% endif %}>
+                                    <span class="{{ class_var }}">Ouvert</span>
+                                </option>
+                                <option data-task="{{ task.id }}" data-status="WAITING_FOR_REVIEW" {% if task.status == 'WAITING_FOR_REVIEW' %}selected{% endif %}>
+                                    <span class="{{ class_var }}">Attente Validation</span>
+                                </option>
+                                <option data-task="{{ task.id }}" data-status="VALIDATED" {% if task.status == 'VALIDATED' %}selected{% endif %}>
+                                    <span class="{{ class_var }}">Validé</span>
+                                </option>
+                                <option data-task="{{ task.id }}" data-status="REJECTED" {% if task.status == 'REJECTED' %}selected{% endif %}>
+                                    <span class="{{ class_var }}">Rejeté</span>
+                                </option>
+                            </select>
+                        </div>
+                    </td>
+                    <td>{{ task.deadline|date('Y-m-d') }}</td>
+                    <td><a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}"><i class="icon md-delete" aria-hidden="true" style="color:red;font-size:20px"></i></a></td>
+                </tr>
+            {% endfor %}
+        {%  endif %}
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>    
+    

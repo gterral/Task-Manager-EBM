@@ -1,0 +1,122 @@
+{% extends "@EBMGDP/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion de projet
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset("bundles/coreiconbar/css/plugins/pages/profile.min.css") }}">
+{% endblock %}
+
+
+{# Contenu de la page #}
+
+{% block content_body %}
+
+    <div class="page-profile">
+        <div class="page-content">
+            <div class="panel">
+                <div class="panel-head">
+                    <h3 class="panel-title" style="display:inline-block;">Vue detail de la tâche: {{ task.name }}</h3>
+                    <div style="display:inline-block;float: right;margin-right: 20px; margin-top: 20px;">
+                        <a href="{{ path('ebmgdp_task_edit', {'code':task.project.code, 'id':task.id}) }}" class="panel-info btn btn-warning" >Editer la tâche</a>
+                        <a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}" class="panel-info btn btn-danger" >Archiver la tâche</a>
+                    </div>
+                    </div>
+                <div class="panel-body">
+                    <div id="info_task">
+                        <ul>
+                            <li>Deadline: {{ task.deadline|date('Y-m-d') }}</li>
+                            <li>Status: {{ task.status }}</li>
+                            <li>Type: {{ task.type }}</li>
+                            <li>Date Création: {{ task.creationDate|date('Y-m-d') }}</li>
+                        </ul>
+                    </div>
+
+                    <div id="body_task">
+                        {{task.description }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <h3 class="panel-title">Messages
+                        <span class="badge badge-danger">{{ task.conversation.comments|length }}</span>
+                        <button class="site-action btn-raised btn btn-success btn-floating" data-target="#addCommentForm" data-toggle="modal" type="button">
+                            <i class="icon md-edit" aria-hidden="true"></i>
+                        </button>
+                        <div class="modal fade" id="addCommentForm" aria-hidden="true" aria-labelledby="addCommentForm" role="dialog" tabindex="-1">
+                            <div id="comment">
+                                zqdzqzqdqz
+                            </div>
+                        </div>
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+                    <ul class="list-group">
+                        {%  if task.conversation.comments is not null %}
+                            {% for comment in task.conversation.comments %}
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a class="avatar">
+                                                <img class="img-responsive" src="{{ asset("bundles/coreiconbar/images/avatar5.png") }}"
+                                                     alt="profile picture">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">Nom utilisateur
+                                                <span>a posté</span>
+                                                <span class="" data-target="" data-toggle="modal" type="button">
+                                                    <i class="icon md-edit" aria-hidden="true"></i>
+                                                </span>
+                                            </h4>
+                                            <small>{{ comment.creationDate|date("Y-m-d") }}</small>
+                                            <div class="profile-brief">{{ comment.content }}</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        {%  endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{# Scripts propres à cette page #}
+{% block scripts %}
+<script>
+
+$("#addCommentForm").on('show.bs.modal',function (e) {
+    var path = "{{ path('ebmgdp_task_comment_add',{'code':project.code,'id':task.id }) }}";
+
+    $.ajax({
+        url : path,
+        type : 'GET',
+        dataType : 'html',
+        success : function(code_html, statut){
+            $(code_html).appendTo("#comment");
+        },
+
+        error : function(resultat, statut, erreur){
+
+        },
+
+        complete : function(resultat, statut){
+
+        }
+
+    });
+});
+
+</script>
+
+{% endblock %}
+

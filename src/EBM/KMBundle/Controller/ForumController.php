@@ -50,50 +50,37 @@ class ForumController extends Controller
         return $this->render('EBMKMBundle:Forum:createTopic.html.twig', array('form' => $form->createView()));
     }
 
-    public function viewTopicAction($id)
+    public function viewTopicAction($id, Request $request)
     {
-        $topic = $this->getDoctrine()->getRepository('EBMKMBundle:Topic')->find($id);
+        $em = $this->getDoctrine()->getManager();
 
-        if(!$topic)
-        {
+        // Afficher le topic avec la liste des posts
+        $topic = $this->getDoctrine()->getRepository('EBMKMBundle:Topic')->find($id);
+        if(!$topic) {
             throw new NotFoundHttpException("Topic non trouvé");
         }
 
-        // Incrémentation nombre de vues
-        $topic->increaseNbViews();
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($topic);
-        $em->flush();
-
-        return $this->render('EBMKMBundle:Forum:viewTopic.html.twig', array('topic' => $topic));
-    }
-
-    /**
-     * @Security("has_role('ROLE_USER')")
-     */
-
-    public function answerTopicAction($id, Request $request){
-        $topic = $this->getDoctrine()->getRepository('EBMKMBundle:Topic')->find($id);
-        $post = new Post();
-        $post->setTopic($topic);
-        $post->setAuthor($this->getUser());
-
-
-
-        $form = $this->createForm(PostType::class, $post);
-        //$form->add('Go','submit');
+        // Gérer le formulaire de réponse
+        $answer = new Post();
+        $form = $this->createForm(PostType::class, $answer);
         $form->handleRequest($request);
 
-        if($form->isValid())
-        {
-            $em = $this->getDoctrine()->getEntityManager();
-            $em->persist($post);
+
+        if($form->isValid()) {
+            // Si réponse, la traiter
+            $this->denyAccessUnlessGranted('ROLE_USER', null, 'Blblblb');
+            $answer->setTopic($topic);
+            $answer->setAuthor($this->getUser());
+            $em->persist($answer);
             $em->flush();
-            return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $topic->getId()));
+            return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $id));
         }
-
-
-        return $this->render('EBMKMBundle:Forum:answerTopic.html.twig', array('form' => $form->createView()));
-
+        else {
+            // Sinon, juste incrémentation nombre de vues
+            $topic->increaseNbViews();
+            $em->persist($topic);
+            $em->flush();
+            return $this->render('EBMKMBundle:Forum:viewTopic.html.twig', array('topic' => $topic, 'form' => $form->createView()));
+        }
     }
 }

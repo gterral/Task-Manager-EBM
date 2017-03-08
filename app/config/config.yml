@@ -27,6 +27,7 @@ assetic:
             formatter: 'Leafo\ScssPhp\Formatter\Compressed'
     bundles:
         - CoreIconbarBundle
+        - EBMGDPBundle
 
 framework:
     #esi:             ~
@@ -95,3 +96,10 @@ fos_user:
     registration:
         form:
             type: Core\UserBundle\Form\RegistrationFormType
+
+# Doctrine Extensions
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
+            timestampable: true

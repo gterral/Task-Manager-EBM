@@ -58,7 +58,7 @@ class Project
      *
      * @ORM\Column(name="is_active", type="boolean")
      */
-    private $isActive;
+    private $isActive=true;
 
     /**
      * @var \DateTime
@@ -99,6 +99,7 @@ class Project
     public function addTask(Task $task)
     {
         $this->tasks[] = $task;
+        $task->setProject($this);
     }
 
     public function removeTask(Task $task)
