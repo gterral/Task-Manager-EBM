@@ -4,6 +4,7 @@ namespace EBM\KMBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * CompetenceUser
@@ -27,14 +28,14 @@ class CompetenceUser
      *
      * @ORM\Column(name="validated", type="boolean")
      */
-    private $validated;
+    private $validated = false;
 
     /**
      * @var string
      *
      * @ORM\Column(name="level", type="string", length=255)
      */
-    private $level;
+    private $level = 0;
 
     /**
      * @Orm\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="skills", cascade={"persist"})
@@ -164,6 +165,9 @@ class CompetenceUser
     }
 
     public function addRecommendation($user){
+        if($user == $this->getUser())
+            throw new HttpException(500, "Impossible de se recommander soi-même.");
+
         $this->recommendations->add($user);
         return $this;
     }
