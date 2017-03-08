@@ -61,7 +61,7 @@
                     {
                     "title" : "GdP",
                     "icon" : "md-calendar",
-                    "route" : 'ebmgdp_homepage'
+                    "route" : 'ebmgdp_dashboard'
                     },
                     {
                     "title" : "Fab Lab",
@@ -89,18 +89,42 @@
                 {# A présent, générons chaque onglet #}
 
                 {% for ongletInfos in allOnglets %}
-
-                    <li class="site-menu-item {% if currentBundle == ongletInfos.route|slice(0,9) %} active {% endif %}" >
-                        <a class="animsition-link" href="{{  path(ongletInfos.route) }}">
-                            <i class="site-menu-icon {{ ongletInfos.icon }}" aria-hidden="true"></i>
-                            <span class="site-menu-title">{{ ongletInfos.title }}</span>
-                            {% if ongletInfos.badge is defined and ongletInfos.badge|length > 0 %}
-                                <div class="site-menu-label">
-                                    <span class="label label-danger label-round">&nbsp;{{ ongletInfos.badge }}&nbsp;</span>
-                                </div>
-                            {% endif %}
-                        </a>
-                    </li>
+                    {% if ongletInfos.route == "ebmgdp_dashboard" %}
+                        {# Accès au sous menu Gestion de projet #}
+                        <li class="site-menu-item {% if currentBundle == ongletInfos.route|slice(0,9) %} active {% endif %} has-sub">
+                            <a href="javascript:void(0)">
+                                <i class="site-menu-icon {{ ongletInfos.icon }}" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ ongletInfos.title }}</span>
+                                {% if ongletInfos.badge is defined and ongletInfos.badge|length > 0 %}
+                                    <div class="site-menu-label">
+                                        <span class="label label-danger label-round">&nbsp;{{ ongletInfos.badge }}&nbsp;</span>
+                                    </div>
+                                {% endif %}
+                            </a>
+                            <ul class="site-menu-sub">
+                                {% for project in app.user.projects %}
+                                    <li class="site-menu-item hidden-xs site-tour-trigger">
+                                        <a href="{{ path("ebmgdp_projecttasks",{"code":project.code}) }}">
+                                            <span class="site-menu-title">{{ project.name }}</span>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        {# Accès direct à la page#}
+                        <li class="site-menu-item {% if currentBundle == ongletInfos.route|slice(0,9) %} active {% endif %}" >
+                            <a class="animsition-link" href="{{  path(ongletInfos.route) }}">
+                                <i class="site-menu-icon {{ ongletInfos.icon }}" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ ongletInfos.title }}</span>
+                                {% if ongletInfos.badge is defined and ongletInfos.badge|length > 0 %}
+                                    <div class="site-menu-label">
+                                        <span class="label label-danger label-round">&nbsp;{{ ongletInfos.badge }}&nbsp;</span>
+                                    </div>
+                                {% endif %}
+                            </a>
+                        </li>
+                    {% endif %}
 
                 {% endfor %}
 

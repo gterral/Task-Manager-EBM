@@ -1,0 +1,22 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+            <h4 class="modal-title">Editer un message</h4>
+        </div>
+        <div class="modal-body container-fluid">
+            {{ include("EBMGDPBundle:Comment:form.html.twig") }}
+        </div>
+    </div>
+</div>
+
+<!-- WORK IN PROGRESS
+
+ <script>
+    var path = "{{ path('ebmgdp_task_comment_edit',{'code':project.code,'id':task.id}) }}";
+
+    $("form").attr('action',path);
+
+</script>
+
+-->

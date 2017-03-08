@@ -1,0 +1,20 @@
+{% extends "EBMKMBundle::bundleLayout.html.twig" %}
+
+
+{% block content_body %}
+    <h2>Supprimer</h2>
+
+    <p>
+        Sûr ?
+    </p>
+
+    <form action="{{ path('ebmkm_remove_skills', {'id': skill.id}) }}" method="post">
+        <a href="{{ path('ebmkm_my_skills', {'id': skill.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour
+        </a>
+        <input type="submit" value="Supprimer" class="btn btn-danger" />
+        {{ form_rest(form) }}
+    </form>
+
+{% endblock %}

@@ -68,7 +68,7 @@ class Topic
     private $tags;
 
     /**
-     * @ORM\OneToOne(targetEntity="EBM\KMBundle\Entity\Document", inversedBy="commentTopic", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="EBM\KMBundle\Entity\Document", mappedBy="commentTopic", cascade={"persist"})
      */
     private $document;
 

@@ -4,12 +4,12 @@ namespace EBM\GDPBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-
 /**
  * Conversation
  *
  * @ORM\Table(name="gdp_conversation")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\ConversationRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Conversation
 {
@@ -23,10 +23,10 @@ class Conversation
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\GDPBundle\Entity\Comment", mappedBy="conversation")
-     *
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\Comment", inversedBy="conversations",cascade={"persist","remove"})
+     * @ORM\JoinTable(name="gdp_conversation_comments")
+     * @ORM\OrderBy({"modificationDate" = "DESC"})
      */
-
     private $comments;
 
     /**
@@ -72,6 +72,8 @@ class Conversation
     {
         $this->comments[] = $comment;
 
+        $comment->addConversation($this);
+
         return $this;
     }
 
@@ -83,6 +85,8 @@ class Conversation
     public function removeComment(\EBM\GDPBundle\Entity\Comment $comment)
     {
         $this->comments->removeElement($comment);
+
+        $comment->removeConversation($this);
     }
 
     /**
