@@ -16,7 +16,7 @@ class PublicationRepository extends \Doctrine\ORM\EntityRepository
         if (!is_array($tagsNames) || empty($tagsNames)){
             return [];
         }
-        
+
         $qb = $this->createQueryBuilder('p');
         // On fait une jointure avec l'entité Category avec pour alias « c »
         $qb
