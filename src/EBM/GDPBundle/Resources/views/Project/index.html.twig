@@ -16,6 +16,45 @@
 
 {% block content_body %}
 
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <h3>Livrables - {{ project.name|upper }}</h3>
+            </div>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group list-group-dividered list-group-full">
+
+                {%  if listDeliverables is null or listDeliverables|length == 0 %}
+                    <p class="margin-20 text-center">Aucun livrable n'a été définie pour ce projet</p>
+                {% else %}
+                    {% for deliverable in listDeliverables %}
+
+                        <li class="list-group-item">
+                            <small class="label label-round label-info pull-right">{{ deliverable.status }}</small>
+                            <p><a class="hightlight" href="javascript:void(0)">{{ deliverable.name }}</a>
+                                {#<span>[13061]</span>#}
+                            </p>
+                            <small>
+                                {#Opened by#}
+                                {#<a class="hightlight" href="javascript:void(0)">#}
+                              {#<span class="avatar avatar-xs">#}
+                                {#<img src="../../global/portraits/1.jpg" alt="">#}
+                              {#</span>#}
+                                    {#<span>Herman Beck</span>#}
+                                {#</a>#}
+                                <time datetime="{{ deliverable.creationDate|date("Y-m-d") }}">Ouvert le : {{ deliverable.creationDate|date("Y-m-d") }}</time>
+                                {%  if deliverable.modificationDate is null %}
+                                    || <time datetime="{{ deliverable.modificationDate|date("Y-m-d") }}">Modifié le : {{ deliverable.modificationDate|date("Y-m-d") }}</time>
+                                {% endif %}
+
+                            </small>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
 
 {% endblock %}
 

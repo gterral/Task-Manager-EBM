@@ -90,11 +90,33 @@ class Project
      */
     private $tasks;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\DocumentProject", mappedBy="projects")
+     */
+    private $deliverables;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->tasks = new ArrayCollection();
+        $this->deliverables = new ArrayCollection();
 
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeliverables()
+    {
+        return $this->deliverables;
+    }
+
+    /**
+     * @param mixed $deliverables
+     */
+    public function setDeliverables($deliverables)
+    {
+        $this->deliverables = $deliverables;
     }
 
     public function addTask(Task $task)
