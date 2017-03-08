@@ -43,13 +43,13 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $tag1->setDescription('Tag de méca');
         $tag1->setType('type meca');
 
-        $project1 = new Project();
+        /*$project1 = new Project();
         $project1->setDescription('Premier projet de malade');
         $project1->setSlug('slug');
         $project1->setIsActive(0);
         $project1->setName('Projet number 1');
         $project1->setProjectType('projet de ouf');
-        $project1->setCode(34);
+        $project1->setCode(34);*/
 
         $tag2 = new Tag();
         $tag2->setName('Elec');
@@ -82,7 +82,7 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $like2->setPublication($pub2);
 
         $manager->persist($tag1);
-        $manager->persist($project1);
+        //$manager->persist($project1);
         $manager->persist($user1);
         $manager->persist($pub1);
         $manager->persist($pub2);

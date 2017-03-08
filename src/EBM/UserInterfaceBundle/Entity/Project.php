@@ -94,8 +94,6 @@ class Project
     {
         $this->members = new ArrayCollection();
         $this->tasks = new ArrayCollection();
-        $this->creationDate = new \Datetime();
-        $this->lastUpdate = new \Datetime();
     }
 
     public function addTask(Task $task)
