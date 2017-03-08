@@ -16,6 +16,11 @@
             </tr>
         {% endfor %}
     </table>
-    <a href="{{ path('ebmkm_forum_create_topic') }}">Nouveau</a>
+
+    <span class="input-group-btn">
+        <a type="button" class="btn btn-primary waves-effect waves-light" href="{{ path('ebmkm_forum_create_topic') }}">
+           Nouveau
+        </a>
+    </span>
 {% endblock %}
 
