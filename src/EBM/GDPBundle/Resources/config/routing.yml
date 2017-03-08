@@ -54,10 +54,23 @@ ebmgdp_task_edit_status:
     path:     project/{code}/task/status/edit
     defaults: { _controller: EBMGDPBundle:Task:editTaskStatus }
 
+# Ajout d'un commentaire
+ebmgdp_task_comment_add:
+    path:     project/{code}/task/{id}/comment/add
+    defaults: { _controller: EBMGDPBundle:Comment:addCommentOnTask }
 
-# TODO
-# Vue ajouter tache
-# Vue editer tache
+# Edit d'un commentaire
+ebmgdp_task_comment_edit:
+    path:     project/{code}/task/{id}/comment/{idc}/edit
+    defaults: { _controller: EBMGDPBundle:Comment:editCommentOnTask }
+    requirements:
+             idc: \d+
+             id: \d+
 
-# Vue ajouter livrable
-# Vue editer livrable
+# Suppression d'un commentaire
+ebmgdp_task_comment_delete:
+   path:     project/{code}/task/{id}/comment/{idc}/delete
+   defaults: { _controller: EBMGDPBundle:Comment:deleteCommentOnTask }
+   requirements:
+            idc: \d+
+            id: \d+
