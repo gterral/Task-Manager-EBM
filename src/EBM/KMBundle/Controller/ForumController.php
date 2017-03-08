@@ -50,6 +50,25 @@ class ForumController extends Controller
         return $this->render('EBMKMBundle:Forum:createTopic.html.twig', array('form' => $form->createView()));
     }
 
+    public function upVotePostAction ($user_id,$post_id ) {
+        $em = $this->getDoctrine()->getManager();
+        $vote = new Vote();
+        $vote->setValue(1);
+        $vote->setPost($post_id);
+        $vote->setUser($user_id);
+        $em->persist($vote);
+        $em->flush();
+    }
+
+    public function downVotePostAction ($user_id,$post_id) {
+        $em = $this->getDoctrine()->getManager();
+        $vote = new Vote();
+        $vote->setValue(-1);
+        $vote->setPost($post_id);
+        $vote->setUser($user_id);
+        $em->persist($vote);
+        $em->flush();
+    }
     public function viewTopicAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
