@@ -41,7 +41,12 @@ class DocumentController extends Controller
     public function uploadAction(Request $request){
 
         $document = new Document();
-        $form = $this->createForm(DocumentType::class, $document);
+
+        // On récupère les différents tags pour les passer dans le formulaire.
+        $tags = $this->getDoctrine()->getRepository('EBMKMBundle:Tag')->findAll();
+        $form = $this->createForm(DocumentType::class, $document, array(
+            'tags' => $tags
+        ));
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
@@ -81,9 +86,13 @@ class DocumentController extends Controller
         /** @var Document $document */
         $document = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->find($id);
         $em = $this->getDoctrine()->getManager();
-
-        // SEE AND POST COMMENTS
         $user = $this->getUser();
+
+        /*
+         *  Cette partie charge le fil de commentaires sur le document.
+         * S'il n'y en a pas, il sera créé avec le premier commentaire.
+         * Une fois le message posté, la page est raffraichie.
+         */
         if($document->getCommentTopic()){
             $topic = $document->getCommentTopic();
         }
@@ -97,7 +106,7 @@ class DocumentController extends Controller
 
         $post = new Post();
         $post->setTopic($topic);
-        $post->setAuthor($this->getUser());
+        $post->setAuthor($user);
 
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -108,10 +117,16 @@ class DocumentController extends Controller
             $em->persist($post);
             $em->persist($document);
             $em->flush();
-            return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $topic->getId()));
+            return $this->redirectToRoute('ebmkm_file_detail', array('id' => $document->getId()));
         }
 
-        // GET THE GRADE OF THE DOCUMENT OR EVALUATE IT
+        /*
+         * Charge les notes données au document. On en calcule d'abord la moyenne.
+         * Si aucune note n'a été donnée, on donne une moyenne de -1 pour pouvoir afficher un message adapté.
+         *
+         * L'évaluation d'un document se fait via un formulaire utilisant un slider.
+         * Une fois ce formulaire posté, la page est raffraichie.
+         */
         if(sizeof($document->getEvaluations()) > 0){
             $moyenne = 0;
             foreach ($document->getEvaluations() as $evaluation){
@@ -130,7 +145,7 @@ class DocumentController extends Controller
         $evaluationForm = $this->createForm(EvaluationDocumentType::class, $evaluation);
         $evaluationForm->handleRequest($request);
         if($evaluationForm->isSubmitted() && $evaluationForm->isValid()){
-            $evaluation->setAuthor($this->getUser());
+            $evaluation->setAuthor($user);
             $evaluation->setDocument($document);
             $em->persist($evaluation);
             $em->flush();

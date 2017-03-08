@@ -10,6 +10,8 @@ namespace EBM\KMBundle\Form;
 
 
 use EBM\KMBundle\Entity\Document;
+use EBM\KMBundle\Entity\Tag;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -30,8 +32,13 @@ class DocumentType extends AbstractType
             ->add('description', TextareaType::class, array(
                 'label' => 'Description du document'
             ))
-            ->add('tags', ChoiceType::class, array(
-                'label' => 'Tags'
+            ->add('tags', EntityType::class, array(
+                'label' => 'Tags',
+                'class' => 'EBMKMBundle:Tag',
+                'choices' => $options['tags'],
+                'choice_label' => 'name',
+                'expanded' => true,
+                'multiple' => true,
             ))
             ->add('file', FileType::class, array(
                 'label' => 'Dépôt de fichier',
@@ -49,7 +56,8 @@ class DocumentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            "data_class" => Document::class
+            "data_class" => Document::class,
+            "tags" => null
         ));
     }
 

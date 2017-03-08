@@ -11,6 +11,7 @@ namespace EBM\KMBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,8 +21,12 @@ class EvaluationDocumentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('value', IntegerType::class, array(
-                'label' => 'note du document'
+            ->add('value', RangeType::class, array(
+                'label' => 'note du document',
+                'attr' => array(
+                    'min' => 0,
+                    'max' => 5
+                )
             ))
             ->add('submit', SubmitType::class, array(
                 'label' => 'Noter'
