@@ -15,16 +15,17 @@
 {# Contenu de la page #}
 
 {% block content_body %}
-    <select>
-        {% for machine in machines %}
-        <option>{{ machine.id }} {{ machine.dateAchat }}- {{ machine.nom }}</option>
-        {% endfor %}
-    </select>
-
-
+    <div class="page-content container-fluid" style="max-width: 400px">
+        <h1 class="page-title">Liste des machines :</h1><hr>
+        <div class="list-group bg-grey-300 bg-inherit">
     {% for machine in machines %}
-        <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20" href="{{ path('ebm_materiel_machines_planning', {'machineId': machine.id })}}">{{ machine.nom }}</a>
+
+            <a class="list-group-item grey-600 waves-effect waves-block waves-classic" href="{{ path('ebm_materiel_machines_planning', {'machineId': machine.id })}}">
+                <i class="icon md-inbox" aria-hidden="true"></i> {{ machine.nom }}
+            </a>
     {% endfor %}
+        </div>
+    </div>
 {% endblock %}
 
 

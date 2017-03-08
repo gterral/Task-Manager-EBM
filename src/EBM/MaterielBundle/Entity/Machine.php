@@ -46,7 +46,7 @@ class Machine
     public function __construct()
     {
         $this->dateAchat = new \DateTime();
-        $this->competences = new ArrayCollection();
+        //$this->competences = new ArrayCollection();
     }
 
     /**

@@ -154,6 +154,7 @@ class MachineController extends Controller
 
     }
 
+
     /*
      * useful methods
      */
