@@ -28,10 +28,19 @@
                 <div class="panel-body">
                     <div id="info_task">
                         <ul>
+                            {% if task.deadline != null %}
                             <li>Deadline: {{ task.deadline|date('Y-m-d') }}</li>
+                            {% else %}
+                            <li>Deadline: Non renseigné</li>
+                            {% endif %}
                             <li>Status: {{ task.status }}</li>
                             <li>Type: {{ task.type }}</li>
                             <li>Date Création: {{ task.creationDate|date('Y-m-d') }}</li>
+                            {% if task.realisationDate != null %}
+                            <li>Date réalisation prévue: {{ task.realisationDate|date('Y-m-d') }}</li>
+                            {% else %}
+                            <li>Date réalisation prévue: Non renseigné</li>
+                            {% endif %}
                         </ul>
                     </div>
 
