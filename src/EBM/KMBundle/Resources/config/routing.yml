@@ -44,7 +44,7 @@ ebmkm_document_update:
 
 ebmkm_document_delete:
     path: /documents/{id}/delete
-    defaults: { _controller: EBMKMBundle:Document:update }
+    defaults: { _controller: EBMKMBundle:Document:delete }
     requirements:
         id: '\d+'
 

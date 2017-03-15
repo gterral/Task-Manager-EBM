@@ -189,7 +189,7 @@ class DocumentController extends Controller
 
         //Retrieve the file and pass it to the document entity
         $kernel_root_dir = $this->getParameter('kernel.root_dir');
-        $file = new File\File($kernel_root_dir . '/../web' . $path);
+        $file = new File\File( $kernel_root_dir . '/../web' . $path);
         $document->setFile($file);
 
         $deleteForm = $this->createDeleteForm($document);
@@ -209,13 +209,13 @@ class DocumentController extends Controller
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
-
     }
 
     /**
      * Deletes a document.
-     *
-     * @Method("DELETE")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, $id)
     {
@@ -230,7 +230,6 @@ class DocumentController extends Controller
             $em->remove($document);
             $em->flush($document);
         }
-
 
         return $this->redirectToRoute('ebmkm_document_index');
     }
@@ -247,8 +246,7 @@ class DocumentController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('ebmkm_document_delete', array('id' => $document->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-            ;
+            ->getForm();
     }
 
 }
