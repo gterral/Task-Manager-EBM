@@ -15,13 +15,23 @@ class AddPublicationType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class)
+
             ->add('tags', EntityType::class ,  array(
                 'class' => 'EBMKMBundle:Tag',
                 'choice_label' => 'name',
                 'multiple' => true,
                 ))
+
+           ->add('projects', EntityType::class ,  array(
+                'class' => 'EBMUserInterfaceBundle:Project',
+                'choice_label' => 'name',
+                'multiple' => true,
+            ))
             ->add('save', SubmitType::class);
     }
+
+
+
 
     public function configureOptions(OptionsResolver $resolver)
     {

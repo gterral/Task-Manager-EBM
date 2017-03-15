@@ -55,6 +55,9 @@
                                 {% for tags in publication.tags %}
                                     <span class="badge badge-primary" style="float: right; margin-left: 8px;">{{ tags.name }}</span>
                                 {% endfor %}
+                                {% for projects in publication.projects %}
+                                    <span class="badge badge-primary" style="float: right; margin-left: 8px;">{{ projects.name }}</span>
+                                {% endfor %}
                                 <br>
                                 <small class="margin-bottom-20 grey-500">{{ publication.date|date("m/d/Y") }}</small>
                             </h3>

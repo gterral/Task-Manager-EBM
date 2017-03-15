@@ -11,12 +11,19 @@ class DefaultController extends Controller
     {
         $user = $this->getUser();
         $tags = $user->getTags();
+        $projects = $user->getProjects();
 
         $tagsNames = [];
+        $projectsNames = [];
 
         foreach ($tags as $tag)
         {
             $tagsNames[] = $tag->getName();
+        }
+
+        foreach ($projects as $project)
+        {
+            $projectsNames[] = $project->getName();
         }
 
 
@@ -26,7 +33,7 @@ class DefaultController extends Controller
             ->getManager()
             ->getRepository('EBMSocialNetworkBundle:Publication');
 
-        $listPublications = $repository->getPublicationWithTags($tagsNames);
+        $listPublications = $repository->getPublicationWithSubscriptions($tagsNames, $projectsNames);
 
 
         return $this->render('EBMSocialNetworkBundle:Default:index.html.twig',

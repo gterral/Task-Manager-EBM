@@ -63,6 +63,11 @@ class Publication
      */
     private $tags;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\UserInterfaceBundle\Entity\Project", cascade={"persist"})
+     */
+    private $projects;
+
     public function __construct()
     {
         $this->date = new \Datetime();
@@ -259,5 +264,39 @@ class Publication
     public function getUserPublication()
     {
         return $this->userPublication;
+    }
+
+    /**
+     * Add project
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $project
+     *
+     * @return Publication
+     */
+    public function addProject(\EBM\UserInterfaceBundle\Entity\Project $project)
+    {
+        $this->projects[] = $project;
+
+        return $this;
+    }
+
+    /**
+     * Remove project
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $project
+     */
+    public function removeProject(\EBM\UserInterfaceBundle\Entity\Project $project)
+    {
+        $this->projects->removeElement($project);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }

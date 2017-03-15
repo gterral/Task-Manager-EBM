@@ -26,6 +26,7 @@ class PublicationController extends Controller
             ['publication' => $publication]);
     }
 
+
     public function addAction(Request $request)
     {
         $publication = new Publication();

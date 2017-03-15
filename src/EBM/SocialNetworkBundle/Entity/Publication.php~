@@ -63,6 +63,11 @@ class Publication
      */
     private $tags;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\UserInterfaceBundle\Entity\Project", cascade={"persist"})
+     */
+    private $projects;
+
     public function __construct()
     {
         $this->date = new \Datetime();

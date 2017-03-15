@@ -90,6 +90,10 @@ class Project
      */
     private $tasks;
 
+    /**
+     * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\ProjectSubscription", mappedBy="projet", cascade={"persist"})
+     */
+    private $projectSubscriptions;
 
     public function __construct()
     {
@@ -322,5 +326,5 @@ class Project
     {
         return $this->lastUpdate;
     }
-
 }
+
