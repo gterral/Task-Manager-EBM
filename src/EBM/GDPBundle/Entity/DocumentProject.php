@@ -93,6 +93,12 @@ class DocumentProject
      */
     private $deadlineDate;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\FileEntity", inversedBy="documentProjects")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $files;
+
 
 
     /**
@@ -276,6 +282,7 @@ class DocumentProject
         return $this;
     }
 
+
     /**
      * Get statusChangeDate
      *
@@ -291,6 +298,43 @@ class DocumentProject
     public function __construct()
     {
         $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->files = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * Add file
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $file
+     *
+     * @return DocumentProject
+     */
+    public function addFile(\EBM\GDPBundle\Entity\FileEntity $file)
+    {
+        $this->files[] = $file;
+
+        return $this;
+    }
+
+    /**
+     * Remove file
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $file
+     *
+     */
+    public function removeFile(\EBM\GDPBundle\Entity\FileEntity $file)
+    {
+        $this->files->removeElement($file);
+    }
+
+    /**
+     * Get files
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFiles()
+    {
+        return $this->files;
     }
 
     /**
