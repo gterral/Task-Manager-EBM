@@ -4,7 +4,6 @@ namespace EBM\GDPBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-
 /**
  * Conversation
  *
@@ -26,8 +25,8 @@ class Conversation
     /**
      * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\Comment", inversedBy="conversations",cascade={"persist","remove"})
      * @ORM\JoinTable(name="gdp_conversation_comments")
+     * @ORM\OrderBy({"modificationDate" = "DESC"})
      */
-
     private $comments;
 
     /**

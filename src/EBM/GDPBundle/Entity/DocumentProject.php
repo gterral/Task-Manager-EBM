@@ -79,6 +79,20 @@ class DocumentProject
      */
     private $projects;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="deadlineDate", type="datetime")
+     */
+    private $deadlineDate;
+
 
 
     /**
@@ -311,5 +325,53 @@ class DocumentProject
     public function getProjects()
     {
         return $this->projects;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return DocumentProject
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set datetimeDate
+     *
+     * @param \DateTime $datetimeDate
+     *
+     * @return DocumentProject
+     */
+    public function setDeadlineDate($datetimeDate)
+    {
+        $this->deadlineDate = $datetimeDate;
+
+        return $this;
+    }
+
+    /**
+     * Get datetimeDate
+     *
+     * @return \DateTime
+     */
+    public function getDeadlineDate()
+    {
+        return $this->deadlineDate;
     }
 }

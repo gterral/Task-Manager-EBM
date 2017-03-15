@@ -79,6 +79,20 @@ class DocumentProject
      */
     private $projects;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="deadlineDate", type="datetime")
+     */
+    private $datetimeDate;
+
 
 
     /**
@@ -270,5 +284,46 @@ class DocumentProject
     public function getStatusChangeDate()
     {
         return $this->statusChangeDate;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add project
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $project
+     *
+     * @return DocumentProject
+     */
+    public function addProject(\EBM\UserInterfaceBundle\Entity\Project $project)
+    {
+        $this->projects[] = $project;
+
+        return $this;
+    }
+
+    /**
+     * Remove project
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $project
+     */
+    public function removeProject(\EBM\UserInterfaceBundle\Entity\Project $project)
+    {
+        $this->projects->removeElement($project);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }

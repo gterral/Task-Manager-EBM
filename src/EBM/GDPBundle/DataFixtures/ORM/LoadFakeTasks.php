@@ -8,6 +8,7 @@
 
 namespace EBM\GDPBundle\DataFixtures\ORM;
 
+use DateTime;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Core\UserBundle\Entity\User;
@@ -94,12 +95,16 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
         $document_projet1->setName('Compte Rendu 1');
         $document_projet1->setDocumentTypeProject($document_type1);
         $document_projet1->addProject($projet);
+        $document_projet1->setDeadlineDate(new datetime('2017-05-15'));
+        $document_projet1->setDescription('Rédiger le compte rendu de la derniere RC.');
         $entityManager->persist($document_projet1);
 
         $document_projet2 = new DocumentProject();
         $document_projet2->setName('Presentation 1');
         $document_projet2->setDocumentTypeProject($document_type2);
         $document_projet2->addProject($projet);
+        $document_projet2->setDeadlineDate(new datetime('2017-05-15'));
+        $document_projet2->setDescription('Faire la présentation de la soutance finale.');
         $entityManager->persist($document_projet2);
 
         /* @var User $user */

@@ -2,12 +2,23 @@
 
 namespace EBM\GDPBundle\Controller;
 
+use EBM\GDPBundle\Entity\DocumentProject;
+use EBM\UserInterfaceBundle\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class DeliverableController extends Controller
 {
-    public function indexAction()
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("documentProject",options={"mapping": {"id":"id"}})
+     * @ParamConverter("project",options={"mapping": {"code":"code"}})
+     */
+    public function indexAction(DocumentProject $documentProject, Project $project)
     {
-        return $this->render('EBMGDPBundle:Deliverable:index.html.twig');
+        return $this->render('EBMGDPBundle:Deliverable:index.html.twig',
+            array('documentProject'=> $documentProject,
+                'project'=>$project)
+        );
     }
 }
