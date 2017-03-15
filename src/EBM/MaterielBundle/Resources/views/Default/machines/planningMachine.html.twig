@@ -1,0 +1,89 @@
+
+{% extends "@EBMMateriel/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Disponibilités
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('dev_materiel_fullcalendar/fullcalendar.css') }}" />
+    <style>
+        .fc-day:hover{
+            background:lightblue;
+        }
+
+        .fc-slats
+        {
+            pointer-events: none;
+        }
+    </style>
+{% endblock %}
+
+
+{# Contenu de la page #}
+
+{% block content_body %}
+<div class="page-content container-fluid">
+    {% if machine|length == 1 %}
+        <h1 class="page-title text-center">{{ machine.nom }}</h1><hr>
+        <div class="text-center">
+            <a  class="btn btn-primary waves-effect waves-light text-right" href="{{ path('ebm_materiel_machines_reservation') }}">
+                <i class="icon md-plus" aria-hidden="true"></i>
+                Faire une Reservation
+            </a>
+            <a class="btn btn-primary waves-effect waves-light text-right">
+                <i class="icon md-plus" aria-hidden="true"></i>
+                Voir mes reservations
+            </a><hr>
+        </div>
+
+
+        {% for event in events %}
+            <p>{{ event.description }}</p>
+        {% endfor %}
+        <div id="calendar"></div>
+    {% else %}
+        <h1>Erreur selection machine</h1>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+{# Scripts propres à cette page #}
+{% block scripts %}
+    <script src="{{ asset('dev_materiel_fullcalendar/lib/moment.min.js') }}"></script>
+    <script src="{{ asset('dev_materiel_fullcalendar/fullcalendar.js') }}"></script>
+    <script src="{{ asset('dev_materiel_fullcalendar/lib/jquery-ui.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next,today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                events: {{  jsonEvents|raw }},
+                dayClick: function(date, jsEvent, view) {
+
+                    console.log('Clicked on: ' + date.format());
+
+                    console.log('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+
+                    console.log('Current view: ' + view.name);
+
+
+                },
+
+
+
+            });
+
+            $('#calendar').fullCalendar('changeView','agendaWeek');
+
+        });
+    </script>
+{% endblock %}
