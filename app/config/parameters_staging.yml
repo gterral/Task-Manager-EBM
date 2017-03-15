@@ -2,9 +2,7 @@
 
 parameters:
     database_host: 127.0.0.1
-    database_port: 8889
-    database_name: ebm_filrouge
-    database_user: xxxx
-    database_password: xxxxx
-
-
+    database_port: ~
+    database_name: filrouge
+    database_user: filrouge
+    database_password: filrouge
