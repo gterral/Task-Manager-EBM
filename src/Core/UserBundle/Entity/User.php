@@ -46,6 +46,17 @@ class User extends BaseUser
     */
     private $fullname="";
 
+    /**
+     * @ORM\Column(name="surname", type="string", length=55)
+     * @Assert\Length(min=2, minMessage="Le nom de famille doit au moins comprendre 2 caractères",max=30, maxMessage="Le nom de famille ne peut excéder 50 caractères.")
+     */
+    private $surname;
+
+    /**
+     * @ORM\Column(name="name", type="string", length=55)
+     * @Assert\Length(min=2, minMessage="Le prénom doit au moins comprendre 2 caractères",max=30, maxMessage="Le prénom ne peut excéder 50 caractères.")
+     */
+    private $name;
 
     /**
      * @var int
@@ -55,11 +66,20 @@ class User extends BaseUser
     private $promotion;
 
     /**
+     * @ORM\Column(name="global_role", type="string", length=5)
+     */
+    private $global_role;
+
+    /**
+     * @@ORM\Column(name="image", type="string", length=255)
+     */
+    private $image;
+
+    /**
      * @ORM\ManyToMany(targetEntity="EBM\UserInterfaceBundle\Entity\Project", inversedBy="members")
      * @ORM\JoinTable(name="core_user_project")
      */
     private $projects;
-
 
     /**
      * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", cascade= {"persist"})
@@ -67,11 +87,10 @@ class User extends BaseUser
      */
     private $tags;
 
-
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * @ORM\Column(name="desc", type="text", nullable=true)
      */
     private $description;
 
@@ -217,7 +236,7 @@ class User extends BaseUser
 
     public function getHighestRole()
     {
-        $rolesSortedByImportance = ['ROLE_ADMIN', 'ROLE_STUDENT'];
+        $rolesSortedByImportance = ['ROLE_ADMIN', 'ROLE_USER'];
         foreach ($rolesSortedByImportance as $role)
         {
             if (in_array($role, $this->roles))
@@ -247,10 +266,11 @@ class User extends BaseUser
         return false;
     }
 
-    public function getName()
+    /* Méthode mise en commentaire car interfère avec le getter de la variable $name */
+    /*public function getName()
     {
         return $this->getFullname() != null && strlen($this->getFullname()) > 0 ? $this->getFullname() : $this->getUsername();
-    }
+    }*/
 
     /**
      * @param string $username
@@ -707,4 +727,86 @@ class User extends BaseUser
     {
         $this->tags = $tags;
     }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
+     * @param mixed $surname
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGlobalRole()
+    {
+        return $this->global_role;
+    }
+
+    /**
+     * @param mixed $global_role
+     */
+    public function setGlobalRole($global_role)
+    {
+        $this->global_role = $global_role;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+
 }
