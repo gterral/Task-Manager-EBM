@@ -21,9 +21,12 @@ class CommentController extends Controller
      */
     public function addCommentOnTaskAction(Task $task,Request $request,Project $project)
     {
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
+
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
-        // On cr�e un objet Conversation
+        // On crée un objet Conversation
         if ($task->getConversation() == null){
             $conversation = new Conversation();
             $task->setConversation($conversation);
@@ -58,10 +61,8 @@ class CommentController extends Controller
      */
     public function editCommentOnTaskAction(Task $task,Request $request,Project $project,Comment $comment)
     {
-
-        if (!$comment) {
-            throw $this->createNotFoundException('Commentaire non trouvé.');
-        }
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
 
         $form = $this->createForm(CommentType::class, $comment);
 
@@ -91,10 +92,8 @@ class CommentController extends Controller
      */
     public function deleteCommentOnTaskAction(Task $task,Request $request,Project $project,Comment $comment)
     {
-
-        if (!$comment) {
-            return new JsonResponse(array('success' => false,'error' => "Commentaire supprimé"));
-        }
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($comment);
