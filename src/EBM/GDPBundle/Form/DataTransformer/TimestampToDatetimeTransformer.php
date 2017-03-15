@@ -29,10 +29,12 @@ class TimestampToDatetimeTransformer implements DataTransformerInterface
         // $value est ici la valeur stockée dans le formulaire
         // On la convertit en DateTime
         // http://php.net/manual/fr/function.strtotime.php
+        if ($value != null) {
+            $dateTime = \DateTime::createFromFormat('m/d/Y',$value);
+            return $dateTime;
+        }
+        return null;
 
-        $dateTime = \DateTime::createFromFormat('m/d/Y',$value);
-
-        return $dateTime;
     }
 }
 
