@@ -38,6 +38,19 @@
 <div class="page-content container-fluid">
     {% if machine|length == 1 %}
         <h1 class="page-title text-center">{{ machine.nom }}</h1><hr>
+        <div class="page title waves-effect waves-light">
+            <div class="form-group">
+                <select class="form-control" autocomplete="off" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);    ">
+                    {% for m in machines %}
+                        {% if m.getId() == machine.getId() %}
+                            <option selected="selected" value="{{ path('ebm_materiel_machines_planning', {'machineId': m.getId() })}}">{{ m.getNom() }}</option>
+                        {% else %}
+                            <option value="{{ path('ebm_materiel_machines_planning', {'machineId': m.getId() })}}">{{ m.getNom() }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
         <div class="text-center">
             <a  class="btn btn-primary waves-effect waves-light text-right" href="{{ path('ebm_materiel_machines_reservation') }}">
                 <i class="icon md-plus" aria-hidden="true"></i>
