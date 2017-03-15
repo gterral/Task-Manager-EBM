@@ -31,9 +31,9 @@ Les infos sur le plugin sont ici : https://www.datatables.net/
                 {% elseif task.status == "OPENED" %}
                     {%  set class_var = "label label-primary" %}
                 {% endif %}
-
                 <tr>
-                    <th>{{ task.id }}</th>
+                    {# We print the task name in a hidden span so we can search tasks without put accents #} 
+                    <td>{{ task.id }} <span class="hidden">{{ task.name|removeSpecialChars }}</span> </td>
                     <td class="subject">
                         <a href="{{ path('ebmgdp_task', {'code':project.code, 'id':task.id}) }}" class="">
                             {{ task.name }}
