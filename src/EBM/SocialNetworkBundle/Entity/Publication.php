@@ -260,4 +260,5 @@ class Publication
     {
         return $this->userPublication;
     }
+
 }

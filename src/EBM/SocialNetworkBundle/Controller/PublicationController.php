@@ -2,11 +2,14 @@
 
 namespace EBM\SocialNetworkBundle\Controller;
 
+use EBM\SocialNetworkBundle\EBMSocialNetworkBundle;
+use EBM\SocialNetworkBundle\Entity\Comment;
+use EBM\SocialNetworkBundle\Form\AddCommentType;
 use EBM\SocialNetworkBundle\Form\AddPublicationType;
 use EBM\SocialNetworkBundle\Entity\Publication;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 
 #Recuperer les tags que l'user like
@@ -15,15 +18,28 @@ use Symfony\Component\HttpFoundation\Request;
 #Afficher tous les publications qui correspondent a l'un des trois
 class PublicationController extends Controller
 {
-
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("publication",options={"mapping": {"id":"id"}})
      */
-    public function viewAction(Publication $publication)
+    public function viewAction(Request $request, Publication $publication)
     {
+        $comment = new Comment();
+        $form = $this->createForm(AddCommentType::class, $comment);
+        $em = $this->getDoctrine()->getManager();
+
+        if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
+            $comment->setPublication($publication);
+            $em->persist($comment);
+            $em->flush();
+        }
+
+        $comments = $em->getRepository('EBMSocialNetworkBundle:Comment')->findByPublication($publication);
+
         return $this->render('EBMSocialNetworkBundle:Publication:view.html.twig',
-            ['publication' => $publication]);
+            ['publication' => $publication,
+            'form'=> $form->createView(),
+            'comments'=>$comments]);
     }
 
     public function addAction(Request $request)
