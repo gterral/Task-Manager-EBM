@@ -38,10 +38,7 @@
 
 
     {% endfor %}
-    <span class="input-group-btn">
-        <a type="button" class="btn btn-primary waves-effect waves-light" href="{{ path('ebmkm_forum_answer_topic', {'id': topic.id}) }}">
-           Répondre
-        </a>
-    </span>
+    <h2>Répondre</h2>
+    {{ form(form) }}
 
 {% endblock %}
