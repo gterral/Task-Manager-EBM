@@ -1,0 +1,30 @@
+{% extends "@EBMGDP/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion de projet
+{% endblock %}
+
+{# CSS propres � cette page #}
+{% block stylesheets %}
+{% endblock %}
+
+{# Contenu de la page #}
+
+{% block content_body %}
+
+    {# Tableau Projets #}
+    {%  if listProjects is null or listProjects|length == 0 %}
+        <p class="margin-20 text-center">Aucun projet n'a été trouvé</p>
+    {% else %}
+        {% include "EBMGDPBundle:Insight/components:projectsTable.html.twig" %}
+    {% endif %}
+
+
+{% endblock %}
+
+
+{# Scripts propres � cette page #}
+{% block scripts %}
+
+{% endblock %}

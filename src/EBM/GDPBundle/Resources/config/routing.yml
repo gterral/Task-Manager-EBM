@@ -2,8 +2,8 @@
 
 # Vue Dashboard des projets encadrant - /encadrant/projects_dashboard
 ebmgdp_dashboard:
-    path:     dashboard
-    defaults: { _controller: EBMGDPBundle:Default:index }
+    path:     insight
+    defaults: { _controller: EBMGDPBundle:Insight:index }
 
 # Vue liste tache d'un projet
 ebmgdp_projecttasks:
