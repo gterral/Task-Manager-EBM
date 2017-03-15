@@ -20,11 +20,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\File;
 
 
 class DocumentController extends Controller
 {
 
+    /**
+     * List all documents
+     *
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function indexAction(){
 
         $documents = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->findAll();
@@ -33,6 +42,8 @@ class DocumentController extends Controller
     }
 
     /**
+     * Create a new document
+     *
      * @Security("has_role('ROLE_USER')")
      *
      * @param Request $request
@@ -49,19 +60,8 @@ class DocumentController extends Controller
         ));
         $form->handleRequest($request);
 
+
         if($form->isSubmitted() && $form->isValid()){
-            /** @var UploadedFile $file */
-            $file = $document->getFile();
-
-            $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
-            $file->move(
-                $this->getParameter('files_directory'),
-                $fileName
-            );
-
-            // replace the file by its name
-            $document->setFile($fileName);
 
             // The document's author is the current user
             $user = $this->getUser();
@@ -72,8 +72,7 @@ class DocumentController extends Controller
             $em->persist($document);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('ebmkm_homepage'));
-
+            return $this->redirect($this->generateUrl('ebmkm_document_index'));
         }
 
         return $this->render('EBMKMBundle:Documents:upload.html.twig', array(
@@ -82,6 +81,15 @@ class DocumentController extends Controller
 
     }
 
+    /**
+     * Finds and displays a document based on its id
+     *
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @param $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function detailAction($id, Request $request){
         /** @var Document $document */
         $document = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->find($id);
@@ -117,7 +125,7 @@ class DocumentController extends Controller
             $em->persist($post);
             $em->persist($document);
             $em->flush();
-            return $this->redirectToRoute('ebmkm_file_detail', array('id' => $document->getId()));
+            return $this->redirectToRoute('ebmkm_document_detail', array('id' => $document->getId()));
         }
 
         /*
@@ -149,7 +157,7 @@ class DocumentController extends Controller
             $evaluation->setDocument($document);
             $em->persist($evaluation);
             $em->flush();
-            return $this->redirectToRoute('ebmkm_file_detail', array('id' => $document->getId()));
+            return $this->redirectToRoute('ebmkm_document_detail', array('id' => $document->getId()));
         }
 
         return $this->render('EBMKMBundle:Documents:detail.html.twig', array(
@@ -159,6 +167,86 @@ class DocumentController extends Controller
             'personalEvaluation' => $personalEvaluation,
             'evaluationForm' => $evaluationForm->createView()
         ));
+    }
+
+    /**
+     * Displays a form to update a document, based on its id
+     * This form can only be edited by the author of the document.
+     *
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @param $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function updateAction($id, Request $request){
+        $document = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->find($id);
+        $tags = $this->getDoctrine()->getRepository('EBMKMBundle:Tag')->findAll();
+
+        // Retrieve the path of the file
+        $helper = $this->get('vich_uploader.templating.helper.uploader_helper');
+        $path = $helper->asset($document, 'file');
+
+        //Retrieve the file and pass it to the document entity
+        $kernel_root_dir = $this->getParameter('kernel.root_dir');
+        $file = new File\File( $kernel_root_dir . '/../web' . $path);
+        $document->setFile($file);
+
+        $deleteForm = $this->createDeleteForm($document);
+        $editForm = $this->createForm(DocumentType::class, $document, array(
+            'tags' => $tags
+        ));
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('ebmkm_document_detail', array('id' => $document->getId()));
+        }
+
+        return $this->render('EBMKMBundle:Documents:update.html.twig', array(
+            'document' => $document,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Deletes a document.
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        /** @var Document $document */
+        $document = $this->getDoctrine()->getRepository("EBMKMBundle:Document")->find($id);
+
+        $form = $this->createDeleteForm($document);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($document);
+            $em->flush($document);
+        }
+
+        return $this->redirectToRoute('ebmkm_document_index');
+    }
+
+    /**
+     * Creates a form to delete a document entity
+     *
+     * @param Document $document The document entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(Document $document)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('ebmkm_document_delete', array('id' => $document->getId())))
+            ->setMethod('DELETE')
+            ->getForm();
     }
 
 }
