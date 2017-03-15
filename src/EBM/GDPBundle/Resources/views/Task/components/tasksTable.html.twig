@@ -65,7 +65,7 @@ Les infos sur le plugin sont ici : https://www.datatables.net/
                         </div>
                     </td>
                     {% if task.deadline != null %}
-                        <td>{{ task.deadline|date('Y-m-d') }}</td>
+                        <td><span class="hidden">{{ task.deadline|date('U') }}</span> {{ task.deadline|date('d-m-Y') }}</td>
                     {% else %}
                         <td>Non renseigné</td>
                     {% endif %}
