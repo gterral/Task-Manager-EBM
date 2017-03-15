@@ -16,6 +16,8 @@ class DeliverableController extends Controller
      */
     public function indexAction(DocumentProject $documentProject, Project $project)
     {
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
+
         return $this->render('EBMGDPBundle:Deliverable:index.html.twig',
             array('documentProject'=> $documentProject,
                 'project'=>$project)
