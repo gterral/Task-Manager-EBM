@@ -14,10 +14,20 @@
             background:lightblue;
         }
 
+        .fc-time:hover{
+            background: lightblue;
+        }
+
         .fc-slats
         {
             pointer-events: none;
         }
+
+        .fc-bg
+        {
+            pointer-events: none;
+        }
+
     </style>
 {% endblock %}
 
@@ -43,6 +53,7 @@
         {% for event in events %}
             <p>{{ event.description }}</p>
         {% endfor %}
+
         <div id="calendar"></div>
     {% else %}
         <h1>Erreur selection machine</h1>
@@ -83,6 +94,10 @@
             });
 
             $('#calendar').fullCalendar('changeView','agendaWeek');
+
+            $('#calendar tr').mouseover(function () {
+                console.log($(this).attr('data-time'));
+            })
 
         });
     </script>
