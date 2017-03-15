@@ -65,7 +65,8 @@ class MachineController extends Controller
                 array(
                     'machine' => $this->getMachine($machineId),
                     'events' => $reservations,
-                    'jsonEvents' => $jsonEvents
+                    'jsonEvents' => $jsonEvents,
+                    'machines' => $this->getAllMachines()
                 )
             );
     }
