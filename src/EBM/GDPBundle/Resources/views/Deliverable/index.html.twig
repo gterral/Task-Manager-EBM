@@ -16,7 +16,33 @@
 
 {% block content_body %}
 
-    Ceci est la vue d'un livrable specifique du projet
+            <div class="pricing-list">
+                <div class="pricing-header">
+                    <div class="pricing-title">
+                        {{ project.name|upper }} : Livrable #{{ documentProject.id }}
+                    </div>
+                    <div class="pricing-price">
+                        <span class="pricing-currency">{{ documentProject.name }}</span>
+                    </div>
+                </div>
+                <div class="pricing-features">
+                    <li>Description: {{ documentProject.description }}</li>
+                    <li>
+                        Date Création: <strong>{{ documentProject.creationDate|date("Y-m-d") }}</strong>&emsp;|&emsp;
+                        Deadline: <strong>{{ documentProject.deadlineDate|date("Y-m-d") }}</strong>
+                    </li>
+                    <li>Derniere Modification: {{ documentProject.modificationDate|date("Y-m-d") }}</li>
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5">
+                                <button type="button" class="btn btn-block btn-primary waves-effect waves-light">
+                                    Joindre Document
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+            </div>
 
 {% endblock %}
 
