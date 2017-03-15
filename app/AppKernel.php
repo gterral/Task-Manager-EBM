@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Core\IconbarBundle\CoreIconbarBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new \Vich\UploaderBundle\VichUploaderBundle(),
             new Core\DashboardBundle\CoreDashboardBundle(),
             new Core\UserBundle\CoreUserBundle(),
             new FOS\RestBundle\FOSRestBundle(),
