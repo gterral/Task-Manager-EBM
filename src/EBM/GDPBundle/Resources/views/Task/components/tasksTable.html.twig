@@ -44,7 +44,7 @@ Les infos sur le plugin sont ici : https://www.datatables.net/
                         <div class="form-group">
                             <select class="form-control task-status">
                                 <option data-task="{{ task.id }}" data-status="IN_PROGRESS" {% if task.status == 'IN_PROGRESS' %}selected{% endif %}>
-                                    <span class="{{ class_var }}">En cours</span>
+                                    <span class="{{ class_var }} ">En cours</span>
                                 </option>
                                 <option data-task="{{ task.id }}" data-status="ARCHIVED" {% if task.status == 'ARCHIVED' %}selected{% endif %}>
                                     <span class="{{ class_var }}">Archivé</span>
@@ -64,7 +64,11 @@ Les infos sur le plugin sont ici : https://www.datatables.net/
                             </select>
                         </div>
                     </td>
-                    <td>{{ task.deadline|date('Y-m-d') }}</td>
+                    {% if task.deadline != null %}
+                        <td>{{ task.deadline|date('Y-m-d') }}</td>
+                    {% else %}
+                        <td>Non renseigné</td>
+                    {% endif %}
                     <td><a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}"><i class="icon md-delete" aria-hidden="true" style="color:red;font-size:20px"></i></a></td>
                 </tr>
             {% endfor %}
