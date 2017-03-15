@@ -117,7 +117,7 @@ vich_uploader:
        gdp:
             uri_prefix:         /uploads/files/gdp
             upload_destination: '%kernel.root_dir%/../web/uploads/files/gdp'
-
+            namer:              vich_uploader.namer_hash
             inject_on_load:     false
             delete_on_update:   true
             delete_on_remove:   true
