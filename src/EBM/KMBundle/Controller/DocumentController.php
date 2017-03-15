@@ -60,19 +60,8 @@ class DocumentController extends Controller
         ));
         $form->handleRequest($request);
 
+
         if($form->isSubmitted() && $form->isValid()){
-            /** @var UploadedFile $file */
-            $file = $document->getFile();
-
-            $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
-            $file->move(
-                $this->getParameter('files_directory'),
-                $fileName
-            );
-
-            // replace the file by its name
-            $document->setFile($fileName);
 
             // The document's author is the current user
             $user = $this->getUser();
@@ -84,7 +73,6 @@ class DocumentController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('ebmkm_document_index'));
-
         }
 
         return $this->render('EBMKMBundle:Documents:upload.html.twig', array(
@@ -194,6 +182,15 @@ class DocumentController extends Controller
     public function updateAction($id, Request $request){
         $document = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->find($id);
         $tags = $this->getDoctrine()->getRepository('EBMKMBundle:Tag')->findAll();
+
+        // Retrieve the path of the file
+        $helper = $this->get('vich_uploader.templating.helper.uploader_helper');
+        $path = $helper->asset($document, 'file');
+
+        //Retrieve the file and pass it to the document entity
+        $kernel_root_dir = $this->getParameter('kernel.root_dir');
+        $file = new File\File($kernel_root_dir . '/../web' . $path);
+        $document->setFile($file);
 
         $deleteForm = $this->createDeleteForm($document);
         $editForm = $this->createForm(DocumentType::class, $document, array(

@@ -8,7 +8,7 @@
     <div>Description : {{ document.description }}</div>
 
     {% if document.file %}
-        <a href="{{ asset('uploads/files/' ~ document.file) }}">Voir le fichier</a>
+        <a href="{{ vich_uploader_asset(document, 'file') }}">Voir le fichier</a>
     {% endif %}
 
     {% if document.link %}

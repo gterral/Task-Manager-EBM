@@ -4,6 +4,7 @@ namespace EBM\KMBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -12,6 +13,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @ORM\Table(name="km_document")
  * @ORM\Entity(repositoryClass="EBM\KMBundle\Repository\DocumentRepository")
+ *
+ * @Vich\Uploadable
  */
 class Document
 {
@@ -35,31 +38,19 @@ class Document
      *
      * @ORM\Column(type="string", nullable=true)
      *
-     * @Assert\NotBlank(message="Formats de fichiers supportés : pdf, doc, docx, odt, txt, xls, xlsx, ods, jpg, jpeg,
-     *                           png, gif, zip, rar, epub, avi, mov, mp4, mpg, mpeg, wmv")
-     * @Assert\File(mimeTypes={"application/pdf",
-     *                         "application/vnd.oasis.opendocument.text",
-     *                         "application/msword",
-     *                         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-     *                         "text/plain",
-     *                         "application/vnd.ms-excel",
-     *                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-     *                         "application/vnd.oasis.opendocument.spreadsheet",
-     *                         "image/jpeg",
-     *                         "image/png",
-     *                         "image/gif",
-     *                         "application/epub+zip",
-     *                         "application/x-rar-compressed",
-     *                         "application/zip",
-     *                         "video/mp4",
-     *                         "video/quicktime",
-     *                         "video/x-msvideo",
-     *                         "video/x-ms-wmv",
-     *                         "video/x-flv",
-     *                         "video/webm",
-     *                         "video/mpeg"})
+     * @Vich\UploadableField(mapping="km", fileNameProperty="fileName")
+     *
+     * @var File
      */
     private $file;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fileName;
+
 
     /**
      * @var string
@@ -81,6 +72,13 @@ class Document
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    private $updatedDate;
 
     /**
      * @Orm\OneToOne(targetEntity="EBM\KMBundle\Entity\Topic", inversedBy="document", cascade={"persist"})
@@ -146,7 +144,7 @@ class Document
     /**
      * Set file
      *
-     * @param $file
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return Document
      */
@@ -154,11 +152,15 @@ class Document
     {
         $this->file = $file;
 
+        if($file){
+            $this->updatedDate = new \DateTimeImmutable();
+        }
+
         return $this;
     }
 
     /**
-     * Get file
+     * Get File|null
      *
      * @return string
      */
@@ -336,6 +338,39 @@ class Document
         $this->author = $author;
         return $this;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedDate()
+    {
+        return $this->updatedDate;
+    }
+
+    /**
+     * @param \DateTime $updatedDate
+     */
+    public function setUpdatedDate($updatedDate)
+    {
+        $this->updatedDate = $updatedDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
 
 
 }
