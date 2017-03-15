@@ -2,8 +2,10 @@
 
 namespace EBM\KMBundle\Controller;
 
+use Core\UserBundle\Entity\User;
 use EBM\KMBundle\Entity\Post;
 use EBM\KMBundle\Entity\Topic;
+use EBM\KMBundle\Entity\Vote;
 use EBM\KMBundle\Form\PostType;
 use EBM\KMBundle\Form\TopicType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -50,6 +52,25 @@ class ForumController extends Controller
         return $this->render('EBMKMBundle:Forum:createTopic.html.twig', array('form' => $form->createView()));
     }
 
+    public function upVotePostAction (User $user_id, Post $post_id ) {
+        $em = $this->getDoctrine()->getManager();
+        $vote = new Vote();
+        $vote->setValue(1);
+        $vote->setPost($post_id);
+        $vote->setUser($user_id);
+        $em->persist($vote);
+        $em->flush();
+    }
+
+    public function downVotePostAction ($user_id,$post_id) {
+        $em = $this->getDoctrine()->getManager();
+        $vote = new Vote();
+        $vote->setValue(-1);
+        $vote->setPost($post_id);
+        $vote->setUser($user_id);
+        $em->persist($vote);
+        $em->flush();
+    }
     public function viewTopicAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -83,4 +104,8 @@ class ForumController extends Controller
             return $this->render('EBMKMBundle:Forum:viewTopic.html.twig', array('topic' => $topic, 'form' => $form->createView()));
         }
     }
+
+
+
+
 }
