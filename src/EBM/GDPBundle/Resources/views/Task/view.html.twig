@@ -43,16 +43,15 @@
 
             <div class="panel">
                 <div class="panel-head">
-                    <h3 class="panel-title">Messages
+                    <h3 class="panel-title" style="display:inline-block;vertical-align:baseline;padding-right:5px;">Messages</h3>
                         <span class="badge badge-danger">{{ task.conversation.comments|length }}</span>
-                        <button class="site-action btn-raised btn btn-success btn-floating" data-target="#addCommentForm" data-toggle="modal" type="button">
-                            <i class="icon md-edit" aria-hidden="true"></i>
+                        <button class="site-action btn-raised btn btn-success btn-floating" data-target="#addCommentForm" data-toggle="modal" type="button" style="background-color:#4caf50;border-color:#4caf50;width:50px;height:50px;font-size:32px;">
+                            <i class="icon md-edit" aria-hidden="true" style="margin-right:0;"></i>
                         </button>
                         <div class="modal fade" id="addCommentForm" aria-hidden="true" aria-labelledby="addCommentForm" role="dialog" tabindex="-1">
                             <div id="comment">
                             </div>
                         </div>
-                    </h3>
                 </div>
 
                 <div class="panel-body">
@@ -68,20 +67,16 @@
                                             </a>
                                         </div>
                                         <div class="media-body">
-                                            <h4 class="media-heading">Nom utilisateur
-                                                <span>a posté</span>
-                                                <button class="" data-target="#editCommentForm{{ comment.id }}" data-toggle="modal" type="button">
-                                                    <i class="icon md-edit" aria-hidden="true"></i>
-                                                </button>
-                                                <button class="" onclick="deleteComment({{ comment.id }})" type="button">
-                                                    <i class="icon md-delete" aria-hidden="true"></i>
-                                                </button>
-                                                <div class="modal fade editCommentJS" id="editCommentForm{{ comment.id }}" title= "{{ comment.id }}" aria-hidden="true" aria-labelledby="editCommentForm{{ comment.id }}" role="dialog" tabindex="-1">
-                                                    <div id="comment{{ comment.id }}">
-                                                    </div>
+                                            <h4 class="media-heading" style="display: inline-block;vertical-align: baseline;">Nom utilisateur </h4>
+                                            <small>a posté le {{ comment.creationDate|date("d-m-Y à h:i") }}</small>
+                                            <div class="btn-group" role="group" style="margin-left: 0.5em;">
+                                                <button type="button" class="btn btn-icon btn-info waves-effect waves-light" data-target="#editCommentForm{{ comment.id }}" data-toggle="modal" style="padding:8px;padding: 8px;font-size: 14px; line-height: 0.5em;"><i class="icon md-edit" aria-hidden="true"></i></button>
+                                                <button type="button" class="btn btn-icon btn-info waves-effect waves-light" onclick="deleteComment({{ comment.id }})" style="padding:8px;padding: 8px;font-size: 14px; line-height: 0.5em;"><i class="icon md-delete" aria-hidden="true"></i></button>
+                                            </div>
+                                            <div class="modal fade editCommentJS" id="editCommentForm{{ comment.id }}" title= "{{ comment.id }}" aria-hidden="true" aria-labelledby="editCommentForm{{ comment.id }}" role="dialog" tabindex="-1">
+                                                <div id="comment{{ comment.id }}">
                                                 </div>
-                                            </h4>
-                                            <small>{{ comment.creationDate|date("Y-m-d") }}</small>
+                                            </div>
                                             <div class="profile-brief">{{ comment.content }}</div>
                                         </div>
                                     </div>
