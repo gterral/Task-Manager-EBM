@@ -8,12 +8,12 @@
         </tr>
         {% for document in documents %}
             <tr>
-                <td><a href="{{ path('ebmkm_file_detail', { id: document.id }) }}">{{ document.name }}</a></td>
+                <td><a href="{{ path('ebmkm_document_detail', { id: document.id }) }}">{{ document.name }}</a></td>
                 <td>{{ document.date | date('d-M-Y H:i:s') }}</td>
                 <td>{{ document.author.username }}</td>
             </tr>
         {% endfor %}
     </table>
-    <a href="{{ path('ebmkm_file_upload') }}">Nouveau Document</a>
+    <a href="{{ path('ebmkm_document_create') }}">Nouveau Document</a>
 {% endblock %}
 

@@ -103,3 +103,11 @@ stof_doctrine_extensions:
         default:
             sluggable: true
             timestampable: true
+
+# Vich Uploader Extension
+vich_uploader:
+    db_driver: orm
+    mappings:
+        km:
+            uri_prefix:         /uploads/files/km
+            upload_destination: '%kernel.root_dir%/../web/uploads/files/km'

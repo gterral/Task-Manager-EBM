@@ -22,17 +22,29 @@ ebmkm_forum_answer_topic:
 
 # --- Routes de la gestion de documents ---
 
-ebmkm_file_upload:
+ebmkm_document_create:
     path: /documents/upload
     defaults: { _controller: EBMKMBundle:Document:upload}
 
-ebmkm_file_homepage:
+ebmkm_document_index:
     path: /documents
     defaults: { _controller: EBMKMBundle:Document:index}
 
-ebmkm_file_detail:
+ebmkm_document_detail:
     path: /documents/{id}
     defaults: { _controller: EBMKMBundle:Document:detail }
+    requirements:
+        id: '\d+'
+
+ebmkm_document_update:
+    path: /documents/{id}/edit
+    defaults: { _controller: EBMKMBundle:Document:update }
+    requirements:
+        id: '\d+'
+
+ebmkm_document_delete:
+    path: /documents/{id}/delete
+    defaults: { _controller: EBMKMBundle:Document:update }
     requirements:
         id: '\d+'
 
