@@ -3,16 +3,14 @@
 
 {% block content_body %}
     
-   {# <a type="button" href="{{ path('ebmkm_forum_homepage') }}" class="btn btn-sm btn-primary ladda-button" data-style="slide-left" data-plugin="laddaProgress">
+    <a type="button" href="{{ path('ebmkm_forum_homepage') }}" class="btn btn-sm btn-primary ladda-button" data-style="slide-left" data-plugin="laddaProgress">
         <span class="ladda-label"><i class="icon md-long-arrow-left margin-right-10" aria-hidden="true"></i>Retour au forum</span>
         <span class="ladda-spinner"></span></a>
 
     <div class ="page-header ">
         <div class="row">
             <div class="col-md-2 ">
-                <div> <button type="button" href="{{ path('ebmkm_forum_upvote', {'user_id': user.id, 'post_id': post.id}) }}" class="btn btn-floating btn-info btn-xs waves-effect waves-float waves-light"> <i class="fa fa-plus fa-1" aria-hidden="true">  </i> </button> </div>
                 <div> COMPTEUR </div>
-                <div> <button type="button" class="btn btn-floating btn-info btn-xs waves-effect waves-float waves-light"> <i class="fa fa-minus fa-1" aria-hidden="true">  </i> </button> </div>
             </div>
             <div class="col-md-6">
                 <h1 class ="page-title vertical-align-middle">
@@ -26,7 +24,9 @@
         <div class="well">
             <div class="row">
                 <div class="col-md-2 ">
-                    <div> <button type="button" class="btn btn-floating btn-info btn-xs waves-effect waves-float waves-light"> <i class="fa fa-plus" aria-hidden="true">  </i> </button>  </div>
+                    <div> <a type="button"
+                                  href="{{ path('ebmkm_forum_upvote', {'user_id': app.user.id, 'post_id': post.id}) }}"
+                                  class="btn btn-floating btn-info btn-xs waves-effect waves-float waves-light"> <i class="fa fa-plus" aria-hidden="true">  </i> </a>  </div>
                     <div> </div>
                     <div> <button type="button" class="btn btn-floating btn-info btn-xs waves-effect waves-float waves-light"> <i class="fa fa-minus" aria-hidden="true">  </i> </button> </div>
                 </div>
@@ -43,5 +43,5 @@
            Répondre
         </a>
     </span>
-#}
+
 {% endblock %}
