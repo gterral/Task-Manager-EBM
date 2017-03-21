@@ -1,9 +1,39 @@
 # src/EBM/GDPBundle/Resources/config/routing.yml
 
-# Vue Dashboard des projets encadrant - /encadrant/projects_dashboard
-ebmgdp_dashboard:
+# Vue Dashboard des projets encadrant
+ebmgdp_insight:
     path:     insight
     defaults: { _controller: EBMGDPBundle:Insight:index }
+
+ebmgdp_insight_documentproject:
+    path:     insight/documentproject
+    defaults: { _controller: EBMGDPBundle:Insight:documentProject }
+
+ebmgdp_insight_documenttypeproject_index:
+    path:     insight/documenttypeproject
+    defaults: { _controller: EBMGDPBundle:DocumentTypeProject:index }
+
+ebmgdp_insight_documenttypeproject_new:
+    path:     insight/documenttypeproject/new
+    defaults: { _controller: EBMGDPBundle:DocumentTypeProject:new }
+
+ebmgdp_insight_documenttypeproject_show:
+    path:     insight/documenttypeproject/{id}
+    defaults: { _controller: EBMGDPBundle:DocumentTypeProject:show }
+    requirements:
+             id: \d+
+
+ebmgdp_insight_documenttypeproject_edit:
+   path:     insight/documenttypeproject/{id}/edit
+   defaults: { _controller: EBMGDPBundle:DocumentTypeProject:edit }
+   requirements:
+            id: \d+
+
+ebmgdp_insight_documenttypeproject_delete:
+   path:     insight/documenttypeproject/{id}/delete
+   defaults: { _controller: EBMGDPBundle:DocumentTypeProject:delete }
+   requirements:
+            id: \d+
 
 # Vue liste tache d'un projet
 ebmgdp_projecttasks:
