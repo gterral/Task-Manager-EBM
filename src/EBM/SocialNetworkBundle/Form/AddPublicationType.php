@@ -32,6 +32,7 @@ class AddPublicationType extends AbstractType
                 ->add('projects', EntityType::class ,  array(
                     'class' => 'EBMUserInterfaceBundle:Project',
                     'choice_label' => 'name',
+                    'required'=> false,
                     'multiple' => true,
                     'query_builder' => function (ProjectRepository $er) use ($user) {
                         return $er->createQueryBuilder('projects')
