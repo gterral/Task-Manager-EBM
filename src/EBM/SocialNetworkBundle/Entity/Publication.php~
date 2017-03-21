@@ -59,6 +59,12 @@ class Publication
     private $content;
 
     /**
+     * @ORM\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\Comment", mappedBy="publication")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $comments;
+
+    /**
      * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", cascade={"persist"})
      */
     private $tags;
@@ -259,5 +265,40 @@ class Publication
     public function getUserPublication()
     {
         return $this->userPublication;
+    }
+
+
+    /**
+     * Add publication
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\Comment $publication
+     *
+     * @return Publication
+     */
+    public function addPublication(\EBM\SocialNetworkBundle\Entity\Comment $publication)
+    {
+        $this->publication[] = $publication;
+
+        return $this;
+    }
+
+    /**
+     * Remove publication
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\Comment $publication
+     */
+    public function removePublication(\EBM\SocialNetworkBundle\Entity\Comment $publication)
+    {
+        $this->publication->removeElement($publication);
+    }
+
+    /**
+     * Get publication
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPublication()
+    {
+        return $this->publication;
     }
 }
