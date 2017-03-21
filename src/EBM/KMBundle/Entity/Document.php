@@ -73,42 +73,14 @@ class Document
      */
     private $date;
 
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @var \DateTime
-     */
-    private $updatedDate;
 
     /**
-     * @Orm\OneToOne(targetEntity="EBM\KMBundle\Entity\Topic", inversedBy="document", cascade={"persist"})
+     * @Orm\ManyToOne(targetEntity="EBM\KMBundle\Entity\DocumentHistory", inversedBy="documents", cascade={"persist"})
      */
-    private $commentTopic;
-
-    /**
-     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", inversedBy="documents", cascade={"persist"})
-     */
-    private $tags;
-
-    /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy= "document", cascade= {"persist"})
-     */
-    private $evaluations;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy= "createDocument", cascade= {"persist"})
-     */
-    private $author;
-
-    /**
-     * @Orm\ManyToOne(targetEntity="EBM\KMBundle\Entity\DocumentRepository", inversedBy="documents", cascade={"persist"})
-     */
-    private $repository;
+    private $history;
 
     public function __construct()
     {
-        $this->tags = new ArrayCollection();
-        $this->evaluations = new ArrayCollection();
         $this->date = new \DateTime();
     }
 
@@ -249,120 +221,6 @@ class Document
     }
 
     /**
-     * @return mixed
-     */
-    public function getCommentTopic()
-    {
-        return $this->commentTopic;
-    }
-
-    /**
-     * @param mixed $commentTopic
-     */
-    public function setCommentTopic($commentTopic)
-    {
-        $this->commentTopic = $commentTopic;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
-
-    /**
-     * @param mixed $tags
-     */
-    public function setTags($tags)
-    {
-        $this->tags = $tags;
-    }
-
-    public function addTag($tag){
-        $this->tags->add($tag);
-        return $this;
-    }
-
-    /**
-     * @param Tag $tag
-     */
-    public function removeTag(Tag $tag){
-        $this->tags->removeElement($this);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEvaluations()
-    {
-        return $this->evaluations;
-    }
-
-    /**
-     * @param mixed $evaluations
-     */
-    public function setEvaluations($evaluations)
-    {
-        $this->evaluations = $evaluations;
-    }
-
-    /**
-     * @param EvaluationDocument $evaluation
-     * @return $this
-     */
-    public function addEvaluation(EvaluationDocument $evaluation){
-        $this->evaluations->add($evaluation);
-        return $this;
-    }
-
-    /**
-     * @param EvaluationDocument $evaluation
-     * @return $this
-     */
-    public function removeEvaluation(EvaluationDocument $evaluation){
-        $this->evaluations->removeElement($evaluation);
-        return $this;
-    }
-    
-
-    /**
-     * @return mixed
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    /**
-     * @param mixed $author
-     *
-     * @return $this
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedDate()
-    {
-        return $this->updatedDate;
-    }
-
-    /**
-     * @param \DateTime $updatedDate
-     */
-    public function setUpdatedDate($updatedDate)
-    {
-        $this->updatedDate = $updatedDate;
-    }
-
-    /**
      * @return string
      */
     public function getFileName()
@@ -379,19 +237,19 @@ class Document
     }
 
     /**
-     * @return mixed
+     * @return DocumentHistory
      */
-    public function getRepository()
+    public function getHistory()
     {
-        return $this->repository;
+        return $this->history;
     }
 
     /**
-     * @param mixed $repository
+     * @param mixed $history
      */
-    public function setRepository($repository)
+    public function setHistory($history)
     {
-        $this->repository = $repository;
+        $this->history = $history;
     }
 
 }

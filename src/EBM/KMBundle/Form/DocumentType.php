@@ -29,14 +29,6 @@ class DocumentType extends AbstractType
             ->add('description', TextareaType::class, array(
                 'label' => 'Description du document'
             ))
-            ->add('tags', EntityType::class, array(
-                'label' => 'Tags',
-                'class' => 'EBMKMBundle:Tag',
-                'choices' => $options['tags'],
-                'choice_label' => 'name',
-                'expanded' => true,
-                'multiple' => true,
-            ))
             ->add('file', FileType::class, array(
                 'label' => 'Dépôt de fichier',
                 'required' => false

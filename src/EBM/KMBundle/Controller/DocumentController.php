@@ -10,6 +10,8 @@ namespace EBM\KMBundle\Controller;
 
 
 use EBM\KMBundle\Entity\Document;
+use EBM\KMBundle\Entity\DocumentHistory;
+use EBM\KMBundle\Entity\DocumentRepository;
 use EBM\KMBundle\Entity\EvaluationDocument;
 use EBM\KMBundle\Entity\Post;
 use EBM\KMBundle\Entity\Topic;
@@ -64,11 +66,14 @@ class DocumentController extends Controller
 
         if($form->isSubmitted() && $form->isValid()){
 
-            // The document's author is the current user
+            // Le créateur du document est l'utilisateur courrant.
             $user = $this->getUser();
             $document->setAuthor($user);
 
-            // Persist the newly created document
+            $DocumentRepository = new DocumentHistory();
+            $DocumentRepository->addDocument($document);
+
+            // On persiste le document et son historique nouvellement créé.
             $em = $this->getDoctrine()->getManager();
             $em->persist($document);
             $em->flush();
@@ -195,7 +200,12 @@ class DocumentController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function updateAction($id, Request $request){
-        $document = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->find($id);
+        /**
+         * On récupère un clone de la dernière version du document.
+         *
+         * @var Document $document
+         */
+        $document = clone $this->getDoctrine()->getRepository('EBMKMBundle:Document')->find($id);
         $tags = $this->getDoctrine()->getRepository('EBMKMBundle:Tag')->findAll();
 
         /*
@@ -216,9 +226,11 @@ class DocumentController extends Controller
 
         /*
          * On récupère le nouveau formulaire, et on applique les modifications.
-         * Si le fichier a été modifié,
+         * On rajoute le nouveau document dans l'historique.
          */
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $document->getHistory()->addDocument($document);
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('ebmkm_document_detail', array('id' => $document->getId()));
