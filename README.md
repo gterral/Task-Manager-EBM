@@ -80,20 +80,19 @@ Plusieurs filtres twig custom ont été rajouté, vous pouvez les découvrir en 
 Le template complet se trouve ici :
 http://getbootstrapadmin.com/remark/material/iconbar/index.html
 
-# Build docker image
-## Login on Docker Hub
+# Login on Gitlab registry
 
 ```bash
-docker login
+docker login registry.gitlab.com
 ```
-With credentials : `centraleebm / DockerRepo`
+With credentials : `centraleebm / GitlabRepo`
 
-## Build image behind a proxy
+# Build image behind a proxy
 ```bash
-docker build . -t centraleebm/fablab-symfony:staging --network host --build-arg http_proxy
+docker build -t registry.gitlab.com/filrouge-fablab/fablab-symfony:staging . --network host --build-arg http_proxy
 ```
 
-## Send image to docker Hub
+# Send image to docker Hub
 ```bash
-docker push centraleebm/fablab-symfony:staging
+docker push registry.gitlab.com/filrouge-fablab/fablab-symfony:staging
 ```

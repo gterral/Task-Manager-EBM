@@ -1,7 +1,7 @@
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 
 parameters:
-    database_host: 127.0.0.1
+    database_host: fablab_db
     database_port: ~
     database_name: filrouge
     database_user: filrouge
