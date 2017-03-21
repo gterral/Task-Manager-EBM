@@ -101,10 +101,9 @@ class Document
     private $author;
 
     /**
-     * @Orm\Column(type="simple_array")
-     *
+     * @Orm\ManyToOne(targetEntity="EBM\KMBundle\Entity\DocumentRepository", inversedBy="documents", cascade={"persist"})
      */
-    private $previous_versions = [];
+    private $repository;
 
     public function __construct()
     {
@@ -382,21 +381,17 @@ class Document
     /**
      * @return mixed
      */
-    public function getPreviousVersions()
+    public function getRepository()
     {
-        return $this->previous_versions;
+        return $this->repository;
     }
 
     /**
-     * @param mixed $previous_versions
+     * @param mixed $repository
      */
-    public function setPreviousVersions($previous_versions)
+    public function setRepository($repository)
     {
-        $this->previous_versions = $previous_versions;
-    }
-
-    public function addPreviousVersion($previous_version){
-        $this->previous_versions[]=$previous_version;
+        $this->repository = $repository;
     }
 
 }

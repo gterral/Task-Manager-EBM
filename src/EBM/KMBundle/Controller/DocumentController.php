@@ -17,6 +17,7 @@ use EBM\KMBundle\Form\DocumentType;
 use EBM\KMBundle\Form\EvaluationDocumentType;
 use EBM\KMBundle\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -197,11 +198,12 @@ class DocumentController extends Controller
         $document = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->find($id);
         $tags = $this->getDoctrine()->getRepository('EBMKMBundle:Tag')->findAll();
 
-        // Retrieve the path of the file
+        /*
+         * On récupère tout d'abord le chemin du document.
+         * On peut ensuite récupérer le document en lui-même, et l'affecter au champ 'File' du Document.
+         */
         $helper = $this->get('vich_uploader.templating.helper.uploader_helper');
         $path = $helper->asset($document, 'file');
-
-        //Retrieve the file and pass it to the document entity
         $kernel_root_dir = $this->getParameter('kernel.root_dir');
         $file = new File\File( $kernel_root_dir . '/../web' . $path);
         $document->setFile($file);
@@ -212,6 +214,10 @@ class DocumentController extends Controller
         ));
         $editForm->handleRequest($request);
 
+        /*
+         * On récupère le nouveau formulaire, et on applique les modifications.
+         * Si le fichier a été modifié,
+         */
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
@@ -258,6 +264,7 @@ class DocumentController extends Controller
     private function createDeleteForm(Document $document)
     {
         return $this->createFormBuilder()
+            ->add('submit', SubmitType::class, array('label' => 'Supprimer le document'))
             ->setAction($this->generateUrl('ebmkm_document_delete', array('id' => $document->getId())))
             ->setMethod('DELETE')
             ->getForm();
