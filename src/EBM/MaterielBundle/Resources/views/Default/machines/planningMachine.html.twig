@@ -10,25 +10,13 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('dev_materiel_fullcalendar/fullcalendar.css') }}" />
     <style>
-        .fc-day:hover{
-            background:lightblue;
-        }
-
-        .fc-time:hover{
-            background: lightblue;
-        }
-
-        .fc-slats
-        {
-            pointer-events: none;
-        }
-
-        .fc-bg
-        {
-            pointer-events: none;
-        }
-
+    .fc-event
+    {
+        pointer-events: auto;
+    }
     </style>
+
+
 {% endblock %}
 
 
@@ -90,28 +78,122 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
+                allDaySlot: false,
+                minTime: '08:00:00',
+                maxTime: '18:00:00',
                 events: {{  jsonEvents|raw }},
-                dayClick: function(date, jsEvent, view) {
+                viewRender: function(){
+                    jsCode();
+                }
+            })
+                .fullCalendar('changeView','agendaWeek');
+        });
 
-                    console.log('Clicked on: ' + date.format());
+        function jsCode() {
+            var time, day;
 
-                    console.log('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+            $('.fc-slats tr td')
+                .mouseover(function () {
+                    time = $(this).parent().attr('data-time');
+                    $('.fc-slats').css('pointer-events', 'none')
+                })
+                .mouseout(function () {
+                    $(this).css('background', '');
+                    $('.fc-slats').css('pointer-events', '');
+                });
 
-                    console.log('Current view: ' + view.name);
+
+            $('.fc-bg tr td').mouseover(function () {
+                day = $(this).attr('data-date');
+            })
+                .mouseout(function () {
+                });
+
+                $('.fc-event-container').click(function(){
+                    console.log("click");
+                    window.location.href = "{{ path('ebm_materiel_machines_reservation') }}";
+                });
 
 
-                },
+
+            var currentDate = 'qdljs';
+            var lastDate = 'jjgj';
+            var lastDay = 'sdf';
+            var lastTime = 'fghf';
+
+            $('.fc-day').mouseenter(function () {
+
+                $('html,body').css('cursor', 'auto');
 
 
+                if (parseInt(time.substring(0, 2)) % 2 == 0) {
+
+                    currentDate = day + 'T' + time.substring(0, 2) + ':00:00';
+
+                }
+                else {
+                    if (parseInt(time.substring(0, 2)) < 10) {
+                        currentDate = day + 'T0' + (parseInt(time.substring(0, 2)) - 1).toString() + ':00:00';
+                    } else {
+                        currentDate = day + 'T' + (parseInt(time.substring(0, 2)) - 1).toString() + ':00:00';
+                    }
+                }
+                var currentEvent = {'id': currentDate, 'start': currentDate};
+                console.log(currentDate);
+
+                var journee = (parseInt(time.substring(0, 2)) >= 8 &&
+                    parseInt(time.substring(0, 2)) < 12) ||
+                    (parseInt(time.substring(0, 2)) >= 14 &&
+                    parseInt(time.substring(0, 2)) < 18);
+
+                if (lastDate != currentDate && journee) {
+
+                    $('html,body').css('cursor', 'pointer');
+
+                    $('#calendar').fullCalendar('renderEvent', currentEvent);
+                    $('#calendar').fullCalendar('removeEvents', lastDate);
+
+
+                    lastDate = currentDate;
+                    lastDay = day;
+                    lastTime = time;
+                } else if (!journee) {
+                    $('html,body').css('cursor', 'default');
+                    $('#calendar').fullCalendar('removeEvents', lastDate);
+                    lastDate = day + 'T' + time;
+                    lastDay = day;
+                    lastTime = time;
+                }
 
             });
 
-            $('#calendar').fullCalendar('changeView','agendaWeek');
+            $('.fc-axis').mouseenter(function () {
 
-            $('#calendar tr').mouseover(function () {
-                console.log($(this).attr('data-time'));
-            })
+                $('html,body').css('cursor', 'auto');
+                $('#calendar').fullCalendar('removeEvents', lastDate);
+                lastDate = day + 'T' + time;
+                lastDay = day;
+                lastTime = time;
+            });
 
-        });
+            $('.fc-head').mouseenter(function () {
+
+                $('html,body').css('cursor', 'auto');
+                $('#calendar').fullCalendar('removeEvents', lastDate);
+                lastDate = day + 'T' + time;
+                lastDay = day;
+                lastTime = time;
+            });
+
+            $('.fc-view-container').mouseleave(function () {
+
+                $('html,body').css('cursor', 'auto');
+                $('#calendar').fullCalendar('removeEvents', lastDate);
+                lastDate = day + 'T' + time;
+                lastDay = day;
+                lastTime = time;
+            });
+        }
+
     </script>
 {% endblock %}

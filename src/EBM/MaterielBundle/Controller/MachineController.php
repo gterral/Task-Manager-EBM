@@ -44,6 +44,7 @@ class MachineController extends Controller
         foreach($reservations as $reservation)
         {
             $json = json_encode(array(
+                'id' => $reservation->getId(),
                 'title' => $reservation->getUser()->getUsername(),
                 'start' => str_replace(' ', 'T', $reservation->getDebut()->format('Y-m-d H:i:s')),
                 'end' => str_replace(' ', 'T', $reservation->getFin()->format('Y-m-d H:i:s'))
