@@ -271,5 +271,31 @@ class Post
     {
         $this->author = $author;
     }
+
+    public function getDownVotes()
+    {
+        $votes = $this->votes ;
+        $nDowns = 0;
+        foreach ($votes as $vote) {
+            if ($vote->getValue() == -1){
+                $nDowns++;
+            }
+        }
+    return $nDowns;
+    }
+
+    public function getUpVotes()
+    {
+        $votes = $this->votes ;
+        $nUps = 0;
+        foreach ($votes as $vote) {
+            if ($vote->getValue() == 1){
+                $nUps++;
+            }
+        }
+        return $nUps;
+    }
+
+
 }
 

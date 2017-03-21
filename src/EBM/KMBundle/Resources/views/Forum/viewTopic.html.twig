@@ -27,6 +27,10 @@
                     <div> <a type="button"
                              href="{{ path('ebmkm_forum_upvote', {'user_id': app.user.id, 'post_id': post.id}) }}"
                              class="btn btn-floating btn-info btn-xs waves-effect waves-float waves-light"> <i class="fa fa-plus" aria-hidden="true">  </i> </a>  </div>
+                    <div>
+                        {{ post.getDownVotes() }}
+                    </div>
+
                     <div> <a type="button"
                              href="{{ path('ebmkm_forum_downvote', {'user_id': app.user.id, 'post_id': post.id}) }}"
                              class="btn btn-floating btn-info btn-xs waves-effect waves-float waves-light"> <i class="fa fa-minus" aria-hidden="true">  </i> </a> </div>
