@@ -60,9 +60,10 @@ class ForumController extends Controller
         $vote->setUser($user_id);
         $em->persist($vote);
         $em->flush();
+        return $this->redirectToRoute('EBMKMBundle:Forum:viewTopic.html.twig', array('id' => $topic->getId()));
     }
 
-    public function downVotePostAction ($user_id,$post_id) {
+    public function downVotePostAction (User $user_id,Post  $post_id) {
         $em = $this->getDoctrine()->getManager();
         $vote = new Vote();
         $vote->setValue(-1);
@@ -70,6 +71,7 @@ class ForumController extends Controller
         $vote->setUser($user_id);
         $em->persist($vote);
         $em->flush();
+        return $this->redirectToRoute('EBMKMBundle:Forum:viewTopic.html.twig');
     }
     public function viewTopicAction($id, Request $request)
     {
