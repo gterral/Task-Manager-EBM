@@ -62,6 +62,7 @@ twig:
     strict_variables: "%kernel.debug%"
     form_themes:
         - 'CoreIconbarBundle:components/form:fields.html.twig'
+        - 'VichUploaderBundle:Form:fields.html.twig'
 
 # Doctrine Configuration
 doctrine:

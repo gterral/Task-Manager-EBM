@@ -11,6 +11,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @ORM\Table(name="dev_gdp_fileentity")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\FileRepository")
+ *
+ * @Vich\Uploadable
  */
 class FileEntity
 {
@@ -26,11 +28,11 @@ class FileEntity
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
-     * @Vich\UploadableField(mapping="product_image", fileNameProperty="fileName")
+     * @Vich\UploadableField(mapping="gdp", fileNameProperty="fileName")
      *
      * @var File
      */
-    private $contentFile;
+    private $File;
 
     /**
      * @ORM\Column(type="datetime")
@@ -47,7 +49,7 @@ class FileEntity
     private $fileName;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\DocumentProject", inversedBy="documentProjects")
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\DocumentProject", inversedBy="fileEntities")
      * @ORM\JoinColumn(nullable=true)
      */
     private $documentProjects;
@@ -116,9 +118,9 @@ class FileEntity
      *
      * @return File
      */
-    public function setContentFile(File $file = null)
+    public function setFile(File $file = null)
     {
-        $this->contentFile = $file;
+        $this->File = $file;
 
         if ($file) {
             // It is required that at least one field changes if you are using doctrine
@@ -132,9 +134,9 @@ class FileEntity
     /**
      * @return File|null
      */
-    public function getContentFile()
+    public function getFile()
     {
-        return $this->contentFile;
+        return $this->File;
     }
 
     /**

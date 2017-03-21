@@ -97,7 +97,7 @@ class DocumentProject
      * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\FileEntity", inversedBy="documentProjects")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $files;
+    private $fileEntities;
 
 
 
@@ -309,9 +309,9 @@ class DocumentProject
      *
      * @return DocumentProject
      */
-    public function addFile(\EBM\GDPBundle\Entity\FileEntity $file)
+    public function addFileEntities(\EBM\GDPBundle\Entity\FileEntity $file)
     {
-        $this->files[] = $file;
+        $this->fileEntities[] = $file;
 
         return $this;
     }
@@ -322,9 +322,9 @@ class DocumentProject
      * @param \EBM\GDPBundle\Entity\FileEntity $file
      *
      */
-    public function removeFile(\EBM\GDPBundle\Entity\FileEntity $file)
+    public function removeFileEntities(\EBM\GDPBundle\Entity\FileEntity $file)
     {
-        $this->files->removeElement($file);
+        $this->fileEntities->removeElement($file);
     }
 
     /**
@@ -332,9 +332,9 @@ class DocumentProject
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getFiles()
+    public function getFileEntities()
     {
-        return $this->files;
+        return $this->fileEntities;
     }
 
     /**

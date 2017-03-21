@@ -35,9 +35,21 @@
             <li>
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5">
-                        <button type="button" class="btn btn-block btn-primary waves-effect waves-light">
-                            Joindre Document
-                        </button>
+
+                        {{ include("EBMGDPBundle:Deliverable/component:upload.html.twig") }}
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5">
+
+                        {% if documentProject.fileEntities is not null or documentProject.fileEntities |length>0 %}
+                            {%  for document in documentProject.fileEntities %}
+                                <span>{{ document.fileName }}</span>
+                                <a href="{{ vich_uploader_asset(document, document.fileName) }}"></a>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </li>
