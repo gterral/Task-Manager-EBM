@@ -97,9 +97,15 @@ class DocumentController extends Controller
         $user = $this->getUser();
 
         /*
-         *  Cette partie charge le fil de commentaires sur le document.
-         * S'il n'y en a pas, il sera créé avec le premier commentaire.
+         * Cette partie charge le fil de commentaires sur le document.
+         * S'il n'y en a pas, il sera créé lorsque l'utilisateur commentera pour la première fois.
          * Une fois le message posté, la page est raffraichie.
+         *
+         * Le topic créé aura le nom du document suivi de '- Commentaires'.
+         * Une description est générée automatiquement.
+         *
+         * //TODO : Bouger le texte de la description dans un fichier avec tous les textes.
+         *
          */
         if($document->getCommentTopic()){
             $topic = $document->getCommentTopic();
@@ -107,8 +113,10 @@ class DocumentController extends Controller
         else{
             $topic = new Topic();
             $topic
-                ->setTitle($document->getName())
+                ->setTitle($document->getName() . ' - Commentaires')
                 ->setCreator($user);
+            $topic->setDescription("Ceci est le fil de discussion relatif au document ' " . $document->getName() . '.');
+
             $document->setCommentTopic($topic);
         }
 
@@ -119,6 +127,9 @@ class DocumentController extends Controller
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
+        /*
+         * Le fil de commentaire n'est créé et complété par les posts que si le nouveau post est bien formé.
+         */
         if($form->isSubmitted() && $form->isValid())
         {
             $em->persist($topic);
@@ -149,6 +160,9 @@ class DocumentController extends Controller
         $personalEvaluation = $this->getDoctrine()->getRepository('EBMKMBundle:EvaluationDocument')
             ->findBy(['author' => $this->getUser(), 'document' => $document]);
 
+        /*
+         * Evaluation du document par l'utilisateur courrant.
+         */
         $evaluation = new EvaluationDocument();
         $evaluationForm = $this->createForm(EvaluationDocumentType::class, $evaluation);
         $evaluationForm->handleRequest($request);

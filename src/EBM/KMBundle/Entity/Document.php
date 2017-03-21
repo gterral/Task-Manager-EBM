@@ -100,6 +100,12 @@ class Document
      */
     private $author;
 
+    /**
+     * @Orm\Column(type="simple_array")
+     *
+     */
+    private $previous_versions = [];
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -150,10 +156,12 @@ class Document
      */
     public function setFile($file)
     {
-        $this->file = $file;
-
         if($file){
-            $this->updatedDate = new \DateTimeImmutable();
+            if($this->file != $file){
+                $this->file = $file;
+                $this->updatedDate = new \DateTimeImmutable();
+                $this->addPreviousVersion($this->fileName);
+            }
         }
 
         return $this;
@@ -371,7 +379,25 @@ class Document
         $this->fileName = $fileName;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPreviousVersions()
+    {
+        return $this->previous_versions;
+    }
 
+    /**
+     * @param mixed $previous_versions
+     */
+    public function setPreviousVersions($previous_versions)
+    {
+        $this->previous_versions = $previous_versions;
+    }
+
+    public function addPreviousVersion($previous_version){
+        $this->previous_versions[]=$previous_version;
+    }
 
 }
 
