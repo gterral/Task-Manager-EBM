@@ -31,7 +31,8 @@ class PublicationController extends Controller
     {
         $publication = new Publication();
         $publication->setUserPublication($this->getUser());
-        $form = $this->get('form.factory')->create(AddPublicationType::class, $publication);
+        //Ajouter l'option dans le form
+        $form = $this->get('form.factory')->create(AddPublicationType::class, $publication, array('user'=>$this->getUser()));
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
