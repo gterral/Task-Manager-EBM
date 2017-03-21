@@ -71,7 +71,7 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $user1->setEnabled(true);
         $user1->addRole("ROLE_STUDENT");
 
-        $pub1 = new Publication();
+        /*$pub1 = new Publication();
         $pub1->setContent('ptdr');
         $pub1->addTag($tag1);
         $pub1->addTag($tag2);
@@ -87,16 +87,16 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $comment1->setPublication($pub1);
 
         $like2 = new Likes();
-        $like2->setPublication($pub2);
+        $like2->setPublication($pub2);*/
 
         $manager->persist($tag1);
         $manager->persist($project1);
         $manager->persist($project2);
         $manager->persist($user1);
-        $manager->persist($pub1);
-        $manager->persist($pub2);
-        $manager->persist($comment1);
-        $manager->persist($like2);
+        //$manager->persist($pub1);
+        //$manager->persist($pub2);
+        //$manager->persist($comment1);
+        //$manager->persist($like2);
         $manager->flush();
 
     }

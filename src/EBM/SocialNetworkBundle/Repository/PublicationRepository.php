@@ -13,11 +13,12 @@ class PublicationRepository extends EntityRepository
 {
     public function getPublicationWithSubscriptions(array $tagsNames, array $projectNames)
     {
-
+        //Si l'utilisateur n'est abonné a aucun tag et aucun projet
         if ((!is_array($tagsNames) || empty($tagsNames)) && (!is_array($projectNames) || empty($projectNames))) {
             return [];
         }
 
+        //si l'utilisateur n'est abonné a aucun projet, mais a un/plusieurs tags
         if (!is_array($projectNames) || empty($projectNames)){
             $qb = $this->createQueryBuilder('pub');
             // On fait une jointure avec l'entité Category avec pour alias « c »
@@ -36,6 +37,7 @@ class PublicationRepository extends EntityRepository
                 ;
         }
 
+        //si l'utilisateur n'est abonné a aucun tag, mais a un/plusieurs projets
         if (!is_array($tagsNames) || empty($tagsNames)){
             $qb = $this->createQueryBuilder('pub');
             // On fait une jointure avec l'entité Category avec pour alias « c »
@@ -55,14 +57,22 @@ class PublicationRepository extends EntityRepository
         }
 
         $qb = $this->createQueryBuilder('pub');
-        // On fait une jointure avec l'entité Category avec pour alias « c »
-        $qb
-            ->innerJoin('pub.projects', 'pro')
-            ->innerJoin('pub.tags', 'tag')
-            ->addSelect('pro')
-            ->addSelect('tag');
 
-            $qb->where($qb->expr()->in('pro.name', $projectNames));
-        ;
+        $qb
+            // Jointure sur l'attribut tag
+            ->leftJoin('pub.tags', 'tag')
+            ->addSelect('tag')
+            // Jointure sur l'attribut projet
+            ->leftJoin('pub.projects', 'pro')
+            ->addSelect('pro')
+
+            ->orderBy('pub.date', 'DESC');
+
+        $qb->where($qb->expr()->in('tag.name', $tagsNames));
+        $qb->orWhere($qb->expr()->in('pro.name', $projectNames));
+
+        return $qb
+            ->getQuery()
+            ->getResult();
     }
 }
