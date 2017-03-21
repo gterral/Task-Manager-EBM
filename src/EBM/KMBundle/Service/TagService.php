@@ -3,16 +3,16 @@
 namespace EBM\KMBundle\Service;
 
 use Core\UserBundle\Entity\User;
+use Doctrine\ORM\EntityManager;
+use EBM\KMBundle\Entity\Enums\TagTypeEnum;
 use EBM\KMBundle\Entity\Tag;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class TagService
 {
     private $em;
-    private $unrestricted_tags = array('general');
-    private $restricted_tags = array('machine','departement','type_document');
 
-    public function __construct(\Doctrine\ORM\EntityManager $e)
+   public function __construct(EntityManager $e)
     {
         $this->em = $e;
     }
@@ -41,7 +41,7 @@ class TagService
     /**
      * Retourne tous les tags d'un type donné.
      *
-     * @param $type (general, machine...)
+     * @param $type (TYPE_GENERAL, TYPE_MACHINE, TYPE_DEPARTMENT ou TYPE_DOCUMENT)
      * @return array
      */
     public function getTagsByType($type) {
@@ -65,7 +65,7 @@ class TagService
         $tag = new Tag();
 
         // Tags protégés
-        if(in_array($type, $this->restricted_tags))
+        if(in_array($type, TagTypeEnum::getRestrictedTypes()))
         {
             if($user->getManagedTags()->contains($name))
             {
@@ -83,7 +83,7 @@ class TagService
 
         }
         // Tags libres
-        else if(in_array($type, $this->unrestricted_tags))
+        else if(in_array($type, TagTypeEnum::getNonRestrictedTypes()))
         {
             $tag->setName($name);
             $tag->setType($type);
