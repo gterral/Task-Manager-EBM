@@ -2,6 +2,7 @@
 
 namespace EBM\GDPBundle\Controller;
 
+use EBM\GDPBundle\Entity\DocumentProject;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EBM\GDPBundle\Entity\Comment;
 use EBM\GDPBundle\Entity\Task;
@@ -26,6 +27,9 @@ class CommentController extends Controller
 
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
+        $form = $this->createForm(CommentType::class, $comment,
+            ['action'=>$this->generateUrl('ebmgdp_task_comment_add',['code'=>$project->getCode(),'id'=>$task->getId()])]
+        );
         // On crée un objet Conversation
         if ($task->getConversation() == null){
             $conversation = new Conversation();
@@ -64,8 +68,9 @@ class CommentController extends Controller
         // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
         $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
 
-        $form = $this->createForm(CommentType::class, $comment);
-
+        $form = $this->createForm(CommentType::class, $comment,
+            ['action'=>$this->generateUrl('ebmgdp_task_comment_edit',['code'=>$project->getCode(),'id'=>$task->getId(),'idc'=>$comment->getId()])]
+        );
 
         if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -90,7 +95,7 @@ class CommentController extends Controller
      * @ParamConverter("project",options={"mapping": {"code":"code"}})
      * @ParamConverter("comment",options={"mapping": {"idc":"id"}})
      */
-    public function deleteCommentOnTaskAction(Task $task,Request $request,Project $project,Comment $comment)
+    public function deleteCommentOnTaskAction(Task $task,Project $project,Comment $comment,Request $request)
     {
         // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
         $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
@@ -104,4 +109,95 @@ class CommentController extends Controller
 
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("project",options={"mapping": {"code":"code"}})
+     * @ParamConverter("documentProject",options={"mapping": {"id":"id"}})
+     */
+    public function addCommentOnDeliverableAction(Project $project, DocumentProject $documentProject, Request $request)
+    {
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
+
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment,
+            ['action'=>$this->generateUrl('ebmgdp_deliverable_comment_add',['code'=>$project->getCode(),'id'=>$documentProject->getId()])]
+        );
+
+        // On crée un objet Conversation
+        if ($documentProject->getConversation() == null){
+            $conversation = new Conversation();
+            $documentProject->setConversation($conversation);
+        }
+        else{
+            $conversation = $documentProject->getConversation();
+        }
+
+        $conversation->addComment($comment);
+
+        if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirect($request->headers->get('referer'));
+
+        }
+        return $this->render('EBMGDPBundle:Comment:add.html.twig',
+            array('documentProject'=> $documentProject,
+                'form'=> $form->createView(),
+                'project'=>$project)
+        );
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("documentProject",options={"mapping": {"id":"id"}})
+     * @ParamConverter("project",options={"mapping": {"code":"code"}})
+     * @ParamConverter("comment",options={"mapping": {"idc":"id"}})
+     */
+    public function editCommentOnDeliverableAction(DocumentProject $documentProject,Project $project,Comment $comment,Request $request)
+    {
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
+
+        $form = $this->createForm(CommentType::class, $comment,
+            ['action'=>$this->generateUrl('ebmgdp_deliverable_comment_edit',['code'=>$project->getCode(),'id'=>$documentProject->getId(),'idc'=>$comment->getId()])]
+        );
+
+        if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirect($request->headers->get('referer'));
+
+        }
+        return $this->render('EBMGDPBundle:Comment:edit.html.twig',
+            array('documentProject'=> $documentProject,
+                'form'=> $form->createView(),
+                'project'=>$project,
+                'comment'=>$comment)
+        );
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("documentProject",options={"mapping": {"id":"id"}})
+     * @ParamConverter("project",options={"mapping": {"code":"code"}})
+     * @ParamConverter("comment",options={"mapping": {"idc":"id"}})
+     */
+    public function deleteCommentOnDeliverableAction(DocumentProject $documentProject,Project $project,Comment $comment,Request $request)
+    {
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($comment);
+        $em->flush();
+
+
+        return new JsonResponse(array('success' => true));
+
+    }
 }

@@ -99,6 +99,25 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
         $document_projet1->setDescription('Rédiger le compte rendu de la derniere RC.');
         $entityManager->persist($document_projet1);
 
+        $comment111 = new Comment();
+        $comment111->setContent('Blablablabla on a deposer un livrable');
+
+        $comment112 = new Comment();
+        $comment112->setContent('Blablablabla Veuillez corriger ceci ce ci et ceci');
+
+        $comment113 = new Comment();
+        $comment113->setContent('Blablablabla nouvelle version du livrable deposé, avec vos commentaires');
+
+        $comment114 = new Comment();
+        $comment114->setContent('Blablablabla TB');
+
+        $conversation11 = new Conversation();
+        $document_projet1->setConversation($conversation11);
+        $conversation11->addComment($comment111);
+        $conversation11->addComment($comment112);
+        $conversation11->addComment($comment113);
+        $conversation11->addComment($comment114);
+
         $document_projet2 = new DocumentProject();
         $document_projet2->setName('Presentation 1');
         $document_projet2->setDocumentTypeProject($document_type2);
