@@ -92,7 +92,7 @@ class User extends BaseUser
      *
      * @ORM\Column(name="desc", type="text", nullable=true)
      */
-    private $description;
+    private $desc;
 
     /**
      * @var string
@@ -205,17 +205,17 @@ class User extends BaseUser
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDesc()
     {
-        return $this->description;
+        return $this->desc;
     }
 
     /**
-     * @param string $description
+     * @param string $desc
      */
-    public function setDescription($description)
+    public function setDesc($desc)
     {
-        $this->description = $description;
+        $this->desc = $desc;
     }
 
     /**
@@ -807,6 +807,5 @@ class User extends BaseUser
     {
         $this->image = $image;
     }
-
 
 }

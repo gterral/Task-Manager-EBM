@@ -22,3 +22,7 @@ fos_user_change_password:
 core_user_homepage:
     path: /
     defaults: { _controller: CoreUserBundle:Default:index }
+
+core_user_register:
+    path: /registration
+    defaults: { _controller: CoreUserBundle:Profile:addUser }
