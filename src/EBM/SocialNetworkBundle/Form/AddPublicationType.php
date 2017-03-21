@@ -25,6 +25,7 @@ class AddPublicationType extends AbstractType
                 ->add('tags', EntityType::class ,  array(
                     'class' => 'EBMKMBundle:Tag',
                     'choice_label' => 'name',
+                    'required'=> false,
                     'multiple' => true,
 
                 ))
