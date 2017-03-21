@@ -2,6 +2,7 @@
 
 namespace EBM\SocialNetworkBundle\Controller;
 
+use EBM\SocialNetworkBundle\Entity\Comment;
 use EBM\SocialNetworkBundle\Repository\PublicationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

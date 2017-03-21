@@ -2,6 +2,7 @@
 
 namespace EBM\SocialNetworkBundle\Entity;
 
+use Core\UserBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use EBM\SocialNetworkBundle\Entity\Publication;
 
@@ -42,6 +43,13 @@ class Comment
      * @ORM\JoinColumn(nullable=true)
      */
     private $publication;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="comments",cascade={"persist"})
+     *
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userComment;
 
     public function __construct()
     {
@@ -146,4 +154,28 @@ class Comment
         $this->getPublication()->decreaseComment();
     }
 
+
+    /**
+     * Set userComment
+     *
+     * @param User $userComment
+     *
+     * @return Comment
+     */
+    public function setUserComment(User $userComment = null)
+    {
+        $this->userComment = $userComment;
+
+        return $this;
+    }
+
+    /**
+     * Get userComment
+     *
+     * @return User
+     */
+    public function getUserComment()
+    {
+        return $this->userComment;
+    }
 }

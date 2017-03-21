@@ -46,17 +46,38 @@
         <div class="page-content">
             <div class="panel">
                 <div class="panel-head">
-                    <h3 class="panel-title"> {{ publication.userPublication.username }}</h3>
-                    <small class="margin-bottom-20 grey-500">{{ publication.date|date("m/d/Y") }}</small>
-                    <div id="body_task">
-                        {{ publication.content }}
-                    </div>
+                    <h3 class="panel-title"> {{ publication.userPublication.username }}
+                        <span>a posté</span>
+                        <small class="margin-bottom-20 grey-500">{{ publication.date|date("m/d/Y") }}</small>
+                        <div id="body_task">
+                            <h5>{{  publication.content }}</h5>
+
+                        </div>
+                    </h3>
                 </div>
                 <div class="panel-body">
-                    <div>{% for comment in comments %}
-                            <p> {{ comment.content }}
-                            </p>
+                    <ul class="list-group">
+                        {% for comment in comments %}
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-left">
+                                                <img class="img-responsive" src="{{ asset("bundles/coreiconbar/images/avatar5.png") }}"
+                                                     alt="profile picture">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h4 class="media-heading"> {{ comment.userComment.username }}
+                                                <span>a commenté</span>
+                                                <span class="" data-target="" data-toggle="modal" type="button">
+                                                    <i class="icon md-edit" aria-hidden="true"></i>
+                                                </span>
+                                            </h4>
+                                            <div class="profile-brief">{{ comment.content }}</div>
+                                        </div>
+                                    </div>
+                                </li>
                         {% endfor %}
+                    </ul>
                     </div>
                     <div id="body_comment">
                         {{ include("EBMSocialNetworkBundle:Comment:add.html.twig") }}

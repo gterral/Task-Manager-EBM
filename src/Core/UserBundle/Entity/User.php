@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use EBM\KMBundle\Entity\Document;
 use EBM\SocialNetworkBundle\Entity\ProjectSubscription;
 use EBM\SocialNetworkBundle\Entity\Publication;
+use EBM\SocialNetworkBundle\Entity\Comment;
 use EBM\KMBundle\Entity\EvaluationDocument;
 use EBM\UserInterfaceBundle\Entity\Project;
 use EBM\KMBundle\Entity\CompetenceUser;
@@ -111,6 +112,11 @@ class User extends BaseUser
      * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\Publication", mappedBy="userPublication", cascade={"persist"})
      */
     private $publications;
+
+    /**
+     * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\Comment", mappedBy="userComment", cascade={"persist"})
+     */
+    private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy="author", cascade= {"persist"})
@@ -706,5 +712,39 @@ class User extends BaseUser
     public function setTags($tags)
     {
         $this->tags = $tags;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\Comment $comment
+     *
+     * @return User
+     */
+    public function addComment(\EBM\SocialNetworkBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\Comment $comment
+     */
+    public function removeComment(\EBM\SocialNetworkBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

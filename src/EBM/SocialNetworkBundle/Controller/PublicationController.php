@@ -25,6 +25,7 @@ class PublicationController extends Controller
     public function viewAction(Request $request, Publication $publication)
     {
         $comment = new Comment();
+        $comment->setUserComment($this->getUser());
         $form = $this->createForm(AddCommentType::class, $comment);
         $em = $this->getDoctrine()->getManager();
 
