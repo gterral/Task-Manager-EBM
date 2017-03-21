@@ -60,7 +60,7 @@ class ForumController extends Controller
         $vote->setUser($user_id);
         $em->persist($vote);
         $em->flush();
-        return $this->redirectToRoute('EBMKMBundle:Forum:viewTopic.html.twig', array('id' => $topic->getId()));
+        return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
     }
 
     public function downVotePostAction (User $user_id,Post  $post_id) {
@@ -71,7 +71,7 @@ class ForumController extends Controller
         $vote->setUser($user_id);
         $em->persist($vote);
         $em->flush();
-        return $this->redirectToRoute('EBMKMBundle:Forum:viewTopic.html.twig');
+        return $this->redirectToRoute('ebmkm_forum_topic',  array('id' => $post_id->getTopic()->getId()));
     }
     public function viewTopicAction($id, Request $request)
     {
@@ -107,7 +107,33 @@ class ForumController extends Controller
         }
     }
 
+/*
+ *
+ *$repository = $this->getDoctrine()->getRepository('EBMKMBundle:Vote');
 
+// createQueryBuilder() automatically selects FROM AppBundle:Product
+// and aliases it to "p"
+$Upquery = $repository->createQueryBuilder('v')
+    ->where('v.post_id = :post_id AND v.value= :value')
+    ->setParameter('post_id', $post_id)
+    ->setParameter('value', 1)
+    ->select('count(v.value)')
+    ->getQuery()
+    ->getSingleScalarResult();
+
+$nUpvotes = $Upquery->getResult();
+
+$Downquery = $repository->createQueryBuilder('v')
+    ->select('count(v.value)')
+    ->where('v.post_id = :post_id AND v.value= :value')
+    ->setParameter('post_id', $post_id)
+    ->setParameter('value', -1)
+    ->getQuery()
+    ->getSingleScalarResult();
+
+$nDownvotes = $Downquery->getResult();
+
+ */
 
 
 }

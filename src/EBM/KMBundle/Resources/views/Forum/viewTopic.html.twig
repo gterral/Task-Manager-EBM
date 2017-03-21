@@ -2,7 +2,7 @@
 
 
 {% block content_body %}
-    
+
     <a type="button" href="{{ path('ebmkm_forum_homepage') }}" class="btn btn-sm btn-primary ladda-button" data-style="slide-left" data-plugin="laddaProgress">
         <span class="ladda-label"><i class="icon md-long-arrow-left margin-right-10" aria-hidden="true"></i>Retour au forum</span>
         <span class="ladda-spinner"></span></a>
@@ -22,21 +22,23 @@
             <div class="row">
                 <div class="col-md-1 ">
                     <div> <a type="button"
-                             href="{{ path('ebmkm_forum_upvote', {'user_id': app.user.id, 'post_id': post.id}) }}"
-                            ><h4> <i class="fa fa-thumbs-up green-800" aria-hidden="true">   </i> </a> 0 </h4></div>
+                             href="{{ path('ebmkm_forum_upvote', {'user_id': app.user.id, 'post_id': post.id}) }}">
+                            <h4> <i class="fa fa-thumbs-up green-800" aria-hidden="true"> </i> {{ post.getUpVotes() }} </h4> </a> </div>
+
                     <div> <a type="button"
-                             href="{{ path('ebmkm_forum_downvote', {'user_id': app.user.id, 'post_id': post.id}) }}"
-                            > <h4><i class="fa fa-thumbs-down red-800 " aria-hidden="true">  </i> </a> 0 </h4></div>
+                             href="{{ path('ebmkm_forum_downvote', {'user_id': app.user.id, 'post_id': post.id}) }}">
+                            <h4><i class="fa fa-thumbs-down red-800 " aria-hidden="true"> </i> {{ post.getDownVotes() }} </h4> </a></div>
                 </div>
-                 <p><i>de </i> <b>{{ post.author.username }}</b>
-                     --{{ post.date | date('d-M-Y H:i:s') }} </p>
+                <p><i>de </i> <b>{{ post.author.username }}</b>
+                    --{{ post.date | date('d-M-Y H:i:s') }} </p>
                 <p>{{ post.content }}</p>
             </div>
         </div>
 
 
     {% endfor %}
-    <h2>Répondre</h2>
+    <h3>Répondre</h3>
+
     {{ form(form) }}
 
 {% endblock %}
