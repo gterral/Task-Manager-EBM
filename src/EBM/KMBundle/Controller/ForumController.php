@@ -54,24 +54,50 @@ class ForumController extends Controller
 
     public function upVotePostAction (User $user_id, Post $post_id ) {
         $em = $this->getDoctrine()->getManager();
-        $vote = new Vote();
-        $vote->setValue(1);
-        $vote->setPost($post_id);
-        $vote->setUser($user_id);
-        $em->persist($vote);
-        $em->flush();
-        return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
+        $votes = $post_id->getVotes() ;
+        $nUser = 0;
+        foreach ($votes as $vote) {
+            if ($vote->getUser() == $user_id){
+                $nUser++;
+            }
+        }
+        if ($nUser>0) {
+            return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
+        }
+        else {
+            $vote = new Vote();
+            $vote->setValue(1);
+            $vote->setPost($post_id);
+            $vote->setUser($user_id);
+            $em->persist($vote);
+            $em->flush();
+            return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
+        }
+
     }
 
     public function downVotePostAction (User $user_id,Post  $post_id) {
         $em = $this->getDoctrine()->getManager();
-        $vote = new Vote();
-        $vote->setValue(-1);
-        $vote->setPost($post_id);
-        $vote->setUser($user_id);
-        $em->persist($vote);
-        $em->flush();
-        return $this->redirectToRoute('ebmkm_forum_topic',  array('id' => $post_id->getTopic()->getId()));
+        $votes = $post_id->getVotes() ;
+        $nUser = 0;
+        foreach ($votes as $vote) {
+            if ($vote->getUser() == $user_id){
+                $nUser++;
+            }
+        }
+        if ($nUser>0) {
+            return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
+        }
+        else {
+            $vote = new Vote();
+            $vote->setValue(-1);
+            $vote->setPost($post_id);
+            $vote->setUser($user_id);
+            $em->persist($vote);
+            $em->flush();
+            return $this->redirectToRoute('ebmkm_forum_topic',  array('id' => $post_id->getTopic()->getId()));
+
+        }
     }
     public function viewTopicAction($id, Request $request)
     {
