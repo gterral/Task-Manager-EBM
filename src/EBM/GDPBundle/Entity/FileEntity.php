@@ -55,6 +55,20 @@ class FileEntity
     private $documentProjects;
 
     /**
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\Task", inversedBy="fileEntities")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $tasks;
+
+    /**
+     * @return mixed
+     */
+    public function getTasks()
+    {
+        return $this->Tasks;
+    }
+
+    /**
      * @return mixed
      */
     public function getDocumentProjects()
@@ -69,6 +83,7 @@ class FileEntity
     public function __construct()
     {
         $this->documentProjects = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -90,9 +105,33 @@ class FileEntity
      *
      * @param \EBM\GDPBundle\Entity\DocumentProject $documentProject
      */
-    public function removeFile(\EBM\GDPBundle\Entity\DocumentProject $documentProject)
+    public function removeDocumentProject(\EBM\GDPBundle\Entity\DocumentProject $documentProject)
     {
         $this->documentProjects->removeElement($documentProject);
+    }
+
+    /**
+     * Add task
+     *
+     * @param \EBM\GDPBundle\Entity\Task $task
+     *
+     * @return File
+     */
+    public function addTask(\EBM\GDPBundle\Entity\Task $task)
+    {
+        $this->tasks[] = $task;
+
+        return $this;
+    }
+
+    /**
+     * Remove documentProject
+     *
+     * @param \EBM\GDPBundle\Entity\DocumentProject $documentProject
+     */
+    public function removeTask(\EBM\GDPBundle\Entity\DocumentProject $documentProject)
+    {
+        $this->tasks->removeElement($documentProject);
     }
 
 

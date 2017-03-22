@@ -28,7 +28,7 @@ class DeliverableController extends Controller
 
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
-            $documentProject->addFileEntity($file);
+            $documentProject->addFileEntities($file);
             $em->persist($file);
             $em->persist($documentProject);
             $em->flush();

@@ -3,6 +3,7 @@
 namespace EBM\GDPBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichFileType;
@@ -19,7 +20,10 @@ class FileEntityType extends AbstractType
             'label'=> 'Joindre un document',
             'allow_delete' => true, // not mandatory, default is true
             'download_link' => true, // not mandatory, default is true
-        ]);
+        ])
+            ->add('save',      SubmitType::class,array(
+                'label' => 'Envoyer',
+                'attr' => array('class' => 'btn btn-primary')));
     }
     
     /**

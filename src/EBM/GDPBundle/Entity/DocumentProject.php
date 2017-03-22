@@ -135,8 +135,6 @@ class DocumentProject
         return $this->name;
     }
 
-
-
     /**
      * Set status
      *
@@ -166,9 +164,6 @@ class DocumentProject
     {
         return $this->status;
     }
-
-
-
 
     /**
      * Set modificationDate
