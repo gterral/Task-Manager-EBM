@@ -35,10 +35,23 @@
             <li>
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5">
-                        <button type="button" class="btn btn-block btn-primary waves-effect waves-light">
-                            Joindre Document
-                        </button>
+
+                        {{ include("EBMGDPBundle:Deliverable/component:upload.html.twig") }}
                     </div>
+                </div>
+            </li>
+            <li>
+                <div class="row">
+                    {% if documentProject.fileEntities is not null or documentProject.fileEntities |length>0 %}
+                        <span>Liste des Documents</span>
+                        <ul>
+                            {%  for document in documentProject.fileEntities %}
+                                <li>
+                                    <a href="{{ vich_uploader_asset(document, 'File') }}">{{ document.fileName }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
             </li>
         </div>
@@ -47,19 +60,21 @@
     <div class="panel">
         <div class="panel-head">
             <h3 class="panel-title" style="display:inline-block;vertical-align:baseline;padding-right:5px;">Messages</h3>
-            <span class="badge badge-danger">{{ documentProject.conversation.comments|length }}</span>
-            <button class="site-action btn-raised btn btn-success btn-floating" data-target="#addCommentForm" data-toggle="modal" type="button" style="background-color:#4caf50;border-color:#4caf50;width:50px;height:50px;font-size:32px;">
-                <i class="icon md-edit" aria-hidden="true" style="margin-right:0;"></i>
-            </button>
-            <div class="modal fade" id="addCommentForm" aria-hidden="true" aria-labelledby="addCommentForm" role="dialog" tabindex="-1">
-                <div id="comment">
+            {% if documentProject.conversation %}
+                <span class="badge badge-danger">{{ documentProject.conversation.comments|length }}</span>
+                <button class="site-action btn-raised btn btn-success btn-floating" data-target="#addCommentForm" data-toggle="modal" type="button" style="background-color:#4caf50;border-color:#4caf50;width:50px;height:50px;font-size:32px;">
+                    <i class="icon md-edit" aria-hidden="true" style="margin-right:0;"></i>
+                </button>
+                <div class="modal fade" id="addCommentForm" aria-hidden="true" aria-labelledby="addCommentForm" role="dialog" tabindex="-1">
+                    <div id="comment">
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
 
         <div class="panel-body">
             <ul class="list-group">
-                {%  if documentProject.conversation.comments is not null %}
+                {%  if documentProject.conversation %}
                     {% for comment in documentProject.conversation.comments %}
                         <li class="list-group-item">
                             <div class="media">
@@ -85,6 +100,8 @@
                             </div>
                         </li>
                     {% endfor %}
+                {% else %}
+                    <h2>Pas de messages</h2>
                 {%  endif %}
             </ul>
         </div>

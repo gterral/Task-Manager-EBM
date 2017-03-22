@@ -2,7 +2,9 @@
 
 namespace EBM\GDPBundle\Controller;
 
+use EBM\GDPBundle\Entity\FileEntity;
 use EBM\GDPBundle\Entity\Task;
+use EBM\GDPBundle\Form\FileEntityType;
 use EBM\GDPBundle\Repository\TaskRepository;
 use EBM\UserInterfaceBundle\Entity\Project;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -20,7 +22,7 @@ class TaskController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("project",options={"mapping": {"code":"code"}})
      */
-    public function indexAction(Project $project)
+    public function indexAction(Project $project, Request $request)
     {
         // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
         $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
@@ -43,9 +45,27 @@ class TaskController extends Controller
         // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
         $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
 
+        $file = new FileEntity();
+
+        $form = $this->createForm(FileEntityType::class,$file);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $task->addFileEntities($file);
+            $em->persist($file);
+            $em->persist($task);
+            $em->flush();
+
+            return $this->redirectToRoute(
+                'ebmgdp_task',array('code'=>$project->getCode(),'id'=>$task->getId())
+            );
+        }
+
         return $this->render('EBMGDPBundle:Task:view.html.twig',
             array('task'=> $task,
-                'project'=>$project)
+                'project'=>$project,
+                'form'=>$form->createView())
         );
     }
 
