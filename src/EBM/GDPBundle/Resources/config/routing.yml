@@ -1,7 +1,7 @@
 # src/EBM/GDPBundle/Resources/config/routing.yml
 
 # Vue Dashboard des projets encadrant
-ebmgdp_insight:
+ebmgdp_insight_dash:
     path:     insight
     defaults: { _controller: EBMGDPBundle:Insight:index }
 
