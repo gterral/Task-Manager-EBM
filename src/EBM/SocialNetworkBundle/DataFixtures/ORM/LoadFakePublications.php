@@ -6,7 +6,7 @@
  * Time: 14:13
  */
 
-namespace Core\UserBundle\DataFixtures\ORM;
+namespace EBM\SocialNetworkBundle\DataFixtures\ORM;
 
 use Core\UserBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -41,7 +41,7 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $tag1 = new Tag();
         $tag1->setName('Mécanique');
         $tag1->setDescription('Tag de méca');
-        $tag1->setType('type meca');
+        $tag1->setType('TYPE_GENERAL');
 
         /*$project1 = new Project();
         $project1->setDescription('Premier projet de malade');
@@ -54,7 +54,7 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $tag2 = new Tag();
         $tag2->setName('Elec');
         $tag2->setDescription('Tag de elec');
-        $tag2->setType('type elec');
+        $tag2->setType('TYPE_GENERAL');
 
         $user1 = new User();
         $user1->setUsername('Margot');

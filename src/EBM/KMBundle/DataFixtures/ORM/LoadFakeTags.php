@@ -34,19 +34,19 @@ class LoadFakeTags implements FixtureInterface, ContainerAwareInterface {
         $tag1 = new Tag();
         $tag1->setName("Tag 1");
         $tag1->setDescription("La description du tag1");
-        $tag1->setType("general");
+        $tag1->setType("TYPE_GENERAL");
         $entityManager->persist($tag1);
 
         $tag2 = new Tag();
         $tag2->setName("Tag 2");
         $tag2->setDescription("La description du tag2");
-        $tag2->setType("general");
+        $tag2->setType("TYPE_GENERAL");
         $entityManager->persist($tag2);
 
         $tag3 = new Tag();
         $tag3->setName("Tag 3");
         $tag3->setDescription("La description du tag3");
-        $tag3->setType("general");
+        $tag3->setType("TYPE_GENERAL");
         $entityManager->persist($tag3);
 
 
