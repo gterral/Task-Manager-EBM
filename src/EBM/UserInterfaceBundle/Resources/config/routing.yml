@@ -1,3 +1,11 @@
 ebm_user_interface_homepage:
     path:     /
     defaults: { _controller: EBMUserInterfaceBundle:Default:index }
+
+ebm_user_project_creation:
+    path: /createProject
+    defaults: { _controller: EBMUserInterfaceBundle:Projects:addProject }
+
+ebm_user_project_view:
+    path: /projects/{id}
+    defaults: { _controller: EBMUserInterfaceBundle:Projects:viewProject }
