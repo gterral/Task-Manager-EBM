@@ -85,7 +85,11 @@
                                     </a>
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="media-heading" style="display: inline-block;vertical-align: baseline;">{{ comment.utilisateur }} Test</h4>
+                                    {%  if comment.utilisateur is not null %}
+                                        <h4 class="media-heading" style="display: inline-block;vertical-align: baseline;">{{ comment.utilisateur }}</h4>
+                                    {%  else  %}
+                                        <h4 class="media-heading" style="display: inline-block;vertical-align: baseline;">Utilisateur non trouvé</h4>
+                                    {% endif %}
                                     <small>a posté le {{ comment.creationDate|date("d-m-Y à h:i") }}</small>
                                     <div class="btn-group" role="group" style="margin-left: 0.5em;">
                                         <button type="button" class="btn btn-icon btn-info waves-effect waves-light" data-target="#editCommentForm{{ comment.id }}" data-toggle="modal" style="padding:8px;padding: 8px;font-size: 14px; line-height: 0.5em;"><i class="icon md-edit" aria-hidden="true"></i></button>
