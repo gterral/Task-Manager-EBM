@@ -8,6 +8,7 @@
                 <thead>
                 <tr>
                     <td>Id</td>
+                    <td>Projet</td>
                     <td>Nom</td>
                     <td>Date de modification</td>
                     <td>Status</td>
@@ -20,6 +21,7 @@
                     {% for documentProject in listDocumentProjects %}
                         <tr>
                             <td>{{ documentProject.id }}</td>
+                            <td>{{ documentProject.projects[0].name }}</td>
                             <td>{{ documentProject.name|upper }}</td>
                             <td>{{ documentProject.modificationDate|date('Y-m-d') }}
                             </td>
