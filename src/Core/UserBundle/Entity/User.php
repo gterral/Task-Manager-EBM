@@ -88,7 +88,7 @@ class User extends BaseUser
     private $postIdentified;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Post", mappedBy= "writtenBy", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Post", mappedBy= "author", cascade= {"persist"})
      */
     private $authorOf;
 

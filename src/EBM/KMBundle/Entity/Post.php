@@ -56,7 +56,7 @@ class Post
     private $votes;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="authorOf")
      */
     private $author;
 

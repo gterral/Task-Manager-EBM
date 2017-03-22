@@ -114,9 +114,17 @@ fos_elastica:
                 post:
                     properties:
                         content: ~
-                        author: ~
                     persistence:
                         driver: orm
                         model: EBM\KMBundle\Entity\Post
+                        provider: ~
+                        finder: ~
+                tags:
+                    properties:
+                        name: ~
+                        description: ~
+                    persistence:
+                        driver: orm
+                        model: EBM\KMBundle\Entity\Tag
                         provider: ~
                         finder: ~
