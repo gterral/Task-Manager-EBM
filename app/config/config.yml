@@ -103,3 +103,20 @@ stof_doctrine_extensions:
         default:
             sluggable: true
             timestampable: true
+
+# ElasticSearch
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        fablab:
+            types:
+                post:
+                    properties:
+                        content: ~
+                        author: ~
+                    persistence:
+                        driver: orm
+                        model: EBM\KMBundle\Entity\Post
+                        provider: ~
+                        finder: ~

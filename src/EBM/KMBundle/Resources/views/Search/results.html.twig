@@ -1,0 +1,10 @@
+{% extends "EBMKMBundle::bundleLayout.html.twig" %}
+{% block content_body %}
+    Résultats
+
+    {% for result in results %}
+        <p>{{ dump(result) }}</p>
+    {% else %}
+        No tag
+    {% endfor %}
+{% endblock %}

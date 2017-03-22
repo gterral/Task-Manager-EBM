@@ -2,6 +2,11 @@ ebmkm_homepage:
     path:     /
     defaults: { _controller: EBMKMBundle:Default:index }
 
+# --- Moteur de recherche ---
+ebmkm_search_engine:
+    path:     /search/{query}
+    defaults: { _controller: EBMKMBundle:Search:search }
+
 # --- Routes du forum ---
 ebmkm_forum_homepage:
     path:     /forum/
