@@ -11,13 +11,12 @@ Les infos sur le plugin sont ici : https://www.datatables.net/
                 <th>Titre</th>
                 <th>Status</th>
                 <th>Deadline</th>
-                <th>Archiver</th>
             </tr>
         </thead>
         
         <tbody>
         {%  if listTasks is not null %}
-            {% for task in listTasks if task.status != "ARCHIVED" %}
+            {% for task in listTasks if task.status == "ARCHIVED" %}
                 {% if task.status == "IN_PROGRESS" %}
                     {% set class_var = "label label-warning" %}
                 {% elseif task.status == "WAITING_FOR_REVIEW" %}
@@ -69,8 +68,7 @@ Les infos sur le plugin sont ici : https://www.datatables.net/
                     {% else %}
                         <td>Non renseigné</td>
                     {% endif %}
-                    <td><a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}"><i class="icon md-delete" aria-hidden="true" style="color:red;font-size:20px"></i></a></td>
-                </tr>
+                   </tr>
             {% endfor %}
         {%  endif %}
         </tbody>

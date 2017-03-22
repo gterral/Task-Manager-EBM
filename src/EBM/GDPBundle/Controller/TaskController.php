@@ -37,6 +37,23 @@ class TaskController extends Controller
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("project",options={"mapping": {"code":"code"}})
+     */
+    public function indexArchivedAction(Project $project)
+    {
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
+
+        // On return la vue avec la liste des tâches archivés
+        return $this->render('EBMGDPBundle:Task:index_archived.html.twig',
+            array('listTasks' => $project->getTasks(),
+                'project' => $project
+            )
+        );
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("task",options={"mapping": {"id":"id"}})
      * @ParamConverter("project",options={"mapping": {"code":"code"}})
      */
