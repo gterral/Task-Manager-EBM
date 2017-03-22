@@ -4,7 +4,7 @@
     <a href="{{ path('ebmkm_document_index') }}">Retour aux documents</a>
     <a href="{{ path('ebmkm_document_update', {'id': document.id}) }}">Modifier le document</a>
     <h2>{{ document.name }}</h2>
-    <div>Auteur : {{ document.author.username }}</div>
+    <div>Auteur : {{ document.history.author.username }}</div>
     <div>Description : {{ document.description }}</div>
 
     {% if document.file %}
@@ -63,13 +63,13 @@
     </table>
 
     <!-- DISCUSSIONS SUR LE DOCUMENT -->
-    {% if document.commentTopic %}
-        {% for post in document.commentTopic.posts %}
+    {% if document.history.commentTopic %}
+        {% for post in document.history.commentTopic.posts %}
             <div class="well"><strong>{{ post.author.username }}</strong> -- {{ post.date | date('d-M-Y H:i:s') }}<p>{{ post.content }}</p></div>
         {% endfor %}
     {% endif %}
 
-    {% if not document.commentTopic %}
+    {% if not document.history.commentTopic %}
         <h3>Publier un premier commentaire</h3>
     {% endif %}
 

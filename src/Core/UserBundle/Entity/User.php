@@ -119,7 +119,7 @@ class User extends BaseUser
     private $documentEvaluations;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy= "author", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\DocumentHistory", mappedBy= "author", cascade= {"persist"})
      */
     private $createDocument;
 

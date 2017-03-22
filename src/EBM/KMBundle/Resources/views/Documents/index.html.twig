@@ -10,7 +10,7 @@
             <tr>
                 <td><a href="{{ path('ebmkm_document_detail', { id: document.id }) }}">{{ document.name }}</a></td>
                 <td>{{ document.date | date('d-M-Y H:i:s') }}</td>
-                <td>{{ document.author.username }}</td>
+                <td>{{ document.history.author.username }}</td>
             </tr>
         {% endfor %}
     </table>

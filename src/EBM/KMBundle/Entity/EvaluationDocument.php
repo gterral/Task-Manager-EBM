@@ -34,7 +34,7 @@ class EvaluationDocument
     private $author;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\Document", inversedBy= "evaluations", cascade= {"persist"})
+     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\DocumentHistory", inversedBy= "evaluations", cascade= {"persist"})
      */
     private $document;
 

@@ -39,7 +39,7 @@ class DocumentController extends Controller
      */
     public function indexAction(){
 
-        $documents = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->findAll();
+        $documents = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->findBy(['active' => true]);
 
         return $this->render('EBMKMBundle:Documents:index.html.twig', array("documents" => $documents));
     }
@@ -68,7 +68,7 @@ class DocumentController extends Controller
 
             // Le créateur du document est l'utilisateur courrant.
             $user = $this->getUser();
-            $document->setAuthor($user);
+            $documentHistory->setAuthor($user);
             $document->setHistory($documentHistory);
 
             // On persiste le document et son historique nouvellement créé.
@@ -111,8 +111,8 @@ class DocumentController extends Controller
          * //TODO : Bouger le texte de la description dans un fichier avec tous les textes.
          *
          */
-        if($document->getCommentTopic()){
-            $topic = $document->getCommentTopic();
+        if($document->getHistory()->getCommentTopic()){
+            $topic = $document->getHistory()->getCommentTopic();
         }
         else{
             $topic = new Topic();
@@ -121,7 +121,7 @@ class DocumentController extends Controller
                 ->setCreator($user);
             $topic->setDescription("Ceci est le fil de discussion relatif au document ' " . $document->getName() . '.');
 
-            $document->setCommentTopic($topic);
+            $document->getHistory()->setCommentTopic($topic);
         }
 
         $post = new Post();
@@ -150,12 +150,12 @@ class DocumentController extends Controller
          * L'évaluation d'un document se fait via un formulaire utilisant un slider.
          * Une fois ce formulaire posté, la page est raffraichie.
          */
-        if(sizeof($document->getEvaluations()) > 0){
+        if(sizeof($document->getHistory()->getEvaluations()) > 0){
             $moyenne = 0;
-            foreach ($document->getEvaluations() as $evaluation){
+            foreach ($document->getHistory()->getEvaluations() as $evaluation){
                 $moyenne += $evaluation->getValue();
             }
-            $moyenne = $moyenne/sizeof($document->getEvaluations());
+            $moyenne = $moyenne/sizeof($document->getHistory()->getEvaluations());
         }
         else{
             $moyenne = -1;

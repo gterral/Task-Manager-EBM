@@ -74,21 +74,6 @@ class Document
     private $date;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy= "document", cascade= {"persist"})
-     */
-    private $evaluations;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy= "createDocument", cascade= {"persist"})
-     */
-    private $author;
-
-    /**
-     * @Orm\OneToOne(targetEntity="EBM\KMBundle\Entity\Topic", inversedBy="document", cascade={"persist"})
-     */
-    private $commentTopic;
-
-    /**
      * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", inversedBy="documents", cascade={"persist"})
      */
     private $tags;
@@ -112,7 +97,6 @@ class Document
     {
         $this->date = new \DateTime();
         $this->tags = new ArrayCollection();
-        $this->evaluations = new ArrayCollection();
         $this->creationDate = new \DateTime();
     }
 
@@ -286,44 +270,6 @@ class Document
         return $this->creationDate;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    /**
-     * @param mixed $author
-     *
-     * @return $this
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCommentTopic()
-    {
-        return $this->commentTopic;
-    }
-
-    /**
-     * @param mixed $commentTopic
-     * @return $this
-     */
-    public function setCommentTopic($commentTopic)
-    {
-        $this->commentTopic = $commentTopic;
-        return $this;
-    }
-
     /**
      * @return mixed
      */
@@ -352,40 +298,6 @@ class Document
      */
     public function removeTag(Tag $tag){
         $this->tags->removeElement($tag);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEvaluations()
-    {
-        return $this->evaluations;
-    }
-
-    /**
-     * @param mixed $evaluations
-     */
-    public function setEvaluations($evaluations)
-    {
-        $this->evaluations = $evaluations;
-    }
-
-    /**
-     * @param EvaluationDocument $evaluation
-     * @return $this
-     */
-    public function addEvaluation(EvaluationDocument $evaluation){
-        $this->evaluations->add($evaluation);
-        return $this;
-    }
-
-    /**
-     * @param EvaluationDocument $evaluation
-     * @return $this
-     */
-    public function removeEvaluation(EvaluationDocument $evaluation){
-        $this->evaluations->removeElement($evaluation);
-        return $this;
     }
 
     /**
