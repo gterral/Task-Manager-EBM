@@ -56,51 +56,35 @@ class ForumController extends Controller
         $em = $this->getDoctrine()->getManager();
         $votes = $post_id->getVotes() ;
         $nUser = 0;
+        $nUserUp = 0;
         foreach ($votes as $vote) {
             if ($vote->getUser() == $user_id){
                 $nUser++;
+                if ($vote->getValue() == 1) {
+                    $nUserUp++;
+                }
             }
         }
-        if ($nUser>0) {
-            return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
+        if ($nUserUp>0) {
+
+            foreach ($votes as $vote) {
+                if ($vote->getUser()==$user_id and $vote->getValue() == 1 ){
+                    $em->remove($vote);
+                    $em->flush();
+                    break;
+                }
+            }
         }
-        else {
+        elseif($nUser == 0) {
             $vote = new Vote();
             $vote->setValue(1);
             $vote->setPost($post_id);
             $vote->setUser($user_id);
             $em->persist($vote);
             $em->flush();
-            return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
-        }
-
-    }
-
-
-    public function upVotePostRetrAction (User $user_id, Post $post_id ) {
-        $em = $this->getDoctrine()->getManager();
-        $votes = $post_id->getVotes() ;
-        foreach ($votes as $vote) {
-            if ($vote->getUser()==$user_id and $vote->getValue() == 1 ){
-                $em->remove($vote);
-                $em->flush();
-                break;
-            }
-        }
+         }
         return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
-    }
 
-    public function downVotePostRetrAction (User $user_id, Post $post_id ) {
-        $em = $this->getDoctrine()->getManager();
-        $votes = $post_id->getVotes() ;
-        foreach ($votes as $vote) {
-            if ($vote->getUser()==$user_id and $vote->getValue() == -1 ){
-                $em->remove($vote);
-                $em->flush();
-                break;
-            }
-        }
-        return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
     }
 
 
@@ -108,24 +92,34 @@ class ForumController extends Controller
         $em = $this->getDoctrine()->getManager();
         $votes = $post_id->getVotes() ;
         $nUser = 0;
+        $nUserDown = 0;
         foreach ($votes as $vote) {
             if ($vote->getUser() == $user_id){
                 $nUser++;
+                if ($vote->getValue() == -1) {
+                    $nUserDown++;
+                }
             }
         }
-        if ($nUser>0) {
-            return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
+        if ($nUserDown>0) {
+            foreach ($votes as $vote) {
+                if ($vote->getUser()==$user_id and $vote->getValue() == -1 ){
+                    $em->remove($vote);
+                    $em->flush();
+                    break;
+                }
+            }
         }
-        else {
+        elseif ($nUser==0) {
             $vote = new Vote();
             $vote->setValue(-1);
             $vote->setPost($post_id);
             $vote->setUser($user_id);
             $em->persist($vote);
             $em->flush();
-            return $this->redirectToRoute('ebmkm_forum_topic',  array('id' => $post_id->getTopic()->getId()));
-
         }
+        return $this->redirectToRoute('ebmkm_forum_topic',  array('id' => $post_id->getTopic()->getId()));
+
     }
     public function viewTopicAction($id, Request $request)
     {

@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-md-1 ">
                     <div> <a type="button"
-                             href="{{ path('ebmkm_forum_upvote_retr', {'user_id': app.user.id, 'post_id': post.id}) }}">
+                             href="{{ path('ebmkm_forum_upvote', {'user_id': app.user.id, 'post_id': post.id}) }}">
                             <h4> <i class="fa fa-thumbs-up green-800" aria-hidden="true"> </i> {{ post.getUpVotes() }} </h4> </a> </div>
 
                     <div> <a type="button"

@@ -11,14 +11,6 @@ ebmkm_forum_downvote:
     path:     /forum/{user_id}/downvote/{post_id}
     defaults: { _controller: EBMKMBundle:Forum:downVotePost }
 
-ebmkm_forum_upvote_retr:
-    path:     /forum/{user_id}/upvoteretr/{post_id}
-    defaults: { _controller: EBMKMBundle:Forum:upVotePostRetr }
-
-ebmkm_forum_downvote_retr:
-    path:     /forum/{user_id}/downvoteretr/{post_id}
-    defaults: { _controller: EBMKMBundle:Forum:downVotePostRetr }
-
 ebmkm_forum_homepage:
     path:     /forum/
     defaults: { _controller: EBMKMBundle:Forum:index }
