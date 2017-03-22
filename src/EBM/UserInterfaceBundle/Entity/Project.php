@@ -35,7 +35,7 @@ class Project
     /**
      * @var string
      *
-     * @ORM\Column(name="project_type", type="string", length=255)
+     * @ORM\Column(name="type", type="string", length=255)
      */
     private $projectType;
 
@@ -49,7 +49,7 @@ class Project
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * @ORM\Column(name="desc", type="text", nullable=true)
      */
     private $description;
 

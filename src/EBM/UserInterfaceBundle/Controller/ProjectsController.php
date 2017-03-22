@@ -36,12 +36,10 @@ class ProjectsController extends Controller
             {
                 /* On rajoute les attributs manquants */
 
-                /*
-                $user->setUsername(strtolower(substr($user->getName(), 0, 1) . $user->getSurname())); // "Julien Atlan" donnera "jatlan"
-                $user->setPassword("user_ebm");
-                $user->setFullname($user->getName() . ' ' . $user->getSurname());
-                $user->addRole("ROLE_USER");
-                */
+
+                $project->setIsActive(true);
+                $project->setCreationDate(/*la date de maintenant*/);
+                $project->setLastUpdate(/*la date de maintenant*/);
 
 
                 /* [ON UTILISERA CETTE MÉTHODE QUAND J'ARRIVERAI À FAIRE MARCHER DJANGO] */

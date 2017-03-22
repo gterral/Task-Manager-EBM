@@ -16,11 +16,33 @@
 {# Contenu de la page #}
 
 {% block content_body %}
-    <a href="#">Modifier mon profil</a>
-    <a href="#">Rechercher un profil</a>
-    <a href="{{ path('ebm_user_project_creation') }}">Créer un projet</a>
-    <a href="#">Rechercher un projet</a>
-    <a href="#">Voir mes projets</a>
+    <div class="panel panel-bordered">
+        <div class="panel-heading">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {% set nameToDisplay = app.user.username %}
+                {% if app.user.fullname is defined and app.user.fullname|length > 0 %}
+                    {% set nameToDisplay = app.user.fullname %}
+                {% endif %}
+
+                <h1 class="panel-title">Bienvenue, {{ nameToDisplay }} !</h1>
+
+             {% else %}
+
+                <h1 class="panel-title">Bienvenue !</h1>
+
+            {% endif %}
+        </div>
+        {# <div class="panel-body"> #}
+            <ul class="list-group list-group-bordered">
+                <li class="list-group-item"><a href="#">Voir mon profil</a></li>
+                <li class="list-group-item"><a href="#">Modifier mon profil</a></li>
+                <li class="list-group-item"><a href="#">Rechercher un profil</a></li>
+                <li class="list-group-item"><a href="{{ path('ebm_user_project_creation') }}">Créer un projet</a></li>
+                <li class="list-group-item"><a href="#">Rechercher un projet</a></li>
+                <li class="list-group-item"><a href="#">Voir mes projets</a></li>
+            </ul>
+        {# </div> #}
+    </div>
 {% endblock %}
 
 
