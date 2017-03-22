@@ -46,6 +46,11 @@ ebmgdp_projecttasks:
     path:     project/{code}/tasks
     defaults: { _controller: EBMGDPBundle:Task:index }
 
+# Vue liste tache archivée d'un projet
+ebmgdp_projecttasksarchived:
+    path:     project/{code}/tasks/archived
+    defaults: { _controller: EBMGDPBundle:Task:indexArchived }
+
 # Ajout d'une tache
 ebmgdp_task_add:
     path:     project/{code}/tasks/add
