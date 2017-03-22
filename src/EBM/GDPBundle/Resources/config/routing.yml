@@ -5,9 +5,15 @@ ebmgdp_insight:
     path:     insight
     defaults: { _controller: EBMGDPBundle:Insight:index }
 
-ebmgdp_insight_documentproject:
-    path:     insight/documentproject
-    defaults: { _controller: EBMGDPBundle:Insight:documentProject }
+ebmgdp_insight_documenttypeproject_list:
+    path:     insight/documenttypeprojectlist
+    defaults: { _controller: EBMGDPBundle:Insight:documentTypeProjectList }
+
+ebmgdp_insight_documenttypeproject_show:
+    path:     insight/documenttypeproject/{id}
+    defaults: { _controller: EBMGDPBundle:Insight:documentTypeProjectShow }
+    requirements:
+                 id: \d+
 
 ebmgdp_insight_documenttypeproject_index:
     path:     insight/documenttypeproject

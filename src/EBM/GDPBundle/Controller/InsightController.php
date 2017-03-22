@@ -2,6 +2,7 @@
 
 namespace EBM\GDPBundle\Controller;
 
+use EBM\GDPBundle\Entity\DocumentTypeProject;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,18 +49,34 @@ class InsightController extends Controller
                     'nbTaskArchived' => $nb_task_archived,
                 ));
     }
+
     /**
-     * Lists all documentProject entities.
+     * Lists all documentTypeProject entities.
      *
      */
-    public function documentProjectAction()
+    public function documentTypeProjectListAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $documentProjects = $em->getRepository('EBMGDPBundle:DocumentProject')->findAll();
+        $documentTypeProjects = $em->getRepository('EBMGDPBundle:DocumentTypeProject')->findAll();
 
-        return $this->render('EBMGDPBundle:Insight:documentProject.html.twig', array(
+        return $this->render('EBMGDPBundle:Insight:documentTypeProjectList.html.twig', array(
+            'listDocumentTypeProjects' => $documentTypeProjects,
+        ));
+    }
+
+    /**
+     * @param DocumentTypeProject $documentTypeProject
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("documentTypeProject",options={"mapping": {"id":"id"}})
+     */
+    public function documentTypeProjectShowAction(DocumentTypeProject $documentTypeProject)
+    {
+        $documentProjects = $documentTypeProject->getDocumentProjects();
+
+        return $this->render('EBMGDPBundle:Insight:documentTypeProjectShow.html.twig', array(
             'listDocumentProjects' => $documentProjects,
+            'documentTypeProject'=>$documentTypeProject,
         ));
     }
 

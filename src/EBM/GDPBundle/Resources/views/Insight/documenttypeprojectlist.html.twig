@@ -13,11 +13,11 @@
 
 {% block content_body %}
 
-    {# Tableau Projets #}
-    {%  if listDocumentProjects is null or listDocumentProjects|length == 0 %}
-        <p class="margin-20 text-center">Aucun livrable n'a été trouvé</p>
+    {# Tableau DocumentTypeProjects #}
+    {%  if listDocumentTypeProjects is null or listDocumentTypeProjects|length == 0 %}
+        <p class="margin-20 text-center">Aucun type de livrable n'a été trouvé</p>
     {% else %}
-        {% include "EBMGDPBundle:Insight/components:documentProjectsTable.html.twig" %}
+        {% include "EBMGDPBundle:Insight/components:documentTypeProjectsTable.html.twig" %}
     {% endif %}
 
 
