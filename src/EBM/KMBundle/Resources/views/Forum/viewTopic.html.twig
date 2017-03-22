@@ -3,15 +3,15 @@
 
 {% block content_body %}
 
-    <a type="button" href="{{ path('ebmkm_forum_homepage') }}" class="btn btn-sm btn-primary ladda-button" data-style="slide-left" data-plugin="laddaProgress">
+    <a type="button" href="{{ path('ebmkm_forum_homepage') }}" class="btn btn-primary ladda-button" data-style="slide-left" data-plugin="laddaProgress">
         <span class="ladda-label"><i class="icon md-long-arrow-left margin-right-10" aria-hidden="true"></i>Retour au forum</span>
         <span class="ladda-spinner"></span></a>
 
     <div class ="page-header ">
         <div class="row">
-            <div class="col-md-1">
+            <div class="col-md-8">
                 <h2 class ="page-title vertical-align-middle">
-                    {{ topic.title }}
+                    Topic :  {{ topic.title }}
                 </h2>
             </div>
         </div>
@@ -37,7 +37,7 @@
 
 
     {% endfor %}
-    <h3>Répondre</h3>
+    <h4>Réponse : </h4>
 
     {{ form(form) }}
 
