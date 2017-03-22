@@ -77,6 +77,11 @@ class Topic
      */
     private $creator;
 
+    /**
+     * @Orm\Column(type="text")
+     */
+    private $description;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -313,5 +318,23 @@ class Topic
     {
         $this->creator = $creator;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+
 }
 

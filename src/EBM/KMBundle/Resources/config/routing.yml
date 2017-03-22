@@ -3,6 +3,14 @@ ebmkm_homepage:
     defaults: { _controller: EBMKMBundle:Default:index }
 
 # --- Routes du forum ---
+ebmkm_forum_upvote:
+    path:     /forum/{user_id}/upvote/{post_id}
+    defaults: { _controller: EBMKMBundle:Forum:upVotePost }
+
+ebmkm_forum_downvote:
+    path:     /forum/{user_id}/downvote/{post_id}
+    defaults: { _controller: EBMKMBundle:Forum:downVotePost }
+
 ebmkm_forum_homepage:
     path:     /forum/
     defaults: { _controller: EBMKMBundle:Forum:index }
@@ -44,7 +52,7 @@ ebmkm_document_update:
 
 ebmkm_document_delete:
     path: /documents/{id}/delete
-    defaults: { _controller: EBMKMBundle:Document:update }
+    defaults: { _controller: EBMKMBundle:Document:delete }
     requirements:
         id: '\d+'
 
