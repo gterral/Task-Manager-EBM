@@ -11,6 +11,7 @@ Les infos sur le plugin sont ici : https://www.datatables.net/
                 <th>Titre</th>
                 <th>Status</th>
                 <th>Deadline</th>
+                <th>Assigné à</th>
                 <th>Archiver</th>
             </tr>
         </thead>
@@ -64,11 +65,23 @@ Les infos sur le plugin sont ici : https://www.datatables.net/
                             </select>
                         </div>
                     </td>
+                    <td>
                     {% if task.deadline != null %}
-                        <td><span class="hidden">{{ task.deadline|date('U') }}</span> {{ task.deadline|date('d-m-Y') }}</td>
+                        <span class="hidden">{{ task.deadline|date('U') }}</span> {{ task.deadline|date('d-m-Y') }}
                     {% else %}
-                        <td>Non renseigné</td>
+                        Non renseigné
                     {% endif %}
+
+                    <td>
+                        {% if task.membersAssigned is not null and task.membersAssigned|length > 0 %}
+                            {% for user in task.membersAssigned %}
+                                {{ user.username }}
+                                {% if not loop.last %}
+                                    ,
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </td>
                     <td><a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}"><i class="icon md-delete" aria-hidden="true" style="color:red;font-size:20px"></i></a></td>
                 </tr>
             {% endfor %}

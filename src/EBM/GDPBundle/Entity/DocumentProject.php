@@ -413,4 +413,28 @@ class DocumentProject
     {
         return $this->deadlineDate;
     }
+
+    /**
+     * Add fileEntity
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $fileEntity
+     *
+     * @return DocumentProject
+     */
+    public function addFileEntity(\EBM\GDPBundle\Entity\FileEntity $fileEntity)
+    {
+        $this->fileEntities[] = $fileEntity;
+
+        return $this;
+    }
+
+    /**
+     * Remove fileEntity
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $fileEntity
+     */
+    public function removeFileEntity(\EBM\GDPBundle\Entity\FileEntity $fileEntity)
+    {
+        $this->fileEntities->removeElement($fileEntity);
+    }
 }

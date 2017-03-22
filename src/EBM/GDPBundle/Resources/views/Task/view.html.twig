@@ -41,6 +41,16 @@
                             {% else %}
                             <li>Date réalisation prévue: Non renseigné</li>
                             {% endif %}
+                            {% if task.membersAssigned|length > 0 %}
+                            <li>Assigné à :
+                                {% for user in task.membersAssigned %}
+                                    {{ user.username }}
+                                    {% if not loop.last %}
+                                        ,
+                                    {% endif %}
+                                {% endfor %}
+                            </li>
+                            {% endif %}
                         </ul>
                     </div>
 

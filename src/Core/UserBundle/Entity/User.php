@@ -134,6 +134,11 @@ class User extends BaseUser
      */
     private $managedTags;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\Task", mappedBy="membersAssigned")
+     */
+    private $gdpTasks;
+
     /* qui des attributs locked & co hérités du FosUserBundle ?
      
     Enabled = true
@@ -706,5 +711,39 @@ class User extends BaseUser
     public function setTags($tags)
     {
         $this->tags = $tags;
+    }
+
+    /**
+     * Add gdpTask
+     *
+     * @param \EBM\GDPBundle\Entity\Task $gdpTask
+     *
+     * @return User
+     */
+    public function addGdpTask(\EBM\GDPBundle\Entity\Task $gdpTask)
+    {
+        $this->gdpTasks[] = $gdpTask;
+
+        return $this;
+    }
+
+    /**
+     * Remove gdpTask
+     *
+     * @param \EBM\GDPBundle\Entity\Task $gdpTask
+     */
+    public function removeGdpTask(\EBM\GDPBundle\Entity\Task $gdpTask)
+    {
+        $this->gdpTasks->removeElement($gdpTask);
+    }
+
+    /**
+     * Get gdpTasks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGdpTasks()
+    {
+        return $this->gdpTasks;
     }
 }

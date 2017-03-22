@@ -102,7 +102,7 @@ class TaskController extends Controller
         $project->addTask($task);
 
         // On cr�e le FormBuilder gr�ce au service form factory
-        $form = $this->createForm(TaskType::class, $task);
+        $form = $this->createForm(TaskType::class, $task,['idProject'=>$project->getId()]);
 
         // Si la requ�te est en POST
         if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
@@ -147,7 +147,7 @@ class TaskController extends Controller
         }
 
         // On crée le FormBuilder grâce au service form factory
-        $form = $this->createForm(TaskType::class, $task);
+        $form = $this->createForm(TaskType::class, $task,['idProject'=>$project->getId()]);
 
         // Si la requ�te est en POST
         if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {

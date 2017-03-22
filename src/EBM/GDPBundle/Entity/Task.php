@@ -105,6 +105,13 @@ class Task
     private $project;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Core\UserBundle\Entity\User", inversedBy="gdpTasks")
+     * @ORM\JoinTable(name="gdp_task_members")
+     *
+     */
+    private $membersAssigned;
+
+    /**
      * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\FileEntity", inversedBy="tasks")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -379,5 +386,71 @@ class Task
     public function getModificationDate()
     {
         return $this->modificationDate;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->membersAssigned = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fileEntities = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add membersAssigned
+     *
+     * @param \Core\UserBundle\Entity\User $membersAssigned
+     *
+     * @return Task
+     */
+    public function addMembersAssigned(\Core\UserBundle\Entity\User $membersAssigned)
+    {
+        $this->membersAssigned[] = $membersAssigned;
+
+        return $this;
+    }
+
+    /**
+     * Remove membersAssigned
+     *
+     * @param \Core\UserBundle\Entity\User $membersAssigned
+     */
+    public function removeMembersAssigned(\Core\UserBundle\Entity\User $membersAssigned)
+    {
+        $this->membersAssigned->removeElement($membersAssigned);
+    }
+
+    /**
+     * Get membersAssigned
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMembersAssigned()
+    {
+        return $this->membersAssigned;
+    }
+
+    /**
+     * Add fileEntity
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $fileEntity
+     *
+     * @return Task
+     */
+    public function addFileEntity(\EBM\GDPBundle\Entity\FileEntity $fileEntity)
+    {
+        $this->fileEntities[] = $fileEntity;
+
+        return $this;
+    }
+
+    /**
+     * Remove fileEntity
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $fileEntity
+     */
+    public function removeFileEntity(\EBM\GDPBundle\Entity\FileEntity $fileEntity)
+    {
+        $this->fileEntities->removeElement($fileEntity);
     }
 }
