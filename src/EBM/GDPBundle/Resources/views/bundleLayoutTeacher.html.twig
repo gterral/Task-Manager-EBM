@@ -1,0 +1,34 @@
+
+{% extends "::layout.html.twig" %}
+
+{# Titre de l'onglet par défaut pour tous les twigs de ce bundle
+{% block title %}
+  Creators
+{% endblock %}
+#}
+
+{# CSS communs à tous les twigs du bundle
+{% block stylesheets %}
+
+{% endblock %}
+#}
+
+
+{% block body %}
+    {#
+      On définit un nouveau bloc, que les vues du bundle pourront remplir
+      Ainsi le block parent peut intégrer un contenu commun à tous les twig
+    #}
+    {% include '@EBMGDP/components/navbar_gdp_teacher.html.twig' %}
+
+    {% block content_body %}
+
+    {% endblock %}
+
+{% endblock %}
+
+{# Scripts communs à tous les twig du bundle
+{% block scripts %}
+
+{% endblock %}
+#}

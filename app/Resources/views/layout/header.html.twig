@@ -59,13 +59,13 @@
             
             {# Help #}
             <li class="dropdown">
-              <a data-toggle="dropdown" href="javascript:void(0)" title="Assistance" aria-expanded="false"
+              <a data-toggle="dropdown" href="javascript:void(0)" title="Messages" aria-expanded="false"
               data-animation="scale-up" role="button">
                 <i class="icon md-comments" aria-hidden="true"></i>
               </a>
               <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
                 <li class="dropdown-menu-header" role="presentation">
-                  <h5>Assistance</h5>
+                  <h5>Messages</h5>
                 </li>
 
                 <li class="list-group padding-top-10" role="presentation">
@@ -117,7 +117,30 @@
                 {% if app.user.fullname is defined and app.user.fullname|length > 0 %}
                     {% set nameToDisplay = app.user.fullname %}
                 {% endif %}
-                <li><a href="#">Welcome {{ nameToDisplay }} !</a></li>
+                <li class="dropdown">
+                  <a href="#" data-toggle="dropdown" aria-expanded="false" data-animation="scale-up" role="button">{{ nameToDisplay }}</a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li role="presentation">
+                      <a href="{{ path('core_user_view_own_profile') }}" role="presentation">
+                        <i class="icon md-account"></i>
+                        Mon profil
+                      </a>
+                    </li>
+                    <li role="presentation">
+                      <a href="#" {# Page répertoriant tous les projets existante ? #} role="presentation">
+                        <i class="icon md-accounts"></i>
+                        Mes projets
+                      </a>
+                    </li>
+                    <li class="divider" role="presentation"></li>
+                    <li role="presentation">
+                      <a href="{{ path('fos_user_security_logout') }}" role="presentation">
+                        <i class="icon md-power"></i>
+                        Déconnexion
+                      </a>
+                    </li>
+                  </ul>
+                </li>
             {% endif %}
          
             {# Déconnexion #}

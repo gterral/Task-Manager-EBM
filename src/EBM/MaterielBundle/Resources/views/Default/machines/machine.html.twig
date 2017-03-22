@@ -1,0 +1,54 @@
+
+{% extends "@EBMMateriel/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion du matériel
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+{# Contenu de la page #}
+
+{% block content_body %}
+
+        <div class="page-header text-center">
+            <h1 class="page-title">Fab Lab - Machines</h1>
+        </div>
+        <div class="page-content container-fluid" style="max-width: 700px">
+            <!-- Panel Header -->
+            <div class="panel">
+                <div class="panel-body">
+
+                        <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20" href="{{ path('ebm_materiel_machines_reservation')}}">Formulaire de Réservation de machine</a>
+
+
+                        <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20" href="{{ path('ebm_materiel_machines_selection')}}">Afficher les disponibilités des machines</a>
+
+
+                        <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20" href="{{ path('ebm_materiel_machines_ajout')}}">Enregistrer une machine</a>
+
+
+                        <a class="btn btn-block btn-round btn-lg btn-danger margin-bottom-20"  href="{{ path('ebm_materiel_homepage')}}">
+                            <i class="icon md-mail-reply" aria-hidden="true"></i>
+                            Retour
+                        </a>
+
+
+                </div>
+                <!-- End Panel Header -->
+            </div>
+        </div>
+
+{% endblock %}
+
+
+{# Scripts propres à cette page #}
+{% block scripts %}
+
+
+{% endblock %}

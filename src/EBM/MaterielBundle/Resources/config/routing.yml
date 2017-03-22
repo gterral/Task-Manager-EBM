@@ -1,3 +1,30 @@
 ebm_materiel_homepage:
     path:     /
-    defaults: { _controller: EBMMaterielBundle:Default:index }
+    defaults: { _controller: EBMMaterielBundle:Machine:index }
+
+ebm_materiel_machines:
+    path:     /machines
+    defaults: { _controller: EBMMaterielBundle:Machine:machine }
+
+ebm_materiel_machines_selection:
+    path:     /machines/selection
+    defaults: { _controller: EBMMaterielBundle:Machine:selectionMachine }
+
+ebm_materiel_machines_planning:
+    path:     /machines/planning/{machineId}
+    defaults:
+        _controller: EBMMaterielBundle:Machine:planningMachine
+        machineId: 1
+
+ebm_materiel_machines_reservation:
+    path:     /machines/reservation/{machine}/{debut}/{fin}
+    defaults:
+        _controller: EBMMaterielBundle:Machine:reservationMachine
+        machine:
+        debut:
+        fin:
+
+ebm_materiel_machines_ajout:
+    path:     /machines/ajout
+    defaults:
+        _controller: EBMMaterielBundle:Machine:ajoutMachine

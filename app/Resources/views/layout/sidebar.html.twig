@@ -40,7 +40,7 @@
                     {
                     "title" : "Utilisateurs",
                     "icon" : "md-accounts",
-                    "route" : 'core_dashboard_homepage'
+                    "route" : 'core_user_homepage'
                     }
                     ] %}
 
@@ -76,7 +76,7 @@
                     {
                     "title" : "Utilisateurs",
                     "icon" : "md-accounts",
-                    "route" : 'core_dashboard_homepage'
+                    "route" : 'core_user_homepage'
                     }
                     ] %}
 
@@ -109,6 +109,11 @@
                                         </a>
                                     </li>
                                 {% endfor %}
+                                <li class="site-menu-item hidden-xs site-tour-trigger">
+                                    <a href="{{ path("ebmgdp_insight") }}">
+                                        <span class="site-menu-title">Partie encadrante</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     {% else %}
