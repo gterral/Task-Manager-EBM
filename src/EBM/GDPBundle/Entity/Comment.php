@@ -51,6 +51,28 @@ class Comment
      */
     private $modificationDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="comments")
+     */
+    private $utilisateur;
+
+
+    /**
+     * @return mixed
+     */
+    public function getUtilisateur()
+    {
+        return $this->utilisateur;
+    }
+
+    /**
+     * @param mixed $utilisateur
+     */
+    public function setUtilisateur($utilisateur)
+    {
+        $this->utilisateur = $utilisateur;
+    }
+
 
     /**
      * Get id

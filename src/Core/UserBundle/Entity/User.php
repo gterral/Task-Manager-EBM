@@ -134,6 +134,12 @@ class User extends BaseUser
      */
     private $managedTags;
 
+    /**
+     * @ORM\OneToMany(targetEntity="EBM\GDPBundle\Entity\Comment", mappedBy= "utilisateur", cascade={"persist"})
+     */
+    private $comments;
+
+
     /* qui des attributs locked & co hérités du FosUserBundle ?
      
     Enabled = true
@@ -240,6 +246,7 @@ class User extends BaseUser
         $this->createDocument = new ArrayCollection();
         $this->documentEvaluations = new ArrayCollection();
         $this->managedTags = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
     
     public function hasRole($role) {
@@ -706,5 +713,21 @@ class User extends BaseUser
     public function setTags($tags)
     {
         $this->tags = $tags;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
     }
 }
