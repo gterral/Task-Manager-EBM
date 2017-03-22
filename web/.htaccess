@@ -11,11 +11,20 @@ DirectoryIndex app.php
 # when compiling LESS/Sass/CoffeScript assets.
 # Options FollowSymlinks
 
+# Files in cache control
+# Don't be stupid, do not test it by "refreshing" the web page
+<IfModule mod_headers.c>
+    <FilesMatch "\\.(gif|jpe?g|png|css|js|pdf|ico|swf)$">
+        Header set Cache-Control "max-age=2678400, public"
+    </FilesMatch>
+</IfModule>
+
 # Disabling MultiViews prevents unwanted negotiation, e.g. "/app" should not resolve
 # to the front controller "/app.php" but be rewritten to "/app.php/app".
 <IfModule mod_negotiation.c>
     Options -MultiViews
 </IfModule>
+
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
