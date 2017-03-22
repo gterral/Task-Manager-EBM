@@ -44,9 +44,11 @@ class MachineController extends Controller
         foreach($reservations as $reservation)
         {
             $json = json_encode(array(
+                'id' => $reservation->getId(),
                 'title' => $reservation->getUser()->getUsername(),
                 'start' => str_replace(' ', 'T', $reservation->getDebut()->format('Y-m-d H:i:s')),
-                'end' => str_replace(' ', 'T', $reservation->getFin()->format('Y-m-d H:i:s'))
+                'end' => str_replace(' ', 'T', $reservation->getFin()->format('Y-m-d H:i:s')),
+                'backgroundColor' => '#e53935'
             ));
 
             $jsonEvents = $jsonEvents.$json;
@@ -104,55 +106,18 @@ class MachineController extends Controller
 
     public function reservationMachineAction($machine, $debut, $fin, Request $request)
     {
-        $resa_machine = new ReservationMachine();
-
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $resa_machine);
-
-        $listeMachines = array();
-        foreach($this->getAllMachines() as $machine)
+        if($fin == null)
         {
-            $listeMachines[$machine->getNom()] = $machine;
-        }
-
-
-        $formBuilder
-            ->add('user', TextType::class, array('disabled' => 'true', 'data' => $this->getUser()))
-            /*->add('dateCreation', DateType::class, array(
-                'disabled' => 'true',
-                'data' => new \DateTime('now'),
-                'attr' => array('style' => 'display:none'
-                )
-            ))*/
-            ->add('machine', ChoiceType::class, array(
-                'choices' => $listeMachines,
-                'data' => 2
-            ))
-            ->add('debut', DateTimeType::class, array('data' => new \DateTime($debut)))
-            ->add('fin', DateTimeType::class, array('data' => new \DateTime($fin)))
-            ->add('description', TextareaType::class, array('required' => 'false'))
-            ->add('valider', SubmitType::class);
-
-
-        $form = $formBuilder->getForm();
-
-        if ($request->isMethod('POST')){
-            $form->handleRequest($request);
-
-            $resa_machine->setUser($this->getUser());
-
-            if($form->isValid()){
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($resa_machine);
-                $em->flush();
-
-                $request->getSession()->getFlashBag()->add('message', 'Réservation bien enregistrée.');
-
-                return $this->redirectToRoute('ebm_materiel_machines');
+            $heure = intval(substr($debut, 11, 2)) + 2;
+            $heureString = strval($heure);
+            if($heure < 10)
+            {
+                $heureString = '0'.$heureString;
             }
+            $fin = substr($debut, 0,11).$heureString.substr($debut,13);
         }
 
-        return $this->render('EBMMaterielBundle:Default/machines:reservationMachine.html.twig', array('form' => $form->createView()));
-
+        return $this->render('EBMMaterielBundle:Default/machines:reservationMachine.html.twig', array('machine' => $this->getMachine($machine), 'debut' => $debut, 'fin' => $fin));
     }
 
 
