@@ -19,9 +19,13 @@ class ProjectController extends Controller
         // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
         $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
 
+        $repository_type= $this->getDoctrine()->getRepository('EBMGDPBundle:DocumentTypeProject');
+        $listtypes = $repository_type->findAll();
+
         return $this->render('EBMGDPBundle:Project:index.html.twig',
             array('listDeliverables' => $project->getDeliverables(),
-                'project' => $project
+                'project' => $project,
+                'listTypeDeliverables' => $listtypes,
             )
         );
     }
