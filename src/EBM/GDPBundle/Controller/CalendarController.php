@@ -20,7 +20,12 @@ class CalendarController extends Controller
         // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
         $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
 
-        $machineId = '1';
+        $repository_machine = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('EBMMaterielBundle:Machine');
+
+        $machineId = $repository_machine->findAll()[0];
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository("EBMMaterielBundle:Machine");
         $machine = $repository->find($machineId);
