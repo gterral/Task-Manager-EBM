@@ -9,12 +9,11 @@ ebmgdp_insight_documenttypeproject_list:
     path:     insight/documenttypeprojectlist
     defaults: { _controller: EBMGDPBundle:Insight:documentTypeProjectList }
 
-ebmgdp_insight_documenttypeproject_show:
+ebmgdp_insight_documenttypeproject_view:
     path:     insight/documenttypeproject/{id}
-    defaults: { _controller: EBMGDPBundle:Insight:documentTypeProjectShow }
+    defaults: { _controller: EBMGDPBundle:Insight:documentTypeProjectview }
     requirements:
                  id: \d+
-
 ebmgdp_insight_documenttypeproject_index:
     path:     insight/documenttypeproject
     defaults: { _controller: EBMGDPBundle:DocumentTypeProject:index }
@@ -24,7 +23,7 @@ ebmgdp_insight_documenttypeproject_new:
     defaults: { _controller: EBMGDPBundle:DocumentTypeProject:new }
 
 ebmgdp_insight_documenttypeproject_show:
-    path:     insight/documenttypeproject/{id}
+    path:     insight/documenttypeproject/show/{id}
     defaults: { _controller: EBMGDPBundle:DocumentTypeProject:show }
     requirements:
              id: \d+
