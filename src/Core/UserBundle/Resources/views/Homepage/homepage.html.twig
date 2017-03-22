@@ -32,16 +32,14 @@
 
             {% endif %}
         </div>
-        {# <div class="panel-body"> #}
-            <ul class="list-group list-group-bordered">
-                <li class="list-group-item"><a href="#">Voir mon profil</a></li>
-                <li class="list-group-item"><a href="#">Modifier mon profil</a></li>
-                <li class="list-group-item"><a href="#">Rechercher un profil</a></li>
-                <li class="list-group-item"><a href="{{ path('ebm_user_project_creation') }}">Créer un projet</a></li>
-                <li class="list-group-item"><a href="#">Rechercher un projet</a></li>
-                <li class="list-group-item"><a href="#">Voir mes projets</a></li>
-            </ul>
-        {# </div> #}
+        <ul class="list-group list-group-bordered">
+            <a class="list-group-item waves-effect waves-block waves-classic" href="{{ path('core_user_view_own_profile') }}">Voir mon profil</a>
+            <a class="list-group-item waves-effect waves-block waves-classic" href="#">Modifier mon profil</a>
+            <a class="list-group-item waves-effect waves-block waves-classic" href="#">Rechercher un profil</a>
+            <a class="list-group-item waves-effect waves-block waves-classic" href="{{ path('ebm_user_project_creation') }}">Créer un projet</a>
+            <a class="list-group-item waves-effect waves-block waves-classic" href="#">Rechercher un projet</a>
+            <a class="list-group-item waves-effect waves-block waves-classic" href="#">Voir mes projets</a>
+        </ul>
     </div>
 {% endblock %}
 

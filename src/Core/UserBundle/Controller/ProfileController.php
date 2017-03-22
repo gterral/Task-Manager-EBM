@@ -63,4 +63,14 @@ class ProfileController extends Controller
             'form' => $form->createView()
         ));
     }
+
+    public function showUserProfileAction()
+    {
+        return $this->render('CoreUserBundle:Profile:viewProfile.html.twig');
+    }
+
+    public function showOtherProfileAction($username)
+    {
+
+    }
 }
