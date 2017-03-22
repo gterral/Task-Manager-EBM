@@ -55,6 +55,7 @@ class DocumentController extends Controller
     public function uploadAction(Request $request){
 
         $document = new Document();
+        $documentHistory = new DocumentHistory();
 
         // On récupère les différents tags pour les passer dans le formulaire.
         $tags = $this->getDoctrine()->getRepository('EBMKMBundle:Tag')->findAll();
@@ -63,15 +64,12 @@ class DocumentController extends Controller
         ));
         $form->handleRequest($request);
 
-
         if($form->isSubmitted() && $form->isValid()){
 
             // Le créateur du document est l'utilisateur courrant.
             $user = $this->getUser();
             $document->setAuthor($user);
-
-            $DocumentRepository = new DocumentHistory();
-            $DocumentRepository->addDocument($document);
+            $document->setHistory($documentHistory);
 
             // On persiste le document et son historique nouvellement créé.
             $em = $this->getDoctrine()->getManager();
@@ -205,7 +203,9 @@ class DocumentController extends Controller
          *
          * @var Document $document
          */
-        $document = clone $this->getDoctrine()->getRepository('EBMKMBundle:Document')->find($id);
+        $oldDocument = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->find($id);
+        $updateDocument = clone $oldDocument;
+
         $tags = $this->getDoctrine()->getRepository('EBMKMBundle:Tag')->findAll();
 
         /*
@@ -213,13 +213,13 @@ class DocumentController extends Controller
          * On peut ensuite récupérer le document en lui-même, et l'affecter au champ 'File' du Document.
          */
         $helper = $this->get('vich_uploader.templating.helper.uploader_helper');
-        $path = $helper->asset($document, 'file');
+        $path = $helper->asset($updateDocument, 'file');
         $kernel_root_dir = $this->getParameter('kernel.root_dir');
         $file = new File\File( $kernel_root_dir . '/../web' . $path);
-        $document->setFile($file);
+        $updateDocument->setFile($file);
 
-        $deleteForm = $this->createDeleteForm($document);
-        $editForm = $this->createForm(DocumentType::class, $document, array(
+        $deleteForm = $this->createDeleteForm($updateDocument);
+        $editForm = $this->createForm(DocumentType::class, $updateDocument, array(
             'tags' => $tags
         ));
         $editForm->handleRequest($request);
@@ -229,15 +229,19 @@ class DocumentController extends Controller
          * On rajoute le nouveau document dans l'historique.
          */
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $document->getHistory()->addDocument($document);
 
-            $this->getDoctrine()->getManager()->flush();
+            $oldDocument->setActive(false);
+            $updateDocument->setDate(new \DateTime());
 
-            return $this->redirectToRoute('ebmkm_document_detail', array('id' => $document->getId()));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($updateDocument);
+            $em->flush();
+
+            return $this->redirectToRoute('ebmkm_document_detail', array('id' => $updateDocument->getId()));
         }
 
         return $this->render('EBMKMBundle:Documents:update.html.twig', array(
-            'document' => $document,
+            'document' => $updateDocument,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));

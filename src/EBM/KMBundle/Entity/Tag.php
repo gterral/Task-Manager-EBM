@@ -51,7 +51,7 @@ class Tag
     private $topics;
 
     /**
-     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\DocumentHistory", mappedBy="tags", cascade={"persist"})
+     * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy="tags", cascade={"persist"})
      */
     private $documents;
 

@@ -40,6 +40,28 @@
 
     <div id="ratings"></div>
 
+    <!-- HISTORIQUE DU DOCUMENT -->
+
+    <table class="table">
+        <tr>
+            <th>Nom du document</th>
+            <th>Date de l'upload</th>
+        </tr>
+        {% for old_document in document.history.documents %}
+            <tr>
+                <td>
+                    {% if old_document.id == document.id %}
+                        <a href="{{ path('ebmkm_document_detail', { id: old_document.id }) }}">{{ old_document.name }} (version actuelle)</a>
+
+                    {% else %}
+                        <a href="{{ path('ebmkm_document_detail', { id: old_document.id }) }}">{{ old_document.name }}</a>
+                    {% endif %}
+                </td>
+                <td>{{ old_document.date | date('d-M-Y H:i:s') }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
     <!-- DISCUSSIONS SUR LE DOCUMENT -->
     {% if document.commentTopic %}
         {% for post in document.commentTopic.posts %}
