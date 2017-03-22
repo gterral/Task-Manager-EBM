@@ -20,6 +20,9 @@ class TopicType extends AbstractType
             ->add('title', TextType::class, array(
                 'label' => 'Titre du topic'
             ))
+            ->add('description', TextType::class, array(
+                'label' => 'Description'
+            ))
             ->add('tags', ChoiceType::class, array(
                 'label' => 'Tags'
             ))

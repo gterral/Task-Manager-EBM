@@ -5,6 +5,7 @@ namespace Core\UserBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use EBM\KMBundle\Entity\Document;
+use EBM\KMBundle\Entity\DocumentHistory;
 use EBM\SocialNetworkBundle\Entity\ProjectSubscription;
 use EBM\SocialNetworkBundle\Entity\Publication;
 use EBM\KMBundle\Entity\EvaluationDocument;
@@ -645,11 +646,11 @@ class User extends BaseUser
     /**
      * Add createDocument
      *
-     * @param Document $createDocument
+     * @param DocumentHistory $createDocument
      *
      * @return User
      */
-    public function addCreateDocument(Document $createDocument)
+    public function addCreateDocument(DocumentHistory $createDocument)
     {
         $this->createDocument[] = $createDocument;
 
@@ -659,9 +660,9 @@ class User extends BaseUser
     /**
      * Remove createDocument
      *
-     * @param Document $createDocument
+     * @param DocumentHistory $createDocument
      */
-    public function removeCreateDocument(Document $createDocument)
+    public function removeCreateDocument(DocumentHistory $createDocument)
     {
         $this->createDocument->removeElement($createDocument);
     }

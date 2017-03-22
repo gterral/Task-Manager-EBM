@@ -4,6 +4,7 @@ namespace EBM\KMBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use EBM\KMBundle\Entity\Enums\TagTypeEnum;
 
 /**
  * Tag
@@ -137,6 +138,10 @@ class Tag
      */
     public function setType($type)
     {
+        if(!in_array($type, TagTypeEnum::getAvailableTypes())){
+            throw new \InvalidArgumentException("Type invalide");
+        }
+
         $this->type = $type;
 
         return $this;

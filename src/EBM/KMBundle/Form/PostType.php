@@ -17,7 +17,7 @@ class PostType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class, array(
-                'label' => 'Contenu du post',
+                'label' => '',
                 'attr' => array(
                     'autocomplete'=>'off',
                     'class'=>'well'
@@ -25,7 +25,7 @@ class PostType extends AbstractType
                 //TODO update le textarea
             ))
             ->add('submit', SubmitType::class, array(
-                'label' => 'Go !',
+                'label' => 'Envoyer',
                 'attr' => array('class'=>'btn btn-primary waves-effect waves-light')
             ))
         ;
