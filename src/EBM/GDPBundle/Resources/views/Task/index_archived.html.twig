@@ -38,23 +38,21 @@
 
         {# Header : titre + barre de recherche sur le tableau #}
         <div class="panel-heading">
-            <h3 class="panel-title">Task List</h3>
+            <h3 class="panel-title">Archived Task List</h3>
             <div class="panel-actions" id="tasks-action">
-                <a href="{{ path('ebmgdp_projecttasksarchived', {'code':project.code}) }}" class="btn btn-round btn-default waves-effect waves-round" style="color: orangered; margin-right: 10px;">Tâches archivées</a>
+                <a href="{{ path('ebmgdp_projecttasks', {'code':project.code}) }}" class="btn btn-round btn-default waves-effect waves-round" style="margin-right: 10px;">Vue Tâches</a>
                 <div class="input-search input-group-sm">
                     <button type="submit" class="input-search-btn"><i class="icon md-search" aria-hidden="true" style="color: #757575!important;"></i> </button>
                     <input type="text" class="form-control" name="" placeholder="Rechercher..." id="searchField">
                 </div>
-                &nbsp;
-                <a href="{{ path('ebmgdp_task_add', {'code':project.code}) }}" class="btn btn-round btn-default waves-effect waves-round">Ajouter une tâche</a>
-            </div>
+              </div>
         </div>
 
         {# Tableau #}
         {%  if listTasks is null or listTasks|length == 0 %}
             <p class="margin-20 text-center">Aucune tâche n'a été définie pour ce projet</p>
         {% else %}
-            {% include "EBMGDPBundle:Task/components:tasksTable.html.twig" %}
+            {% include "EBMGDPBundle:Task/components:tasksTableArchived.html.twig" %}
         {% endif %}
 
     </div>

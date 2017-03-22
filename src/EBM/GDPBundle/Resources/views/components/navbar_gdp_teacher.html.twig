@@ -3,19 +3,19 @@
 
 <div>
     <ul class="nav-quick nav-quick-sm row">
-        <li class="col-md-2 col-sm-3 col-xs-6 ">
-            <a href="{{ path('ebmgdp_insight') }}">
+        <li class="col-md-2 col-sm-3 col-xs-6 {% if 'ebmgdp_insight_dash' in app.request.attributes.get('_route')  %} active {% endif %}">
+            <a href="{{ path('ebmgdp_insight_dash') }}">
                 <i class="icon md-view-list" aria-hidden="true"></i> Dashboard
                 <span class="label label-default"></span>
             </a>
         </li>
-        <li class="col-md-2 col-sm-3 col-xs-6 ">
+        <li class="col-md-2 col-sm-3 col-xs-6 {% if 'ebmgdp_insight_documenttypeproject_list' in app.request.attributes.get('_route')  %} active {% endif %}">
             <a href="{{ path('ebmgdp_insight_documenttypeproject_list') }}">
                 <i class="icon md-collection-text" aria-hidden="true"></i> Livrables
                 <span class="label label-default"></span>
             </a>
         </li>
-        <li class="col-md-2 col-sm-3 col-xs-6 ">
+        <li class="col-md-2 col-sm-3 col-xs-6 {% if 'ebmgdp_insight_documenttypeproject_index' in app.request.attributes.get('_route')  %} active {% endif %}">
             <a href="{{ path('ebmgdp_insight_documenttypeproject_index') }}">
                 <i class="icon md-collection-text" aria-hidden="true"></i> Gestion type livrables
                 <span class="label label-default"></span>

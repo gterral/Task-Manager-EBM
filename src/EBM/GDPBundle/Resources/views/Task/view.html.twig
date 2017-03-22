@@ -52,6 +52,31 @@
 
             <div class="panel">
                 <div class="panel-head">
+                    <h3 class="panel-title" style="display:inline-block;">Document(s) liés à la tâche</h3>
+                </div>
+                <div class="panel-body">
+                    {#<a href="" class="panel-info btn btn-primary" >Ajouter Document</a>#}
+                    {{ include("EBMGDPBundle:Deliverable/component:upload.html.twig") }}
+
+                    <div class="row">
+                    </br>
+                        {% if task.fileEntities is not null or task.fileEntities |length>0 %}
+                            <h3>Liste des Documents</h3>
+                            <ul>
+                                {%  for tsk in task.fileEntities %}
+                                    <li>
+                                        <a href="{{ vich_uploader_asset(tsk, 'File') }}">{{ tsk.fileName }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
                     <h3 class="panel-title" style="display:inline-block;vertical-align:baseline;padding-right:5px;">Messages</h3>
                         <span class="badge badge-danger">{{ task.conversation.comments|length }}</span>
                         <button class="site-action btn-raised btn btn-success btn-floating" data-target="#addCommentForm" data-toggle="modal" type="button" style="background-color:#4caf50;border-color:#4caf50;width:50px;height:50px;font-size:32px;">

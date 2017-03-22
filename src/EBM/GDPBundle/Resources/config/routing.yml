@@ -1,7 +1,7 @@
 # src/EBM/GDPBundle/Resources/config/routing.yml
 
 # Vue Dashboard des projets encadrant
-ebmgdp_insight:
+ebmgdp_insight_dash:
     path:     insight
     defaults: { _controller: EBMGDPBundle:Insight:index }
 
@@ -44,6 +44,11 @@ ebmgdp_insight_documenttypeproject_delete:
 ebmgdp_projecttasks:
     path:     project/{code}/tasks
     defaults: { _controller: EBMGDPBundle:Task:index }
+
+# Vue liste tache archivée d'un projet
+ebmgdp_projecttasksarchived:
+    path:     project/{code}/tasks/archived
+    defaults: { _controller: EBMGDPBundle:Task:indexArchived }
 
 # Ajout d'une tache
 ebmgdp_task_add:
