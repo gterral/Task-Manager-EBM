@@ -108,7 +108,7 @@
 
             // Recherche depuis champ de recherche du header panel
             $("#searchField").on('keyup', function (){
-                $('#tasksTable').dataTable().fnFilter(this.value);
+                $('#tasksTable').dataTable().fnFilter(this.value,1,true);
             });
 
         });
