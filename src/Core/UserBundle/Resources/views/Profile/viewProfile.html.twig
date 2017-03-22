@@ -34,10 +34,48 @@
             {% endif %}
         </div>
         <div class="panel-body">
-            <div id="infos"></div>
-            <div id="description"></div>
-            <div id="projets"></div>
-            <div id="competences"></div>
+            <div class="row">
+                <div id="infos" class="col-sm-6">
+                    <h2 class="example-title">Informations personnelles</h2>
+
+                    <ul class="list-group list-group-full">
+                        {# Promotion #}
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            {% set promotionDisplay = app.user.promotion %}
+
+                            <li class="list-group-item">Promotion : {{ promotionDisplay }}</li>
+                        {% endif %}
+
+                        {# Adresse email #}
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            {% set emailDisplay = app.user.email %}
+
+                            <li class="list-group-item">Adresse e-mail : {{ emailDisplay }}</li>
+                        {% endif %}
+
+                    </ul>
+
+                </div>
+                <div id="projets" class="col-sm-6">
+                    <h2 class="example-title">Mes projets</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div id="description" class="col-sm-6">
+                    <h2 class="example-title">Description</h2>
+
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        {% set descriptionDisplay = app.user.desc %}
+
+                        <p>{{ descriptionDisplay }}</p>
+                    {% endif %}
+                </div>
+
+                <div id="competences" class="col-sm-6">
+                    <h2 class="example-title">Mes compétences</h2>
+                </div>
+            </div>
         </div>
 
     </div>

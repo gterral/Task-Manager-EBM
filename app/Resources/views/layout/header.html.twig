@@ -59,13 +59,13 @@
             
             {# Help #}
             <li class="dropdown">
-              <a data-toggle="dropdown" href="javascript:void(0)" title="Assistance" aria-expanded="false"
+              <a data-toggle="dropdown" href="javascript:void(0)" title="Messages" aria-expanded="false"
               data-animation="scale-up" role="button">
                 <i class="icon md-comments" aria-hidden="true"></i>
               </a>
               <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
                 <li class="dropdown-menu-header" role="presentation">
-                  <h5>Assistance</h5>
+                  <h5>Messages</h5>
                 </li>
 
                 <li class="list-group padding-top-10" role="presentation">
@@ -121,7 +121,7 @@
                   <a href="#" data-toggle="dropdown" aria-expanded="false" data-animation="scale-up" role="button">{{ nameToDisplay }}</a>
                   <ul class="dropdown-menu" role="menu">
                     <li role="presentation">
-                      <a href="#" role="presentation">
+                      <a href="{{ path('core_user_view_own_profile') }}" role="presentation">
                         <i class="icon md-account"></i>
                         Mon profil
                       </a>

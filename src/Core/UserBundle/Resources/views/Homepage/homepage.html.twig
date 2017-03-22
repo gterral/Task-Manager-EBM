@@ -18,6 +18,15 @@
 {% block content_body %}
     <div class="panel panel-bordered">
         <div class="panel-heading">
+            <div class="panel-actions">
+                <div class="input-search input-group-sm">
+                    <button id="search_user" class="input-search-btn" type="submit">
+                        <i class="icon md-search" aria-hidden="true"></i>
+                    </button>
+                    <input type="text" class="form-control" name="search_bar" placeholder="Cherchez un utilisateur...">
+                </div>
+            </div>
+
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 {% set nameToDisplay = app.user.username %}
                 {% if app.user.fullname is defined and app.user.fullname|length > 0 %}
