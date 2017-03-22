@@ -2,7 +2,9 @@
 
 {% block content_body %}
     <a href="{{ path('ebmkm_document_index') }}">Retour aux documents</a>
+    {% if document.active and document.history.author == app.user %}
     <a href="{{ path('ebmkm_document_update', {'id': document.id}) }}">Modifier le document</a>
+    {% endif %}
     <h2>{{ document.name }}</h2>
     <div>Auteur : {{ document.history.author.username }}</div>
     <div>Description : {{ document.description }}</div>

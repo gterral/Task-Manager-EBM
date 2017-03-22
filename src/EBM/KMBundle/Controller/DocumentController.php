@@ -172,7 +172,7 @@ class DocumentController extends Controller
         $evaluationForm->handleRequest($request);
         if($evaluationForm->isSubmitted() && $evaluationForm->isValid()){
             $evaluation->setAuthor($user);
-            $evaluation->setDocument($document);
+            $evaluation->setDocument($document->getHistory());
             $em->persist($evaluation);
             $em->flush();
             return $this->redirectToRoute('ebmkm_document_detail', array('id' => $document->getId()));
@@ -213,7 +213,7 @@ class DocumentController extends Controller
          * On peut ensuite récupérer le document en lui-même, et l'affecter au champ 'File' du Document.
          */
         $helper = $this->get('vich_uploader.templating.helper.uploader_helper');
-        $path = $helper->asset($updateDocument, 'file');
+        $path = $helper->asset($oldDocument, 'file');
         $kernel_root_dir = $this->getParameter('kernel.root_dir');
         $file = new File\File( $kernel_root_dir . '/../web' . $path);
         $updateDocument->setFile($file);
@@ -232,6 +232,10 @@ class DocumentController extends Controller
 
             $oldDocument->setActive(false);
             $updateDocument->setDate(new \DateTime());
+
+            if(!$updateDocument->getFile()){
+                $updateDocument->setFile($oldDocument->getFile());
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($updateDocument);
