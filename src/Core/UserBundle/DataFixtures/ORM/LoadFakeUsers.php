@@ -37,6 +37,7 @@ class LoadFakeUsers implements FixtureInterface, ContainerAwareInterface
         $userAdmin->setEmail('nicolas.mercier-pro@hotmail.fr');
         $userAdmin->setPassword($encoder->encodePassword($userAdmin, 'ebm_admin'));
         $userAdmin->setEnabled(true);
+        $userAdmin->setGlobalRole('AD');
         $userAdmin->addRole("ROLE_ADMIN");
 
         $userStudent = new User();
@@ -46,6 +47,7 @@ class LoadFakeUsers implements FixtureInterface, ContainerAwareInterface
         $userStudent->setEmail('nicolaspro14@gmail.com');
         $userStudent->setPassword($encoder->encodePassword($userStudent, 'ebm_toto'));
         $userStudent->setEnabled(true);
+        $userStudent->setGlobalRole('US');
         $userStudent->addRole("ROLE_USER");
 /*
  * Bande de bolosses

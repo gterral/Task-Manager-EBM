@@ -58,10 +58,13 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
 
         $user1 = new User();
         $user1->setUsername('Margot');
+        $user1->setName('Margot');
+        $user1->setSurname('Quettelart');
         $user1->setEmail('m.quettelart@gmail.com');
         $user1->setPassword($encoder->encodePassword($user1, 'ebm_margot'));
         $user1->setEnabled(true);
-        $user1->addRole("ROLE_STUDENT");
+        $user1->setGlobalRole("US");
+        $user1->addRole("ROLE_USER");
 
         $pub1 = new Publication();
         $pub1->setContent('ptdr');

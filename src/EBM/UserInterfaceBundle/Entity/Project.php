@@ -49,7 +49,7 @@ class Project
     /**
      * @var string
      *
-     * @ORM\Column(name="desc", type="text", nullable=true)
+     * @ORM\Column(name="`desc`", type="text", nullable=true)
      */
     private $description;
 
