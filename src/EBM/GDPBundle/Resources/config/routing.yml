@@ -1,9 +1,45 @@
 # src/EBM/GDPBundle/Resources/config/routing.yml
 
-# Vue Dashboard des projets encadrant - /encadrant/projects_dashboard
-ebmgdp_dashboard:
-    path:     dashboard
-    defaults: { _controller: EBMGDPBundle:Default:index }
+# Vue Dashboard des projets encadrant
+ebmgdp_insight:
+    path:     insight
+    defaults: { _controller: EBMGDPBundle:Insight:index }
+
+ebmgdp_insight_documenttypeproject_list:
+    path:     insight/documenttypeprojectlist
+    defaults: { _controller: EBMGDPBundle:Insight:documentTypeProjectList }
+
+ebmgdp_insight_documenttypeproject_show:
+    path:     insight/documenttypeproject/{id}
+    defaults: { _controller: EBMGDPBundle:Insight:documentTypeProjectShow }
+    requirements:
+                 id: \d+
+
+ebmgdp_insight_documenttypeproject_index:
+    path:     insight/documenttypeproject
+    defaults: { _controller: EBMGDPBundle:DocumentTypeProject:index }
+
+ebmgdp_insight_documenttypeproject_new:
+    path:     insight/documenttypeproject/new
+    defaults: { _controller: EBMGDPBundle:DocumentTypeProject:new }
+
+ebmgdp_insight_documenttypeproject_show:
+    path:     insight/documenttypeproject/{id}
+    defaults: { _controller: EBMGDPBundle:DocumentTypeProject:show }
+    requirements:
+             id: \d+
+
+ebmgdp_insight_documenttypeproject_edit:
+   path:     insight/documenttypeproject/{id}/edit
+   defaults: { _controller: EBMGDPBundle:DocumentTypeProject:edit }
+   requirements:
+            id: \d+
+
+ebmgdp_insight_documenttypeproject_delete:
+   path:     insight/documenttypeproject/{id}/delete
+   defaults: { _controller: EBMGDPBundle:DocumentTypeProject:delete }
+   requirements:
+            id: \d+
 
 # Vue liste tache d'un projet
 ebmgdp_projecttasks:
@@ -67,10 +103,31 @@ ebmgdp_task_comment_edit:
              idc: \d+
              id: \d+
 
-# Suppression d'un commentaire
+# Suppression d'un commentaire task
 ebmgdp_task_comment_delete:
    path:     project/{code}/task/{id}/comment/{idc}/delete
    defaults: { _controller: EBMGDPBundle:Comment:deleteCommentOnTask }
+   requirements:
+            idc: \d+
+            id: \d+
+
+# Ajout d'un commentaire livrable
+ebmgdp_deliverable_comment_add:
+    path:     project/{code}/deliverable/{id}/comment/add
+    defaults: { _controller: EBMGDPBundle:Comment:addCommentOnDeliverable }
+
+# Edit d'un commentaire livrable
+ebmgdp_deliverable_comment_edit:
+    path:     project/{code}/deliverable/{id}/comment/{idc}/edit
+    defaults: { _controller: EBMGDPBundle:Comment:editCommentOnDeliverable }
+    requirements:
+             idc: \d+
+             id: \d+
+
+# Suppression d'un commentaire livrable
+ebmgdp_deliverable_comment_delete:
+   path:     project/{code}/deliverable/{id}/comment/{idc}/delete
+   defaults: { _controller: EBMGDPBundle:Comment:deleteCommentOnDeliverable }
    requirements:
             idc: \d+
             id: \d+

@@ -1,0 +1,38 @@
+<div class="panel" id="projects">
+    <div class="panel-heading">
+        <h3 class="panel-title">Livrables</h3>
+    </div>
+    <div class="panel-body">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <td>Id</td>
+                <td>Nom</td>
+                <td>Date de modification</td>
+                <td>Nombre de livrables existants</td>
+                <td>Actions</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% if listDocumentTypeProjects is not null %}
+            {% for documentTypeProject in listDocumentTypeProjects %}
+            <tr>
+                    <td>{{ documentTypeProject.id }}</td>
+                    <td>{{ documentTypeProject.name|upper }}</td>
+                    <td>{{ documentTypeProject.modificationDate|date('Y-m-d') }}
+                    </td>
+                    <td>
+                        {{ documentTypeProject.documentProjects|length }}
+                    </td>
+                    <td>
+                    <a href="{{ path('ebmgdp_insight_documenttypeproject_show', { 'id': documentTypeProject.id }) }}"><i class="icon md-eye" aria-hidden="true"></i></a>
+                     </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
