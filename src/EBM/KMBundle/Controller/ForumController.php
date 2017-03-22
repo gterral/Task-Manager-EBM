@@ -54,22 +54,72 @@ class ForumController extends Controller
 
     public function upVotePostAction (User $user_id, Post $post_id ) {
         $em = $this->getDoctrine()->getManager();
-        $vote = new Vote();
-        $vote->setValue(1);
-        $vote->setPost($post_id);
-        $vote->setUser($user_id);
-        $em->persist($vote);
-        $em->flush();
+        $votes = $post_id->getVotes() ;
+        $nUser = 0;
+        $nUserUp = 0;
+        foreach ($votes as $vote) {
+            if ($vote->getUser() == $user_id){
+                $nUser++;
+                if ($vote->getValue() == 1) {
+                    $nUserUp++;
+                }
+            }
+        }
+        if ($nUserUp>0) {
+
+            foreach ($votes as $vote) {
+                if ($vote->getUser()==$user_id and $vote->getValue() == 1 ){
+                    $em->remove($vote);
+                    $em->flush();
+                    break;
+                }
+            }
+        }
+        elseif($nUser == 0) {
+            $vote = new Vote();
+            $vote->setValue(1);
+            $vote->setPost($post_id);
+            $vote->setUser($user_id);
+            $em->persist($vote);
+            $em->flush();
+         }
+        return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
+
     }
 
-    public function downVotePostAction ($user_id,$post_id) {
+
+    public function downVotePostAction (User $user_id,Post  $post_id) {
         $em = $this->getDoctrine()->getManager();
-        $vote = new Vote();
-        $vote->setValue(-1);
-        $vote->setPost($post_id);
-        $vote->setUser($user_id);
-        $em->persist($vote);
-        $em->flush();
+        $votes = $post_id->getVotes() ;
+        $nUser = 0;
+        $nUserDown = 0;
+        foreach ($votes as $vote) {
+            if ($vote->getUser() == $user_id){
+                $nUser++;
+                if ($vote->getValue() == -1) {
+                    $nUserDown++;
+                }
+            }
+        }
+        if ($nUserDown>0) {
+            foreach ($votes as $vote) {
+                if ($vote->getUser()==$user_id and $vote->getValue() == -1 ){
+                    $em->remove($vote);
+                    $em->flush();
+                    break;
+                }
+            }
+        }
+        elseif ($nUser==0) {
+            $vote = new Vote();
+            $vote->setValue(-1);
+            $vote->setPost($post_id);
+            $vote->setUser($user_id);
+            $em->persist($vote);
+            $em->flush();
+        }
+        return $this->redirectToRoute('ebmkm_forum_topic',  array('id' => $post_id->getTopic()->getId()));
+
     }
     public function viewTopicAction($id, Request $request)
     {
@@ -105,7 +155,33 @@ class ForumController extends Controller
         }
     }
 
+/*
+ *
+ *$repository = $this->getDoctrine()->getRepository('EBMKMBundle:Vote');
 
+// createQueryBuilder() automatically selects FROM AppBundle:Product
+// and aliases it to "p"
+$Upquery = $repository->createQueryBuilder('v')
+    ->where('v.post_id = :post_id AND v.value= :value')
+    ->setParameter('post_id', $post_id)
+    ->setParameter('value', 1)
+    ->select('count(v.value)')
+    ->getQuery()
+    ->getSingleScalarResult();
+
+$nUpvotes = $Upquery->getResult();
+
+$Downquery = $repository->createQueryBuilder('v')
+    ->select('count(v.value)')
+    ->where('v.post_id = :post_id AND v.value= :value')
+    ->setParameter('post_id', $post_id)
+    ->setParameter('value', -1)
+    ->getQuery()
+    ->getSingleScalarResult();
+
+$nDownvotes = $Downquery->getResult();
+
+ */
 
 
 }
