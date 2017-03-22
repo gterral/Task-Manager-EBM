@@ -1,0 +1,19 @@
+<li class="list-group-item">
+    <small class="label label-round label-info pull-right">{{ deliverable.status }}</small>
+    <p><a class="hightlight" href="{{ path('ebmgdp_deliverable', {'code':project.code,'id':deliverable.id}) }}">{{ deliverable.name }}</a>
+        {#<span>[13061]</span>#}
+    </p>
+    <small>
+        {#Opened by#}
+        {#<a class="hightlight" href="javascript:void(0)">#}
+        {#<span class="avatar avatar-xs">#}
+                                {#<img src="../../global/portraits/1.jpg" alt="">#}
+                              {#</span>#}
+        {#<span>Herman Beck</span>#}
+        {#</a>#}
+        <time datetime="{{ deliverable.creationDate|date("Y-m-d") }}">Ouvert le : {{ deliverable.creationDate|date("Y-m-d") }}</time>
+        {%  if deliverable.modificationDate is null %}
+        || <time datetime="{{ deliverable.modificationDate|date("Y-m-d") }}">Modifié le : {{ deliverable.modificationDate|date("Y-m-d") }}</time>
+        {% endif %}
+    </small>
+</li>

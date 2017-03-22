@@ -62,6 +62,7 @@
             <h3 class="panel-title" style="display:inline-block;vertical-align:baseline;padding-right:5px;">Messages</h3>
             {% if documentProject.conversation %}
                 <span class="badge badge-danger">{{ documentProject.conversation.comments|length }}</span>
+            {% endif %}
                 <button class="site-action btn-raised btn btn-success btn-floating" data-target="#addCommentForm" data-toggle="modal" type="button" style="background-color:#4caf50;border-color:#4caf50;width:50px;height:50px;font-size:32px;">
                     <i class="icon md-edit" aria-hidden="true" style="margin-right:0;"></i>
                 </button>
@@ -69,7 +70,6 @@
                     <div id="comment">
                     </div>
                 </div>
-            {% endif %}
         </div>
 
         <div class="panel-body">
@@ -85,7 +85,11 @@
                                     </a>
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="media-heading" style="display: inline-block;vertical-align: baseline;">Nom utilisateur </h4>
+                                    {%  if comment.utilisateur is not null %}
+                                        <h4 class="media-heading" style="display: inline-block;vertical-align: baseline;">{{ comment.utilisateur }}</h4>
+                                    {%  else  %}
+                                        <h4 class="media-heading" style="display: inline-block;vertical-align: baseline;">Utilisateur non trouvé</h4>
+                                    {% endif %}
                                     <small>a posté le {{ comment.creationDate|date("d-m-Y à h:i") }}</small>
                                     <div class="btn-group" role="group" style="margin-left: 0.5em;">
                                         <button type="button" class="btn btn-icon btn-info waves-effect waves-light" data-target="#editCommentForm{{ comment.id }}" data-toggle="modal" style="padding:8px;padding: 8px;font-size: 14px; line-height: 0.5em;"><i class="icon md-edit" aria-hidden="true"></i></button>
