@@ -16,7 +16,81 @@
 
 {% block content_body %}
 
-    Notre hello world de gestion de projet !
+    <div class="pricing-list">
+        <div class="pricing-header">
+            <div class="pricing-title">
+                {{ project.name|upper }} : Livrable #{{ documentProject.id }}
+            </div>
+            <div class="pricing-price">
+                <span class="pricing-currency">{{ documentProject.name }}</span>
+            </div>
+        </div>
+        <div class="pricing-features">
+            <li>Description: {{ documentProject.description }}</li>
+            <li>
+                Date Création: <strong>{{ documentProject.creationDate|date("Y-m-d") }}</strong>&emsp;|&emsp;
+                Deadline: <strong>{{ documentProject.deadlineDate|date("Y-m-d") }}</strong>
+            </li>
+            <li>Derniere Modification: {{ documentProject.modificationDate|date("Y-m-d") }}</li>
+            <li>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5">
+                        <button type="button" class="btn btn-block btn-primary waves-effect waves-light">
+                            Joindre Document
+                        </button>
+                    </div>
+                </div>
+            </li>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-head">
+            <h3 class="panel-title" style="display:inline-block;vertical-align:baseline;padding-right:5px;">Messages</h3>
+            <span class="badge badge-danger">{{ documentProject.conversation.comments|length }}</span>
+            <button class="site-action btn-raised btn btn-success btn-floating" data-target="#addCommentForm" data-toggle="modal" type="button" style="background-color:#4caf50;border-color:#4caf50;width:50px;height:50px;font-size:32px;">
+                <i class="icon md-edit" aria-hidden="true" style="margin-right:0;"></i>
+            </button>
+            <div class="modal fade" id="addCommentForm" aria-hidden="true" aria-labelledby="addCommentForm" role="dialog" tabindex="-1">
+                <div id="comment">
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <ul class="list-group">
+                {%  if documentProject.conversation.comments is not null %}
+                    {% for comment in documentProject.conversation.comments %}
+                        <li class="list-group-item">
+                            <div class="media">
+                                <div class="media-left">
+                                    <a class="avatar">
+                                        <img class="img-responsive" src="{{ asset("bundles/coreiconbar/images/avatar5.png") }}"
+                                             alt="profile picture">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading" style="display: inline-block;vertical-align: baseline;">Nom utilisateur </h4>
+                                    <small>a posté le {{ comment.creationDate|date("d-m-Y à h:i") }}</small>
+                                    <div class="btn-group" role="group" style="margin-left: 0.5em;">
+                                        <button type="button" class="btn btn-icon btn-info waves-effect waves-light" data-target="#editCommentForm{{ comment.id }}" data-toggle="modal" style="padding:8px;padding: 8px;font-size: 14px; line-height: 0.5em;"><i class="icon md-edit" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-icon btn-info waves-effect waves-light" onclick="deleteComment({{ comment.id }})" style="padding:8px;padding: 8px;font-size: 14px; line-height: 0.5em;"><i class="icon md-delete" aria-hidden="true"></i></button>
+                                    </div>
+                                    <div class="modal fade editCommentJS" id="editCommentForm{{ comment.id }}" title= "{{ comment.id }}" aria-hidden="true" aria-labelledby="editCommentForm{{ comment.id }}" role="dialog" tabindex="-1">
+                                        <div id="comment{{ comment.id }}">
+                                        </div>
+                                    </div>
+                                    <div class="profile-brief">{{ comment.content }}</div>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                {%  endif %}
+            </ul>
+        </div>
+    </div>
+
+
 
 {% endblock %}
 
@@ -24,5 +98,72 @@
 {# Scripts propres à cette page #}
 {% block scripts %}
 
+<script>
+
+    $("#addCommentForm").on('show.bs.modal',function (e) {
+        var path = "{{ path('ebmgdp_deliverable_comment_add',{'code':project.code,'id':documentProject.id }) }}";
+
+        $.ajax({
+            url : path,
+            type : 'GET',
+            dataType : 'html',
+            success : function(code_html, statut){
+                $(code_html).appendTo("#comment");
+            },
+
+            error : function(resultat, statut, erreur){
+
+            },
+
+            complete : function(resultat, statut){
+
+            }
+
+        });
+    });
+
+    $(".editCommentJS").on('show.bs.modal',function (e) {
+        var element= this;
+        var path = "{{ path('ebmgdp_deliverable',{'code':project.code,'id':documentProject.id }) }}";
+        path += "/comment/"+ element.title+"/edit";
+        console.log(path);
+
+        $.ajax({
+            url : path,
+            type : 'GET',
+            dataType : 'html',
+            success : function(code_html, statut){
+                $(code_html).appendTo("#comment"+element.title);
+            },
+            error : function(resultat, statut, erreur){
+            },
+            complete : function(resultat, statut){
+            }
+        });
+    });
+
+    var deleteComment = function(commentId) {
+        var path = "{{ path('ebmgdp_deliverable',{'code':project.code,'id':documentProject.id }) }}";
+        path += "/comment/"+ commentId+"/delete";
+
+        $.ajax({
+            url : path,
+            type : 'GET',
+            dataType : 'json',
+            success : function(response, statut){
+                if (response.success) {
+                    location.reload();
+                }
+            },
+            error : function(resultat, statut, erreur){
+            },
+            complete : function(resultat, statut){
+            }
+        });
+
+    };
+
+
+</script>
 
 {% endblock %}

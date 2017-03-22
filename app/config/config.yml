@@ -93,6 +93,9 @@ fos_user:
     db_driver:     orm                       # Le type de BDD à utiliser, nous utilisons l'ORM Doctrine depuis le début
     firewall_name: public                    # Le nom du firewall derrière lequel on utilisera ces utilisateurs
     user_class:    Core\UserBundle\Entity\User  # La classe de l'entité User que nous utilisons
+    from_email:
+            address: you@example.com
+            sender_name: You
     registration:
         form:
             type: Core\UserBundle\Form\RegistrationFormType
@@ -103,3 +106,18 @@ stof_doctrine_extensions:
         default:
             sluggable: true
             timestampable: true
+
+# Vich Uploader Extension
+vich_uploader:
+    db_driver: orm
+    mappings:
+       km:
+            uri_prefix:         /uploads/files/km
+            upload_destination: '%kernel.root_dir%/../web/uploads/files/km'
+       gdp:
+            uri_prefix:         /uploads/files/gdp
+            upload_destination: '%kernel.root_dir%/../web/uploads/files/gdp'
+            namer:              vich_uploader.namer_hash
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true

@@ -1,9 +1,8 @@
-
-{% extends "@EBMGDP/bundleLayout.html.twig" %}
+{% extends "@EBMMateriel/bundleLayout.html.twig" %}
 
 {# Titre de l'onglet #}
 {% block title %}
-    Gestion de projet
+    Ajout de machine
 {% endblock %}
 
 {# CSS propres à cette page #}
@@ -11,13 +10,14 @@
 
 {% endblock %}
 
-
-{# Contenu de la page #}
-
 {% block content_body %}
 
-    Notre hello world de gestion de projet !
 
+    <div class="col-md-6">
+        <h1 class="page-title">Nouvelle machine</h1>
+
+        {{ form(form) }}
+    </div>
 {% endblock %}
 
 

@@ -1,0 +1,59 @@
+{% extends "@EBMGDP/bundleLayoutTeacher.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion des livrables - Création
+{% endblock %}
+
+{# CSS propres � cette page #}
+{% block stylesheets %}
+{% endblock %}
+
+{# Contenu de la page #}
+
+{% block content_body %}
+
+<div class="panel panel-bordered panel-primary">
+    {# Header : titre + barre de recherche sur le tableau #}
+    <div class="panel-heading">
+        <h3 class="panel-title">Nom du type de livrable | {{ documentTypeProject.name }}</h3>
+        <div class="panel-actions" id="tasks-action">&nbsp;
+            <a href="{{ path('ebmgdp_insight_documenttypeproject_edit', { 'id': documentTypeProject.id }) }}" class="btn btn-round btn-warning waves-effect waves-round">Editer le type</a>
+            <!--
+            Attenion suppression géré ou pas ? Quid dans la vue livrable d'un élève si suppression il y a eu lieu?
+            <a href="{{ path('ebmgdp_insight_documenttypeproject_delete', { 'id': documentTypeProject.id }) }}" class="btn btn-round btn-danger waves-effect waves-round">Supprimer le type</a>
+            -->
+            <a href="" class="btn btn-round btn-danger waves-effect waves-round">Supprimer le type</a>
+        </div>
+    </div>
+
+    <table id="documentTypeProjectsTableShow" class="table table-hover dataTable table-striped width-full" data-plugin="dataTable">
+        <tbody>
+            <tr>
+                <th style="font-weight:bold;">Id</th>
+                <td>{{ documentTypeProject.id }}</td>
+            </tr>
+            <tr>
+                <th style="font-weight:bold;">Nom</th>
+                <td>{{ documentTypeProject.name }}</td>
+            </tr>
+            <tr>
+                <th style="font-weight:bold;">Date de création</th>
+                <td>{% if documentTypeProject.creationDate %}{{ documentTypeProject.creationDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th style="font-weight:bold;">Date de modification</th>
+                <td>{% if documentTypeProject.modificationDate %}{{ documentTypeProject.modificationDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+    <a href="{{ path('ebmgdp_insight_documenttypeproject_index') }}">Revenir à la liste</a>
+
+{% endblock %}
+
+{# Scripts propres � cette page #}
+{% block scripts %}
+
+{% endblock %}

@@ -1,4 +1,4 @@
 services:
-#    ebmgdp.example:
-#        class: EBM\GDPBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    ebmgdp.utilities.permissions:
+        class: EBM\GDPBundle\Utilities\PermissionsManager
+        arguments: ["@doctrine.orm.entity_manager"]

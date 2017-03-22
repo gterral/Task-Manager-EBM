@@ -17,7 +17,7 @@ php bin/console assetic:dump # celle-ci prend du temps à s'executer
 php bin/console doctrine:fixtures:load
 php bin/console cache:clear
 ```
-6. Pour les utilisateurs sous Linux uniquement, configurer les permissions du répertoire var : 
+6. Pour les utilisateurs sous Linux uniquement, configurer les permissions du répertoire var :
 ```
 sudo setfacl -R -m u:"www-data":rwX -m u:`whoami`:rwX var
 ```
@@ -61,10 +61,10 @@ Puis, concernant les twig appelés par vos controllers, prenez comme modèle `sr
 
 Le template repose sur Bootstrap et est très complet.
 Presque pas besoin de toucher au css !
-Rendez-vous sur : 
+Rendez-vous sur :
 http://getbootstrapadmin.com/remark/material/iconbar/index.html
 Tous les composants sont classés par catégories.
-Lorsque vous souhaitez intégrer un composant que vous y avez trouvé, regardez le code source de la page (clic droit > voir le code source de cette page), 
+Lorsque vous souhaitez intégrer un composant que vous y avez trouvé, regardez le code source de la page (clic droit > voir le code source de cette page),
 et faites simplement un copier coller du block HTML correspondant dans votre twig.
 
 ATTENTION, certains composants nécessite l'import d'un fichier css et js dans votre twig.
@@ -79,3 +79,20 @@ Plusieurs filtres twig custom ont été rajouté, vous pouvez les découvrir en 
 
 Le template complet se trouve ici :
 http://getbootstrapadmin.com/remark/material/iconbar/index.html
+
+# Login on Gitlab registry
+
+```bash
+docker login registry.gitlab.com
+```
+With credentials : `centraleebm / GitlabRepo`
+
+# Build image behind a proxy
+```bash
+docker build -t registry.gitlab.com/filrouge-fablab/fablab-symfony:staging . --network host --build-arg http_proxy
+```
+
+# Send image to docker Hub
+```bash
+docker push registry.gitlab.com/filrouge-fablab/fablab-symfony:staging
+```

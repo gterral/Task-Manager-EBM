@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ReservationCasier
  *
- * @ORM\Table(name="reservation_casier")
+ * @ORM\Table(name="fablab_reservation_casier")
  * @ORM\Entity(repositoryClass="EBM\MaterielBundle\Repository\ReservationCasierRepository")
  */
 class ReservationCasier

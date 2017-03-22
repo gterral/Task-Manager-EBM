@@ -196,7 +196,7 @@ class User extends BaseUser
         $project->removeMember($this);
     }
 
-    // Notez le pluriel, on récupère une liste de catégories ici !
+    // Notez le pluriel, on récupère une liste de projets ici !
     public function getProjects()
     {
         return $this->projects;
