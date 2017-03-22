@@ -55,12 +55,15 @@ ebmgdp_task_add:
     path:     project/{code}/tasks/add
     defaults: { _controller: EBMGDPBundle:Task:addTask }
 
-# Edit d'une tache
-ebmgdp_task_edit:
-    path:     project/{code}/task/{id}/edit
-    defaults: { _controller: EBMGDPBundle:Task:editTask }
-    requirements:
-             id: \d+
+# Ajout d'un livrable obligatoire
+ebmgdp_deliverable_add_mandatory:
+    path:     project/{code}/deliverables/addMandatory
+    defaults: { _controller: EBMGDPBundle:Deliverable:addMandatory }
+
+# Ajout d'un livrable
+ebmgdp_deliverable_add:
+    path:     project/{code}/deliverables/add
+    defaults: { _controller: EBMGDPBundle:Deliverable:add }
 
 # Archivage d'une tache
 ebmgdp_task_archived:

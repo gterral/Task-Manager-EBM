@@ -61,7 +61,7 @@ class DocumentProject
     /**
      * @ORM\ManyToOne(targetEntity="EBM\GDPBundle\Entity\DocumentTypeProject", inversedBy="documentProjects")
      *
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
 
     private $documentTypeProject;
