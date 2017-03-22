@@ -76,6 +76,34 @@ class ForumController extends Controller
 
     }
 
+
+    public function upVotePostRetrAction (User $user_id, Post $post_id ) {
+        $em = $this->getDoctrine()->getManager();
+        $votes = $post_id->getVotes() ;
+        foreach ($votes as $vote) {
+            if ($vote->getUser()==$user_id and $vote->getValue() == 1 ){
+                $em->remove($vote);
+                $em->flush();
+                break;
+            }
+        }
+        return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
+    }
+
+    public function downVotePostRetrAction (User $user_id, Post $post_id ) {
+        $em = $this->getDoctrine()->getManager();
+        $votes = $post_id->getVotes() ;
+        foreach ($votes as $vote) {
+            if ($vote->getUser()==$user_id and $vote->getValue() == -1 ){
+                $em->remove($vote);
+                $em->flush();
+                break;
+            }
+        }
+        return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
+    }
+
+
     public function downVotePostAction (User $user_id,Post  $post_id) {
         $em = $this->getDoctrine()->getManager();
         $votes = $post_id->getVotes() ;
