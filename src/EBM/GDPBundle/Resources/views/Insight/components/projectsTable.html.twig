@@ -22,9 +22,9 @@
                     </td>
                     <td>{{ project.lastUpdate|date('Y-m-d') }}</td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-icon btn-pure btn-default waves-effect waves-classic" data-toggle="tooltip" data-original-title="Edit">
-                            <a href="{{ path('ebmgdp_projecttasks',{'code': project.code})}}"><i class="icon md-eye" aria-hidden="true"></i></a>
-                        </button>
+                        <a href="{{ path('ebmgdp_projecttasks',{'code': project.code}) }}"class="btn btn-sm btn-icon btn-pure btn-default waves-effect waves-classic" data-toggle="tooltip" data-original-title="Voir">
+                            <i class="icon md-eye" aria-hidden="true"></i>
+                        </a>
                     </td>
 
                 {% endfor %}
