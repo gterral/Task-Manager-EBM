@@ -72,6 +72,8 @@
     <script>
         $(document).ready(function() {
 
+            {# chargement du calendrier #}
+
             $('#calendar').fullCalendar({
                 header: {
                     left: 'prev,next,today',
@@ -89,19 +91,39 @@
                 .fullCalendar('changeView','agendaWeek');
         });
 
-        function jsCode() {
-            var time, day;
 
+        {# code qui va etre executé a chaque fois qu'on change de vue pour ne pas perdre la mise en forme #}
+
+        function jsCode() {
+            {# griser la plage 12h - 14h#}
+
+            $('tr')
+                .filter(function(){
+                    if($(this).attr('data-time') == null)
+                    {
+                        return false
+                    }
+                    else {
+                        return parseInt($(this).attr('data-time').substring(0, 2)) <= 13 && parseInt($(this).attr('data-time').substring(0, 2)) >= 12;
+                    }
+                })
+                .find('td:last-child')
+                .css('background','#eeeeee');
+
+
+
+            var time, day;
+            {# récuperation de l'heure sur laquelle le curseur pointe #}
             $('.fc-slats tr td')
                 .mouseover(function () {
                     time = $(this).parent().attr('data-time');
                     $('.fc-slats').css('pointer-events', 'none')
                 })
                 .mouseout(function () {
-                    $(this).css('background', '');
                     $('.fc-slats').css('pointer-events', '');
                 });
 
+            {# récuperation de la date sur laquelle le curseur pointe #}
 
             $('.fc-bg tr td').mouseover(function () {
                 day = $(this).attr('data-date');
@@ -109,9 +131,11 @@
                 .mouseout(function () {
                 });
 
+            {# envoyer l'utilisateur à la page de reservation lors du clic #}
+
                 $('.fc-event-container').click(function(){
                     console.log("click");
-                    window.location.href = "{{ path('ebm_materiel_machines_reservation') }}";
+                    window.location.href = "{{ path('ebm_materiel_machines_reservation', {'machine': machine.getId(), 'debut': 'currentDate'}) }}".replace('currentDate', currentDate);
                 });
 
 
@@ -121,6 +145,7 @@
             var lastDay = 'sdf';
             var lastTime = 'fghf';
 
+            {# affichage d'une plage de 2h sur laquelle le curseur pointe #}
             $('.fc-day').mouseenter(function () {
 
                 $('html,body').css('cursor', 'auto');
@@ -138,7 +163,7 @@
                         currentDate = day + 'T' + (parseInt(time.substring(0, 2)) - 1).toString() + ':00:00';
                     }
                 }
-                var currentEvent = {'id': currentDate, 'start': currentDate};
+                var currentEvent = {'id': currentDate, 'start': currentDate, 'backgroundColor': '#5c6bc0'};
                 console.log(currentDate);
 
                 var journee = (parseInt(time.substring(0, 2)) >= 8 &&
@@ -146,7 +171,7 @@
                     (parseInt(time.substring(0, 2)) >= 14 &&
                     parseInt(time.substring(0, 2)) < 18);
 
-                if (lastDate != currentDate && journee) {
+                if (lastDate != currentDate && journee && !$(this).hasClass('fc-past')) {
 
                     $('html,body').css('cursor', 'pointer');
 
@@ -167,6 +192,7 @@
 
             });
 
+            {# enlever la plage selectionné sur le curseur quitte le champs calendrier #}
             $('.fc-axis').mouseenter(function () {
 
                 $('html,body').css('cursor', 'auto');
