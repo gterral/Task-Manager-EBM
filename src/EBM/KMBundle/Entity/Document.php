@@ -4,6 +4,7 @@ namespace EBM\KMBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -12,6 +13,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @ORM\Table(name="km_document")
  * @ORM\Entity(repositoryClass="EBM\KMBundle\Repository\DocumentRepository")
+ *
+ * @Vich\Uploadable
  */
 class Document
 {
@@ -35,31 +38,19 @@ class Document
      *
      * @ORM\Column(type="string", nullable=true)
      *
-     * @Assert\NotBlank(message="Formats de fichiers supportés : pdf, doc, docx, odt, txt, xls, xlsx, ods, jpg, jpeg,
-     *                           png, gif, zip, rar, epub, avi, mov, mp4, mpg, mpeg, wmv")
-     * @Assert\File(mimeTypes={"application/pdf",
-     *                         "application/vnd.oasis.opendocument.text",
-     *                         "application/msword",
-     *                         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-     *                         "text/plain",
-     *                         "application/vnd.ms-excel",
-     *                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-     *                         "application/vnd.oasis.opendocument.spreadsheet",
-     *                         "image/jpeg",
-     *                         "image/png",
-     *                         "image/gif",
-     *                         "application/epub+zip",
-     *                         "application/x-rar-compressed",
-     *                         "application/zip",
-     *                         "video/mp4",
-     *                         "video/quicktime",
-     *                         "video/x-msvideo",
-     *                         "video/x-ms-wmv",
-     *                         "video/x-flv",
-     *                         "video/webm",
-     *                         "video/mpeg"})
+     * @Vich\UploadableField(mapping="km", fileNameProperty="fileName")
+     *
+     * @var File
      */
     private $file;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fileName;
+
 
     /**
      * @var string
@@ -83,30 +74,30 @@ class Document
     private $date;
 
     /**
-     * @Orm\OneToOne(targetEntity="EBM\KMBundle\Entity\Topic", inversedBy="document", cascade={"persist"})
-     */
-    private $commentTopic;
-
-    /**
      * @Orm\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", inversedBy="documents", cascade={"persist"})
      */
     private $tags;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy= "document", cascade= {"persist"})
+     * @Orm\ManyToOne(targetEntity="EBM\KMBundle\Entity\DocumentHistory", inversedBy="documents", cascade={"persist", "remove"})
      */
-    private $evaluations;
+    private $history;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy= "createDocument", cascade= {"persist"})
+     * @Orm\Column(type="datetime")
      */
-    private $author;
+    private $creationDate;
+
+    /**
+     * @Orm\Column(type="boolean")
+     */
+    private $active = true;
 
     public function __construct()
     {
-        $this->tags = new ArrayCollection();
-        $this->evaluations = new ArrayCollection();
         $this->date = new \DateTime();
+        $this->tags = new ArrayCollection();
+        $this->creationDate = new \DateTime();
     }
 
     /**
@@ -146,19 +137,18 @@ class Document
     /**
      * Set file
      *
-     * @param $file
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return Document
      */
     public function setFile($file)
     {
         $this->file = $file;
-
         return $this;
     }
 
     /**
-     * Get file
+     * Get File|null
      *
      * @return string
      */
@@ -240,19 +230,44 @@ class Document
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCommentTopic()
+    public function getFileName()
     {
-        return $this->commentTopic;
+        return $this->fileName;
     }
 
     /**
-     * @param mixed $commentTopic
+     * @param string $fileName
      */
-    public function setCommentTopic($commentTopic)
+    public function setFileName($fileName)
     {
-        $this->commentTopic = $commentTopic;
+        $this->fileName = $fileName;
+    }
+
+    /**
+     * @return DocumentHistory
+     */
+    public function getHistory()
+    {
+        return $this->history;
+    }
+
+    /**
+     * @param mixed $history
+     */
+    public function setHistory($history)
+    {
+        $this->history = $history;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
     }
 
     /**
@@ -265,10 +280,12 @@ class Document
 
     /**
      * @param mixed $tags
+     * @return $this
      */
     public function setTags($tags)
     {
         $this->tags = $tags;
+        return $this;
     }
 
     public function addTag($tag){
@@ -280,62 +297,41 @@ class Document
      * @param Tag $tag
      */
     public function removeTag(Tag $tag){
-        $this->tags->removeElement($this);
+        $this->tags->removeElement($tag);
     }
 
     /**
      * @return mixed
      */
-    public function getEvaluations()
+    public function getActive()
     {
-        return $this->evaluations;
+        return $this->active;
     }
 
     /**
-     * @param mixed $evaluations
+     * @param mixed $active
      */
-    public function setEvaluations($evaluations)
+    public function setActive($active)
     {
-        $this->evaluations = $evaluations;
+        $this->active = $active;
     }
 
     /**
-     * @param EvaluationDocument $evaluation
-     * @return $this
+     * @param int $id
      */
-    public function addEvaluation(EvaluationDocument $evaluation){
-        $this->evaluations->add($evaluation);
-        return $this;
-    }
-
-    /**
-     * @param EvaluationDocument $evaluation
-     * @return $this
-     */
-    public function removeEvaluation(EvaluationDocument $evaluation){
-        $this->evaluations->removeElement($evaluation);
-        return $this;
-    }
-    
-
-    /**
-     * @return mixed
-     */
-    public function getAuthor()
+    public function setId($id)
     {
-        return $this->author;
+        $this->id = $id;
     }
 
     /**
-     * @param mixed $author
-     *
-     * @return $this
+     * @param mixed $creationDate
      */
-    public function setAuthor($author)
+    public function setCreationDate($creationDate)
     {
-        $this->author = $author;
-        return $this;
+        $this->creationDate = $creationDate;
     }
+
 
 
 }

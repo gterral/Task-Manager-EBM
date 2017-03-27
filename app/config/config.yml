@@ -115,9 +115,48 @@ vich_uploader:
        km:
             uri_prefix:         /uploads/files/km
             upload_destination: '%kernel.root_dir%/../web/uploads/files/km'
+            namer: vich_uploader.namer_hash
+            inject_on_load:     false
+            delete_on_update:   false
+            delete_on_remove:   true
        gdp:
             uri_prefix:         /uploads/files/gdp
             upload_destination: '%kernel.root_dir%/../web/uploads/files/gdp'
             inject_on_load:     false
             delete_on_update:   true
             delete_on_remove:   true
+
+# ElasticSearch
+fos_elastica:
+    clients:
+        default: { host: fablab_elastic, port: 9200 }
+    indexes:
+        fablab:
+            types:
+                post:
+                    properties:
+                        content: ~
+                        author: ~
+                    persistence:
+                        driver: orm
+                        model: EBM\KMBundle\Entity\Post
+                        provider: ~
+                        finder: ~
+                tags:
+                    properties:
+                        name: ~
+                        description: ~
+                    persistence:
+                        driver: orm
+                        model: EBM\KMBundle\Entity\Tag
+                        provider: ~
+                        finder: ~
+                ressources:
+                    properties:
+                        name: ~
+                        description: ~
+                    persistence:
+                        driver: orm
+                        model: EBM\KMBundle\Entity\Document
+                        provider: ~
+                        finder: ~
