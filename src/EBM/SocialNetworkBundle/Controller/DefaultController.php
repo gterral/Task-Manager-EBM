@@ -2,6 +2,7 @@
 
 namespace EBM\SocialNetworkBundle\Controller;
 
+use EBM\SocialNetworkBundle\Repository\PublicationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
@@ -18,6 +19,8 @@ class DefaultController extends Controller
             $tagsNames[] = $tag->getName();
         }
 
+
+        /** @var PublicationRepository $repository */
         $repository = $this
             ->getDoctrine()
             ->getManager()

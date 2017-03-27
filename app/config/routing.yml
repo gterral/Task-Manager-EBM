@@ -22,5 +22,6 @@ core_dashboard:
     resource: "@CoreDashboardBundle/Resources/config/routing.yml"
     prefix:   /
 
-
-
+ebm_user_interface:
+    resource: "@EBMUserInterfaceBundle/Resources/config/routing.yml"
+    prefix:   /

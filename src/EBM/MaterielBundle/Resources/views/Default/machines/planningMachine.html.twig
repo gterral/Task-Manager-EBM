@@ -1,0 +1,225 @@
+
+{% extends "@EBMMateriel/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Disponibilités
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('dev_materiel_fullcalendar/fullcalendar.css') }}" />
+    <style>
+    .fc-event
+    {
+        pointer-events: auto;
+    }
+    </style>
+
+
+{% endblock %}
+
+
+{# Contenu de la page #}
+
+{% block content_body %}
+<div class="page-content container-fluid">
+    {% if machine|length == 1 %}
+        <h1 class="page-title text-center">{{ machine.nom }}</h1><hr>
+        <div class="page title waves-effect waves-light">
+            <div class="form-group">
+                <select class="form-control" autocomplete="off" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);    ">
+                    {% for m in machines %}
+                        {% if m.getId() == machine.getId() %}
+                            <option selected="selected" value="{{ path('ebm_materiel_machines_planning', {'machineId': m.getId() })}}">{{ m.getNom() }}</option>
+                        {% else %}
+                            <option value="{{ path('ebm_materiel_machines_planning', {'machineId': m.getId() })}}">{{ m.getNom() }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="text-center">
+            <a  class="btn btn-primary waves-effect waves-light text-right" href="{{ path('ebm_materiel_machines_reservation') }}">
+                <i class="icon md-plus" aria-hidden="true"></i>
+                Faire une Reservation
+            </a>
+            <a class="btn btn-primary waves-effect waves-light text-right">
+                <i class="icon md-plus" aria-hidden="true"></i>
+                Voir mes reservations
+            </a><hr>
+        </div>
+
+
+        {% for event in events %}
+            <p>{{ event.description }}</p>
+        {% endfor %}
+
+        <div id="calendar"></div>
+    {% else %}
+        <h1>Erreur selection machine</h1>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+{# Scripts propres à cette page #}
+{% block scripts %}
+    <script src="{{ asset('dev_materiel_fullcalendar/lib/moment.min.js') }}"></script>
+    <script src="{{ asset('dev_materiel_fullcalendar/fullcalendar.js') }}"></script>
+    <script src="{{ asset('dev_materiel_fullcalendar/lib/jquery-ui.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            {# chargement du calendrier #}
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next,today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                allDaySlot: false,
+                minTime: '08:00:00',
+                maxTime: '18:00:00',
+                events: {{  jsonEvents|raw }},
+                viewRender: function(){
+                    jsCode();
+                }
+            })
+                .fullCalendar('changeView','agendaWeek');
+        });
+
+
+        {# code qui va etre executé a chaque fois qu'on change de vue pour ne pas perdre la mise en forme #}
+
+        function jsCode() {
+            {# griser la plage 12h - 14h#}
+
+            $('tr')
+                .filter(function(){
+                    if($(this).attr('data-time') == null)
+                    {
+                        return false
+                    }
+                    else {
+                        return parseInt($(this).attr('data-time').substring(0, 2)) <= 13 && parseInt($(this).attr('data-time').substring(0, 2)) >= 12;
+                    }
+                })
+                .find('td:last-child')
+                .css('background','#eeeeee');
+
+
+
+            var time, day;
+            {# récuperation de l'heure sur laquelle le curseur pointe #}
+            $('.fc-slats tr td')
+                .mouseover(function () {
+                    time = $(this).parent().attr('data-time');
+                    $('.fc-slats').css('pointer-events', 'none')
+                })
+                .mouseout(function () {
+                    $('.fc-slats').css('pointer-events', '');
+                });
+
+            {# récuperation de la date sur laquelle le curseur pointe #}
+
+            $('.fc-bg tr td').mouseover(function () {
+                day = $(this).attr('data-date');
+            })
+                .mouseout(function () {
+                });
+
+            {# envoyer l'utilisateur à la page de reservation lors du clic #}
+
+                $('.fc-event-container').click(function(){
+                    console.log("click");
+                    window.location.href = "{{ path('ebm_materiel_machines_reservation', {'machine': machine.getId(), 'debut': 'currentDate'}) }}".replace('currentDate', currentDate);
+                });
+
+
+
+            var currentDate = 'qdljs';
+            var lastDate = 'jjgj';
+            var lastDay = 'sdf';
+            var lastTime = 'fghf';
+
+            {# affichage d'une plage de 2h sur laquelle le curseur pointe #}
+            $('.fc-day').mouseenter(function () {
+
+                $('html,body').css('cursor', 'auto');
+
+
+                if (parseInt(time.substring(0, 2)) % 2 == 0) {
+
+                    currentDate = day + 'T' + time.substring(0, 2) + ':00:00';
+
+                }
+                else {
+                    if (parseInt(time.substring(0, 2)) < 10) {
+                        currentDate = day + 'T0' + (parseInt(time.substring(0, 2)) - 1).toString() + ':00:00';
+                    } else {
+                        currentDate = day + 'T' + (parseInt(time.substring(0, 2)) - 1).toString() + ':00:00';
+                    }
+                }
+                var currentEvent = {'id': currentDate, 'start': currentDate, 'backgroundColor': '#5c6bc0'};
+                console.log(currentDate);
+
+                var journee = (parseInt(time.substring(0, 2)) >= 8 &&
+                    parseInt(time.substring(0, 2)) < 12) ||
+                    (parseInt(time.substring(0, 2)) >= 14 &&
+                    parseInt(time.substring(0, 2)) < 18);
+
+                if (lastDate != currentDate && journee && !$(this).hasClass('fc-past')) {
+
+                    $('html,body').css('cursor', 'pointer');
+
+                    $('#calendar').fullCalendar('renderEvent', currentEvent);
+                    $('#calendar').fullCalendar('removeEvents', lastDate);
+
+
+                    lastDate = currentDate;
+                    lastDay = day;
+                    lastTime = time;
+                } else if (!journee) {
+                    $('html,body').css('cursor', 'default');
+                    $('#calendar').fullCalendar('removeEvents', lastDate);
+                    lastDate = day + 'T' + time;
+                    lastDay = day;
+                    lastTime = time;
+                }
+
+            });
+
+            {# enlever la plage selectionné sur le curseur quitte le champs calendrier #}
+            $('.fc-axis').mouseenter(function () {
+
+                $('html,body').css('cursor', 'auto');
+                $('#calendar').fullCalendar('removeEvents', lastDate);
+                lastDate = day + 'T' + time;
+                lastDay = day;
+                lastTime = time;
+            });
+
+            $('.fc-head').mouseenter(function () {
+
+                $('html,body').css('cursor', 'auto');
+                $('#calendar').fullCalendar('removeEvents', lastDate);
+                lastDate = day + 'T' + time;
+                lastDay = day;
+                lastTime = time;
+            });
+
+            $('.fc-view-container').mouseleave(function () {
+
+                $('html,body').css('cursor', 'auto');
+                $('#calendar').fullCalendar('removeEvents', lastDate);
+                lastDate = day + 'T' + time;
+                lastDay = day;
+                lastTime = time;
+            });
+        }
+
+    </script>
+{% endblock %}
