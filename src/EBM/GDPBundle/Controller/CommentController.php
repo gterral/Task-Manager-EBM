@@ -45,6 +45,7 @@ class CommentController extends Controller
         if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            $em->persist($conversation);
             $em->persist($comment);
             $em->flush();
 
