@@ -41,11 +41,14 @@ class PublicationController extends Controller
             ]);
     }
 
+
     public function addAction(Request $request)
     {
         $publication = new Publication();
         $publication->setUserPublication($this->getUser());
-        $form = $this->get('form.factory')->create(AddPublicationType::class, $publication);
+
+        //Ajouter l'option dans le form
+        $form = $this->get('form.factory')->create(AddPublicationType::class, $publication, array('user'=>$this->getUser()));
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -62,11 +65,3 @@ class PublicationController extends Controller
         ));
     }
 }
-
-#Vue d'une publication en détails lorsque je clique dessus
-
-#Ajout d'une publication
-
-#Supprimer une publication
-
-#Modifier une publication

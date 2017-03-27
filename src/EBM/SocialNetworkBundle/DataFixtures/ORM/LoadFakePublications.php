@@ -43,13 +43,21 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $tag1->setDescription('Tag de méca');
         $tag1->setType('type meca');
 
-        /*$project1 = new Project();
+        $project1 = new Project();
         $project1->setDescription('Premier projet de malade');
         $project1->setSlug('slug');
         $project1->setIsActive(0);
         $project1->setName('Projet number 1');
         $project1->setProjectType('projet de ouf');
-        $project1->setCode(34);*/
+        $project1->setCode(34);
+
+        $project2 = new Project();
+        $project2->setDescription('Premier projet de malade');
+        $project2->setSlug('slug');
+        $project2->setIsActive(0);
+        $project2->setName('Projet number 2 create by gomar');
+        $project2->setProjectType('projet de ouf');
+        $project2->setCode(33);
 
         $tag2 = new Tag();
         $tag2->setName('Elec');
@@ -63,7 +71,7 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $user1->setEnabled(true);
         $user1->addRole("ROLE_STUDENT");
 
-        $pub1 = new Publication();
+        /*$pub1 = new Publication();
         $pub1->setContent('ptdr');
         $pub1->addTag($tag1);
         $pub1->addTag($tag2);
@@ -80,15 +88,16 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         $comment1->setPublication($pub1);
 
         $like2 = new Likes();
-        $like2->setPublication($pub2);
+        $like2->setPublication($pub2);*/
 
         $manager->persist($tag1);
-        //$manager->persist($project1);
+        $manager->persist($project1);
+        $manager->persist($project2);
         $manager->persist($user1);
-        $manager->persist($pub1);
-        $manager->persist($pub2);
-        $manager->persist($comment1);
-        $manager->persist($like2);
+        //$manager->persist($pub1);
+        //$manager->persist($pub2);
+        //$manager->persist($comment1);
+        //$manager->persist($like2);
         $manager->flush();
 
     }

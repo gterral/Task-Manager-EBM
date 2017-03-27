@@ -43,7 +43,6 @@
                 </div>
             </div>
 
-
     {% block content_body %}
 
         <div class="page-profile">
@@ -59,6 +58,9 @@
                                     {% for tags in publication.tags %}
                                         <span class="badge badge-primary" style="float: right; margin-left: 8px;">{{ tags.name }}</span>
                                     {% endfor %}
+                                    {% for projects in publication.projects %}
+                                        <span class="badge badge-info" style="float: right; margin-left: 8px;">{{ projects.name }}</span>
+                                    {% endfor %}
                                     <br>
                                     <small class="margin-bottom-20 grey-500">{{ publication.date|date("m/d/Y") }}</small>
                                 </h3>
@@ -67,10 +69,10 @@
                                 <div id="body_task">
                                     {{ publication.content }}
                                     {% for comment in publication.comments %}
-                                    <h4 class="media-heading"> {{ comment.userComment.username }}
-                                        <span>a commenté</span>
-                                        <div>{{ comment.content }}</div>
-                                    </h4>
+                                        <h4 class="media-heading"> {{ comment.userComment.username }}
+                                            <span>a commenté</span>
+                                            <div>{{ comment.content }}</div>
+                                        </h4>
                                     {% endfor %}
                                     <div id="body_comment">
                                         {{ include("EBMSocialNetworkBundle:Comment:form.html.twig") }}

@@ -64,9 +64,15 @@ class User extends BaseUser
 
     /**
      * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", cascade= {"persist"})
-     * @ORM\JoinTable(name="tag_subscription")
+     * @ORM\JoinTable(name="sn_tag_subscription")
      */
     private $tags;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\UserInterfaceBundle\Entity\Project", cascade= {"persist"})
+     * @ORM\JoinTable(name="sn_project_subscription")
+     */
+    private $projectSubscriptions;
 
 
     /**
@@ -103,10 +109,6 @@ class User extends BaseUser
      */
     private $skills;
 
-    /**
-     * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\ProjectSubscription", mappedBy="userProject", cascade={"persist"})
-     */
-    private $projectSubscriptions;
 
     /**
      * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\Publication", mappedBy="userPublication", cascade={"persist"})
@@ -615,40 +617,6 @@ class User extends BaseUser
     }
 
     /**
-     * Add projectSubscription
-     *
-     * @param ProjectSubscription $projectSubscription
-     *
-     * @return User
-     */
-    public function addProjectSubscription(ProjectSubscription $projectSubscription)
-    {
-        $this->projectSubscriptions[] = $projectSubscription;
-
-        return $this;
-    }
-
-    /**
-     * Remove projectSubscription
-     *
-     * @param ProjectSubscription $projectSubscription
-     */
-    public function removeProjectSubscription(ProjectSubscription $projectSubscription)
-    {
-        $this->projectSubscriptions->removeElement($projectSubscription);
-    }
-
-    /**
-     * Get projectSubscriptions
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProjectSubscriptions()
-    {
-        return $this->projectSubscriptions;
-    }
-
-    /**
      * Add createDocument
      *
      * @param Document $createDocument
@@ -712,6 +680,40 @@ class User extends BaseUser
     public function setTags($tags)
     {
         $this->tags = $tags;
+    }
+
+    /**
+     * Add projectSubscription
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $projectSubscription
+     *
+     * @return User
+     */
+    public function addProjectSubscription(\EBM\UserInterfaceBundle\Entity\Project $projectSubscription)
+    {
+        $this->projectSubscriptions[] = $projectSubscription;
+
+        return $this;
+    }
+
+    /**
+     * Remove projectSubscription
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $projectSubscription
+     */
+    public function removeProjectSubscription(\EBM\UserInterfaceBundle\Entity\Project $projectSubscription)
+    {
+        $this->projectSubscriptions->removeElement($projectSubscription);
+    }
+
+    /**
+     * Get projectSubscriptions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProjectSubscriptions()
+    {
+        return $this->projectSubscriptions;
     }
 
     /**
