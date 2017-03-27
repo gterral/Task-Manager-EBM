@@ -3,6 +3,7 @@
 namespace EBM\GDPBundle\Controller;
 
 use EBM\GDPBundle\Entity\Task;
+use EBM\GDPBundle\Repository\TaskRepository;
 use EBM\UserInterfaceBundle\Entity\Project;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,6 +22,9 @@ class TaskController extends Controller
      */
     public function indexAction(Project $project)
     {
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
+
         // On return la vue avec la liste des tâches
         return $this->render('EBMGDPBundle:Task:index.html.twig',
             array('listTasks' => $project->getTasks(),
@@ -36,6 +40,9 @@ class TaskController extends Controller
      */
     public function viewAction(Task $task,Request $request,Project $project)
     {
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
+
         return $this->render('EBMGDPBundle:Task:view.html.twig',
             array('task'=> $task,
                 'project'=>$project)
@@ -48,7 +55,10 @@ class TaskController extends Controller
      */
     public function addTaskAction(Project $project,Request $request)
     {
-        // On cr�e un objet Task
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
+
+        // On crée un objet Task
         $task = new Task();
         $conversation1 = new Conversation();
         $task->setConversation($conversation1);
@@ -92,6 +102,8 @@ class TaskController extends Controller
      */
     public function editTaskAction(Task $task,Project $project,Request $request)
     {
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
 
         if (!$task) {
             throw $this->createNotFoundException('Tâche non trouvée.');
@@ -133,16 +145,15 @@ class TaskController extends Controller
      */
     public function archivedTaskAction(Task $task,Project $project, Request $request)
     {
-        if (!$task) {
-            throw $this->createNotFoundException('Tâche non trouvée.');
-        }
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
 
-            $task->setStatus('ARCHIVED');
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($task);
-            $em->flush();
+        $task->setStatus('ARCHIVED');
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($task);
+        $em->flush();
 
-            $request->getSession()->getFlashBag()->add('notice', 'Tâche bien modifiée.');
+        $request->getSession()->getFlashBag()->add('notice', 'Tâche bien modifiée.');
 
         return $this->redirectToRoute('ebmgdp_projecttasks', array('code' => $project->getCode()));
     }
@@ -156,8 +167,15 @@ class TaskController extends Controller
         if(!empty($new_status) and !empty($task_id)){
 
             $em = $this->getDoctrine()->getManager();
+            /** @var TaskRepository $repository */
             $repository = $em->getRepository("EBMGDPBundle:Task");
+            /** @var Task $task */
             $task = $repository->find($task_id);
+
+            $project = $task->getProject();
+            // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+            $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
+
 
             if($task != null)
             {

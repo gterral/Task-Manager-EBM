@@ -34,12 +34,11 @@
 {# Contenu de la page #}
 
 {% block content_body %}
-
     <div class="panel panel-bordered panel-primary">
 
         {# Header : titre + barre de recherche sur le tableau #}
         <div class="panel-heading">
-            <h3 class="panel-title">Task List - {{ project.name|upper }}</h3>
+            <h3 class="panel-title">Task List</h3>
             <div class="panel-actions" id="tasks-action">
                 <div class="input-search input-group-sm">
                     <button type="submit" class="input-search-btn"><i class="icon md-search" aria-hidden="true" style="color: #757575!important;"></i> </button>
@@ -103,7 +102,7 @@
                 "ordering": true,
                 "info": false,
                 "autoWidth": false,
-                "order": [[ 2, "desc" ],[ 1, "desc" ]]
+                "order": [[ 3, "asc" ],[ 1, "asc" ]]
             });
 
             // Recherche depuis champ de recherche du header panel
