@@ -22,6 +22,8 @@ class DefaultController extends Controller
         $tagsNames = [];
         $projectsNames = [];
 
+        $em = $this->getDoctrine()->getManager();
+
         foreach ($tags as $tag)
         {
             $tagsNames[] = $tag->getName();
@@ -50,18 +52,19 @@ class DefaultController extends Controller
 
             $form = $this->createForm(
                 AddCommentType::class,
-                $comment
+                $comment,
+                ['entity_manager' => $em]
             );
+
+            $form->get('publication')->setData($publication);
 
             $a_renvoyer[] = [
                 'publication' => $publication,
                 'form' => $form->createView()
             ];
 
-            $form->get('publication')->setData($publication);
+            //$comment->setPublication($publication);
         }
-
-        $em = $this->getDoctrine()->getManager();
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
