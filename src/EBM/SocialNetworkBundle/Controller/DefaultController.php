@@ -17,7 +17,7 @@ class DefaultController extends Controller
     {
         $user = $this->getUser();
         $tags = $user->getTags();
-        $projects = $user->getProjects();
+        $projects = $user->getProjectSubscriptions();
 
         $tagsNames = [];
         $projectsNames = [];
