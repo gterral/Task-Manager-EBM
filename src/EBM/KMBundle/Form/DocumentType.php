@@ -39,7 +39,7 @@ class DocumentType extends AbstractType
             ))
             ->add('file', FileType::class, array(
                 'label' => 'Dépôt de fichier',
-                'required' => false
+                'required' => true
             ))
             ->add('link', TextType::class, array(
                 'label' => 'Lien vers une ressource externe',
