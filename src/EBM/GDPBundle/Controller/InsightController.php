@@ -70,11 +70,11 @@ class InsightController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("documentTypeProject",options={"mapping": {"id":"id"}})
      */
-    public function documentTypeProjectShowAction(DocumentTypeProject $documentTypeProject)
+    public function documentTypeProjectViewAction(DocumentTypeProject $documentTypeProject)
     {
         $documentProjects = $documentTypeProject->getDocumentProjects();
 
-        return $this->render('EBMGDPBundle:Insight:documentTypeProjectShow.html.twig', array(
+        return $this->render('EBMGDPBundle:Insight:documentTypeProjectView.html.twig', array(
             'listDocumentProjects' => $documentProjects,
             'documentTypeProject'=>$documentTypeProject,
         ));

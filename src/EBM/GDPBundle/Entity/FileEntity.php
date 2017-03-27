@@ -11,6 +11,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @ORM\Table(name="dev_gdp_fileentity")
  * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\FileRepository")
+ *
+ * @Vich\Uploadable
  */
 class FileEntity
 {
@@ -26,11 +28,11 @@ class FileEntity
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
-     * @Vich\UploadableField(mapping="product_image", fileNameProperty="fileName")
+     * @Vich\UploadableField(mapping="gdp", fileNameProperty="fileName")
      *
      * @var File
      */
-    private $contentFile;
+    private $File;
 
     /**
      * @ORM\Column(type="datetime")
@@ -47,10 +49,24 @@ class FileEntity
     private $fileName;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\DocumentProject", inversedBy="documentProjects")
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\DocumentProject", inversedBy="fileEntities")
      * @ORM\JoinColumn(nullable=true)
      */
     private $documentProjects;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\Task", inversedBy="fileEntities")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $tasks;
+
+    /**
+     * @return mixed
+     */
+    public function getTasks()
+    {
+        return $this->Tasks;
+    }
 
     /**
      * @return mixed
@@ -67,6 +83,7 @@ class FileEntity
     public function __construct()
     {
         $this->documentProjects = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -88,9 +105,33 @@ class FileEntity
      *
      * @param \EBM\GDPBundle\Entity\DocumentProject $documentProject
      */
-    public function removeFile(\EBM\GDPBundle\Entity\DocumentProject $documentProject)
+    public function removeDocumentProject(\EBM\GDPBundle\Entity\DocumentProject $documentProject)
     {
         $this->documentProjects->removeElement($documentProject);
+    }
+
+    /**
+     * Add task
+     *
+     * @param \EBM\GDPBundle\Entity\Task $task
+     *
+     * @return File
+     */
+    public function addTask(\EBM\GDPBundle\Entity\Task $task)
+    {
+        $this->tasks[] = $task;
+
+        return $this;
+    }
+
+    /**
+     * Remove documentProject
+     *
+     * @param \EBM\GDPBundle\Entity\DocumentProject $documentProject
+     */
+    public function removeTask(\EBM\GDPBundle\Entity\DocumentProject $documentProject)
+    {
+        $this->tasks->removeElement($documentProject);
     }
 
 
@@ -116,9 +157,9 @@ class FileEntity
      *
      * @return File
      */
-    public function setContentFile(File $file = null)
+    public function setFile(File $file = null)
     {
-        $this->contentFile = $file;
+        $this->File = $file;
 
         if ($file) {
             // It is required that at least one field changes if you are using doctrine
@@ -132,9 +173,9 @@ class FileEntity
     /**
      * @return File|null
      */
-    public function getContentFile()
+    public function getFile()
     {
-        return $this->contentFile;
+        return $this->File;
     }
 
     /**
@@ -156,5 +197,28 @@ class FileEntity
     {
         return $this->fileName;
     }
-}
 
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return FileEntity
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+}

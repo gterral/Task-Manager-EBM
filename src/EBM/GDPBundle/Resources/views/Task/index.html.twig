@@ -14,19 +14,22 @@
     'bundles/coreiconbar/theme/global/vendor/datatables-responsive/dataTables.responsive.css'
     %}
     <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('bundles/coreiconbar/theme/global/vendor/bootstrap-select/bootstrap-select.min.css') }}" type="text/css" >
+
     <style>
         #tasks-action .input-search {
             display: inline-block;
             vertical-align: middle;
         }
         #searchField {
-            height: 35px;
+            height: 40px;
         }
         .panel-actions a {
             color:#757575;
         }
     </style>
-    {% endstylesheets %}
 
 {% endblock %}
 
@@ -38,20 +41,42 @@
 
         {# Header : titre + barre de recherche sur le tableau #}
         <div class="panel-heading">
-            <h3 class="panel-title">Task List</h3>
+            <h3 class="panel-title">
+                {% if view_archives|default(0) == 1 %}
+                    Tâches archivées
+                {% else %}
+                    Liste des tâches
+                {% endif %}
+            </h3>
             <div class="panel-actions" id="tasks-action">
+                {% if view_archives|default(0) == 1 %}
+                    {# Revenir à la liste des tâches non archivées #}
+                    <a href="{{ path('ebmgdp_projecttasks', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-default waves-effect margin-right-10"><i class="icon md-view-list"></i></a>
+
+                {% else %}
+                    {# Créer une nouvelle tâche #}
+                    <a href="{{ path('ebmgdp_task_add', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-default waves-effect margin-right-10"><i class="icon md-plus"></i></a>
+                    {# Consulter les tâches archivées #}
+                    <a href="{{ path('ebmgdp_projecttasksarchived', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-default waves-effect margin-right-10"><i class="icon md-archive"></i></a>
+                {% endif %}
+
+                {# Champ de recherche pour trier les lignes du tableau #}
                 <div class="input-search input-group-sm">
                     <button type="submit" class="input-search-btn"><i class="icon md-search" aria-hidden="true" style="color: #757575!important;"></i> </button>
                     <input type="text" class="form-control" name="" placeholder="Rechercher..." id="searchField">
                 </div>
-                &nbsp;
-                <a href="{{ path('ebmgdp_task_add', {'code':project.code}) }}" class="btn btn-round btn-default waves-effect waves-round">Ajouter une tâche</a>
+
             </div>
         </div>
-
-        {# Tableau #}
-        {%  if listTasks is null or listTasks|length == 0 %}
-            <p class="margin-20 text-center">Aucune tâche n'a été définie pour ce projet</p>
+        {# Tableau des tâches #}
+        {%  if listTasks|length == 0 %}
+            <div class="panel-body">
+            {% if view_archives|default(0) == 1 %}
+                <p class="text-center">Aucune tâche archivée pour ce projet</p>
+            {% else %}
+                <p class="text-center">Aucune tâche n'a été créée pour ce projet</p>
+            {% endif %}
+            </div>
         {% else %}
             {% include "EBMGDPBundle:Task/components:tasksTable.html.twig" %}
         {% endif %}
@@ -74,10 +99,41 @@
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/coreiconbar/theme/global/vendor/bootstrap-select/bootstrap-select.min.js') }}"></script>
 
     <script type="text/javascript">
 
+        // Register Bootstrap select components
+        $.components.register("selectpicker", {
+            mode: "default",
+            defaults: {
+                style: "btn-select",
+                iconBase: "icon",
+                tickIcon: "md-check"
+            }
+        });
+
+        // Changer la couleur du bouton select Statut de la tâche
+        function changeStatusColor(btn,state) {
+            var statusButton = $(btn).parent().find("button");
+            statusButton.removeClass();
+            statusButton.addClass("btn dropdown-toggle");
+            if (state == "OPENED") {
+                statusButton.addClass("btn-primary");
+            } else if (state == "IN_PROGRESS") {
+                statusButton.addClass("btn-info");
+            } else if (state == "WAITING_FOR_REVIEW") {
+                statusButton.addClass("btn-warning");
+            } else if (state == "VALIDATED") {
+                statusButton.addClass("btn-success");
+            } else if (state == "REJECTED") {
+                statusButton.addClass("btn-danger");
+            }
+        }
+
         $( document ).ready(function() {
+
+
 
             $(".task-status").change(function () {
 
@@ -91,7 +147,11 @@
                 $.post( route, postData ,function( data ) {
                 });
 
+                changeStatusColor(this,status);
+
             });
+
+
 
 
             $("#tasksTable").DataTable({
@@ -107,7 +167,7 @@
 
             // Recherche depuis champ de recherche du header panel
             $("#searchField").on('keyup', function (){
-                $('#tasksTable').dataTable().fnFilter(this.value);
+                $('#tasksTable').dataTable().fnFilter(this.value,1,true);
             });
 
         });

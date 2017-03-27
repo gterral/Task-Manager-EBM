@@ -61,7 +61,7 @@ class DocumentProject
     /**
      * @ORM\ManyToOne(targetEntity="EBM\GDPBundle\Entity\DocumentTypeProject", inversedBy="documentProjects")
      *
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
 
     private $documentTypeProject;
@@ -97,7 +97,7 @@ class DocumentProject
      * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\FileEntity", inversedBy="documentProjects")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $files;
+    private $fileEntities;
 
 
 
@@ -135,8 +135,6 @@ class DocumentProject
         return $this->name;
     }
 
-
-
     /**
      * Set status
      *
@@ -166,9 +164,6 @@ class DocumentProject
     {
         return $this->status;
     }
-
-
-
 
     /**
      * Set modificationDate
@@ -309,9 +304,9 @@ class DocumentProject
      *
      * @return DocumentProject
      */
-    public function addFile(\EBM\GDPBundle\Entity\FileEntity $file)
+    public function addFileEntities(\EBM\GDPBundle\Entity\FileEntity $file)
     {
-        $this->files[] = $file;
+        $this->fileEntities[] = $file;
 
         return $this;
     }
@@ -322,9 +317,9 @@ class DocumentProject
      * @param \EBM\GDPBundle\Entity\FileEntity $file
      *
      */
-    public function removeFile(\EBM\GDPBundle\Entity\FileEntity $file)
+    public function removeFileEntities(\EBM\GDPBundle\Entity\FileEntity $file)
     {
-        $this->files->removeElement($file);
+        $this->fileEntities->removeElement($file);
     }
 
     /**
@@ -332,9 +327,9 @@ class DocumentProject
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getFiles()
+    public function getFileEntities()
     {
-        return $this->files;
+        return $this->fileEntities;
     }
 
     /**
@@ -417,5 +412,29 @@ class DocumentProject
     public function getDeadlineDate()
     {
         return $this->deadlineDate;
+    }
+
+    /**
+     * Add fileEntity
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $fileEntity
+     *
+     * @return DocumentProject
+     */
+    public function addFileEntity(\EBM\GDPBundle\Entity\FileEntity $fileEntity)
+    {
+        $this->fileEntities[] = $fileEntity;
+
+        return $this;
+    }
+
+    /**
+     * Remove fileEntity
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $fileEntity
+     */
+    public function removeFileEntity(\EBM\GDPBundle\Entity\FileEntity $fileEntity)
+    {
+        $this->fileEntities->removeElement($fileEntity);
     }
 }

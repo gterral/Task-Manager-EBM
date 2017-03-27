@@ -1,80 +1,72 @@
-{#
-Data Table
-Les infos sur le plugin sont ici : https://www.datatables.net/
-#}
-
     <table id="tasksTable" class="table table-hover dataTable table-striped width-full" data-plugin="dataTable">
-        
         <thead>
             <tr>
                 <th>#</th>
                 <th>Titre</th>
                 <th>Status</th>
                 <th>Deadline</th>
-                <th>Supprimer</th>
+                <th>Assigné à</th>
+                {% if view_archives|default(0) == 0 %}
+                    <th>Archiver</th>
+                {% endif %}
             </tr>
         </thead>
-        
         <tbody>
         {%  if listTasks is not null %}
             {% for task in listTasks %}
-                {% if task.status == "IN_PROGRESS" %}
-                    {% set class_var = "label label-warning" %}
-                {% elseif task.status == "WAITING_FOR_REVIEW" %}
-                    {%  set class_var = "label label-info" %}
-                {% elseif task.status == "VALIDATED" %}
-                    {%  set class_var = "label label-success" %}
-                {% elseif task.status == "REJECTED" %}
-                    {%  set class_var = "label label-danger" %}
-                {% elseif task.status == "ARCHIVED" %}
-                    {%  set class_var = "label label-info" %}
-                {% elseif task.status == "OPENED" %}
-                    {%  set class_var = "label label-primary" %}
-                {% endif %}
                 <tr>
-                    {# We print the task name in a hidden span so we can search tasks without put accents #} 
-                    <td>{{ task.id }} <span class="hidden">{{ task.name|removeSpecialChars }}</span> </td>
+                    <td>{{ task.id }} </td>
                     <td class="subject">
                         <a href="{{ path('ebmgdp_task', {'code':project.code, 'id':task.id}) }}" class="">
-                            {{ task.name }}
+                            {{ task.name }} <span class="hidden">{{ task.name|removeSpecialChars }}</span>
                         </a>
                     </td>
+                    {% set selectColor = "btn-primary" %}
+                    {% if task.status == "IN_PROGRESS" %}
+                        {% set selectColor = "btn-info" %}
+                    {% elseif task.status == "WAITING_FOR_REVIEW" %}
+                        {% set selectColor = "btn-warning" %}
+                    {% elseif task.status == "VALIDATED" %}
+                        {% set selectColor = "btn-success" %}
+                    {% elseif task.status == "REJECTED" %}
+                        {% set selectColor = "btn-danger" %}
+                    {% endif %}
+
                     <td class="work-status">
                         {#"OPENED","IN_PROGRESS","WAITING_FOR_REVIEW","VALIDATED","REJECTED","ARCHIVED"#}
                         <div class="form-group">
-                            <select class="form-control task-status">
-                                <option data-task="{{ task.id }}" data-status="IN_PROGRESS" {% if task.status == 'IN_PROGRESS' %}selected{% endif %}>
-                                    <span class="{{ class_var }} ">En cours</span>
-                                </option>
-                                <option data-task="{{ task.id }}" data-status="ARCHIVED" {% if task.status == 'ARCHIVED' %}selected{% endif %}>
-                                    <span class="{{ class_var }}">Archivé</span>
-                                </option>
-                                <option data-task="{{ task.id }}" data-status="OPENED" {% if task.status == 'OPENED' %}selected{% endif %}>
-                                    <span class="{{ class_var }}">Ouvert</span>
-                                </option>
-                                <option data-task="{{ task.id }}" data-status="WAITING_FOR_REVIEW" {% if task.status == 'WAITING_FOR_REVIEW' %}selected{% endif %}>
-                                    <span class="{{ class_var }}">Attente Validation</span>
-                                </option>
-                                <option data-task="{{ task.id }}" data-status="VALIDATED" {% if task.status == 'VALIDATED' %}selected{% endif %}>
-                                    <span class="{{ class_var }}">Validé</span>
-                                </option>
-                                <option data-task="{{ task.id }}" data-status="REJECTED" {% if task.status == 'REJECTED' %}selected{% endif %}>
-                                    <span class="{{ class_var }}">Rejeté</span>
-                                </option>
+                            <select class="task-status"  data-plugin="selectpicker" data-style="{{ selectColor }}">
+                                <option data-task="{{ task.id }}" data-status="OPENED" {% if task.status == 'OPENED' %}selected{% endif %}>Ouvert</option>
+                                <option data-task="{{ task.id }}" data-status="IN_PROGRESS" {% if task.status == 'IN_PROGRESS' %}selected{% endif %}>En cours</option>
+                                <option data-task="{{ task.id }}" data-status="WAITING_FOR_REVIEW" {% if task.status == 'WAITING_FOR_REVIEW' %}selected{% endif %}>Attente Validation</option>
+                                <option data-task="{{ task.id }}" data-status="VALIDATED" {% if task.status == 'VALIDATED' %}selected{% endif %}>Validé</option>
+                                <option data-task="{{ task.id }}" data-status="REJECTED" {% if task.status == 'REJECTED' %}selected{% endif %}>Rejeté</option>
                             </select>
                         </div>
                     </td>
+                    <td>
                     {% if task.deadline != null %}
-                        <td><span class="hidden">{{ task.deadline|date('U') }}</span> {{ task.deadline|date('d-m-Y') }}</td>
+                        <span class="hidden">{{ task.deadline|date('U') }}</span> {{ task.deadline|date('d M Y') }}
                     {% else %}
-                        <td>Non renseigné</td>
+                        Non renseigné
                     {% endif %}
-                    <td><a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}"><i class="icon md-delete" aria-hidden="true" style="color:red;font-size:20px"></i></a></td>
+                    </td>
+                    <td>
+                        {% if task.membersAssigned is not null and task.membersAssigned|length > 0 %}
+                            {% for user in task.membersAssigned %}
+                                {# TODO : afficher l'avatar du compte #}
+                                <img src="{{ asset('bundles/coreiconbar/images/avatar5.png') }}"  data-toggle="tooltip"  data-original-title="{{ user.username }}" class="img-circle margin-right-10" width="44" height="44">
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                    {% if view_archives|default(0) == 0 %}
+                    <td>
+                        <a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}" class="font-size-20"><i class="icon md-archive"></i></a>
+                    </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         {%  endif %}
         </tbody>
-        <tfoot>
-        </tfoot>
-    </table>    
-    
+    </table>
+

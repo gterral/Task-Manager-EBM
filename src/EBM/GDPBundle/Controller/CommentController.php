@@ -39,10 +39,13 @@ class CommentController extends Controller
             $conversation = $task->getConversation();
         }
 
+        $comment->setUtilisateur($this->getUser());
         $conversation->addComment($comment);
 
         if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $em->persist($conversation);
             $em->persist($comment);
             $em->flush();
 
@@ -133,6 +136,7 @@ class CommentController extends Controller
             $conversation = $documentProject->getConversation();
         }
 
+        $comment->setUtilisateur($this->getUser());
         $conversation->addComment($comment);
 
         if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {

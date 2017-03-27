@@ -68,7 +68,7 @@ Ne pas oublier que form_rest liste tous les form_row restants
             {% if label is defined and label is not empty %}
                 <label class="control-label" for="{{ id|default("") }}">{{ label|trans }}</label>&emsp;
             {% endif %}
-            <label class="btn btn-info btn-round waves-effect waves-light waves-round inputFile"><input type="file" {{ block('widget_attributes') }} style="display:none!important" onchange="$('#name_{{ id }}').html($(this).val());"><i class="icon md-upload"></i> {{ "cpcampaign.monitoring.briefing.upload"|trans }}</label>
+            <label class="btn btn-info btn-round waves-effect waves-light waves-round inputFile"><input type="file" {{ block('widget_attributes') }} style="display:none!important" onchange="$('#name_{{ id }}').html($(this).val());"><i class="icon md-upload"></i> Télécharger</label>
             <small><span>{{- form_errors(form) -}}</span></small>
             <span id="name_{{ id }}"></span>
         </div>

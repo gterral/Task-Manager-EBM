@@ -154,6 +154,16 @@ class User extends BaseUser
      */
     private $managedTags;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\Task", mappedBy="membersAssigned")
+     */
+    private $gdpTasks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EBM\GDPBundle\Entity\Comment", mappedBy= "utilisateur", cascade={"persist"})
+     */
+    private $comments;
+
     /* qui des attributs locked & co hérités du FosUserBundle ?
      
     Enabled = true
@@ -260,6 +270,7 @@ class User extends BaseUser
         $this->createDocument = new ArrayCollection();
         $this->documentEvaluations = new ArrayCollection();
         $this->managedTags = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
     
     public function hasRole($role) {
@@ -730,8 +741,39 @@ class User extends BaseUser
     }
 
     /**
-     * @return string
+     * Add gdpTask
+     *
+     * @param \EBM\GDPBundle\Entity\Task $gdpTask
+     *
+     * @return User
      */
+    public function addGdpTask(\EBM\GDPBundle\Entity\Task $gdpTask)
+    {
+        $this->gdpTasks[] = $gdpTask;
+
+        return $this;
+    }
+
+    /**
+     * Remove gdpTask
+     *
+     * @param \EBM\GDPBundle\Entity\Task $gdpTask
+     */
+    public function removeGdpTask(\EBM\GDPBundle\Entity\Task $gdpTask)
+    {
+        $this->gdpTasks->removeElement($gdpTask);
+    }
+
+    /**
+     * Get gdpTasks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGdpTasks()
+    {
+        return $this->gdpTasks;
+    }
+    
     public function getEmail()
     {
         return $this->email;
@@ -796,6 +838,19 @@ class User extends BaseUser
     /**
      * @return mixed
      */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+    }
+
     public function getImage()
     {
         return $this->image;

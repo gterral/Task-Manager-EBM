@@ -6,7 +6,7 @@ Les infos sur le plugin sont ici : https://www.datatables.net/
 <table id="documentTypeProjectsTable" class="table table-hover dataTable table-striped width-full" data-plugin="dataTable">
     <thead>
     <tr>
-        <th>Id</th>
+        <!-- <th>Id</th> -->
         <th>Nom</th>
         <th>Date de création</th>
         <th>Date de modification</th>
@@ -16,13 +16,14 @@ Les infos sur le plugin sont ici : https://www.datatables.net/
     <tbody>
     {% for documentTypeProject in documentTypeProjects %}
         <tr>
-            <td><a href="{{ path('ebmgdp_insight_documenttypeproject_show', { 'id': documentTypeProject.id }) }}">{{ documentTypeProject.id }}</a></td>
+            <!-- <td><a href="{{ path('ebmgdp_insight_documenttypeproject_show', { 'id': documentTypeProject.id }) }}">{{ documentTypeProject.id }}</a></td> -->
             <td>{{ documentTypeProject.name }}</td>
             <td>{% if documentTypeProject.creationDate %}{{ documentTypeProject.creationDate|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>{% if documentTypeProject.modificationDate %}{{ documentTypeProject.modificationDate|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>
-                <a href="{{ path('ebmgdp_insight_documenttypeproject_show', { 'id': documentTypeProject.id }) }}"><i class="icon md-eye" aria-hidden="true"></i></a>
-                <a href="{{ path('ebmgdp_insight_documenttypeproject_edit', { 'id': documentTypeProject.id }) }}"><i class="icon md-edit" aria-hidden="true"></i></a>
+                <a href="{{ path('ebmgdp_insight_documenttypeproject_edit', { 'id': documentTypeProject.id }) }}"><i class="icon md-edit font-size-16 margin-right-10" aria-hidden="true"></i></a>
+                <a href="{{ path('ebmgdp_insight_documenttypeproject_delete', { 'id': documentTypeProject.id }) }}"><i class="icon md-delete font-size-16" aria-hidden="true"></i></a>
+
             </td>
         </tr>
     {% endfor %}

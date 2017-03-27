@@ -2,7 +2,11 @@
 
 namespace EBM\GDPBundle\Controller;
 
+use EBM\GDPBundle\Entity\Comment;
+use EBM\GDPBundle\Entity\FileEntity;
 use EBM\GDPBundle\Entity\Task;
+use EBM\GDPBundle\Form\CommentType;
+use EBM\GDPBundle\Form\FileEntityType;
 use EBM\GDPBundle\Repository\TaskRepository;
 use EBM\UserInterfaceBundle\Entity\Project;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -20,15 +24,46 @@ class TaskController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @ParamConverter("project",options={"mapping": {"code":"code"}})
      */
-    public function indexAction(Project $project)
+    public function indexAction(Project $project, Request $request)
     {
         // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
         $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
 
+        // On récupère toutes les tâches non archivées
+        /** @var TaskRepository $taskRepository */
+        $taskRepository = $this->getDoctrine()->getManager()->getRepository("EBMGDPBundle:Task");
+        $tasks = $taskRepository->findNonArchivedTasks();
+
         // On return la vue avec la liste des tâches
+        // Le paramètre view_archives permet au template twig de différencier l'affichage du tableau selon qu'il s'agisse de tâches archivées ou non
         return $this->render('EBMGDPBundle:Task:index.html.twig',
-            array('listTasks' => $project->getTasks(),
-                'project' => $project
+            array('listTasks' => $tasks,
+                'project' => $project,
+                'view_archives' => 0
+            )
+        );
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @ParamConverter("project",options={"mapping": {"code":"code"}})
+     */
+    public function indexArchivedAction(Project $project)
+    {
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
+
+        // On récupère toutes les tâches archivées
+        /** @var TaskRepository $taskRepository */
+        $taskRepository = $this->getDoctrine()->getManager()->getRepository("EBMGDPBundle:Task");
+        $tasks = $taskRepository->findArchivedTasks();
+
+        // On return la vue avec la liste des tâches archivés
+        // Le paramètre view_archives permet au template twig de différencier l'affichage du tableau selon qu'il s'agisse de tâches archivées ou non
+        return $this->render('EBMGDPBundle:Task:index.html.twig',
+            array('listTasks' => $tasks,
+                'project' => $project,
+                'view_archives' => 1
             )
         );
     }
@@ -43,9 +78,34 @@ class TaskController extends Controller
         // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
         $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
 
+        $file = new FileEntity();
+
+        $form = $this->createForm(FileEntityType::class,$file);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $task->addFileEntities($file);
+            $em->persist($file);
+            $em->persist($task);
+            $em->flush();
+
+            return $this->redirectToRoute(
+                'ebmgdp_task',array('code'=>$project->getCode(),'id'=>$task->getId())
+            );
+        }
+
+        // Formulaire permettant de poster un commentaire
+        $comment = new Comment();
+        $formComment = $this->createForm(CommentType::class, $comment,
+            ['action'=>$this->generateUrl('ebmgdp_task_comment_add',['code'=>$project->getCode(),'id'=>$task->getId()])]
+        );
+
         return $this->render('EBMGDPBundle:Task:view.html.twig',
             array('task'=> $task,
-                'project'=>$project)
+                'project'=>$project,
+                'formComment' =>$formComment->createView(),
+                'form'=>$form->createView())
         );
     }
 
@@ -65,7 +125,7 @@ class TaskController extends Controller
         $project->addTask($task);
 
         // On cr�e le FormBuilder gr�ce au service form factory
-        $form = $this->createForm(TaskType::class, $task);
+        $form = $this->createForm(TaskType::class, $task,['idProject'=>$project->getId()]);
 
         // Si la requ�te est en POST
         if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
@@ -110,7 +170,7 @@ class TaskController extends Controller
         }
 
         // On crée le FormBuilder grâce au service form factory
-        $form = $this->createForm(TaskType::class, $task);
+        $form = $this->createForm(TaskType::class, $task,['idProject'=>$project->getId()]);
 
         // Si la requ�te est en POST
         if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {

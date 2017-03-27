@@ -7,7 +7,7 @@
 
 {# CSS propres � cette page #}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/coreiconbar/css/plugins/charts/chartjs.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/coreiconbar/theme/global/vendor/morris/morris.min.css') }}">
 
 {% endblock %}
 
@@ -22,7 +22,7 @@
         {% include "EBMGDPBundle:Insight/components:projectsTable.html.twig" %}
     {% endif %}
 
-    {# Tableau Projets #}
+    {# Tableau Taches #}
     {%  if listTasks is null or listTasks|length == 0 %}
         <p class="margin-20 text-center">Aucune tâche n'a été trouvée</p>
     {% else %}
@@ -35,51 +35,59 @@
 
 {# Scripts propres � cette page #}
 {% block scripts %}
-    <script src="{{ asset('bundles/coreiconbar/theme/global/vendor/chart-js/Chart.js') }}"></script>
+    <script src="{{ asset('bundles/coreiconbar/theme/global/vendor/morris/raphael.min.js') }}"></script>
+    <script src="{{ asset('bundles/coreiconbar/theme/global/vendor/morris/morris.min.js') }}"></script>
     <script>
-        // Example Chartjs Donut
-        // ---------------------
-        (function(document, window, $) {
-            'use strict';
-            var Site = window.Site;
 
-            $(document).ready(function($) {
-                Site.run();
+        var data = [];
+
+        {% if nbTaskOpened > 0 %}
+            data.push({
+                label: "Tâches ouvertes",
+                value: {{ nbTaskOpened }}
             });
+        {% endif %}
+        {% if nbTaskWorking > 0 %}
+        data.push({
+            label: "Tâches en cours",
+            value: {{ nbTaskWorking }}
+        });
+        {% endif %}
+        {% if nbTaskWaiting > 0 %}
+        data.push({
+            label: "En attente de validation",
+            value: {{ nbTaskWaiting }}
+        });
+        {% endif %}
+        {% if nbTaskValidated > 0 %}
+        data.push({
+            label: "Tâches validées",
+            value: {{ nbTaskValidated }}
+        });
+        {% endif %}
+        {% if nbTaskRejected > 0 %}
+        data.push({
+            label: "Tâches rejetées",
+            value: {{ nbTaskRejected }}
+        });
+        {% endif %}
+        {% if nbTaskArchived > 0 %}
+        data.push({
+            label: "Tâches archivées",
+            value: {{ nbTaskArchived }}
+        });
+        {% endif %}
 
-            Chart.defaults.global.responsive = true;
-
-            (function() {
-                var doughnutData = [{
-                    value: {{ nbTaskOpened }},
-                    style: $.colors("cran", 400),
-                    label: "Tâche ouverte"
-                }, {
-                    value: {{ nbTaskWorking }},
-                    style: $.colors("green", 200),
-                    label: "Tâche en cours"
-                }, {
-                    value: {{ nbTaskWaiting }},
-                    style: $.colors("orange", 600),
-                    label: "Tâche en attente"
-                }, {
-                        value: {{ nbTaskValidated }},
-                        style: $.colors("green", 800),
-                        label: "Tâche validée"
-                    }, {
-                        value: {{ nbTaskRejected }},
-                        style: $.colors("red", 700),
-                        label: "Tâche rejetée"
-                    }, {
-                        value: {{ nbTaskArchived }},
-                        style: $.colors("grey", 500),
-                        label: "Tâche archivée"
-                    }];
-
-                var myDoughnut = new Chart(document.getElementById("donutTask").getContext("2d")).Doughnut(doughnutData);
-            })();
-
-        })(document, window, jQuery);
+        Morris.Donut({
+            element: 'morrisDonut',
+            data: data,
+            // barSizeRatio: 0.35,
+            resize: true,
+            formatter: function (y,data) {
+                return Math.round(y*100)+"%"
+            },
+            colors: ["#9E9E9E", "#F57C00", "#E65100","#388E3C","#F44336","#1976D2"]
+        });
     </script>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 # src/EBM/GDPBundle/Resources/config/routing.yml
 
 # Vue Dashboard des projets encadrant
-ebmgdp_insight:
+ebmgdp_insight_dash:
     path:     insight
     defaults: { _controller: EBMGDPBundle:Insight:index }
 
@@ -9,12 +9,11 @@ ebmgdp_insight_documenttypeproject_list:
     path:     insight/documenttypeprojectlist
     defaults: { _controller: EBMGDPBundle:Insight:documentTypeProjectList }
 
-ebmgdp_insight_documenttypeproject_show:
+ebmgdp_insight_documenttypeproject_view:
     path:     insight/documenttypeproject/{id}
-    defaults: { _controller: EBMGDPBundle:Insight:documentTypeProjectShow }
+    defaults: { _controller: EBMGDPBundle:Insight:documentTypeProjectview }
     requirements:
                  id: \d+
-
 ebmgdp_insight_documenttypeproject_index:
     path:     insight/documenttypeproject
     defaults: { _controller: EBMGDPBundle:DocumentTypeProject:index }
@@ -24,7 +23,7 @@ ebmgdp_insight_documenttypeproject_new:
     defaults: { _controller: EBMGDPBundle:DocumentTypeProject:new }
 
 ebmgdp_insight_documenttypeproject_show:
-    path:     insight/documenttypeproject/{id}
+    path:     insight/documenttypeproject/show/{id}
     defaults: { _controller: EBMGDPBundle:DocumentTypeProject:show }
     requirements:
              id: \d+
@@ -46,6 +45,11 @@ ebmgdp_projecttasks:
     path:     project/{code}/tasks
     defaults: { _controller: EBMGDPBundle:Task:index }
 
+# Vue liste tache archivée d'un projet
+ebmgdp_projecttasksarchived:
+    path:     project/{code}/tasks/archived
+    defaults: { _controller: EBMGDPBundle:Task:indexArchived }
+
 # Ajout d'une tache
 ebmgdp_task_add:
     path:     project/{code}/tasks/add
@@ -57,6 +61,16 @@ ebmgdp_task_edit:
     defaults: { _controller: EBMGDPBundle:Task:editTask }
     requirements:
              id: \d+
+
+# Ajout d'un livrable obligatoire
+ebmgdp_deliverable_add_mandatory:
+    path:     project/{code}/deliverables/addMandatory
+    defaults: { _controller: EBMGDPBundle:Deliverable:addMandatory }
+
+# Ajout d'un livrable
+ebmgdp_deliverable_add:
+    path:     project/{code}/deliverables/add
+    defaults: { _controller: EBMGDPBundle:Deliverable:add }
 
 # Archivage d'une tache
 ebmgdp_task_archived:

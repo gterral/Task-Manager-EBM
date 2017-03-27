@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use EBM\UserInterfaceBundle\Entity\Project;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-// N'oubliez pas de rajouter ce « use », il définit le namespace pour les annotations de validation
+// N'oubliez pas de rajouter ce ï¿½ use ï¿½, il dï¿½finit le namespace pour les annotations de validation
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -103,6 +103,54 @@ class Task
      * @ORM\JoinColumn(nullable=true)
      */
     private $project;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Core\UserBundle\Entity\User", inversedBy="gdpTasks")
+     * @ORM\JoinTable(name="gdp_task_members")
+     *
+     */
+    private $membersAssigned;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\FileEntity", inversedBy="tasks")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $fileEntities;
+
+    /**
+     * Add file
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $file
+     *
+     * @return Task
+     */
+    public function addFileEntities(\EBM\GDPBundle\Entity\FileEntity $file)
+    {
+        $this->fileEntities[] = $file;
+
+        return $this;
+    }
+
+    /**
+     * Remove file
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $file
+     *
+     */
+    public function removeFileEntities(\EBM\GDPBundle\Entity\FileEntity $file)
+    {
+        $this->fileEntities->removeElement($file);
+    }
+
+    /**
+     * Get files
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFileEntities()
+    {
+        return $this->fileEntities;
+    }
 
     /**
      * @return string
@@ -338,5 +386,71 @@ class Task
     public function getModificationDate()
     {
         return $this->modificationDate;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->membersAssigned = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fileEntities = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add membersAssigned
+     *
+     * @param \Core\UserBundle\Entity\User $membersAssigned
+     *
+     * @return Task
+     */
+    public function addMembersAssigned(\Core\UserBundle\Entity\User $membersAssigned)
+    {
+        $this->membersAssigned[] = $membersAssigned;
+
+        return $this;
+    }
+
+    /**
+     * Remove membersAssigned
+     *
+     * @param \Core\UserBundle\Entity\User $membersAssigned
+     */
+    public function removeMembersAssigned(\Core\UserBundle\Entity\User $membersAssigned)
+    {
+        $this->membersAssigned->removeElement($membersAssigned);
+    }
+
+    /**
+     * Get membersAssigned
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMembersAssigned()
+    {
+        return $this->membersAssigned;
+    }
+
+    /**
+     * Add fileEntity
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $fileEntity
+     *
+     * @return Task
+     */
+    public function addFileEntity(\EBM\GDPBundle\Entity\FileEntity $fileEntity)
+    {
+        $this->fileEntities[] = $fileEntity;
+
+        return $this;
+    }
+
+    /**
+     * Remove fileEntity
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $fileEntity
+     */
+    public function removeFileEntity(\EBM\GDPBundle\Entity\FileEntity $fileEntity)
+    {
+        $this->fileEntities->removeElement($fileEntity);
     }
 }

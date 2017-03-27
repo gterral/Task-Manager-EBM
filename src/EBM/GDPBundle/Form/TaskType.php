@@ -3,8 +3,10 @@
 namespace EBM\GDPBundle\Form;
 
 
+use Core\UserBundle\Repository\UserRepository;
 use EBM\GDPBundle\Entity\Task;
 use EBM\GDPBundle\Form\DataTransformer\TimestampToDatetimeTransformer;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -19,6 +21,7 @@ class TaskType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $idProject = $options['idProject'];
         $builder
             ->add('name',     TextType::class, array(
                 'label' => 'Nom de la tâche'))
@@ -37,6 +40,19 @@ class TaskType extends AbstractType
                     'Rejecté' => 'REJECTED',
                     'Archivé' => 'ARCHIVED'),
                 'label' => 'Status',
+                'attr' => array('class' => 'form-control')))
+            ->add('membersAssigned',   EntityType::class ,  array(
+                'label' => 'Membres du projet assignés',
+                'multiple' => true,
+                'choice_label' => 'username',
+                'required'=>false,
+                'class' => "Core\\UserBundle\\Entity\\User",
+                'query_builder' => function(UserRepository $er) use($idProject) {
+                    return $er->createQueryBuilder('u')
+                        ->join('u.projects', 'proj')
+                        ->where('proj.id = :projId')
+                        ->setParameter("projId",$idProject);
+                },
                 'attr' => array('class' => 'form-control')))
             ->add('type',    ChoiceType::class,  array(
                 'choices'  => array(
@@ -65,7 +81,8 @@ class TaskType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'EBM\GDPBundle\Entity\Task'
+            'data_class' => 'EBM\GDPBundle\Entity\Task',
+            'idProject' => ''
         ));
     }
 }

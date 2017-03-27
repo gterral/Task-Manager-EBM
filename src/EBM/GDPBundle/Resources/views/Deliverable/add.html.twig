@@ -1,7 +1,7 @@
 {% extends "@EBMGDP/bundleLayout.html.twig" %}
 
 {% block title %}
-    Modifier une tâche
+    Ajouter un livrable
 {% endblock %}
 
 {# CSS propres � cette page #}
@@ -13,19 +13,17 @@
 
     <div class="panel">
         <div class="panel-heading">
-            <h3 class="panel-title" style="display:inline-block;">            <a href="{{ path('ebmgdp_task', {'code':project.code, 'id':task.id}) }}" class="blue-a400"><i class="icon md-arrow-left"></i></a>
-                Modifier une tâche</h3>
+            <h3 class="panel-title" style="display:inline-block;">            <a href="{{ path('ebmgdp_projectdeliverables',{'code': project.code }) }}" class="blue-a400"><i class="icon md-arrow-left"></i></a>
+                Ajouter un livrable</h3>
         </div>
         <div class="panel-body">
-            {{ include("EBMGDPBundle:Task:form.html.twig") }}
+            {{ include("EBMGDPBundle:Deliverable:form.html.twig") }}
         </div>
     </div>
 
 
-
-
-
 {% endblock %}
+
 
 {# Scripts propres � cette page #}
 {% block scripts %}

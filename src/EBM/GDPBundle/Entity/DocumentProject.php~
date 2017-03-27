@@ -91,7 +91,13 @@ class DocumentProject
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="deadlineDate", type="datetime")
      */
-    private $datetimeDate;
+    private $deadlineDate;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\FileEntity", inversedBy="documentProjects")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $fileEntities;
 
 
 
@@ -129,8 +135,6 @@ class DocumentProject
         return $this->name;
     }
 
-
-
     /**
      * Set status
      *
@@ -160,9 +164,6 @@ class DocumentProject
     {
         return $this->status;
     }
-
-
-
 
     /**
      * Set modificationDate
@@ -276,6 +277,7 @@ class DocumentProject
         return $this;
     }
 
+
     /**
      * Get statusChangeDate
      *
@@ -291,6 +293,43 @@ class DocumentProject
     public function __construct()
     {
         $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->files = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * Add file
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $file
+     *
+     * @return DocumentProject
+     */
+    public function addFileEntities(\EBM\GDPBundle\Entity\FileEntity $file)
+    {
+        $this->fileEntities[] = $file;
+
+        return $this;
+    }
+
+    /**
+     * Remove file
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $file
+     *
+     */
+    public function removeFileEntities(\EBM\GDPBundle\Entity\FileEntity $file)
+    {
+        $this->fileEntities->removeElement($file);
+    }
+
+    /**
+     * Get files
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFileEntities()
+    {
+        return $this->fileEntities;
     }
 
     /**
@@ -325,5 +364,53 @@ class DocumentProject
     public function getProjects()
     {
         return $this->projects;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return DocumentProject
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set datetimeDate
+     *
+     * @param \DateTime $datetimeDate
+     *
+     * @return DocumentProject
+     */
+    public function setDeadlineDate($datetimeDate)
+    {
+        $this->deadlineDate = $datetimeDate;
+
+        return $this;
+    }
+
+    /**
+     * Get datetimeDate
+     *
+     * @return \DateTime
+     */
+    public function getDeadlineDate()
+    {
+        return $this->deadlineDate;
     }
 }
