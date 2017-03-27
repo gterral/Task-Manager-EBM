@@ -2,6 +2,15 @@ ebmkm_homepage:
     path:     /
     defaults: { _controller: EBMKMBundle:Default:index }
 
+# --- Moteur de recherche ---
+ebmkm_search_engine:
+    path:     /search/query/
+    defaults: { _controller: EBMKMBundle:Search:search }
+
+ebmkm_search_tags:
+    path:     /search/tag/{tag_id}
+    defaults: { _controller: EBMKMBundle:Search:searchByTag }
+
 # --- Route autocomplete ---
 #mencommandes_ajaxnature:
 #    pattern: /ajaxnature

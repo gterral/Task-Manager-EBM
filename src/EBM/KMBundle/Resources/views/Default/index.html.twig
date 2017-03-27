@@ -34,11 +34,11 @@
     {#Search Bar #}
     <div class="row">
         <div class="col-md-7 col-md-offset-2">
-    <form class="page-search-form" role="search">
+    <form action="{{ path('ebmkm_search_engine') }}" class="page-search-form" role="search">
         <div class="input-search input-search-dark">
             <i class="input-search-icon md-search" aria-hidden="true"></i>
             <input type="text" class="form-control" id="inputSearch" name="search" placeholder="Rechercher">
-            <button type="button" class="input-search-close icon md-close" aria-label="Close"></button>
+            <button type="button" class="input-search-close icon md-close" aria-label="Go" type="submit"></button>
         </div>
     </form>
         </div>

@@ -50,20 +50,13 @@ class Post
      */
     private $identifiedUsers;
 
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy= "authorOf", cascade= {"persist"})
-     * @Orm\JoinColumn(name="author")
-     */
-    private $writtenBy;
-
     /**
      * @ORM\OneToMany(targetEntity="Vote", mappedBy= "post", cascade= {"persist"})
      */
     private $votes;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="authorOf")
      */
     private $author;
 
@@ -203,22 +196,6 @@ class Post
     public function setTopic($topic)
     {
         $this->topic = $topic;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWrittenBy()
-    {
-        return $this->writtenBy;
-    }
-
-    /**
-     * @param mixed $writtenBy
-     */
-    public function setWrittenBy($writtenBy)
-    {
-        $this->writtenBy = $writtenBy;
     }
 
     /**
