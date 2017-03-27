@@ -36,8 +36,13 @@ class ForumController extends Controller
         $topic->setCreator($this->getUser());
         $post->setAuthor($this->getUser());
 
+        //Load des tags existants
+        $tags = $this->getDoctrine()->getRepository('EBMKMBundle:Tag')->findAll();
+
         // Gestion du formulaire
-        $form = $this->createForm(TopicType::class, $topic);
+        $form = $this->createForm(TopicType::class, $topic,  array(
+            'tags' => $tags)
+        );
         $form->handleRequest($request);
 
         if($form->isValid())

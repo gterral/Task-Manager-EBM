@@ -108,7 +108,7 @@ class User extends BaseUser
     private $postIdentified;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Post", mappedBy= "writtenBy", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Post", mappedBy= "author", cascade= {"persist"})
      */
     private $authorOf;
 
@@ -138,7 +138,7 @@ class User extends BaseUser
     private $documentEvaluations;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy= "author", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\DocumentHistory", mappedBy= "author", cascade= {"persist"})
      */
     private $createDocument;
 

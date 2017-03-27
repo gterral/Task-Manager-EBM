@@ -11,19 +11,43 @@
             Création d'un topic
         </h1>
     </div>
+    {#     <div>
+         <label for="tag">tag autocomplete</label> : <input type="text" name="tag" size="30" value="" id="inputString2"/>
+     </div>
 
-    {{ form(form) }}
-   {# TO DO : Editeur WYSIWYG
-     <div class="panel">
-        <div class="panel-heading">
-            <h3 class="panel-title">Standard Editor</h3>
-        </div>
-        <div class="panel-body">
-            <div id="summernote" data-plugin="summernote">
-            </div>
-        </div>
-    </div>
-    #}
+     <script>
+         $('#test').autocomplete({
+             source : function(requete, reponse){
+                 var motcle = $('#test').val();
+                 var DATA = 'motcle=' + motcle;
+                 $.ajax({
+                     type:"POST",
+                     url : "{{ path('mencommandes_ajaxnature') }}",
+                     dataType : 'json',
+                     data : DATA,
+
+                     success : function(donnee){
+                         reponse($.map(donnee, function(objet){
+                             return objet;
+                         }));
+                     }
+                 });
+             }
+         });
+     </script>
+      #}
+     {{ form(form) }}
+    {# TO DO : Editeur WYSIWYG
+      <div class="panel">
+         <div class="panel-heading">
+             <h3 class="panel-title">Standard Editor</h3>
+         </div>
+         <div class="panel-body">
+             <div id="summernote" data-plugin="summernote">
+             </div>
+         </div>
+     </div>
+     #}
 
 {% endblock %}
 

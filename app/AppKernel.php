@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Core\DashboardBundle\CoreDashboardBundle(),
             new Core\UserBundle\CoreUserBundle(),
             new FOS\RestBundle\FOSRestBundle(),
+            new FOS\ElasticaBundle\FOSElasticaBundle(),
             new EBM\KMBundle\EBMKMBundle(),
             new EBM\MaterielBundle\EBMMaterielBundle(),
             new EBM\GDPBundle\EBMGDPBundle(),
