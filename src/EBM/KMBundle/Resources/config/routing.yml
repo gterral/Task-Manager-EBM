@@ -2,6 +2,13 @@ ebmkm_homepage:
     path:     /
     defaults: { _controller: EBMKMBundle:Default:index }
 
+# --- Route autocomplete ---
+#mencommandes_ajaxnature:
+#    pattern: /ajaxnature
+#    defaults: { _controller: menCommandesBundle:Commandes:ajaxnature}
+#    requirements:
+#        _method: POST
+
 # --- Routes du forum ---
 ebmkm_forum_upvote:
     path:     /forum/{user_id}/upvote/{post_id}
