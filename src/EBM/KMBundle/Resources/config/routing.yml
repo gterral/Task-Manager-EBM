@@ -7,6 +7,10 @@ ebmkm_search_engine:
     path:     /search/{query}
     defaults: { _controller: EBMKMBundle:Search:search }
 
+ebmkm_search_tags:
+    path:     /search/tag/{tag_id}
+    defaults: { _controller: EBMKMBundle:Search:searchByTag }
+
 # --- Routes du forum ---
 ebmkm_forum_homepage:
     path:     /forum/

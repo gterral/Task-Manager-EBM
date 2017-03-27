@@ -2,25 +2,56 @@
 
 namespace EBM\KMBundle\Controller;
 
+
+use EBM\KMBundle\Entity\Tag;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
 
 class SearchController extends Controller
 {
 
     public function searchAction($query)
     {
-        // TODO : improve this.
+        // Key : The key for the template. Value :  Elastic index.
         $indexs = array(
-            'tags' => 'Tags',
-            'post' => 'Posts',
+            'tags' => 'tags',
+            'posts' => 'post'
         );
 
         $results = [];
 
         foreach ($indexs as $index_key => $index_value) {
-            $finder = $this->get('fos_elastica.finder.fablab.'.$index_key);
+            $finder = $this->get('fos_elastica.finder.fablab.'.$index_value);
             $results[$index_key] = $finder->find($query);
         }
+
+        return $this->render('@EBMKM/Search/results.html.twig', array('indexs' => $indexs, 'results' => $results));
+    }
+
+    public function searchByTagAction($tag_id) {
+        if(!$tag = $this->getDoctrine()->getRepository('EBMKMBundle:Tag')->find($tag_id))
+            throw new HttpException(404,'Not found');
+
+        $results = [];
+
+        // Key : The key for the template. Value :  Repository.
+        $indexs = array(
+            'topics' => 'EBMKMBundle:Topic'
+        );
+
+        foreach ($indexs as $index_key => $index_value) {
+            $finder = $this
+                ->getDoctrine()
+                ->getRepository($index_value)
+                ->createQueryBuilder('element')
+                ->where(':tag MEMBER OF element.tags')
+                ->setParameter('tag', $tag)
+                ->getQuery();
+
+            $results[$index_key] = $finder->getScalarResult();
+        }
+
 
         return $this->render('@EBMKM/Search/results.html.twig', array('indexs' => $indexs, 'results' => $results));
     }
