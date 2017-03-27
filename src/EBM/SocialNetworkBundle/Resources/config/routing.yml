@@ -35,3 +35,10 @@ ebm_social_network_subscriptions:
     path:     /subscriptions
     defaults:
         _controller: EBMSocialNetworkBundle:Subscriptions:index
+
+ebm_social_publication_comment_add:
+    path:     /{id}/comment/add/
+    defaults:
+        _controller: EBMSocialNetworkBundle:Comment:add
+    requirements:
+        id: \d+

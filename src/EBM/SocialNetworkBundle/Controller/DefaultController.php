@@ -3,14 +3,17 @@
 namespace EBM\SocialNetworkBundle\Controller;
 
 use EBM\SocialNetworkBundle\Entity\Comment;
+use EBM\SocialNetworkBundle\Entity\Publication;
 use EBM\SocialNetworkBundle\Form\AddCommentType;
 use EBM\SocialNetworkBundle\Repository\CommentRepository;
 use EBM\SocialNetworkBundle\Repository\PublicationRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $user = $this->getUser();
         $tags = $user->getTags();
@@ -30,13 +33,39 @@ class DefaultController extends Controller
             ->getRepository('EBMSocialNetworkBundle:Publication');
 
         $listPublications = $repository->getPublicationWithTags($tagsNames);
-        $comment = new Comment;
-        $form = $this->createForm(AddCommentType::class, $comment);
 
+        $comment = new Comment();
+        $comment->setUserComment($this->getUser());
+
+        $a_renvoyer = [];
+        /** @var Publication $publication */
+        foreach ($listPublications as $publication) {
+
+            $form = $this->createForm(
+                AddCommentType::class,
+                $comment
+            );
+
+            $a_renvoyer[] = [
+                'publication' => $publication,
+                'form' => $form->createView()
+            ];
+
+            $form->get('publication')->setData($publication);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+            $em->persist($comment);
+            $em->flush();
+
+        }
 
         return $this->render('EBMSocialNetworkBundle:Default:index.html.twig',
-            ['listPublications' => $listPublications,
-                'form'          => $form->createView()]);
+            ['a_renvoyer' => $a_renvoyer]
+        );
     }
 
     public function voirAction(Publication $publication)

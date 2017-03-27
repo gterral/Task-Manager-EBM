@@ -43,61 +43,47 @@
                 </div>
             </div>
 
-{% block content_body %}
 
-    <div class="page-profile">
-        <div class="page-content">
-                {% for publication in listPublications|reverse %}
-                    <div class="panel">
-                        <div class="panel-head">
-                            <h3 class="panel-title">{{ publication.userPublication.username }}
-                                {% for tags in publication.tags %}
-                                    <span class="badge badge-primary" style="float: right; margin-left: 8px;">{{ tags.name }}</span>
-                                <div class="panel-body">
-                                    <ul class="list-group">
-                                        {% for comment in publication.comments %}
-                                            <li class="list-group-item">
-                                                <div class="media">
-                                                    <div class="media-left">
-                                                        <img class="img-responsive" src="{{ asset("bundles/coreiconbar/images/avatar5.png") }}"
-                                                             alt="profile picture">
-                                                        </a>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h4 class="media-heading"> {{ comment.userComment.username }}
-                                                            <span>a commenté</span>
-                                                            <span class="" data-target="" data-toggle="modal" type="button">
-                                                    <i class="icon md-edit" aria-hidden="true"></i>
-                                                </span>
-                                                        </h4>
-                                                        <div class="profile-brief">{{ comment.content }}</div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <div id="body_comment">
-                                    {{ include("EBMSocialNetworkBundle:Comment:add.html.twig") }}
-                                </div>
-                        </div>
-                                {% endfor %}
-                                <br>
-                                <small class="margin-bottom-20 grey-500">{{ publication.date|date("m/d/Y") }}</small>
-                            </h3>
-                        </div>
-                        <div class="panel-body">
+    {% block content_body %}
 
-                            <div id="body_task">
-                                {{ publication.content }}
+        <div class="page-profile">
+            <div class="page-content">
+                <ul>
+                    {% for bloc_publication in a_renvoyer|reverse %}
+                        {% set publication = bloc_publication['publication'] %}
+                        {% set form = bloc_publication['form'] %}
+                        <div class="panel">
+                            <div class="panel-head">
+                                <h3 class="panel-title">{{ publication.userPublication.username }}
+                                    <span>a publié</span>
+                                    {% for tags in publication.tags %}
+                                        <span class="badge badge-primary" style="float: right; margin-left: 8px;">{{ tags.name }}</span>
+                                    {% endfor %}
+                                    <br>
+                                    <small class="margin-bottom-20 grey-500">{{ publication.date|date("m/d/Y") }}</small>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div id="body_task">
+                                    {{ publication.content }}
+                                    {% for comment in publication.comments %}
+                                    <h4 class="media-heading"> {{ comment.userComment.username }}
+                                        <span>a commenté</span>
+                                        <div>{{ comment.content }}</div>
+                                    </h4>
+                                    {% endfor %}
+                                    <div id="body_comment">
+                                        {{ include("EBMSocialNetworkBundle:Comment:form.html.twig") }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-    </div>
 
-{% endblock %}
+    {% endblock %}
 
 
 {# Scripts propres à cette page #}

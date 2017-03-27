@@ -24,23 +24,21 @@ class PublicationController extends Controller
      */
     public function viewAction(Request $request, Publication $publication)
     {
-        $comment = new Comment();
-        $comment->setUserComment($this->getUser());
-        $form = $this->createForm(AddCommentType::class, $comment);
         $em = $this->getDoctrine()->getManager();
 
-        if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
-            $comment->setPublication($publication);
-            $em->persist($comment);
-            $em->flush();
-        }
+        $comment = new Comment();
+        $comment->setUserComment($this->getUser());
 
-        $comments = $em->getRepository('EBMSocialNetworkBundle:Comment')->findByPublication($publication);
+        $form = $this->createForm(
+            AddCommentType::class,
+            $comment,
+            ['action'=>$this->generateUrl('ebm_social_publication_comment_add',['id'=>$publication->getId()])]
+        );
 
         return $this->render('EBMSocialNetworkBundle:Publication:view.html.twig',
             ['publication' => $publication,
-            'form'=> $form->createView(),
-            'comments'=>$comments]);
+            'form'=> $form->createView()
+            ]);
     }
 
     public function addAction(Request $request)
