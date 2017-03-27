@@ -23,7 +23,7 @@ class PublicationRepository extends EntityRepository
             $qb = $this->createQueryBuilder('pub');
             // On fait une jointure avec l'entité Category avec pour alias « c »
             $qb
-                ->innerJoin('pub.tags', 'tag')
+                ->innerJoin(P'pub.tags', 'tag')
                 ->addSelect('tag')
             ;
             // Puis on filtre sur le nom des catégories à l'aide d'un IN

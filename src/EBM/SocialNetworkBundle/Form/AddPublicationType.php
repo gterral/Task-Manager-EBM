@@ -18,6 +18,7 @@ class AddPublicationType extends AbstractType
         /** @var User $user */
         $user = $options['user'];
 
+        //permet de vérifier que la personne est bien connectée
         if ($user != null){
             $builder
                 ->add('content', TextareaType::class)
@@ -35,6 +36,8 @@ class AddPublicationType extends AbstractType
                     'choice_label' => 'name',
                     'required'=> false,
                     'multiple' => true,
+                    //Permet de récupérer les projets dont l'utilisateur est membre
+                    //L'attribut membre existe dans l'entité User
                     'query_builder' => function (ProjectRepository $er) use ($user) {
                         return $er->createQueryBuilder('projects')
                             ->join('projects.members', 'usr')
@@ -44,11 +47,7 @@ class AddPublicationType extends AbstractType
                 ))
                 ->add('save', SubmitType::class);
         }
-
     }
-
-
-
 
     public function configureOptions(OptionsResolver $resolver)
     {

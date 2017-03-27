@@ -31,6 +31,7 @@ class PublicationController extends Controller
     {
         $publication = new Publication();
         $publication->setUserPublication($this->getUser());
+
         //Ajouter l'option dans le form
         $form = $this->get('form.factory')->create(AddPublicationType::class, $publication, array('user'=>$this->getUser()));
 
@@ -49,11 +50,3 @@ class PublicationController extends Controller
         ));
     }
 }
-
-#Vue d'une publication en détails lorsque je clique dessus
-
-#Ajout d'une publication
-
-#Supprimer une publication
-
-#Modifier une publication
