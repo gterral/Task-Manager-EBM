@@ -1,93 +1,214 @@
 {% extends "EBMKMBundle::bundleLayout.html.twig" %}
 
 {% block content_body %}
-    <a href="{{ path('ebmkm_document_index') }}">Retour aux documents</a>
-    {% if document.active and document.history.author == app.user %}
-    <a href="{{ path('ebmkm_document_update', {'id': document.id}) }}">Modifier le document</a>
-    {% endif %}
-    <h2>{{ document.name }}</h2>
-    <div>Auteur : {{ document.history.author.username }}</div>
-    <div>Description : {{ document.description }}</div>
 
-    {% if document.file %}
-        <a href="{{ vich_uploader_asset(document, 'file') }}">Voir le fichier</a>
-    {% endif %}
+    <div class="page-header">
+        <h1 class="page-title">
+            {{ document.name }}
+            <small>Créé par {{ document.history.author.username }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('core_dashboard_homepage') }}">Accueil</a></li>
+            <li><a href="{{ path('ebmkm_homepage') }}">Ressources</a></li>
+            <li><a href="{{ path('ebmkm_document_index') }}">Documents</a></li>
+        </ol>
 
-    {% if document.link %}
-        Lien : {{ document.link }}
-    {% endif %}
+        <div class="page-header-actions">
 
-    {% if document.tags %}
-        <div>
-        {% for tag in document.tags %}
-            {{ tag.name }}
-        {%  endfor %}
+            <div class="rating"
+                 data-plugin="rating-lg">
+                {% if grade|round >= 1 %}
+                    {% for i in range(1, grade|round) %}
+                        <i data-alt="1" class="icon md-star orange-600"></i>&nbsp;
+                    {% endfor %}
+                {% endif %}
+                {% if grade | round < 5 %}
+                    {% for i in range(grade|round+1, 5) %}
+                        <i data-alt="5" class="icon md-star"></i>&nbsp;
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <a type="button"
+               class="btn btn-sm btn-icon btn-inverse btn-round waves-effect waves-classic waves-round"
+               href="{{ path('ebmkm_document_update', {'id': document.id}) }}">
+                <i class="icon md-edit" aria-hidden="true"></i>
+            </a>
+
+            {% if document.file %}
+                <a type="button"
+                   class="btn btn-sm btn-icon btn-inverse btn-round waves-effect waves-classic waves-round"
+                   href="{{ vich_uploader_asset(document, 'file') }}">
+                    <i class="icon md-download" aria-hidden="true"></i>
+                </a>
+            {% endif %}
+
+            {% if document.link %}
+                <a type="button"
+                   class="btn btn-sm btn-icon btn-inverse btn-round waves-effect waves-classic waves-round"
+                   href="{{ document.link }}">
+                    <i class="icon md-link" aria-hidden="true"></i>
+                </a>
+            {% endif %}
+
+            <div>
+
+                <form name="ebm_kmbundle_post" method="post" class="comment-reply">
+                    {{ form_widget(evaluationForm._token) }}
+                    {{ form_widget(evaluationForm.value) }}
+                    <div>
+                        <button type="submit" id="evaluation_document_submit" name="evaluation_document[submit]" class="btn btn-primary">
+                            <span class="ladda-label">Noter</span><span class="ladda-spinner"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+
         </div>
-    {%  endif %}
 
-    <!-- EVALUATION DU DOCUMENT -->
 
-    <div class="rating"
-         data-score="5"
-         data-plugin="rating"
-         style="cursor: pointer;">
-        <!--<i data-alt="1" class="icon md-star orange-600" title="bad"></i>
-        &nbsp;<i data-alt="2" class="icon md-star orange-600" title="poor"></i>
-        &nbsp;<i data-alt="3" class="icon md-star orange-600" title="regular"></i>
-        &nbsp;<i data-alt="4" class="icon md-star orange-600" title="good"></i>
-        &nbsp;<i data-alt="5" class="icon md-star" title="gorgeous"></i>
-        <input name="score" type="hidden" value="4">-->
     </div>
 
-    <div>
-    {% if grade >=0 %}
-        <div>Moyenne : {{ grade }}/5</div>
-        {% if personalEvaluation %}
-        <div>Votre note : {{ personalEvaluation[0].value }}<div>
-        {%  endif %}
-    {% endif %}
+    <div class="page-content">
 
-    {% if grade == -1 %}
-        <div>Aucune évaluation n'a été soumise pour ce document. Notez-le !</div>
-        <div>{{ form(evaluationForm) }}</div>
-    {% endif %}
+
+        <!-- AFFICHAGE DES TAGS -->
+
+        <div class="panel">
+
+            <div class="panel-body">
+                {% if document.tags %}
+                    <div class="button-group tags">
+                        Tags :
+                        {% for tag in document.tags %}
+                            <a class="btn btn-primary">{{ tag.name }}</a>
+                        {%  endfor %}
+                    </div>
+                {%  endif %}
+            </div>
+
+        </div>
+
+        <!-- DESCRIPTION DU DOCUMENT -->
+
+        <div class="panel">
+
+            <h3 class="panel-title">
+                Description
+            </h3>
+
+            <div class="panel-body">
+                {{ document.description }}
+            </div>
+
+        </div>
+
+        <!-- DISCUSSIONS SUR LE DOCUMENT -->
+
+        <div class="panel">
+
+            <div class="panel-body">
+
+
+                <div class="comments margin-horizontal-20">
+                    <h3>Commentaires</h3>
+
+                    {% for post in document.history.commentTopic.posts %}
+                        <div class="comment media">
+
+                            <div class="comment-body media-body">
+
+                                <a class="comment-author">{{ post.author.username }}</a>
+                                <div class="comment-meta">
+                                    <span class="date">{{ post.date | date('d-M-Y H:i:s') }}</span>
+                                </div>
+
+                                <div class="comment-content">
+                                    <p>
+                                        {{ post.content }}
+                                    </p>
+                                </div>
+
+                                <div class="comment-actions">
+
+                                    <a type="button"
+                                             href="{{ path('ebmkm_forum_upvote', {'user_id': app.user.id, 'post_id': post.id}) }}">
+                                             <i class="fa fa-thumbs-up green-800" aria-hidden="true"> </i> {{ post.getUpVotes() }} </a>
+
+                                     <a type="button"
+                                             href="{{ path('ebmkm_forum_downvote', {'user_id': app.user.id, 'post_id': post.id}) }}">
+                                             <i class="fa fa-thumbs-down red-800 " aria-hidden="true"> </i> {{ post.getDownVotes() }}</a>
+                                </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% if not document.history.commentTopic %}
+                    <h3>Publier un premier commentaire</h3>
+                {% endif %}
+
+                <form name="ebm_kmbundle_post" method="post" class="comment-reply">
+                    {{ form_widget(form._token) }}
+                    <div class="form-group">
+                        <textarea id="ebm_kmbundle_post_content" name="ebm_kmbundle_post[content]" required="required" autocomplete="off" class="form-control"></textarea>
+                        <small><span></span></small>
+                    </div>
+                    <div>
+                        <button type="submit" id="ebm_kmbundle_post_submit" name="ebm_kmbundle_post[submit]"
+                                class="btn btn-primary waves-effect waves-light waves-effect waves-light">
+                            <span class="ladda-label">Envoyer</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
+                    </div>
+                </form>
+                </div>
+
+            </div>
+
+
+        <!-- HISTORIQUE DU DOCUMENT -->
+
+        <div class="panel">
+
+            <h3 class="panel-title">Historique du document</h3>
+
+            <div class="panel-body">
+
+                <table class="table">
+                    <tr>
+                        <th>Nom du document</th>
+                        <th>Date de l'upload</th>
+                    </tr>
+                    {% for old_document in document.history.documents %}
+                        <tr>
+                            <td>
+                                {% if old_document.id == document.id %}
+                                    <a href="{{ path('ebmkm_document_detail', { id: old_document.id }) }}">{{ old_document.name }} (version actuelle)</a>
+
+                                {% else %}
+                                    <a href="{{ path('ebmkm_document_detail', { id: old_document.id }) }}">{{ old_document.name }}</a>
+                                {% endif %}
+                            </td>
+                            <td>{{ old_document.date | date('d-M-Y H:i:s') }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+            </div>
+
+        </div>
+
+        </div>
+
+
+
+
     </div>
-
-    <div id="ratings"></div>
-
-    <!-- HISTORIQUE DU DOCUMENT -->
-
-    <table class="table">
-        <tr>
-            <th>Nom du document</th>
-            <th>Date de l'upload</th>
-        </tr>
-        {% for old_document in document.history.documents %}
-            <tr>
-                <td>
-                    {% if old_document.id == document.id %}
-                        <a href="{{ path('ebmkm_document_detail', { id: old_document.id }) }}">{{ old_document.name }} (version actuelle)</a>
-
-                    {% else %}
-                        <a href="{{ path('ebmkm_document_detail', { id: old_document.id }) }}">{{ old_document.name }}</a>
-                    {% endif %}
-                </td>
-                <td>{{ old_document.date | date('d-M-Y H:i:s') }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-
-    <!-- DISCUSSIONS SUR LE DOCUMENT -->
-    {% if document.history.commentTopic %}
-        {% for post in document.history.commentTopic.posts %}
-            <div class="well"><strong>{{ post.author.username }}</strong> -- {{ post.date | date('d-M-Y H:i:s') }}<p>{{ post.content }}</p></div>
-        {% endfor %}
-    {% endif %}
-
-    {% if not document.history.commentTopic %}
-        <h3>Publier un premier commentaire</h3>
-    {% endif %}
-
-    {{ form(form) }}
 
 {% endblock %}
