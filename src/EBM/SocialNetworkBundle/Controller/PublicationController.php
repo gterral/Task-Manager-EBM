@@ -32,8 +32,17 @@ class PublicationController extends Controller
         $form = $this->createForm(
             AddCommentType::class,
             $comment,
-            ['action'=>$this->generateUrl('ebm_social_publication_comment_add',['id'=>$publication->getId()])]
+            ['entity_manager' => $em]
         );
+
+        $form->get('publication')->setData($publication);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+            $em->persist($comment);
+            $em->flush();
+
+        }
 
         return $this->render('EBMSocialNetworkBundle:Publication:view.html.twig',
             ['publication' => $publication,

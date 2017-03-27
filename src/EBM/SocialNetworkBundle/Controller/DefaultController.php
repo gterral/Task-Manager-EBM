@@ -62,8 +62,6 @@ class DefaultController extends Controller
                 'publication' => $publication,
                 'form' => $form->createView()
             ];
-
-            //$comment->setPublication($publication);
         }
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
