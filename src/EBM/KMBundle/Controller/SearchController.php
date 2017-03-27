@@ -9,9 +9,19 @@ class SearchController extends Controller
 
     public function searchAction($query)
     {
-        $finder = $this->get('fos_elastica.finder.fablab.tags');
-        $results = $finder->find($query);
-        dump($results);
-        return $this->render('@EBMKM/Search/results.html.twig', array('results' => $results));
+        // TODO : improve this.
+        $indexs = array(
+            'tags' => 'Tags',
+            'post' => 'Posts',
+        );
+
+        $results = [];
+
+        foreach ($indexs as $index_key => $index_value) {
+            $finder = $this->get('fos_elastica.finder.fablab.'.$index_key);
+            $results[$index_key] = $finder->find($query);
+        }
+
+        return $this->render('@EBMKM/Search/results.html.twig', array('indexs' => $indexs, 'results' => $results));
     }
 }

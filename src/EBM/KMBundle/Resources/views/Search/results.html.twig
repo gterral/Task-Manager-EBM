@@ -1,10 +1,22 @@
 {% extends "EBMKMBundle::bundleLayout.html.twig" %}
 {% block content_body %}
-    Résultats
+    <h1>Résultats</h1>
 
-    {% for result in results %}
-        <p>{{ dump(result) }}</p>
+    <h2>Sur le forum</h2>
+    {% for post in results['post'] %}
+        <div>
+            <h3><a href="{{ path('ebmkm_forum_topic', {id: post.topic.id}) }}">{{ post.topic.title }}</a></h3>
+            <div class="well"><strong>{{ post.author.username }}</strong> -- {{ post.date | date('d-M-Y H:i:s') }}<p>{{ post.content }}</p></div>
+        </div>
     {% else %}
-        No tag
+        Pas de résultat.
     {% endfor %}
+
+    <h2>Dans les tags</h2>
+    {% for tag in results['tags'] %}
+        <a class="btn btn-primary" href="{{ path('ebmkm_tag_index') }}" title=" {{ tag.description }}">{{ tag.name }}</a>
+    {% else %}
+        Pas de résultat.
+    {% endfor %}
+
 {% endblock %}

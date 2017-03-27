@@ -114,6 +114,7 @@ fos_elastica:
                 post:
                     properties:
                         content: ~
+                        author: ~
                     persistence:
                         driver: orm
                         model: EBM\KMBundle\Entity\Post
