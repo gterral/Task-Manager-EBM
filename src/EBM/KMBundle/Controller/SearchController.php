@@ -16,7 +16,8 @@ class SearchController extends Controller
         // Key : The key for the template. Value :  Elastic index.
         $indexs = array(
             'tags' => 'tags',
-            'posts' => 'post'
+            'posts' => 'post',
+            'ressources' => 'ressources',
         );
 
         $results = [];
@@ -37,21 +38,22 @@ class SearchController extends Controller
 
         // Key : The key for the template. Value :  Repository.
         $indexs = array(
-            'topics' => 'EBMKMBundle:Topic'
+            'topics' => 'EBMKMBundle:Topic',
+            'ressources' => 'EBMKMBundle:Document',
         );
 
         foreach ($indexs as $index_key => $index_value) {
             $finder = $this
                 ->getDoctrine()
                 ->getRepository($index_value)
-                ->createQueryBuilder('element')
-                ->where(':tag MEMBER OF element.tags')
+                ->createQueryBuilder($index_key)
+                ->where(':tag MEMBER OF '.$index_key.'.tags')
                 ->setParameter('tag', $tag)
                 ->getQuery();
 
-            $results[$index_key] = $finder->getScalarResult();
+            $results[$index_key] = $finder->getResult();
         }
-
+dump($results);
 
         return $this->render('@EBMKM/Search/results.html.twig', array('indexs' => $indexs, 'results' => $results));
     }

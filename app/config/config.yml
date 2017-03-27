@@ -152,3 +152,12 @@ fos_elastica:
                         model: EBM\KMBundle\Entity\Tag
                         provider: ~
                         finder: ~
+                ressources:
+                    properties:
+                        name: ~
+                        description: ~
+                    persistence:
+                        driver: orm
+                        model: EBM\KMBundle\Entity\Document
+                        provider: ~
+                        finder: ~

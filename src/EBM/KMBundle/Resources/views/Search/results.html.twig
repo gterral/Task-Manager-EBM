@@ -46,4 +46,22 @@
         </table>
     {% endif %}
 
+    {% if "ressources" in indexs|keys %}
+        <h2>Dans les ressources</h2>
+        <table class="table">
+            <tr>
+                <th>Nom du document</th>
+                <th>Date de l'upload</th>
+                <th>Créateur</th>
+            </tr>
+            {% for document in results['ressources'] %}
+                <tr>
+                    <td><a href="{{ path('ebmkm_document_detail', { id: document.id }) }}">{{ document.name }}</a></td>
+                    <td>{{ document.date | date('d-M-Y H:i:s') }}</td>
+                    <td>{{ document.history.author.username }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
 {% endblock %}
