@@ -22,43 +22,46 @@
 {# Contenu de la page #}
 
 {% block content_body %}
-    <div class="page-content container-fluid">
+<div class="panel">
+    <div class="panel-heading">
         {% if machine|length == 1 %}
-            <h1 class="page-title text-center">{{ machine.nom }}</h1><hr>
-            <div class="page title waves-effect waves-light">
-                <div class="form-group">
-                    <select class="form-control" autocomplete="off" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);    ">
-                        {% for m in machines %}
-                            {% if m.getId() == machine.getId() %}
-                                <option selected="selected" value="{{ path('ebm_materiel_machines_planning', {'machineId': m.getId() })}}">{{ m.getNom() }}</option>
-                            {% else %}
-                                <option value="{{ path('ebm_materiel_machines_planning', {'machineId': m.getId() })}}">{{ m.getNom() }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
+            <h3 class="panel-title" style="display:inline-block">{{ machine.nom }}</h3>
+            <div class="form-group" style="display:inline-block">
+                <select class="form-control" autocomplete="off" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);    ">
+                    {% for m in machines %}
+                        {% if m.getId() == machine.getId() %}
+                            <option selected="selected" value="{{ path('ebm_materiel_machines_planning', {'machineId': m.getId() })}}">{{ m.getNom() }}</option>
+                        {% else %}
+                            <option value="{{ path('ebm_materiel_machines_planning', {'machineId': m.getId() })}}">{{ m.getNom() }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
             </div>
-            <div class="text-center">
-                <a  class="btn btn-primary waves-effect waves-light text-right" href="{{ path('ebm_materiel_machines_reservation') }}">
-                    <i class="icon md-plus" aria-hidden="true"></i>
-                    Faire une Reservation
-                </a>
-                <a class="btn btn-primary waves-effect waves-light text-right">
-                    <i class="icon md-plus" aria-hidden="true"></i>
-                    Voir mes reservations
-                </a><hr>
-            </div>
-
-
-            {% for event in events %}
-                <p>{{ event.description }}</p>
-            {% endfor %}
-
-            <div id="calendar"></div>
         {% else %}
             <h1>Erreur selection machine</h1>
         {% endif %}
     </div>
+    <div class="panel-body">
+        <div class="text-center">
+            <a  class="btn btn-primary waves-effect waves-light text-right" href="{{ path('ebm_materiel_machines_reservation') }}">
+                <i class="icon md-plus" aria-hidden="true"></i>
+                Faire une Reservation
+            </a>
+            <a class="btn btn-primary waves-effect waves-light text-right">
+                <i class="icon md-plus" aria-hidden="true"></i>
+                Voir mes reservations
+            </a><hr>
+        </div>
+
+
+        {% for event in events %}
+            <p>{{ event.description }}</p>
+        {% endfor %}
+
+        <div id="calendar"></div>
+    </div>
+
+</div>
 {% endblock %}
 
 

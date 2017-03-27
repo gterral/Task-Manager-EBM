@@ -2,8 +2,10 @@
 
 namespace EBM\GDPBundle\Controller;
 
+use EBM\GDPBundle\Entity\Comment;
 use EBM\GDPBundle\Entity\FileEntity;
 use EBM\GDPBundle\Entity\Task;
+use EBM\GDPBundle\Form\CommentType;
 use EBM\GDPBundle\Form\FileEntityType;
 use EBM\GDPBundle\Repository\TaskRepository;
 use EBM\UserInterfaceBundle\Entity\Project;
@@ -27,10 +29,17 @@ class TaskController extends Controller
         // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
         $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
 
+        // On récupère toutes les tâches non archivées
+        /** @var TaskRepository $taskRepository */
+        $taskRepository = $this->getDoctrine()->getManager()->getRepository("EBMGDPBundle:Task");
+        $tasks = $taskRepository->findNonArchivedTasks();
+
         // On return la vue avec la liste des tâches
+        // Le paramètre view_archives permet au template twig de différencier l'affichage du tableau selon qu'il s'agisse de tâches archivées ou non
         return $this->render('EBMGDPBundle:Task:index.html.twig',
-            array('listTasks' => $project->getTasks(),
-                'project' => $project
+            array('listTasks' => $tasks,
+                'project' => $project,
+                'view_archives' => 0
             )
         );
     }
@@ -44,10 +53,17 @@ class TaskController extends Controller
         // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
         $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
 
+        // On récupère toutes les tâches archivées
+        /** @var TaskRepository $taskRepository */
+        $taskRepository = $this->getDoctrine()->getManager()->getRepository("EBMGDPBundle:Task");
+        $tasks = $taskRepository->findArchivedTasks();
+
         // On return la vue avec la liste des tâches archivés
-        return $this->render('EBMGDPBundle:Task:index_archived.html.twig',
-            array('listTasks' => $project->getTasks(),
-                'project' => $project
+        // Le paramètre view_archives permet au template twig de différencier l'affichage du tableau selon qu'il s'agisse de tâches archivées ou non
+        return $this->render('EBMGDPBundle:Task:index.html.twig',
+            array('listTasks' => $tasks,
+                'project' => $project,
+                'view_archives' => 1
             )
         );
     }
@@ -79,9 +95,16 @@ class TaskController extends Controller
             );
         }
 
+        // Formulaire permettant de poster un commentaire
+        $comment = new Comment();
+        $formComment = $this->createForm(CommentType::class, $comment,
+            ['action'=>$this->generateUrl('ebmgdp_task_comment_add',['code'=>$project->getCode(),'id'=>$task->getId()])]
+        );
+
         return $this->render('EBMGDPBundle:Task:view.html.twig',
             array('task'=> $task,
                 'project'=>$project,
+                'formComment' =>$formComment->createView(),
                 'form'=>$form->createView())
         );
     }

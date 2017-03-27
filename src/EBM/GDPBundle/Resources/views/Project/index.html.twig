@@ -18,9 +18,10 @@
 
     <div class="panel">
         <div class="panel-heading">
-            <div class="panel-title">
-                <h3 style="display:inline-block;">Livrables obligatoires - {{ project.name|upper }}</h3>
-                <a style="color:white;" href="{{ path('ebmgdp_deliverable_add_mandatory', {'code':project.code}) }}" class="pull-right btn btn-round btn-primary waves-effect waves-round">Ajouter un livrable obligatoire</a>
+            <h3 class="panel-title">Livrables obligatoires - {{ project.name|upper }}</h3>
+            <div class="panel-actions">
+                {# Créer une nouvelle tâche #}
+                <a href="{{ path('ebmgdp_task_add', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-primary waves-effect margin-right-10 white"><i class="icon md-plus"></i></a>
             </div>
         </div>
         <div class="panel-body">
@@ -53,9 +54,10 @@
 
     <div class="panel">
         <div class="panel-heading">
-            <div class="panel-title">
-                <h3 style="display:inline-block;">Livrables non obligatoires - {{ project.name|upper }}</h3>
-                <a style="color:white;" href="{{ path('ebmgdp_deliverable_add', {'code':project.code}) }}" class="pull-right btn btn-round btn-primary waves-effect waves-round">Ajouter un livrable</a>
+            <h3 class="panel-title">Livrables obligatoires - {{ project.name|upper }}</h3>
+            <div class="panel-actions">
+                {# Créer une nouvelle tâche #}
+                <a href="{{ path('ebmgdp_deliverable_add', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-primary waves-effect margin-right-10 white"><i class="icon md-plus"></i></a>
             </div>
         </div>
         <div class="panel-body">

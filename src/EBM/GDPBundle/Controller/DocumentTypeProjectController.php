@@ -41,7 +41,7 @@ class DocumentTypeProjectController extends Controller
             return $this->redirectToRoute('ebmgdp_insight_documenttypeproject_show', array('id' => $documentTypeProject->getId()));
         }
 
-        return $this->render('EBMGDPBundle:Insight:documentTypeProject/add.html.twig', array(
+        return $this->render('EBMGDPBundle:Insight:documentTypeProject/new.html.twig', array(
             'documentTypeProject' => $documentTypeProject,
             'form' => $form->createView(),
         ));

@@ -2,7 +2,9 @@
 
 namespace EBM\GDPBundle\Controller;
 
+use EBM\GDPBundle\Entity\Comment;
 use EBM\GDPBundle\Entity\DocumentProject;
+use EBM\GDPBundle\Form\CommentType;
 use EBM\GDPBundle\Form\DocumentProjectMandatoryType;
 use EBM\GDPBundle\Form\DocumentProjectType;
 use EBM\GDPBundle\Entity\FileEntity;
@@ -40,9 +42,16 @@ class DeliverableController extends Controller
             );
         }
 
+        // Formulaire permettant de poster un commentaire
+        $comment = new Comment();
+        $formComment = $this->createForm(CommentType::class, $comment, [
+            'action'=>$this->generateUrl('ebmgdp_deliverable_comment_add',['code'=>$project->getCode(),'id'=>$documentProject->getId()])
+            ]);
+
         return $this->render('EBMGDPBundle:Deliverable:index.html.twig',
             array('documentProject'=> $documentProject,
                 'project'=>$project,
+                'formComment' => $formComment->createView(),
                 'form'=>$form->createView())
         );
     }

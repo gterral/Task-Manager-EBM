@@ -13,13 +13,15 @@
 
 {% block content_body %}
 
-    <h1>Création d'un livrable</h1>
-
-    {{ form(form) }}
-    {{ include("EBMGDPBundle:Insight:documenttypeproject/form.html.twig") }}
-
-
-<a href="{{ path('ebmgdp_insight_documenttypeproject_index') }}">Revenir à la liste</a>
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="display:inline-block;"><a href="{{ path('ebmgdp_insight_documenttypeproject_index') }}" class="blue-a400"><i class="icon md-arrow-left"></i></a>
+                Création d'un livrable</h3>
+        </div>
+        <div class="panel-body">
+            {{ include("EBMGDPBundle:Insight:documenttypeproject/form.html.twig") }}
+        </div>
+    </div>
 
 {% endblock %}
 
