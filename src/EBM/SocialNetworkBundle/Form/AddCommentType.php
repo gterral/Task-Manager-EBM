@@ -18,7 +18,9 @@ class AddCommentType extends AbstractType
         $em = $options['entity_manager'];
 
         $builder
-            ->add('content', TextareaType::class)
+            ->add('content', TextareaType::class, [
+                'label' => 'Ajouter un commentaire'
+            ])
             ->add('publication', HiddenType::class)
             ->add('save', SubmitType::class);
             /*->add('publication', EntityType::class, [
