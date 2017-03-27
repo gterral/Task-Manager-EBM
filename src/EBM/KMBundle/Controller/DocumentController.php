@@ -225,10 +225,13 @@ class DocumentController extends Controller
         $editForm->handleRequest($request);
 
         /*
-         * On récupère le nouveau formulaire, et on applique les modifications.
-         * On rajoute le nouveau document dans l'historique.
+         * Si les données sont validées et que l'utilisateur connecté est bien l'auteur du document :
+         * - On récupère le nouveau formulaire, et on applique les modifications.
+         * - On rajoute le nouveau document dans l'historique.
          */
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
+        if ($editForm->isSubmitted()
+            && $editForm->isValid()
+            && $this->getUser() == $oldDocument->getHistory()->getAuthor()) {
 
             $oldDocument->setActive(false);
             $updateDocument->setDate(new \DateTime());
@@ -252,7 +255,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Deletes a document.
+     * Deletes a document, all its history, grades and comments.
      * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -265,7 +268,7 @@ class DocumentController extends Controller
         $form = $this->createDeleteForm($document);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $this->getUser() == $document->getHistory()->getAuthor()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($document);
             $em->flush($document);

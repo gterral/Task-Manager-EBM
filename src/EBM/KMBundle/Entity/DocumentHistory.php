@@ -24,12 +24,12 @@ class DocumentHistory
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy="history")
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy="history", cascade={"persist", "remove"})
      */
     private $documents;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy= "document", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy= "document", cascade={"persist", "remove"})
      */
     private $evaluations;
 
@@ -39,7 +39,7 @@ class DocumentHistory
     private $author;
 
     /**
-     * @Orm\OneToOne(targetEntity="EBM\KMBundle\Entity\Topic", inversedBy="document", cascade={"persist"})
+     * @Orm\OneToOne(targetEntity="EBM\KMBundle\Entity\Topic", inversedBy="document", cascade={"persist", "remove"})
      */
     private $commentTopic;
 

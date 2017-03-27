@@ -26,6 +26,19 @@
     {%  endif %}
 
     <!-- EVALUATION DU DOCUMENT -->
+
+    <div class="rating"
+         data-score="5"
+         data-plugin="rating"
+         style="cursor: pointer;">
+        <!--<i data-alt="1" class="icon md-star orange-600" title="bad"></i>
+        &nbsp;<i data-alt="2" class="icon md-star orange-600" title="poor"></i>
+        &nbsp;<i data-alt="3" class="icon md-star orange-600" title="regular"></i>
+        &nbsp;<i data-alt="4" class="icon md-star orange-600" title="good"></i>
+        &nbsp;<i data-alt="5" class="icon md-star" title="gorgeous"></i>
+        <input name="score" type="hidden" value="4">-->
+    </div>
+
     <div>
     {% if grade >=0 %}
         <div>Moyenne : {{ grade }}/5</div>

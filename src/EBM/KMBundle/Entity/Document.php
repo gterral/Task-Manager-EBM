@@ -79,7 +79,7 @@ class Document
     private $tags;
 
     /**
-     * @Orm\ManyToOne(targetEntity="EBM\KMBundle\Entity\DocumentHistory", inversedBy="documents", cascade={"persist"})
+     * @Orm\ManyToOne(targetEntity="EBM\KMBundle\Entity\DocumentHistory", inversedBy="documents", cascade={"persist", "remove"})
      */
     private $history;
 
