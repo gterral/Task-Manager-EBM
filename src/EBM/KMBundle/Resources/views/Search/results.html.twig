@@ -1,6 +1,6 @@
 {% extends "EBMKMBundle::bundleLayout.html.twig" %}
 {% block content_body %}
-    <h1>Résultats</h1>
+    <h1>Résultats{% if search is defined %} pour la recherche "{{ search }}"{% endif %}</h1>
 
     {% if "posts" in indexs|keys %}
         <h2>Sur le forum</h2>

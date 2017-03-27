@@ -5,14 +5,19 @@ namespace EBM\KMBundle\Controller;
 
 use EBM\KMBundle\Entity\Tag;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 
 class SearchController extends Controller
 {
 
-    public function searchAction($query)
+    public function searchAction(Request $request)
     {
+        if(!$query = $request->query->get('search'))
+            return $this->redirectToRoute('ebmkm_homepage');
+
         // Key : The key for the template. Value :  Elastic index.
         $indexs = array(
             'tags' => 'tags',
@@ -27,7 +32,7 @@ class SearchController extends Controller
             $results[$index_key] = $finder->find($query);
         }
 
-        return $this->render('@EBMKM/Search/results.html.twig', array('indexs' => $indexs, 'results' => $results));
+        return $this->render('@EBMKM/Search/results.html.twig', array('search' => $query, 'indexs' => $indexs, 'results' => $results));
     }
 
     public function searchByTagAction($tag_id) {
