@@ -1,0 +1,21 @@
+image: docker:latest
+
+stages:
+  - build
+
+before_script:
+  - docker info
+
+build:
+  image: docker:latest
+  services:
+    - docker:dind
+  stage: build
+  script:
+    - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS $DOCKERHUB_URL
+    - docker build -t $DOCKERHUB_REGISTRY:$CI_BUILD_REF_NAME . $DOCKER_PARAMS
+    - docker push $DOCKERHUB_REGISTRY:$CI_BUILD_REF_NAME
+  only:
+    - master
+    - staging
+    - gitlab-ci
