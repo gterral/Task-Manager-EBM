@@ -4,6 +4,7 @@ namespace EBM\KMBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use EBM\KMBundle\Entity\Enums\TopicStatusEnum;
 
 /**
  * Topic
@@ -41,7 +42,7 @@ class Topic
      *
      * @ORM\Column(name="status", type="string", length=255)
      */
-    private $status = "default";
+    private $status;
 
     /**
      * @var bool
@@ -87,6 +88,7 @@ class Topic
         $this->posts = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->date = new \DateTime();
+        $this->status = TopicStatusEnum::STATUS_DEFAULT;
     }
 
     /**
@@ -156,6 +158,10 @@ class Topic
      */
     public function setStatus($status)
     {
+        if(!in_array($status, TopicStatusEnum::getAvailableStatus())){
+            throw new \InvalidArgumentException("statut $status invalide");
+        }
+
         $this->status = $status;
 
         return $this;

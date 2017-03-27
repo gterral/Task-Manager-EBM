@@ -5,6 +5,7 @@ namespace EBM\KMBundle\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use EBM\KMBundle\Entity\Enums\PostStatusEnum;
 
 /**
  * Post
@@ -73,7 +74,7 @@ class Post
         $this->votes = new ArrayCollection();
         $this->userVoter = new ArrayCollection();
         $this->date = new \DateTime();
-        $this->status = "default";
+        $this->status  = PostStatusEnum::STATUS_DEFAULT;
     }
 
 
@@ -150,6 +151,10 @@ class Post
      */
     public function setStatus($status)
     {
+        if(!in_array($status, PostStatusEnum::getAvailableStatus())){
+            throw new \InvalidArgumentException("statut $status invalide");
+        }
+
         $this->status = $status;
 
         return $this;
