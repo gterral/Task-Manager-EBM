@@ -25,40 +25,38 @@
 {% block content_body %}
 <div class="page-content container-fluid">
     {% if machine|length == 1 %}
-        <h1 class="page-title text-center">{{ machine.nom }}</h1><hr>
-        <div class="page title waves-effect waves-light">
-            <div class="form-group">
-                <select class="form-control" autocomplete="off" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);    ">
-                    {% for m in machines %}
-                        {% if m.getId() == machine.getId() %}
-                            <option selected="selected" value="{{ path('ebm_materiel_machines_planning', {'machineId': m.getId() })}}">{{ m.getNom() }}</option>
-                        {% else %}
-                            <option value="{{ path('ebm_materiel_machines_planning', {'machineId': m.getId() })}}">{{ m.getNom() }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <div class="text-center">
-            <a  class="btn btn-primary waves-effect waves-light text-right" href="{{ path('ebm_materiel_machines_reservation') }}">
-                <i class="icon md-plus" aria-hidden="true"></i>
-                Faire une Reservation
-            </a>
-            <a class="btn btn-primary waves-effect waves-light text-right">
-                <i class="icon md-plus" aria-hidden="true"></i>
-                Voir mes reservations
-            </a><hr>
-        </div>
+       <div class="text-center">
+            <h1 class="page-title waves-effect ">
+                <div class="form-group">
+                    <select class="form-control" style="background-color: #446CB3; color: white; text-transform: uppercase; font-weight: bold;" autocomplete="off" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);    ">
+                        {% for m in machines %}
+                            {% if m.getId() == machine.getId() %}
+                                <option selected="selected" value="{{ path('ebm_materiel_machines_planning', {'machineId': m.getId() })}}">{{ m.getNom() }}</option>
+                            {% else %}
+                                <option value="{{ path('ebm_materiel_machines_planning', {'machineId': m.getId() })}}">{{ m.getNom() }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
 
-
-        {% for event in events %}
-            <p>{{ event.description }}</p>
-        {% endfor %}
+                 </div>
+            </h1><hr>
+        </div>
+<div class="text-center">
+<a  class="btn btn-primary waves-effect waves-light text-right" href="{{ path('ebm_materiel_machines_reservation') }}">
+    <i class="icon md-plus" aria-hidden="true"></i>
+    Faire une Reservation
+</a>
+<a class="btn btn-primary waves-effect waves-light text-right">
+    <i class="icon md-plus" aria-hidden="true"></i>
+    Voir mes reservations
+</a><hr>
+</div>
 
         <div id="calendar"></div>
     {% else %}
         <h1>Erreur selection machine</h1>
     {% endif %}
+
 </div>
 {% endblock %}
 

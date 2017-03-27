@@ -101,7 +101,10 @@ class MachineController extends Controller
             }
         }
 
-        return $this->render('EBMMaterielBundle:Default/machines:reservationMachine.html.twig', array('form' => $form->createView()));
+        return $this->render('EBMMaterielBundle:Default/machines:ajoutMachine.html.twig',
+            array(  'form' => $form->createView(),
+                    'tags' => $this->get('ebmkm.tag')->getTagsByType('TYPE_MACHINE'),
+                    ));
     }
 
     public function reservationMachineAction($machine, $debut, $fin, Request $request)
@@ -120,6 +123,11 @@ class MachineController extends Controller
         return $this->render('EBMMaterielBundle:Default/machines:reservationMachine.html.twig', array('machine' => $this->getMachine($machine), 'debut' => $debut, 'fin' => $fin));
     }
 
+    public function machineAdded(){
+
+    }
+
+
 
     /*
      * useful methods
@@ -135,12 +143,12 @@ class MachineController extends Controller
         return $repository->find($machineId);
     }
 
-    public function getAllCompetences()
+    public function getAllTags()
     {
         $repository = $this
             ->getDoctrine()
             ->getManager()
-            ->getRepository('EBMKMBundle:CompetenceUser');
+            ->getRepository('EBMKMBundle:Tag');
 
         return $repository->findAll();
     }
