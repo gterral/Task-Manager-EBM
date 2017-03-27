@@ -30,7 +30,6 @@ class DocumentType extends AbstractType
                 'label' => 'Description du document'
             ))
             ->add('tags', EntityType::class, array(
-                'label' => 'Tags',
                 'class' => 'EBMKMBundle:Tag',
                 'choices' => $options['tags'],
                 'choice_label' => 'name',

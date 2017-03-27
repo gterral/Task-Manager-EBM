@@ -9,7 +9,7 @@
 
 namespace EBM\KMBundle\Entity\Enums;
 
-abstract class TopicStatusEnum
+abstract class PostStatusEnum
 {
 
     CONST STATUS_DEFAULT = "STATUS_DEFAULT";

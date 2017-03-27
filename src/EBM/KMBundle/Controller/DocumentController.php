@@ -39,7 +39,15 @@ class DocumentController extends Controller
      */
     public function indexAction(){
 
-        $documents = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->findBy(['active' => true]);
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT d
+            FROM EBMKMBundle:Document d
+            WHERE d.active = :status
+            ORDER BY d.date DESC'
+        )->setParameter('status', true);
+
+        $documents = $query->getResult();
 
         return $this->render('EBMKMBundle:Documents:index.html.twig', array("documents" => $documents));
     }
@@ -76,7 +84,8 @@ class DocumentController extends Controller
             $em->persist($document);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('ebmkm_document_index'));
+            return $this->redirect($this->generateUrl('ebmkm_document_detail', array( "id" => $document->getId() )));
+
         }
 
         return $this->render('EBMKMBundle:Documents:upload.html.twig', array(

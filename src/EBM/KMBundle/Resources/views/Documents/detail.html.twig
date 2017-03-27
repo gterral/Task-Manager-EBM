@@ -52,8 +52,16 @@
             {% endif %}
 
             <div>
-                Notez le document :
-                {{ form(evaluationForm) }}
+
+                <form name="ebm_kmbundle_post" method="post" class="comment-reply">
+                    {{ form_widget(evaluationForm._token) }}
+                    {{ form_widget(evaluationForm.value) }}
+                    <div>
+                        <button type="submit" id="evaluation_document_submit" name="evaluation_document[submit]" class="btn btn-primary">
+                            <span class="ladda-label">Noter</span><span class="ladda-spinner"></span>
+                        </button>
+                    </div>
+                </form>
             </div>
 
 
@@ -122,12 +130,24 @@
                                     </p>
                                 </div>
 
+                                <div class="comment-actions">
+
+                                    <a type="button"
+                                             href="{{ path('ebmkm_forum_upvote', {'user_id': app.user.id, 'post_id': post.id}) }}">
+                                             <i class="fa fa-thumbs-up green-800" aria-hidden="true"> </i> {{ post.getUpVotes() }} </a>
+
+                                     <a type="button"
+                                             href="{{ path('ebmkm_forum_downvote', {'user_id': app.user.id, 'post_id': post.id}) }}">
+                                             <i class="fa fa-thumbs-down red-800 " aria-hidden="true"> </i> {{ post.getDownVotes() }}</a>
+                                </div>
+
+                                </div>
+
                             </div>
 
                         </div>
 
                     {% endfor %}
-                </div>
 
                 {% if not document.history.commentTopic %}
                     <h3>Publier un premier commentaire</h3>
@@ -147,11 +167,10 @@
                         </button>
                     </div>
                 </form>
+                </div>
 
             </div>
 
-
-        </div>
 
         <!-- HISTORIQUE DU DOCUMENT -->
 
@@ -184,6 +203,9 @@
             </div>
 
         </div>
+
+        </div>
+
 
 
 
