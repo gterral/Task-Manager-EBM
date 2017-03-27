@@ -1,0 +1,23 @@
+{% extends "@EBMMateriel/bundleLayout.html.twig" %}
+{% block title %}
+    Ajouter une tâche
+{% endblock %}
+{# CSS propres � cette page #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("bundles/coreiconbar/theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.css") }}">
+{% endblock %}
+{% block content_body %}
+    <h2>Ajouter une tâche</h2>
+    {{ form(form) }}
+    <br/>
+    <p>
+        <a href="{{ path('ebm_materiel_machines_selection') }}">
+            Retour à la liste des tàches.
+        </a>
+    </p>
+{% endblock %}
+{# Scripts propres � cette page #}
+{% block scripts %}
+    <script src="{{ asset("bundles/coreiconbar/theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js") }}"></script>
+    <script src="{{ asset('bundles/coreiconbar/theme/global/js/components/bootstrap-datepicker.js') }}"></script>
+{% endblock %}

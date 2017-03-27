@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CommandeMateriel
  *
- * @ORM\Table(name="commande_materiel")
+ * @ORM\Table(name="fablab_commande_materiel")
  * @ORM\Entity(repositoryClass="EBM\MaterielBundle\Repository\CommandeMaterielRepository")
  */
 class CommandeMateriel

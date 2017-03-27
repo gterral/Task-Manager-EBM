@@ -39,7 +39,7 @@ class DocumentController extends Controller
      */
     public function indexAction(){
 
-        $documents = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->findAll();
+        $documents = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->findBy(['active' => true]);
 
         return $this->render('EBMKMBundle:Documents:index.html.twig', array("documents" => $documents));
     }
@@ -68,7 +68,7 @@ class DocumentController extends Controller
 
             // Le créateur du document est l'utilisateur courrant.
             $user = $this->getUser();
-            $document->setAuthor($user);
+            $documentHistory->setAuthor($user);
             $document->setHistory($documentHistory);
 
             // On persiste le document et son historique nouvellement créé.
@@ -111,8 +111,8 @@ class DocumentController extends Controller
          * //TODO : Bouger le texte de la description dans un fichier avec tous les textes.
          *
          */
-        if($document->getCommentTopic()){
-            $topic = $document->getCommentTopic();
+        if($document->getHistory()->getCommentTopic()){
+            $topic = $document->getHistory()->getCommentTopic();
         }
         else{
             $topic = new Topic();
@@ -121,7 +121,7 @@ class DocumentController extends Controller
                 ->setCreator($user);
             $topic->setDescription("Ceci est le fil de discussion relatif au document ' " . $document->getName() . '.');
 
-            $document->setCommentTopic($topic);
+            $document->getHistory()->setCommentTopic($topic);
         }
 
         $post = new Post();
@@ -150,12 +150,12 @@ class DocumentController extends Controller
          * L'évaluation d'un document se fait via un formulaire utilisant un slider.
          * Une fois ce formulaire posté, la page est raffraichie.
          */
-        if(sizeof($document->getEvaluations()) > 0){
+        if(sizeof($document->getHistory()->getEvaluations()) > 0){
             $moyenne = 0;
-            foreach ($document->getEvaluations() as $evaluation){
+            foreach ($document->getHistory()->getEvaluations() as $evaluation){
                 $moyenne += $evaluation->getValue();
             }
-            $moyenne = $moyenne/sizeof($document->getEvaluations());
+            $moyenne = $moyenne/sizeof($document->getHistory()->getEvaluations());
         }
         else{
             $moyenne = -1;
@@ -172,7 +172,7 @@ class DocumentController extends Controller
         $evaluationForm->handleRequest($request);
         if($evaluationForm->isSubmitted() && $evaluationForm->isValid()){
             $evaluation->setAuthor($user);
-            $evaluation->setDocument($document);
+            $evaluation->setDocument($document->getHistory());
             $em->persist($evaluation);
             $em->flush();
             return $this->redirectToRoute('ebmkm_document_detail', array('id' => $document->getId()));
@@ -213,7 +213,7 @@ class DocumentController extends Controller
          * On peut ensuite récupérer le document en lui-même, et l'affecter au champ 'File' du Document.
          */
         $helper = $this->get('vich_uploader.templating.helper.uploader_helper');
-        $path = $helper->asset($updateDocument, 'file');
+        $path = $helper->asset($oldDocument, 'file');
         $kernel_root_dir = $this->getParameter('kernel.root_dir');
         $file = new File\File( $kernel_root_dir . '/../web' . $path);
         $updateDocument->setFile($file);
@@ -225,13 +225,20 @@ class DocumentController extends Controller
         $editForm->handleRequest($request);
 
         /*
-         * On récupère le nouveau formulaire, et on applique les modifications.
-         * On rajoute le nouveau document dans l'historique.
+         * Si les données sont validées et que l'utilisateur connecté est bien l'auteur du document :
+         * - On récupère le nouveau formulaire, et on applique les modifications.
+         * - On rajoute le nouveau document dans l'historique.
          */
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
+        if ($editForm->isSubmitted()
+            && $editForm->isValid()
+            && $this->getUser() == $oldDocument->getHistory()->getAuthor()) {
 
             $oldDocument->setActive(false);
             $updateDocument->setDate(new \DateTime());
+
+            if(!$updateDocument->getFile()){
+                $updateDocument->setFile($oldDocument->getFile());
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($updateDocument);
@@ -248,7 +255,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Deletes a document.
+     * Deletes a document, all its history, grades and comments.
      * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -261,7 +268,7 @@ class DocumentController extends Controller
         $form = $this->createDeleteForm($document);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $this->getUser() == $document->getHistory()->getAuthor()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($document);
             $em->flush($document);

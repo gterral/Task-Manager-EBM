@@ -18,3 +18,19 @@ fos_user_resetting:
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
+
+core_user_homepage:
+    path: /
+    defaults: { _controller: CoreUserBundle:Default:index }
+
+core_user_register:
+    path: /registration
+    defaults: { _controller: CoreUserBundle:Profile:addUser }
+
+core_user_view_own_profile:
+    path: /viewProfile/me
+    defaults: { _controller: CoreUserBundle:Profile:showUserProfile}
+
+core_user_view_other_profile:
+    path: /viewProfile/{username}
+    defaults: { _controller: CoreUserBundle:Profile:showOtherProfile}
