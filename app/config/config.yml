@@ -130,7 +130,7 @@ vich_uploader:
 # ElasticSearch
 fos_elastica:
     clients:
-        default: { host: localhost, port: 9200 }
+        default: { host: fablab_elastic, port: 9200 }
     indexes:
         fablab:
             types:

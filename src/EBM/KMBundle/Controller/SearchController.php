@@ -53,7 +53,6 @@ class SearchController extends Controller
 
             $results[$index_key] = $finder->getResult();
         }
-dump($results);
 
         return $this->render('@EBMKM/Search/results.html.twig', array('indexs' => $indexs, 'results' => $results));
     }

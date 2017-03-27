@@ -4,7 +4,7 @@ ebmkm_homepage:
 
 # --- Moteur de recherche ---
 ebmkm_search_engine:
-    path:     /search/{query}
+    path:     /search/query/{query}
     defaults: { _controller: EBMKMBundle:Search:search }
 
 ebmkm_search_tags:
