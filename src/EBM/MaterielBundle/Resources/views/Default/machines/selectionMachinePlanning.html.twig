@@ -20,7 +20,7 @@
         <div class="list-group bg-grey-300 bg-inherit">
     {% for machine in machines %}
 
-            <a class="list-group-item grey-600 waves-effect waves-block waves-classic" href="{{ path('ebm_materiel_machines_planning', {'machineId': machine.id })}}">
+                <a class="list-group-item grey-600 waves-effect waves-block waves-classic" href="{{ path('ebm_materiel_machines_planning', {'machineId': machine.id })}}">
                 <i class="icon md-inbox" aria-hidden="true"></i> {{ machine.nom }}
             </a>
     {% endfor %}
