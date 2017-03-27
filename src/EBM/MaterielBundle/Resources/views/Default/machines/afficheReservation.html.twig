@@ -1,0 +1,109 @@
+{% extends "@EBMMateriel/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Réservation d'une machine Test
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="dev_materiel_Tables/dist/tablesaw.css">
+
+{% endblock %}
+
+{% block content_body %}
+
+    <div class="example-wrap">
+
+        {{ dump(data) }}
+
+
+
+        <div class="example table-responsive">
+            <h1>Mes réservations</h1>
+            <table class="table">
+                <thead>
+                <tr>
+
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Pseudo</th>
+                    <th>Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+
+                    <td>Teagan</td>
+                    <td>Prohaska</td>
+                    <td>@Elijah</td>
+                    <td>
+                        <span class="label label-danger">admin</span>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>Andy</td>
+                    <td>Gaylord</td>
+                    <td>@Ramiro</td>
+                    <td>
+                        <span class="label label-info">member</span>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>Veronica</td>
+                    <td>Gusikowski</td>
+                    <td>@Maxime</td>
+                    <td>
+                        <span class="label label-warning">developer</span>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>Bruce</td>
+                    <td>Rogahn</td>
+                    <td>@Maggio</td>
+                    <td>
+                        <span class="label label-success">supporter</span>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>Carolina</td>
+                    <td>Hickle</td>
+                    <td>@Hammes</td>
+                    <td>
+                        <span class="label label-info">member</span>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>Madaline</td>
+                    <td>Eichmann</td>
+                    <td>@Amaya</td>
+                    <td>
+                        <span class="label label-success">supporter</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- End Example Basic -->
+    </div>
+
+
+{% endblock %}
+
+
+{# Scripts propres à cette page #}
+{% block scripts %}
+
+
+    <script type="text/javascript" src="/path/to/jquery-latest.js"></script>
+    <script type="text/javascript" src="/path/to/jquery.tablesorter.js"></script>
+
+
+
+{% endblock %}
