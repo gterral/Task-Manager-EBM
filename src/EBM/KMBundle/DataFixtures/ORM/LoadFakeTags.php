@@ -31,7 +31,7 @@ class LoadFakeTags implements FixtureInterface, ContainerAwareInterface {
      */
     public function load(ObjectManager $entityManager)
     {
-        /*
+
         $tag1 = new Tag();
         $tag1->setName("Tag 1");
         $tag1->setDescription("La description du tag1");
@@ -80,6 +80,6 @@ class LoadFakeTags implements FixtureInterface, ContainerAwareInterface {
 
 
         $entityManager->flush();
-        */
+
     }
 }

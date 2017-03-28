@@ -132,7 +132,6 @@
             {# envoyer l'utilisateur à la page de reservation lors du clic #}
 
                 $('.fc-event-container').click(function(){
-                    console.log("click");
                     window.location.href = "{{ path('ebm_materiel_machines_reservation', {'machine': machine.getId(), 'debut': 'currentDate'}) }}".replace('currentDate', currentDate);
                 });
 
@@ -162,7 +161,6 @@
                     }
                 }
                 var currentEvent = {'id': currentDate, 'start': currentDate, 'backgroundColor': '#5c6bc0'};
-                console.log(currentDate);
 
                 var journee = (parseInt(time.substring(0, 2)) >= 8 &&
                     parseInt(time.substring(0, 2)) < 12) ||

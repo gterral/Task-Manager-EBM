@@ -141,9 +141,47 @@ class MachineController extends Controller
 
     public function reservationSubmitAction(Request $request){
 
-        $data = $request->getContent();
 
-        return $this->render('EBMMaterielBundle:Default:testpost.html.twig', array('message' => $data));
+
+        $heure = $request->request->get('heure');
+        $debut= $request->request->get('jour').'T'.$heure;
+
+        if($heure == '08:00:00')
+        {
+            $heure='10:00:00';
+        }elseif ($heure == '10:00:00')
+        {
+            $heure = '12:00:00';
+        }elseif ($heure == '14:00:00')
+        {
+            $heure = '16:00:00';
+        }elseif ($heure == '16:00:00')
+        {
+            $heure = '18:00:00';
+        }
+        $fin= $request->request->get('jour').'T'.$heure;
+
+
+
+        $reservation = new ReservationMachine();
+
+        $reservation->setDescription($request->request->get('description'));
+        $reservation->setDebut(new \DateTime($debut));
+        $reservation->setFin(new \DateTime($fin));
+        $reservation->setMachine($this->getMachine($request->request->get('machine')));
+        $reservation->setProjet($this->getProject($request->request->get('projet')));
+        $reservation->setUser($this->getUser());
+
+        // On récupère l'EntityManager
+        $em = $this->getDoctrine()->getManager();
+
+        // Étape 1 : On « persiste » l'entité
+        $em->persist($reservation);
+
+        // Étape 2 : On « flush » tout ce qui a été persisté avant
+        $em->flush();
+
+        return $this->render('EBMMaterielBundle:Default:testpost.html.twig', array('reservation' => $reservation));
     }
 
     public function machineAdded(){
@@ -165,6 +203,17 @@ class MachineController extends Controller
 
         return $repository->find($machineId);
     }
+
+    public function getProject($projectId)
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('EBMUserInterfaceBundle:Project');
+
+        return $repository->find($projectId);
+    }
+
 
     public function getAllTags()
     {

@@ -11,13 +11,15 @@
 {% endblock %}
 
 {% block content_body %}
+    <div class="page-content">
 
-
-    <div class="col-md-6">
-
-        <form action="{{ path('ebm_materiel_machines_reservation_submit') }}" method="post" id="reservationForm">
-
+        <div class="page-header">
             <h1 class="page-title">Nouvelle réservation de machine du Fab Lab</h1>
+        </div>
+
+    <div class="panel">
+        <div class="panel-body container-fluid">
+        <form action="{{ path('ebm_materiel_machines_reservation_submit') }}" method="post" id="reservationForm">
 
             <h4 class="example-title">Prénom et nom de l'utilisateur</h4>
             <div class="input-group input-group-icon">
@@ -26,8 +28,10 @@
                     </span>
 
                 <input type="text" name="username" class="form-control" value="{{ user.getUsername() }}" readonly>
-            </div>
+            </div><br>
 
+
+            <div class="example-wrap margin-sm-0">
             <h4 class="example-title">Projet associé</h4>
 
             <div class="form-group">
@@ -37,7 +41,9 @@
                     {% endfor %}
                 </select>
             </div>
+            </div>
 
+            <div class="example-wrap margin-sm-0">
             <h4 class="example-title">Machine à réserver</h4>
             <div class="form-group">
                 <select name="machine" class="form-control">
@@ -46,73 +52,41 @@
                     {% endfor %}
                 </select>
             </div>
+            </div>
 
 
 
+            <h4 class="example-title">Date de réservation</h4>
+
+            <div class="input-group">
+                    <span class="input-group-addon">
+                      <i class="icon md-calendar" aria-hidden="true"></i>
+                    </span>
+                <input type="text" name="jour"class="form-control datepair-date datepair-start" data-plugin="datepicker">
+            </div>
+
+<br>
+            <div class="example-wrap margin-sm-0">
+            <h4 class="example-title">Créneau</h4>
+            <div class="form-group">
+                <select name="heure" class="form-control">
+                    <option value="08:00:00">8h 10h</option>
+                    <option value="10:00:00">10h 12h</option>
+                    <option value="14:00:00">14h 16h</option>
+                    <option value="16:00:00">16h 18h</option>
+                </select>
+            </div>
+            </div>
 
             <div class="example-wrap">
-                <div class="example datepair-wrap" data-plugin="datepair">
-                    <div class="input-daterange-wrap">
-                        <div class="input-daterange">
-                            <div class="input-group">
-                    <span class="input-group-addon">
-                      <i class="icon md-calendar" aria-hidden="true"></i>
-                    </span>
-                                <input type="text" class="form-control datepair-date datepair-start" data-plugin="datepicker">
-                            </div>
-                            <div class="input-group">
-                    <span class="input-group-addon">
-                      <i class="icon md-time" aria-hidden="true"></i>
-                    </span>
-                                <input type="text" class="form-control datepair-time datepair-start ui-timepicker-input" data-plugin="timepicker" autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-daterange-to">to</div>
-                    <div class="input-daterange-wrap">
-                        <div class="input-daterange">
-                            <div class="input-group">
-                    <span class="input-group-addon">
-                      <i class="icon md-calendar" aria-hidden="true"></i>
-                    </span>
-                                <input type="text" class="form-control datepair-date datepair-end" name="end" data-plugin="datepicker">
-                            </div>
-                            <div class="input-group">
-                    <span class="input-group-addon">
-                      <i class="icon md-time" aria-hidden="true"></i>
-                    </span>
-                                <input type="text" class="form-control datepair-time datepair-end ui-timepicker-input" data-plugin="timepicker" autocomplete="off">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h4 class="example-title">Description</h4>
+                <textarea name="description" class="form-control" id="textareaDefault" rows="3"></textarea>
             </div>
+                <input type="submit" value="submit">
 
-
-
-
-
-            <h4 class="example-title">Date de début de réservation</h4>
-            <div class="input-group">
-                <span class="input-group-addon">
-                    <i class="icon md-calendar" aria-hidden="false"></i>
-                </span>
-                <input type="text" name="debut" class="form-control" data-plugin="datepicker">
-            </div>
-
-
-            <div class="input-group">
-            <span class="input-group-addon">
-                <i class="icon md-time" aria-hidden="true"></i>
-            </span>
-                <input type="text" name="fin" class="form-control" data-plugin="timepicker" data-min-time="8:00"
-                       data-max-time="18:00" data-show-duration="true" />
-            </div><br>
-
-
-            <input type="submit" value="submit">
         </form>
-
+        </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -145,17 +119,15 @@
 
             $('.datepair-time').timepicker({
                 'showDuration': true,
-                'timeFormat': 'g:ia'
+                'timeFormat': 'g:ia',
+                'show2400': true
             });
 
             $('.datepair-date').datepicker({
-                'format': 'm-d-yyyy',
+                'format': 'yyyy-mm-dd',
                 'autoclose': true
             });
 
-            // initialize datepair
-            var basicExampleEl = document.getElementById('datepicker');
-            var datepair = new Datepair(basicExampleEl);
         });
     </script>
 {% endblock %}

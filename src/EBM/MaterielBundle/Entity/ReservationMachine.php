@@ -4,6 +4,7 @@ namespace EBM\MaterielBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Core\UserBundle\Entity\User;
+use EBM\UserInterfaceBundle\Entity\Project;
 
 /**
  * ReservationMachine
@@ -70,11 +71,21 @@ class ReservationMachine
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="EBM\UserInterfaceBundle\Entity\Project", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $projet;
+
+    /**
+     * ReservationMachine constructor.
+     */
+
 
     public function __construct()
     {
         $this->dateCreation = new \DateTime('now');
-        $this->validation = false;
+        $this->validation = true;
     }
 
 
@@ -255,5 +266,32 @@ class ReservationMachine
     public function getUser()
     {
         return $this->user;
+    }
+
+
+
+
+    /**
+     * Set projet
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $projet
+     *
+     * @return ReservationMachine
+     */
+    public function setProjet(\EBM\UserInterfaceBundle\Entity\Project $projet)
+    {
+        $this->projet = $projet;
+
+        return $this;
+    }
+
+    /**
+     * Get projet
+     *
+     * @return \EBM\UserInterfaceBundle\Entity\Project
+     */
+    public function getProjet()
+    {
+        return $this->projet;
     }
 }
