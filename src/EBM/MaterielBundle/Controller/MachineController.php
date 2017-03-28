@@ -75,11 +75,18 @@ class MachineController extends Controller
     {
         $newMachine = new Machine();
 
+
         $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $newMachine);
+        $listeTags = array();
+        foreach($this->get('ebmkm.tag')->getTagsByType('TYPE_MACHINE') as $tag)
+        {
+            $listeTags[$tag->getName()] = $tag;
+        }
 
         $formBuilder
-            ->add('nom', TextType::class)
-            ->add('dateAchat', DateType::class, array('data' => new \DateTime('now')))
+            ->add('nom', TextType::class, array('label' => 'Nom de la machine'))
+            ->add('dateAchat', DateType::class, array('label' => 'Date d\'achat de la machine', 'attr' => array('data-plugin' => 'datepicker','class'=>'datepicker')))
+            ->add('tags', ChoiceType::class, array('label' => 'Tags associés', 'choices' => $listeTags, 'attr' => array('data-plugin' => 'select2', 'multiple' => 'true')))
             ->add('valider', SubmitType::class);
 
         $form = $formBuilder->getForm();
@@ -101,7 +108,7 @@ class MachineController extends Controller
 
         return $this->render('EBMMaterielBundle:Default/machines:ajoutMachine.html.twig',
             array(  'form' => $form->createView(),
-                    'tags' => $this->get('ebmkm.tag')->getTagsByType('TYPE_MACHINE'),
+//                    'tags' => $this->get('ebmkm.tag')->getTagsByType('TYPE_MACHINE'),
                     ));
     }
 
@@ -130,9 +137,9 @@ class MachineController extends Controller
                 'choices' => $listeMachines,
                 'data' => 2
             ))
-            ->add('debut', DateTimeType::class, array('data' => new \DateTime($debut)))
-            ->add('fin', DateTimeType::class, array('data' => new \DateTime($fin)))
             ->add('description', TextareaType::class, array('required' => 'false'))
+            ->add('debut', DateTimeType::class, array('data' => new \DateTime($debut), 'attr' => array('data-min-time' => '8:00', 'data-max-time' => '18:00')))
+            ->add('fin', DateTimeType::class, array('data' => new \DateTime($fin)))
             ->add('valider', SubmitType::class);
 
 
@@ -158,7 +165,9 @@ class MachineController extends Controller
 
     }
 
-    public function machineAdded(){
+    public function machineAdded(Request $request){
+        $machine = new Machine();
+        $postData = $request->request->get('contact');
 
     }
 

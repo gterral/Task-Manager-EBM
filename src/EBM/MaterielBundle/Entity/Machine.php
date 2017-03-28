@@ -37,11 +37,11 @@ class Machine
      */
     private $nom;
     /**
-     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\CompetenceUser", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\Tag", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      * @ORM\JoinTable(name="fablab_machine_competence")
      */
-    private $competences;
+    private $tags;
 
     public function __construct()
     {
@@ -129,5 +129,29 @@ class Machine
     public function getCompetences()
     {
         return $this->competences;
+    }
+
+    /**
+     * Set tags
+     *
+     * @param \EBM\KMBundle\Entity\Tag $tags
+     *
+     * @return Machine
+     */
+    public function setTags(\EBM\KMBundle\Entity\Tag $tags = null)
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \EBM\KMBundle\Entity\Tag
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 }

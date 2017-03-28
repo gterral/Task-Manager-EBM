@@ -33,6 +33,3 @@ ebm_materiel_machines_ajoutee:
     path: /machines/added
     defaults:
         _controller: EBMMaterielBundle:Machine:machineAdded
-
-#ebm_materiel_machine_ajoutee:
-#  path:
