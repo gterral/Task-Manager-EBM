@@ -52,7 +52,7 @@ class Machine
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -120,19 +120,6 @@ class Machine
         return $this->tags = $tags;
     }
 
-    /**
-     *
-     * Set type
-     *
-     * @param \EBM\MaterielBundle\Entity\MachineType $type
-     *
-     * @return Machine
-     */
-    public function setType(\EBM\MaterielBundle\Entity\MachineType $type = null)
-    {
-        $this->type = $type;
-        return $this;
-    }
 
     /**
      * Get tags
@@ -144,13 +131,4 @@ class Machine
         return $this->tags;
     }
 
-    /**
-     * Get type
-     *
-     * @return \EBM\MaterielBundle\Entity\MachineType
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
 }

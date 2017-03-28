@@ -36,6 +36,7 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
      */
     public function load(ObjectManager $manager)
     {
+        /*
         $encoder = $this->container->get('security.password_encoder');
 
         $tag1 = new Tag();
@@ -92,7 +93,7 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
 
         $like2 = new Likes();
         $like2->setPublication($pub2);*/
-
+/*
         $manager->persist($tag1);
         $manager->persist($project1);
         $manager->persist($project2);
@@ -102,6 +103,7 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
         //$manager->persist($comment1);
         //$manager->persist($like2);
         $manager->flush();
+        */
 
     }
 }
