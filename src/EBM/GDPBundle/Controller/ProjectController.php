@@ -16,6 +16,17 @@ class ProjectController extends Controller
      */
     public function viewDeliverablesAction(Project $project)
     {
-        return $this->render('EBMGDPBundle:Project:index.html.twig');
+        // Check whether the user has access to project or not. If not, this method will throw a 404 exception.
+        $this->get("ebmgdp.utilities.permissions")->isGrantedAccessForProject($project,$this->getUser());
+
+        $repository_type= $this->getDoctrine()->getRepository('EBMGDPBundle:DocumentTypeProject');
+        $listtypes = $repository_type->findAll();
+
+        return $this->render('EBMGDPBundle:Project:index.html.twig',
+            array('listDeliverables' => $project->getDeliverables(),
+                'project' => $project,
+                'listTypeDeliverables' => $listtypes,
+            )
+        );
     }
 }

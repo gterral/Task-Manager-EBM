@@ -1,0 +1,23 @@
+    <div class="media">
+        <div class="media-left">
+            <a class="avatar">
+                <img class="img-responsive" src="{{ asset("bundles/coreiconbar/images/avatar5.png") }}"
+                     alt="profile picture">
+            </a>
+        </div>
+        <div class="media-body">
+            {%  if comment.utilisateur is not null %}
+                <h4 class="media-heading" style="display: inline-block;vertical-align: baseline;">{{ comment.utilisateur }}</h4>
+            {%  else  %}
+                <h4 class="media-heading" style="display: inline-block;vertical-align: baseline;">Utilisateur non trouvé</h4>
+            {% endif %}
+            <small>a posté le {{ comment.creationDate|date("d-m-Y à h:i") }}</small>
+            <a href="javascript:void(0)" data-target="#editCommentForm{{ comment.id }}" data-toggle="modal" class="margin-left-10 grey-600"><i class="icon md-edit" aria-hidden="true"></i></a>
+            <a href="javascript:void(0)" onclick="deleteComment({{ comment.id }})" class=""><i class="icon md-delete grey-600" aria-hidden="true"></i></a>
+            <div class="modal fade editCommentJS" id="editCommentForm{{ comment.id }}" title= "{{ comment.id }}" aria-hidden="true" aria-labelledby="editCommentForm{{ comment.id }}" role="dialog" tabindex="-1">
+                <div id="comment{{ comment.id }}">
+                </div>
+            </div>
+            <div class="profile-brief">{{ comment.content }}</div>
+        </div>
+    </div>

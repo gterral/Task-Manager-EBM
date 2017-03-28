@@ -10,4 +10,21 @@ namespace EBM\GDPBundle\Repository;
  */
 class TaskRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findNonArchivedTasks() {
+        return $this
+            ->createQueryBuilder('task')
+            ->where('task.status <> :status')
+            ->setParameter('status',"ARCHIVED")
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findArchivedTasks() {
+        return $this
+            ->createQueryBuilder('task')
+            ->where('task.status = :status')
+            ->setParameter('status',"ARCHIVED")
+            ->getQuery()
+            ->execute();
+    }
 }

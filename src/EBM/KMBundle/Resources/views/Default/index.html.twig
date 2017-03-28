@@ -16,12 +16,33 @@
 {# Contenu de la page #}
 
 {% block content_body %}
-<ul>
+{#<ul>
     <li><a href="{{ path('ebmkm_forum_homepage') }}">Accéder au forum</a></li>
-    <li><a href="{{ path('ebmkm_file_homepage') }}">Ressources documentaires</a></li>
+    <li><a href="{{ path('ebmkm_document_index') }}">Ressources documentaires</a></li>
     <li><a href="{{ path('ebmkm_tag_index') }}">Tags</a></li>
     <li><a href="#">Analytics</a></li>
 </ul>
+#}
+    {#Boutons d'accès au forum et documents #}
+<div class="row">
+    <div class="col-md-12"> &nbsp </div>
+    <div class="col-md-4 col-md-offset-1"><a href="{{ path('ebmkm_forum_homepage') }}"><button type=button" class="btn btn-block btn-primary waves-effect waves-light btn-lg"><i class="fa fa-comments" aria-hidden="true"></i>&nbsp Accéder au forum</button></a></div>
+    <div class="col-md-4 col-md-offset-1"><a href="{{ path('ebmkm_document_index') }}"><button type=button" class="btn btn-block btn-primary waves-effect waves-light btn-lg "><i class="fa fa-book" aria-hidden="true"></i>&nbsp Consulter les ressources</button></a></div>
+    <div class="col-md-12 height-50"> &nbsp </div>
+    <div class="col-md-5 col-md-offset-3 text-center height-50 "><h5> Vous pouvez également utiliser le moteur de recherche : </h5> </div>
+</div>
+    {#Search Bar #}
+    <div class="row">
+        <div class="col-md-7 col-md-offset-2">
+    <form action="{{ path('ebmkm_search_engine') }}" class="page-search-form" role="search">
+        <div class="input-search input-search-dark">
+            <i class="input-search-icon md-search" aria-hidden="true"></i>
+            <input type="text" class="form-control" id="inputSearch" name="search" placeholder="Rechercher">
+            <button type="button" class="input-search-close icon md-close" aria-label="Go" type="submit"></button>
+        </div>
+    </form>
+        </div>
+    </div>
 
 {% endblock %}
 

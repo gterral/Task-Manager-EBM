@@ -57,8 +57,53 @@ class commonExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('base64enc', array($this, 'base64encodeFilter')),
             new \Twig_SimpleFilter('base64dec', array($this, 'base64decodeFilter')),
             new \Twig_SimpleFilter('sort', array($this, 'twig_sort')),
+            new \Twig_SimpleFilter('removeSpecialChars', array($this, 'removeSpecialCharsFilter')),
         );
     }
+
+
+    /**
+     * Remove special chars in string
+     *
+     * @param $input
+     * @return string
+     */
+    public function removeSpecialCharsFilter($input)
+    {
+
+        // All char to lower
+        $str = strtolower($input);
+
+        // Remove accents
+        // throw new \Exception($str);
+        $str = str_replace(
+            array(
+                'à', 'â', 'ä', 'á', 'ã', 'å',
+                'î', 'ï', 'ì', 'í',
+                'ô', 'ö', 'ò', 'ó', 'õ', 'ø',
+                'ù', 'û', 'ü', 'ú',
+                'é', 'è', 'ê', 'ë',
+                'ç', 'ÿ', 'ñ',
+            ),
+            array(
+                'a', 'a', 'a', 'a', 'a', 'a',
+                'i', 'i', 'i', 'i',
+                'o', 'o', 'o', 'o', 'o', 'o',
+                'u', 'u', 'u', 'u',
+                'e', 'e', 'e', 'e',
+                'c', 'y', 'n',
+            ),
+            $str
+        );
+
+        // Remove special chars
+        $str = preg_replace('/[^\da-z_-]/i', " ", $str);
+
+        return $str;
+    }
+
+
+
 
 
     /**

@@ -59,7 +59,7 @@ class Publication
     private $content;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\Comment", mappedBy="publication")
+     * @ORM\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\SocialComment", mappedBy="publication")
      * @ORM\JoinColumn(nullable=true)
      */
     private $comments;
@@ -276,11 +276,11 @@ class Publication
     /**
      * Add comment
      *
-     * @param \EBM\SocialNetworkBundle\Entity\Comment $comment
+     * @param \EBM\SocialNetworkBundle\Entity\SocialComment $comment
      *
      * @return Publication
      */
-    public function addComment(\EBM\SocialNetworkBundle\Entity\Comment $comment)
+    public function addComment(\EBM\SocialNetworkBundle\Entity\SocialComment $comment)
     {
         $this->comments[] = $comment;
 
@@ -290,9 +290,9 @@ class Publication
     /**
      * Remove comment
      *
-     * @param \EBM\SocialNetworkBundle\Entity\Comment $comment
+     * @param \EBM\SocialNetworkBundle\Entity\SocialComment $comment
      */
-    public function removeComment(\EBM\SocialNetworkBundle\Entity\Comment $comment)
+    public function removeComment(\EBM\SocialNetworkBundle\Entity\SocialComment $comment)
     {
         $this->comments->removeElement($comment);
     }

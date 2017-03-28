@@ -50,20 +50,13 @@ class Post
      */
     private $identifiedUsers;
 
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy= "authorOf", cascade= {"persist"})
-     * @Orm\JoinColumn(name="author")
-     */
-    private $writtenBy;
-
     /**
      * @ORM\OneToMany(targetEntity="Vote", mappedBy= "post", cascade= {"persist"})
      */
     private $votes;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="authorOf")
      */
     private $author;
 
@@ -208,22 +201,6 @@ class Post
     /**
      * @return mixed
      */
-    public function getWrittenBy()
-    {
-        return $this->writtenBy;
-    }
-
-    /**
-     * @param mixed $writtenBy
-     */
-    public function setWrittenBy($writtenBy)
-    {
-        $this->writtenBy = $writtenBy;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getVotes()
     {
         return $this->votes;
@@ -271,5 +248,31 @@ class Post
     {
         $this->author = $author;
     }
+
+    public function getDownVotes()
+    {
+        $votes = $this->votes ;
+        $nDowns = 0;
+        foreach ($votes as $vote) {
+            if ($vote->getValue() == -1){
+                $nDowns++;
+            }
+        }
+    return $nDowns;
+    }
+
+    public function getUpVotes()
+    {
+        $votes = $this->votes ;
+        $nUps = 0;
+        foreach ($votes as $vote) {
+            if ($vote->getValue() == 1){
+                $nUps++;
+            }
+        }
+        return $nUps;
+    }
+
+
 }
 

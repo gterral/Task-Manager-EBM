@@ -1,0 +1,31 @@
+{% extends "@EBMGDP/bundleLayoutTeacher.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion des livrables - Création
+{% endblock %}
+
+{# CSS propres � cette page #}
+{% block stylesheets %}
+{% endblock %}
+
+{# Contenu de la page #}
+
+{% block content_body %}
+
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="display:inline-block;"><a href="{{ path('ebmgdp_insight_documenttypeproject_index') }}" class="blue-a400"><i class="icon md-arrow-left"></i></a>
+                Création d'un livrable</h3>
+        </div>
+        <div class="panel-body">
+            {{ include("EBMGDPBundle:Insight:documenttypeproject/form.html.twig") }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{# Scripts propres � cette page #}
+{% block scripts %}
+
+{% endblock %}

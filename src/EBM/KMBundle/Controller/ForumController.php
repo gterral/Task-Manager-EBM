@@ -2,8 +2,10 @@
 
 namespace EBM\KMBundle\Controller;
 
+use Core\UserBundle\Entity\User;
 use EBM\KMBundle\Entity\Post;
 use EBM\KMBundle\Entity\Topic;
+use EBM\KMBundle\Entity\Vote;
 use EBM\KMBundle\Form\PostType;
 use EBM\KMBundle\Form\TopicType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -34,8 +36,13 @@ class ForumController extends Controller
         $topic->setCreator($this->getUser());
         $post->setAuthor($this->getUser());
 
+        //Load des tags existants
+        $tags = $this->getDoctrine()->getRepository('EBMKMBundle:Tag')->findAll();
+
         // Gestion du formulaire
-        $form = $this->createForm(TopicType::class, $topic);
+        $form = $this->createForm(TopicType::class, $topic,  array(
+            'tags' => $tags)
+        );
         $form->handleRequest($request);
 
         if($form->isValid())
@@ -50,6 +57,75 @@ class ForumController extends Controller
         return $this->render('EBMKMBundle:Forum:createTopic.html.twig', array('form' => $form->createView()));
     }
 
+    public function upVotePostAction (User $user_id, Post $post_id ) {
+        $em = $this->getDoctrine()->getManager();
+        $votes = $post_id->getVotes() ;
+        $nUser = 0;
+        $nUserUp = 0;
+        foreach ($votes as $vote) {
+            if ($vote->getUser() == $user_id){
+                $nUser++;
+                if ($vote->getValue() == 1) {
+                    $nUserUp++;
+                }
+            }
+        }
+        if ($nUserUp>0) {
+
+            foreach ($votes as $vote) {
+                if ($vote->getUser()==$user_id and $vote->getValue() == 1 ){
+                    $em->remove($vote);
+                    $em->flush();
+                    break;
+                }
+            }
+        }
+        elseif($nUser == 0) {
+            $vote = new Vote();
+            $vote->setValue(1);
+            $vote->setPost($post_id);
+            $vote->setUser($user_id);
+            $em->persist($vote);
+            $em->flush();
+         }
+        return $this->redirectToRoute('ebmkm_forum_topic', array('id' => $post_id->getTopic()->getId()));
+
+    }
+
+
+    public function downVotePostAction (User $user_id,Post  $post_id) {
+        $em = $this->getDoctrine()->getManager();
+        $votes = $post_id->getVotes() ;
+        $nUser = 0;
+        $nUserDown = 0;
+        foreach ($votes as $vote) {
+            if ($vote->getUser() == $user_id){
+                $nUser++;
+                if ($vote->getValue() == -1) {
+                    $nUserDown++;
+                }
+            }
+        }
+        if ($nUserDown>0) {
+            foreach ($votes as $vote) {
+                if ($vote->getUser()==$user_id and $vote->getValue() == -1 ){
+                    $em->remove($vote);
+                    $em->flush();
+                    break;
+                }
+            }
+        }
+        elseif ($nUser==0) {
+            $vote = new Vote();
+            $vote->setValue(-1);
+            $vote->setPost($post_id);
+            $vote->setUser($user_id);
+            $em->persist($vote);
+            $em->flush();
+        }
+        return $this->redirectToRoute('ebmkm_forum_topic',  array('id' => $post_id->getTopic()->getId()));
+
+    }
     public function viewTopicAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -83,4 +159,34 @@ class ForumController extends Controller
             return $this->render('EBMKMBundle:Forum:viewTopic.html.twig', array('topic' => $topic, 'form' => $form->createView()));
         }
     }
+
+/*
+ *
+ *$repository = $this->getDoctrine()->getRepository('EBMKMBundle:Vote');
+
+// createQueryBuilder() automatically selects FROM AppBundle:Product
+// and aliases it to "p"
+$Upquery = $repository->createQueryBuilder('v')
+    ->where('v.post_id = :post_id AND v.value= :value')
+    ->setParameter('post_id', $post_id)
+    ->setParameter('value', 1)
+    ->select('count(v.value)')
+    ->getQuery()
+    ->getSingleScalarResult();
+
+$nUpvotes = $Upquery->getResult();
+
+$Downquery = $repository->createQueryBuilder('v')
+    ->select('count(v.value)')
+    ->where('v.post_id = :post_id AND v.value= :value')
+    ->setParameter('post_id', $post_id)
+    ->setParameter('value', -1)
+    ->getQuery()
+    ->getSingleScalarResult();
+
+$nDownvotes = $Downquery->getResult();
+
+ */
+
+
 }

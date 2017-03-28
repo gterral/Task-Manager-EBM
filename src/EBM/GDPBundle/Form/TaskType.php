@@ -3,8 +3,10 @@
 namespace EBM\GDPBundle\Form;
 
 
+use Core\UserBundle\Repository\UserRepository;
 use EBM\GDPBundle\Entity\Task;
 use EBM\GDPBundle\Form\DataTransformer\TimestampToDatetimeTransformer;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -19,6 +21,7 @@ class TaskType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $idProject = $options['idProject'];
         $builder
             ->add('name',     TextType::class, array(
                 'label' => 'Nom de la tâche'))
@@ -26,6 +29,7 @@ class TaskType extends AbstractType
                 'label' => 'Description de la tâche'))
             ->add('deadline',      TextType::class, array(
                 'label' => 'Deadline',
+                'required' => false,
                 'attr' => array('data-plugin'=>'datepicker','class'=>'datepicker')))
             ->add('status',   ChoiceType::class ,  array(
                 'choices'  => array(
@@ -37,6 +41,19 @@ class TaskType extends AbstractType
                     'Archivé' => 'ARCHIVED'),
                 'label' => 'Status',
                 'attr' => array('class' => 'form-control')))
+            ->add('membersAssigned',   EntityType::class ,  array(
+                'label' => 'Membres du projet assignés',
+                'multiple' => true,
+                'choice_label' => 'username',
+                'required'=>false,
+                'class' => "Core\\UserBundle\\Entity\\User",
+                'query_builder' => function(UserRepository $er) use($idProject) {
+                    return $er->createQueryBuilder('u')
+                        ->join('u.projects', 'proj')
+                        ->where('proj.id = :projId')
+                        ->setParameter("projId",$idProject);
+                },
+                'attr' => array('class' => 'form-control')))
             ->add('type',    ChoiceType::class,  array(
                 'choices'  => array(
                     'Mécanique' => 'mecanique',
@@ -46,22 +63,26 @@ class TaskType extends AbstractType
                 'label' => 'Type de la tâche',
                 'attr' => array('class' => 'form-control')))
             ->add('realisationDate',      TextType::class,array(
-                'label' => 'Date de réalisation',
+                'label' => 'Date de réalisation prévue',
+                'required' => false,
                 'attr' => array('data-plugin'=>'datepicker')))
             ->add('save',      SubmitType::class,array(
                 'label' => 'Envoyer',
                 'attr' => array('class' => 'btn btn-primary')));
 
-        $builder->get('deadline')
-            ->addModelTransformer(new TimestampToDatetimeTransformer());
-        $builder->get('realisationDate')
-            ->addModelTransformer(new TimestampToDatetimeTransformer());
+
+            $builder->get('deadline')
+                ->addModelTransformer(new TimestampToDatetimeTransformer());
+            $builder->get('realisationDate')
+                ->addModelTransformer(new TimestampToDatetimeTransformer());
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'EBM\GDPBundle\Entity\Task'
+            'data_class' => 'EBM\GDPBundle\Entity\Task',
+            'idProject' => ''
         ));
     }
 }

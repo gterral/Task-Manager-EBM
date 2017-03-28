@@ -1,18 +1,18 @@
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-            <h4 class="modal-title">Poster un message</h4>
-        </div>
-        <div class="modal-body container-fluid">
-            {{ include("EBMGDPBundle:Comment:form.html.twig") }}
+<div class="media" style="overflow:visible">
+    {{ form_start(formComment) }}
+    <div class="media-left" style="overflow:visible">
+        <button type="submit" class="btn btn-success btn-floating" data-target="#addCommentForm" data-toggle="modal" style="background-color:#4caf50;border-color:#4caf50;width:50px;height:50px;font-size:32px;">
+            <i class="icon md-mail-send" aria-hidden="true" style="margin-right:0;"></i>
+        </button>
+    </div>
+    <div class="media-body">
+        <h4 class="media-heading" style="display: inline-block;vertical-align: baseline;">Ecrire un commentaire</h4>
+        <div class="profile-brief" id="formComment">
+
+            {{ form_widget(formComment.content) }}
+
         </div>
     </div>
+    {{ form_rest(formComment) }}
+    {{ form_end(formComment) }}
 </div>
-
-<script>
-    var path = "{{ path('ebmgdp_task_comment_add',{'code':project.code,'id':task.id }) }}";
-
-    $("form").attr('action',path);
-
-</script>

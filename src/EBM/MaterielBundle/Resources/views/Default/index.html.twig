@@ -1,1 +1,46 @@
-Hello World!
+
+{% extends "@EBMMateriel/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion du matériel
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+{# Contenu de la page #}
+
+{% block content_body %}
+
+        <div class="page-header text-center">
+            <h1 class="page-title">Fab Lab - Plateforme de Réservations.</h1>
+        </div>
+        <div class="page-content container-fluid" style="max-width: 700px">
+            <!-- Panel Header -->
+            <div class="panel">
+                <div class="panel-body">
+                          <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20" href="{{ path('ebm_materiel_machines')}}">Machines</a>
+
+
+                        <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20">Materiel</a>
+
+
+                        <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20">Casiers</a>
+
+                </div>
+            <!-- End Panel Header -->
+            </div>
+        </div>
+
+{% endblock %}
+
+
+{# Scripts propres à cette page #}
+{% block scripts %}
+
+
+{% endblock %}

@@ -35,7 +35,7 @@ class Project
     /**
      * @var string
      *
-     * @ORM\Column(name="project_type", type="string", length=255)
+     * @ORM\Column(name="type", type="string", length=255)
      */
     private $projectType;
 
@@ -49,7 +49,7 @@ class Project
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * @ORM\Column(name="`desc`", type="text", nullable=true)
      */
     private $description;
 
@@ -90,11 +90,33 @@ class Project
      */
     private $tasks;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\DocumentProject", mappedBy="projects")
+     */
+    private $deliverables;
 
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->tasks = new ArrayCollection();
+        $this->deliverables = new ArrayCollection();
+
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeliverables()
+    {
+        return $this->deliverables;
+    }
+
+    /**
+     * @param mixed $deliverables
+     */
+    public function setDeliverables($deliverables)
+    {
+        $this->deliverables = $deliverables;
     }
 
     public function addTask(Task $task)
@@ -322,5 +344,5 @@ class Project
     {
         return $this->lastUpdate;
     }
-
 }
+

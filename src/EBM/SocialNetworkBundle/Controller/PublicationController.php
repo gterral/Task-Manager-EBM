@@ -3,7 +3,7 @@
 namespace EBM\SocialNetworkBundle\Controller;
 
 use EBM\SocialNetworkBundle\EBMSocialNetworkBundle;
-use EBM\SocialNetworkBundle\Entity\Comment;
+use EBM\SocialNetworkBundle\Entity\SocialComment;
 use EBM\SocialNetworkBundle\Form\AddCommentType;
 use EBM\SocialNetworkBundle\Form\AddPublicationType;
 use EBM\SocialNetworkBundle\Entity\Publication;
@@ -26,7 +26,7 @@ class PublicationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $comment = new Comment();
+        $comment = new SocialComment();
         $comment->setUserComment($this->getUser());
 
         $form = $this->createForm(

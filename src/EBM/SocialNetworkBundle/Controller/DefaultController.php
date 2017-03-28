@@ -2,7 +2,7 @@
 
 namespace EBM\SocialNetworkBundle\Controller;
 
-use EBM\SocialNetworkBundle\Entity\Comment;
+use EBM\SocialNetworkBundle\Entity\SocialComment;
 use EBM\SocialNetworkBundle\Entity\Publication;
 use EBM\SocialNetworkBundle\Form\AddCommentType;
 use EBM\SocialNetworkBundle\Repository\CommentRepository;
@@ -43,7 +43,7 @@ class DefaultController extends Controller
 
         $listPublications = $repository->getPublicationWithSubscriptions($tagsNames, $projectsNames);
 
-        $comment = new Comment();
+        $comment = new SocialComment();
         $comment->setUserComment($this->getUser());
 
         $a_renvoyer = [];

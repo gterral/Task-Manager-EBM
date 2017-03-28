@@ -1,0 +1,32 @@
+{% extends "@EBMGDP/bundleLayoutTeacher.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion des livrables - Edition
+{% endblock %}
+
+{# CSS propres � cette page #}
+{% block stylesheets %}
+{% endblock %}
+
+{# Contenu de la page #}
+
+{% block content_body %}
+
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="display:inline-block;"><a href="{{ path('ebmgdp_insight_documenttypeproject_index') }}" class="blue-a400"><i class="icon md-arrow-left"></i></a>
+                Edition d'un type de livrable</h3>
+        </div>
+        <div class="panel-body">
+            {{ form(form) }}
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{# Scripts propres � cette page #}
+{% block scripts %}
+
+{% endblock %}

@@ -33,13 +33,6 @@ class DocumentProject
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255)
-     */
-    private $type;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="status", type="string", length=255)
      */
     private $status = "OPENED";
@@ -61,14 +54,14 @@ class DocumentProject
     /**
      * @var \DateTime
      * @Gedmo\Timestampable(on="change", field={"status"})
-     * @ORM\Column(name="statusChangeDate", type="datetime")
+     * @ORM\Column(name="statusChangeDate", type="datetime",nullable=true)
      */
     private $statusChangeDate;
 
     /**
      * @ORM\ManyToOne(targetEntity="EBM\GDPBundle\Entity\DocumentTypeProject", inversedBy="documentProjects")
      *
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
 
     private $documentTypeProject;
@@ -79,6 +72,33 @@ class DocumentProject
      */
 
     private $conversation;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\UserInterfaceBundle\Entity\Project", inversedBy="deliverables")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $projects;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="deadlineDate", type="datetime")
+     */
+    private $deadlineDate;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\FileEntity", inversedBy="documentProjects")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $fileEntities;
+
 
 
     /**
@@ -116,30 +136,6 @@ class DocumentProject
     }
 
     /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return DocumentProject
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Set status
      *
      * @param string $status
@@ -168,9 +164,6 @@ class DocumentProject
     {
         return $this->status;
     }
-
-
-
 
     /**
      * Set modificationDate
@@ -284,6 +277,7 @@ class DocumentProject
         return $this;
     }
 
+
     /**
      * Get statusChangeDate
      *
@@ -292,5 +286,155 @@ class DocumentProject
     public function getStatusChangeDate()
     {
         return $this->statusChangeDate;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->files = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * Add file
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $file
+     *
+     * @return DocumentProject
+     */
+    public function addFileEntities(\EBM\GDPBundle\Entity\FileEntity $file)
+    {
+        $this->fileEntities[] = $file;
+
+        return $this;
+    }
+
+    /**
+     * Remove file
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $file
+     *
+     */
+    public function removeFileEntities(\EBM\GDPBundle\Entity\FileEntity $file)
+    {
+        $this->fileEntities->removeElement($file);
+    }
+
+    /**
+     * Get files
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFileEntities()
+    {
+        return $this->fileEntities;
+    }
+
+    /**
+     * Add project
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $project
+     *
+     * @return DocumentProject
+     */
+    public function addProject(\EBM\UserInterfaceBundle\Entity\Project $project)
+    {
+        $this->projects[] = $project;
+
+        return $this;
+    }
+
+    /**
+     * Remove project
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $project
+     */
+    public function removeProject(\EBM\UserInterfaceBundle\Entity\Project $project)
+    {
+        $this->projects->removeElement($project);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProjects()
+    {
+        return $this->projects;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return DocumentProject
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set datetimeDate
+     *
+     * @param \DateTime $datetimeDate
+     *
+     * @return DocumentProject
+     */
+    public function setDeadlineDate($datetimeDate)
+    {
+        $this->deadlineDate = $datetimeDate;
+
+        return $this;
+    }
+
+    /**
+     * Get datetimeDate
+     *
+     * @return \DateTime
+     */
+    public function getDeadlineDate()
+    {
+        return $this->deadlineDate;
+    }
+
+    /**
+     * Add fileEntity
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $fileEntity
+     *
+     * @return DocumentProject
+     */
+    public function addFileEntity(\EBM\GDPBundle\Entity\FileEntity $fileEntity)
+    {
+        $this->fileEntities[] = $fileEntity;
+
+        return $this;
+    }
+
+    /**
+     * Remove fileEntity
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $fileEntity
+     */
+    public function removeFileEntity(\EBM\GDPBundle\Entity\FileEntity $fileEntity)
+    {
+        $this->fileEntities->removeElement($fileEntity);
     }
 }

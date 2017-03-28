@@ -7,7 +7,7 @@
 
 {# CSS propres à cette page #}
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ asset("bundles/coreiconbar/css/plugins/pages/profile.min.css") }}">
+
 {% endblock %}
 
 
@@ -15,23 +15,43 @@
 
 {% block content_body %}
 
-    <div class="page-profile">
-        <div class="page-content">
+
+    <div class="row">
+        <div class="col-xs-12">
             <div class="panel">
-                <div class="panel-head">
-                    <h3 class="panel-title" style="display:inline-block;">Vue detail de la tâche: {{ task.name }}</h3>
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="display:inline-block;"><a href="{{ path('ebmgdp_projecttasks',{'code': project.code }) }}" class="blue-a400"><i class="icon md-arrow-left"></i></a> {{ task.name }}</h3>
                     <div style="display:inline-block;float: right;margin-right: 20px; margin-top: 20px;">
-                        <a href="{{ path('ebmgdp_task_edit', {'code':task.project.code, 'id':task.id}) }}" class="panel-info btn btn-warning" >Editer la tâche</a>
-                        <a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}" class="panel-info btn btn-danger" >Archiver la tâche</a>
+                        <a href="{{ path('ebmgdp_task_edit', {'code':task.project.code, 'id':task.id}) }}" class="panel-info margin-right-10 font-size-20" ><i class="icon md-edit grey-600"></i></a>
+                        <a href="{{ path('ebmgdp_task_archived', {'code':task.project.code, 'id':task.id}) }}" class="panel-info font-size-20"><i class="icon md-archive grey-600"></i></a>
                     </div>
-                    </div>
+                </div>
                 <div class="panel-body">
                     <div id="info_task">
-                        <ul>
-                            <li>Deadline: {{ task.deadline|date('Y-m-d') }}</li>
+                        <ul class="padding-left-25">
+                            {% if task.deadline != null %}
+                                <li>Deadline: {{ task.deadline|date('Y-m-d') }}</li>
+                            {% else %}
+                                <li>Deadline: Non renseigné</li>
+                            {% endif %}
                             <li>Status: {{ task.status }}</li>
                             <li>Type: {{ task.type }}</li>
                             <li>Date Création: {{ task.creationDate|date('Y-m-d') }}</li>
+                            {% if task.realisationDate != null %}
+                                <li>Date réalisation prévue: {{ task.realisationDate|date('Y-m-d') }}</li>
+                            {% else %}
+                                <li>Date réalisation prévue: Non renseigné</li>
+                            {% endif %}
+                            {% if task.membersAssigned|length > 0 %}
+                                <li>Assigné à :
+                                    {% for user in task.membersAssigned %}
+                                        {{ user.username }}
+                                        {% if not loop.last %}
+                                            ,
+                                        {% endif %}
+                                    {% endfor %}
+                                </li>
+                            {% endif %}
                         </ul>
                     </div>
 
@@ -42,18 +62,36 @@
             </div>
 
             <div class="panel">
-                <div class="panel-head">
-                    <h3 class="panel-title">Messages
-                        <span class="badge badge-danger">{{ task.conversation.comments|length }}</span>
-                        <button class="site-action btn-raised btn btn-success btn-floating" data-target="#addCommentForm" data-toggle="modal" type="button">
-                            <i class="icon md-edit" aria-hidden="true"></i>
-                        </button>
-                        <div class="modal fade" id="addCommentForm" aria-hidden="true" aria-labelledby="addCommentForm" role="dialog" tabindex="-1">
-                            <div id="comment">
-                                zqdzqzqdqz
-                            </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="display:inline-block;">Document(s) liés à la tâche</h3>
+                </div>
+                <div class="panel-body">
+                    {#<a href="" class="panel-info btn btn-primary" >Ajouter Document</a>#}
+                    {{ include("EBMGDPBundle:Deliverable/component:upload.html.twig") }}
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            {% if task.fileEntities|default({})|length>0 %}
+                                <h4>Liste des Documents</h4>
+                                <ul>
+                                    {%  for tsk in task.fileEntities %}
+                                        <li>
+                                            <a href="{{ vich_uploader_asset(tsk, 'File') }}">{{ tsk.fileName }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
                         </div>
-                    </h3>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="display:inline-block;vertical-align:baseline;padding-right:5px;">Messages</h3>
+                    <span class="badge badge-danger">{{ task.conversation.comments|length }}</span>
                 </div>
 
                 <div class="panel-body">
@@ -61,32 +99,23 @@
                         {%  if task.conversation.comments is not null %}
                             {% for comment in task.conversation.comments %}
                                 <li class="list-group-item">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a class="avatar">
-                                                <img class="img-responsive" src="{{ asset("bundles/coreiconbar/images/avatar5.png") }}"
-                                                     alt="profile picture">
-                                            </a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Nom utilisateur
-                                                <span>a posté</span>
-                                                <span class="" data-target="" data-toggle="modal" type="button">
-                                                    <i class="icon md-edit" aria-hidden="true"></i>
-                                                </span>
-                                            </h4>
-                                            <small>{{ comment.creationDate|date("Y-m-d") }}</small>
-                                            <div class="profile-brief">{{ comment.content }}</div>
-                                        </div>
-                                    </div>
+                                    {{ include('EBMGDPBundle:Comment:view.html.twig') }}
                                 </li>
+                                <hr>
                             {% endfor %}
                         {%  endif %}
+
+                        {# Ecrire un commentaire #}
+                        <li class="list-group-item">
+                            {{ include('EBMGDPBundle:Comment:add.html.twig') }}
+                        </li>
+
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+
 {% endblock %}
 
 
@@ -94,29 +123,51 @@
 {% block scripts %}
 <script>
 
-$("#addCommentForm").on('show.bs.modal',function (e) {
-    var path = "{{ path('ebmgdp_task_comment_add',{'code':project.code,'id':task.id }) }}";
+
+$(".editCommentJS").on('show.bs.modal',function (e) {
+    var element= this;
+    var path = "{{ path('ebmgdp_task',{'code':project.code,'id':task.id }) }}";
+    path += "/comment/"+ element.title+"/edit";
+    console.log(path);
 
     $.ajax({
         url : path,
         type : 'GET',
         dataType : 'html',
         success : function(code_html, statut){
-            $(code_html).appendTo("#comment");
+            $(code_html).appendTo("#comment"+element.title);
         },
-
         error : function(resultat, statut, erreur){
-
         },
-
         complete : function(resultat, statut){
-
         }
-
     });
 });
 
+var deleteComment = function(commentId) {
+    var path = "{{ path('ebmgdp_task',{'code':project.code,'id':task.id }) }}";
+    path += "/comment/"+ commentId+"/delete";
+
+    $.ajax({
+        url : path,
+        type : 'GET',
+        dataType : 'json',
+        success : function(response, statut){
+            if (response.success) {
+                location.reload();
+            }
+        },
+        error : function(resultat, statut, erreur){
+        },
+        complete : function(resultat, statut){
+        }
+    });
+
+};
+
+
 </script>
+
 
 {% endblock %}
 

@@ -40,7 +40,7 @@ class AddCommentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'EBM\SocialNetworkBundle\Entity\Comment'
+            'data_class' => 'EBM\SocialNetworkBundle\Entity\SocialComment'
         ));
         $resolver->setRequired('entity_manager');
     }
