@@ -12,9 +12,16 @@
 {% endblock %}
 
 
+
 {# Contenu de la page #}
 
 {% block content_body %}
+
+    <div class="page-header page-header-bordered">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('ebm_materiel_homepage') }}">Fab Lab</a></li>
+
+        </ol>
 
         <div class="page-header text-center">
             <h1 class="page-title">Fab Lab - Plateforme de Réservations.</h1>

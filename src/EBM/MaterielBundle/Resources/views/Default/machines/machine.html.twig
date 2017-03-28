@@ -16,6 +16,17 @@
 
 {% block content_body %}
 
+    {# Header de la page #}
+    <div class="page-header page-header-bordered">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('ebm_materiel_homepage') }}">Fab Lab</a></li>
+            <li><a href="{{ path('ebm_materiel_machines') }}">Machines</a></li>
+        </ol>
+
+
+
+    </div>
+
         <div class="page-header text-center">
             <h1 class="page-title">Fab Lab - Machines</h1>
         </div>
@@ -31,6 +42,9 @@
 
 
                         <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20" href="{{ path('ebm_materiel_machines_ajout')}}">Enregistrer une machine</a>
+
+
+                        <a class="btn btn-block btn-round btn-lg btn-primary margin-top-20 margin-bottom-20" href="{{ path('ebm_materiel_machine_affiche_reservation')}}">Consulter mes réservations</a>
 
 
                         <a class="btn btn-block btn-round btn-lg btn-danger margin-bottom-20"  href="{{ path('ebm_materiel_homepage')}}">

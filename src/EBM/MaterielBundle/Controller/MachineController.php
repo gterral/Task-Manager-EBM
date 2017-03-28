@@ -2,14 +2,16 @@
 
 namespace EBM\MaterielBundle\Controller;
 
-use EBM\KMBundle\Entity\Tag;
+use EBM\KMBundle\Entity\CompetenceUser;
 use EBM\MaterielBundle\Entity\Machine;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use EBM\MaterielBundle\Entity\ReservationMachine;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use EBM\UserInterfaceBundle\Entity\Project;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -254,6 +256,16 @@ class MachineController extends Controller
         return $repository->findAll();
     }
 
+    public function getAllMReservations()
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('EBMMaterielBundle:ReservationMachine');
+
+        return $repository->findAll();
+    }
+
     public function getAllReservationsByMachineId($machineId)
     {
         $repositoryReservation = $this
@@ -262,6 +274,18 @@ class MachineController extends Controller
             ->getRepository('EBMMaterielBundle:ReservationMachine');
 
         return $repositoryReservation->findBy(array('machine' => $this->getMachine($machineId)));
+    }
+
+
+
+    public function getMembers()
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('EBMUserInterfaceBundle:Project');
+
+        return $repository->findBy(array(''));
     }
 
 }

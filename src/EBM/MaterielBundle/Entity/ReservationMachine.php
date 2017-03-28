@@ -73,7 +73,7 @@ class ReservationMachine
 
     /**
      * @ORM\ManyToOne(targetEntity="EBM\UserInterfaceBundle\Entity\Project", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $projet;
 
