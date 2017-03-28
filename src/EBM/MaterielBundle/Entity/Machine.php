@@ -43,13 +43,6 @@ class Machine
      */
     private $tags;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="EBM\MaterielBundle\Entity\MachineType", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     * @ORM\JoinTable(name="fablab_machine_machine_type")
-     */
-
-    private $type;
 
     public function __construct()
     {
@@ -114,29 +107,6 @@ class Machine
         return $this->nom;
     }
 
-    /**
-     * Set competences
-     *
-     * @param \EBM\KMBundle\Entity\CompetenceUser $competences
-     *
-     * @return Machine
-     */
-    public function setCompetences(\EBM\KMBundle\Entity\CompetenceUser $competences = null)
-    {
-        $this->competences = $competences;
-
-        return $this;
-    }
-
-    /**
-     * Get competences
-     *
-     * @return \EBM\KMBundle\Entity\CompetenceUser
-     */
-    public function getCompetences()
-    {
-        return $this->competences;
-    }
 
     /**
      * Set tags
@@ -147,7 +117,7 @@ class Machine
      */
     public function setTags(\EBM\KMBundle\Entity\Tag $tags = null)
     {
-        $this->tags = $tags;
+        return $this->tags = $tags;
     }
 
     /**
@@ -158,7 +128,7 @@ class Machine
      *
      * @return Machine
      */
-    public function setType(\EBM\MaterielBundle\Entity\MachineType $type = null
+    public function setType(\EBM\MaterielBundle\Entity\MachineType $type = null)
     {
         $this->type = $type;
         return $this;
