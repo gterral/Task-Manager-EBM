@@ -39,3 +39,8 @@ ebm_materiel_machines_reservation_submit:
     defaults:
         _controller: EBMMaterielBundle:Machine:reservationSubmit
 
+ebm_materiel_machine_affiche_reservation:
+    path:    /machines/affiche
+    defaults:
+        _controller: EBMMaterielBundle:Machine:reservationAffiche
+

@@ -184,6 +184,16 @@ class MachineController extends Controller
         return $this->render('EBMMaterielBundle:Default:testpost.html.twig', array('reservation' => $reservation));
     }
 
+    public function reservationAfficheAction()
+
+
+    {
+
+        $reservations = $this->getReservation();
+        return $this->render('EBMMaterielBundle:Default/machines:afficheReservation.html.twig', array('reservations' =>$reservations,'user' => $this->getUser()));
+    }
+
+
     public function machineAdded(){
 
     }
@@ -204,6 +214,16 @@ class MachineController extends Controller
         return $repository->find($machineId);
     }
 
+    public function getReservation ()
+    {
+        $repositoryReservation = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('EBMMaterielBundle:ReservationMachine');
+
+        return $repositoryReservation->findBy(array('user' => $this->getUser()));
+
+    }
     public function getProject($projectId)
     {
         $repository = $this
