@@ -21,7 +21,9 @@ class AddPublicationType extends AbstractType
         //permet de vérifier que la personne est bien connectée
         if ($user != null){
             $builder
-                ->add('content', TextareaType::class)
+                ->add('content', TextareaType::class, [
+                    'label' => 'Contenu de votre publication'
+                ])
 
                 ->add('tags', EntityType::class ,  array(
                     'class' => 'EBMKMBundle:Tag',
