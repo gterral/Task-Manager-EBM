@@ -107,7 +107,7 @@ class MachineController extends Controller
                     ));
     }
 
-    public function reservationMachineAction($machine, $debut, $fin, Request $request)
+    public function reservationMachineAction($machine, $debut, $fin)
     {
         if($fin == null)
         {
@@ -120,7 +120,23 @@ class MachineController extends Controller
             $fin = substr($debut, 0,11).$heureString.substr($debut,13);
         }
 
-        return $this->render('EBMMaterielBundle:Default/machines:reservationMachine.html.twig', array('machine' => $this->getMachine($machine), 'debut' => $debut, 'fin' => $fin));
+        return $this->render('EBMMaterielBundle:Default/machines:reservationMachine.html.twig',
+            array(
+                'selectedMachine' => $machine,
+                'debut' => $debut,
+                'fin' => $fin,
+                'projets' => $this->getUser()->getProjects(),
+                'machines' => $this->getAllMachines(),
+                'user' => $this->getUser()
+            ));
+    }
+
+
+    public function reservationSubmitAction(Request $request){
+
+        $data = $request->getContent();
+
+        return $this->render('EBMMaterielBundle:Default:testpost.html.twig', array('message' => $data));
     }
 
     public function machineAdded(){

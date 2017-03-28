@@ -34,5 +34,7 @@ ebm_materiel_machines_ajoutee:
     defaults:
         _controller: EBMMaterielBundle:Machine:machineAdded
 
-#ebm_materiel_machine_ajoutee:
-#  path:
+ebm_materiel_machines_reservation_submit:
+    path: /test/post
+    defaults:
+        _controller: EBMMaterielBundle:Machine:reservationSubmit
