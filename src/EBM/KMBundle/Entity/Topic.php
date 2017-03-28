@@ -68,7 +68,7 @@ class Topic
     private $tags;
 
     /**
-     * @ORM\OneToOne(targetEntity="EBM\KMBundle\Entity\Document", mappedBy="commentTopic", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="EBM\KMBundle\Entity\DocumentHistory", mappedBy="commentTopic", cascade={"persist"})
      */
     private $document;
 
@@ -76,6 +76,11 @@ class Topic
      * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User")
      */
     private $creator;
+
+    /**
+     * @Orm\Column(type="text")
+     */
+    private $description;
 
     public function __construct()
     {
@@ -313,5 +318,23 @@ class Topic
     {
         $this->creator = $creator;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+
 }
 

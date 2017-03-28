@@ -1,0 +1,38 @@
+{% extends "@EBMGDP/bundleLayoutTeacher.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion des livrables
+{% endblock %}
+
+{# CSS propres � cette page #}
+{% block stylesheets %}
+{% endblock %}
+
+{# Contenu de la page #}
+
+{% block content_body %}
+<div class="panel panel-bordered panel-primary">
+
+    {# Header : titre + barre de recherche sur le tableau #}
+    <div class="panel-heading">
+        <h3 class="panel-title">Liste des livrables</h3>
+        <div class="panel-actions" id="tasks-action">&nbsp;
+            <a href="{{ path('ebmgdp_insight_documenttypeproject_new') }}" class="btn btn-sm btn-floating btn-default waves-effect margin-right-10 grey-600"><i class="icon md-plus"></i></a>
+        </div>
+    </div>
+
+    {# Tableau Projets #}
+    {%  if documentTypeProjects is null or documentTypeProjects|length == 0 %}
+        <p class="margin-20 text-center">Aucun type de livrable n'a été trouvé.</p>
+    {% else %}
+        {% include "EBMGDPBundle:Insight/documenttypeproject/components:documentTypeProjectsTable.html.twig" %}
+    {% endif %}
+
+</div>
+{% endblock %}
+
+{# Scripts propres � cette page #}
+{% block scripts %}
+
+{% endblock %}

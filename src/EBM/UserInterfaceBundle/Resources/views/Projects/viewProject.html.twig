@@ -1,9 +1,10 @@
+{# src/CPCreatorBundle/Resources/views/Default/overview.html.twig #}
 
-{% extends "@EBMGDP/bundleLayout.html.twig" %}
+{% extends "@CoreDashboard/bundleLayout.html.twig" %}
 
 {# Titre de l'onglet #}
 {% block title %}
-    Gestion de projet
+    {# Nom du projet #}
 {% endblock %}
 
 {# CSS propres à cette page #}
@@ -15,9 +16,9 @@
 {# Contenu de la page #}
 
 {% block content_body %}
-
-    Notre hello world de gestion de projet !
-
+    <div>{# Équipe encadrante #}</div>
+    <div>{# Description #}</div>
+    <div>{# Tags #}</div>
 {% endblock %}
 
 

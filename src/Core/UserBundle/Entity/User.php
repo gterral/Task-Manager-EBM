@@ -5,8 +5,10 @@ namespace Core\UserBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use EBM\KMBundle\Entity\Document;
+use EBM\KMBundle\Entity\DocumentHistory;
 use EBM\SocialNetworkBundle\Entity\ProjectSubscription;
 use EBM\SocialNetworkBundle\Entity\Publication;
+use EBM\SocialNetworkBundle\Entity\SocialComment;
 use EBM\KMBundle\Entity\EvaluationDocument;
 use EBM\UserInterfaceBundle\Entity\Project;
 use EBM\KMBundle\Entity\CompetenceUser;
@@ -46,6 +48,17 @@ class User extends BaseUser
     */
     private $fullname="";
 
+    /**
+     * @ORM\Column(name="surname", type="string", length=55)
+     * @Assert\Length(min=2, minMessage="Le nom de famille doit au moins comprendre 2 caractères",max=30, maxMessage="Le nom de famille ne peut excéder 50 caractères.")
+     */
+    private $surname;
+
+    /**
+     * @ORM\Column(name="name", type="string", length=55)
+     * @Assert\Length(min=2, minMessage="Le prénom doit au moins comprendre 2 caractères",max=30, maxMessage="Le prénom ne peut excéder 50 caractères.")
+     */
+    private $name;
 
     /**
      * @var int
@@ -55,25 +68,40 @@ class User extends BaseUser
     private $promotion;
 
     /**
+     * @ORM\Column(name="global_role", type="string", length=5)
+     */
+    private $global_role;
+
+    /**
+     * @@ORM\Column(name="image", type="string", length=255)
+     */
+    private $image;
+
+    /**
      * @ORM\ManyToMany(targetEntity="EBM\UserInterfaceBundle\Entity\Project", inversedBy="members")
      * @ORM\JoinTable(name="core_user_project")
      */
     private $projects;
 
-
     /**
      * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", cascade= {"persist"})
-     * @ORM\JoinTable(name="tag_subscription")
+     * @ORM\JoinTable(name="sn_tag_subscription")
      */
     private $tags;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\UserInterfaceBundle\Entity\Project", cascade= {"persist"})
+     * @ORM\JoinTable(name="sn_project_subscription")
+     */
+    private $projectSubscriptions;
 
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * @ORM\Column(name="`desc`", type="text", nullable=true)
      */
-    private $description;
+    private $desc;
 
     /**
      * @var string
@@ -88,7 +116,7 @@ class User extends BaseUser
     private $postIdentified;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Post", mappedBy= "writtenBy", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Post", mappedBy= "author", cascade= {"persist"})
      */
     private $authorOf;
 
@@ -102,10 +130,6 @@ class User extends BaseUser
      */
     private $skills;
 
-    /**
-     * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\ProjectSubscription", mappedBy="userProject", cascade={"persist"})
-     */
-    private $projectSubscriptions;
 
     /**
      * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\Publication", mappedBy="userPublication", cascade={"persist"})
@@ -113,12 +137,17 @@ class User extends BaseUser
     private $publications;
 
     /**
+     * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\SocialComment", mappedBy="userComment", cascade={"persist"})
+     */
+    private $socialComments;
+
+    /**
      * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy="author", cascade= {"persist"})
      */
     private $documentEvaluations;
 
     /**
-     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\Document", mappedBy= "author", cascade= {"persist"})
+     * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\DocumentHistory", mappedBy= "author", cascade= {"persist"})
      */
     private $createDocument;
 
@@ -133,6 +162,16 @@ class User extends BaseUser
      * @Orm\JoinTable("km_tag_managers")
      */
     private $managedTags;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\Task", mappedBy="membersAssigned")
+     */
+    private $gdpTasks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EBM\GDPBundle\Entity\Comment", mappedBy= "utilisateur", cascade={"persist"})
+     */
+    private $comments;
 
     /* qui des attributs locked & co hérités du FosUserBundle ?
      
@@ -177,7 +216,7 @@ class User extends BaseUser
         $project->removeMember($this);
     }
 
-    // Notez le pluriel, on récupère une liste de catégories ici !
+    // Notez le pluriel, on récupère une liste de projets ici !
     public function getProjects()
     {
         return $this->projects;
@@ -186,17 +225,17 @@ class User extends BaseUser
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDesc()
     {
-        return $this->description;
+        return $this->desc;
     }
 
     /**
-     * @param string $description
+     * @param string $desc
      */
-    public function setDescription($description)
+    public function setDesc($desc)
     {
-        $this->description = $description;
+        $this->desc = $desc;
     }
 
     /**
@@ -217,7 +256,7 @@ class User extends BaseUser
 
     public function getHighestRole()
     {
-        $rolesSortedByImportance = ['ROLE_ADMIN', 'ROLE_STUDENT'];
+        $rolesSortedByImportance = ['ROLE_ADMIN', 'ROLE_USER'];
         foreach ($rolesSortedByImportance as $role)
         {
             if (in_array($role, $this->roles))
@@ -240,6 +279,7 @@ class User extends BaseUser
         $this->createDocument = new ArrayCollection();
         $this->documentEvaluations = new ArrayCollection();
         $this->managedTags = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
     
     public function hasRole($role) {
@@ -247,10 +287,11 @@ class User extends BaseUser
         return false;
     }
 
-    public function getName()
+    /* Méthode mise en commentaire car interfère avec le getter de la variable $name */
+    /*public function getName()
     {
         return $this->getFullname() != null && strlen($this->getFullname()) > 0 ? $this->getFullname() : $this->getUsername();
-    }
+    }*/
 
     /**
      * @param string $username
@@ -609,47 +650,13 @@ class User extends BaseUser
     }
 
     /**
-     * Add projectSubscription
-     *
-     * @param ProjectSubscription $projectSubscription
-     *
-     * @return User
-     */
-    public function addProjectSubscription(ProjectSubscription $projectSubscription)
-    {
-        $this->projectSubscriptions[] = $projectSubscription;
-
-        return $this;
-    }
-
-    /**
-     * Remove projectSubscription
-     *
-     * @param ProjectSubscription $projectSubscription
-     */
-    public function removeProjectSubscription(ProjectSubscription $projectSubscription)
-    {
-        $this->projectSubscriptions->removeElement($projectSubscription);
-    }
-
-    /**
-     * Get projectSubscriptions
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProjectSubscriptions()
-    {
-        return $this->projectSubscriptions;
-    }
-
-    /**
      * Add createDocument
      *
-     * @param Document $createDocument
+     * @param DocumentHistory $createDocument
      *
      * @return User
      */
-    public function addCreateDocument(Document $createDocument)
+    public function addCreateDocument(DocumentHistory $createDocument)
     {
         $this->createDocument[] = $createDocument;
 
@@ -659,9 +666,9 @@ class User extends BaseUser
     /**
      * Remove createDocument
      *
-     * @param Document $createDocument
+     * @param DocumentHistory $createDocument
      */
-    public function removeCreateDocument(Document $createDocument)
+    public function removeCreateDocument(DocumentHistory $createDocument)
     {
         $this->createDocument->removeElement($createDocument);
     }
@@ -706,5 +713,197 @@ class User extends BaseUser
     public function setTags($tags)
     {
         $this->tags = $tags;
+    }
+
+    /**
+     * Add gdpTask
+     *
+     * @param \EBM\GDPBundle\Entity\Task $gdpTask
+     *
+     * @return User
+     */
+    public function addGdpTask(\EBM\GDPBundle\Entity\Task $gdpTask)
+    {
+        $this->gdpTasks[] = $gdpTask;
+
+        return $this;
+    }
+
+    /**
+     * Remove gdpTask
+     *
+     * @param \EBM\GDPBundle\Entity\Task $gdpTask
+     */
+    public function removeGdpTask(\EBM\GDPBundle\Entity\Task $gdpTask)
+    {
+        $this->gdpTasks->removeElement($gdpTask);
+    }
+
+    /**
+     * Get gdpTasks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGdpTasks()
+    {
+        return $this->gdpTasks;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
+     * @param mixed $surname
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGlobalRole()
+    {
+        return $this->global_role;
+    }
+
+    /**
+     * @param mixed $global_role
+     */
+    public function setGlobalRole($global_role)
+    {
+        $this->global_role = $global_role;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * Add projectSubscription
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $projectSubscription
+     *
+     * @return User
+     */
+    public function addProjectSubscription(Project $projectSubscription)
+    {
+        $this->projectSubscriptions[] = $projectSubscription;
+
+        return $this;
+    }
+
+    /**
+     * Remove projectSubscription
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $projectSubscription
+     */
+    public function removeProjectSubscription(Project $projectSubscription)
+    {
+        $this->projectSubscriptions->removeElement($projectSubscription);
+    }
+
+    /**
+     * Get projectSubscriptions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProjectSubscriptions()
+    {
+        return $this->projectSubscriptions;
+    }
+
+    /**
+     * Add socialComment
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\SocialComment $comment
+     *
+     * @return User
+     */
+    public function addSocialComment(SocialComment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove socialComment
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\SocialComment $comment
+     */
+    public function removeSocialComment(SocialComment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get socialComments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSocialComments()
+    {
+        return $this->comments;
     }
 }

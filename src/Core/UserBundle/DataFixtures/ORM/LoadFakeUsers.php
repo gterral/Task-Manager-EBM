@@ -32,17 +32,23 @@ class LoadFakeUsers implements FixtureInterface, ContainerAwareInterface
 
         $userAdmin = new User();
         $userAdmin->setUsername('admin');
+        $userAdmin->setName('Ad');
+        $userAdmin->setSurname('Min');
         $userAdmin->setEmail('nicolas.mercier-pro@hotmail.fr');
         $userAdmin->setPassword($encoder->encodePassword($userAdmin, 'ebm_admin'));
         $userAdmin->setEnabled(true);
+        $userAdmin->setGlobalRole('AD');
         $userAdmin->addRole("ROLE_ADMIN");
 
         $userStudent = new User();
         $userStudent->setUsername('toto');
+        $userStudent->setName('Toto');
+        $userStudent->setSurname('Popo');
         $userStudent->setEmail('nicolaspro14@gmail.com');
         $userStudent->setPassword($encoder->encodePassword($userStudent, 'ebm_toto'));
         $userStudent->setEnabled(true);
-        $userStudent->addRole("ROLE_STUDENT");
+        $userStudent->setGlobalRole('US');
+        $userStudent->addRole("ROLE_USER");
 /*
  * Bande de bolosses
  * TODO

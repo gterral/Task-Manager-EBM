@@ -11,16 +11,15 @@
 
 {% block content_body %}
 
-    <h2>Ajouter une tâche</h2>
-
-    {{ include("EBMGDPBundle:Task:form.html.twig") }}
-
-    <br/>
-    <p>
-        <a href="{{ path('ebmgdp_projecttasks',{'code': project.code }) }}" class="">
-            Retour à la liste des tàches.
-        </a>
-    </p>
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="display:inline-block;">            <a href="{{ path('ebmgdp_projecttasks',{'code': project.code }) }}" class="blue-a400"><i class="icon md-arrow-left"></i></a>
+                Ajouter une tâche</h3>
+        </div>
+        <div class="panel-body">
+            {{ include("EBMGDPBundle:Task:form.html.twig") }}
+        </div>
+    </div>
 
 {% endblock %}
 

@@ -3,22 +3,22 @@
 
 <div>
     <ul class="nav-quick nav-quick-sm row">
-        <li class="col-md-2 col-sm-3 col-xs-6 {% if app.request.attributes.get('_route') == 'ebmgdp_projecttasks' %} active {% endif %}">
+        <li class="col-md-2 col-sm-3 col-xs-6 {% if 'ebmgdp_projecttasks' in app.request.attributes.get('_route')  %} active {% endif %}">
             <a href="{{ path('ebmgdp_projecttasks',{'code':app.request.get('code')}) }}">
                 <i class="icon md-view-list" aria-hidden="true"></i> Tâches
-                <span class="label label-default">{{ navbar.nbCreators|default(0) }}</span>
+                <span class="label label-default"></span>
             </a>
         </li>
-        <li class="col-md-2 col-sm-3 col-xs-6 {% if app.request.attributes.get('_route') == 'ebmgdp_projectdeliverables' %} active {% endif %}">
+        <li class="col-md-2 col-sm-3 col-xs-6 {% if 'ebmgdp_projectdeliverables' in app.request.attributes.get('_route')  %} active {% endif %}">
             <a href="{{ path('ebmgdp_projectdeliverables',{'code':app.request.get('code')}) }}">
                 <i class="icon md-collection-text" aria-hidden="true"></i> Livrables
-                <span class="label label-default">{{ navbar.nbListes|default(0) }}</span>
+                <span class="label label-default"></span>
             </a>
         </li>
-        <li class="col-md-2 col-sm-3 col-xs-6 {% if app.request.attributes.get('_route') == 'ebmgdp_calendar' %} active {% endif %}">
+        <li class="col-md-2 col-sm-3 col-xs-6 {% if 'ebmgdp_calendar' in app.request.attributes.get('_route') %} active {% endif %}">
             <a href="{{ path('ebmgdp_calendar',{'code':app.request.get('code')}) }}">
                 <i class="icon md-calendar" aria-hidden="true"></i> Calendrier
-                <span class="label label-default">{{ navbar.nbListes|default(0) }}</span>
+                <span class="label label-default"></span>
             </a>
         </li>
     </ul>
