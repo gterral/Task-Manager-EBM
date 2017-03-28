@@ -43,10 +43,17 @@ class Machine
      */
     private $tags;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="EBM\MaterielBundle\Entity\MachineType", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinTable(name="fablab_machine_machine_type")
+     */
+
+    private $type;
+
     public function __construct()
     {
         $this->dateAchat = new \DateTime();
-        //$this->competences = new ArrayCollection();
     }
 
     /**
@@ -141,7 +148,19 @@ class Machine
     public function setTags(\EBM\KMBundle\Entity\Tag $tags = null)
     {
         $this->tags = $tags;
+    }
 
+    /**
+     *
+     * Set type
+     *
+     * @param \EBM\MaterielBundle\Entity\MachineType $type
+     *
+     * @return Machine
+     */
+    public function setType(\EBM\MaterielBundle\Entity\MachineType $type = null
+    {
+        $this->type = $type;
         return $this;
     }
 
@@ -153,5 +172,15 @@ class Machine
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Get type
+     *
+     * @return \EBM\MaterielBundle\Entity\MachineType
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }
