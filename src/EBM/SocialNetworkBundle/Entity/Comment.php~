@@ -43,6 +43,13 @@ class Comment
      */
     private $publication;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="comments",cascade={"persist"})
+     *
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $userComment;
+
     public function __construct()
     {
         $this->date = new \Datetime();

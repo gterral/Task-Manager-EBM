@@ -43,35 +43,55 @@
                 </div>
             </div>
 
-{% block content_body %}
+    {% block content_body %}
 
-    <div class="page-profile">
-        <div class="page-content">
-            <ul>
-                {% for publication in listPublications|reverse %}
-                    <div class="panel">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">{{ publication.userPublication.username }}
-                                {% for tags in publication.tags %}
-                                    <span class="badge badge-primary" style="float: right; margin-left: 8px;">{{ tags.name }}</span>
-                                {% endfor %}
+        <div class="page-profile">
+            <div class="page-content container-fluid">
+                <div class="row">
+                    <div class="col-xlg-12 col-md-12">
+                    {% for bloc_publication in a_renvoyer|reverse %}
+                        {% set publication = bloc_publication['publication'] %}
+                        {% set form = bloc_publication['form'] %}
+                        <div class="panel">
+                            <a href="{{ path('ebm_social_network_view', {'id':publication.id }) }}">
+                                <div class="panel-heading">
+                                <h3 class="panel-title">{{ publication.userPublication.username }}
+                                    {% for tags in publication.tags %}
+                                        <span class="badge badge-primary" style="float: right; margin-left: 8px;">{{ tags.name }}</span>
+                                    {% endfor %}
+                                    {% for projects in publication.projects %}
+                                        <span class="badge badge-info" style="float: right; margin-left: 8px;">{{ projects.name }}</span>
+                                    {% endfor %}
+                                    <small class="margin-bottom-20 grey-500">{{ publication.date|date("m/d/Y") }}</small>
+                                    </h3>
+                                </div>
+                            </a>
+
+                            <div class="panel-body">
+                                    <h4 class="media-heading">{{ publication.content }}</h4>
+                                    <span style="float: right; margin-left: 8px;">{{ publication.compteurComment }} commentaire(s)</span>
                                 <br>
-                                <small class="margin-bottom-20 grey-500">{{ publication.date|date("m/d/Y") }}</small>
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-
-                            <div id="body_task">
-                                {{ publication.content }}
+                                <div id="body_task">
+                                    {% for comment in publication.comments %}
+                                        <p> <h5>{{ comment.userComment.username }} <small class="margin-bottom-20 grey-500">{{ comment.date|date("m/d/Y à H:i") }}</small> </h5>
+                                            <h6>{{ comment.content }}</h6>
+                                        </p>
+                                    {% endfor %}
+                                    <hr>
+                                    <div id="body_comment">
+                                        {{ include("EBMSocialNetworkBundle:Comment:form.html.twig") }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
 
-{% endblock %}
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
 
 
 {# Scripts propres à cette page #}

@@ -1,5 +1,3 @@
-#Vue de l'ensemble des publications --> le mur d'actualités de la personne
-#comment faire pour prendre en compte le fait de ne voir que les publications avec abonnement?
 ebm_social_network_homepage:
     path:     /
     defaults:
@@ -35,3 +33,10 @@ ebm_social_network_subscriptions:
     path:     /subscriptions
     defaults:
         _controller: EBMSocialNetworkBundle:Subscriptions:index
+
+ebm_social_publication_comment_add:
+    path:     /{id}/comment/add/
+    defaults:
+        _controller: EBMSocialNetworkBundle:Comment:add
+    requirements:
+        id: \d+

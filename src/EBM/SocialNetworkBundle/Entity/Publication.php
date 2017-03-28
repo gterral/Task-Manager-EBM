@@ -59,9 +59,20 @@ class Publication
     private $content;
 
     /**
+     * @ORM\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\SocialComment", mappedBy="publication")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $comments;
+
+    /**
      * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", cascade={"persist"})
      */
     private $tags;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\UserInterfaceBundle\Entity\Project", cascade={"persist"})
+     */
+    private $projects;
 
     public function __construct()
     {
@@ -259,5 +270,74 @@ class Publication
     public function getUserPublication()
     {
         return $this->userPublication;
+    }
+
+
+    /**
+     * Add comment
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\SocialComment $comment
+     *
+     * @return Publication
+     */
+    public function addComment(\EBM\SocialNetworkBundle\Entity\SocialComment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\SocialComment $comment
+     */
+    public function removeComment(\EBM\SocialNetworkBundle\Entity\SocialComment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Add project
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $project
+     *
+     * @return Publication
+     */
+    public function addProject(\EBM\UserInterfaceBundle\Entity\Project $project)
+    {
+        $this->projects[] = $project;
+
+        return $this;
+    }
+
+    /**
+     * Remove project
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $project
+     */
+    public function removeProject(\EBM\UserInterfaceBundle\Entity\Project $project)
+    {
+        $this->projects->removeElement($project);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }
