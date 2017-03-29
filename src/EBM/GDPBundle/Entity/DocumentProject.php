@@ -220,11 +220,13 @@ class DocumentProject
      *
      * @return DocumentProject
      */
-    public function setDocumentTypeProject(\EBM\GDPBundle\Entity\DocumentTypeProject $documentTypeProject)
+    public function setDocumentTypeProject(\EBM\GDPBundle\Entity\DocumentTypeProject $documentTypeProject = null)
     {
         $this->documentTypeProject = $documentTypeProject;
 
-        $documentTypeProject->addDocumentProject($this);
+        if ($documentTypeProject != null) {
+            $documentTypeProject->addDocumentProject($this);
+        }
 
         return $this;
     }

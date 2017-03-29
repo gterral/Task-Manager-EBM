@@ -21,7 +21,7 @@
             <h3 class="panel-title">Livrables obligatoires - {{ project.name|upper }}</h3>
             <div class="panel-actions">
                 {# Créer une nouvelle tâche #}
-                <a href="{{ path('ebmgdp_task_add', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-primary waves-effect margin-right-10 white"><i class="icon md-plus"></i></a>
+                <a href="{{ path('ebmgdp_deliverable_add_mandatory', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-primary waves-effect margin-right-10 white"><i class="icon md-plus"></i></a>
             </div>
         </div>
         <div class="panel-body">
@@ -54,7 +54,7 @@
 
     <div class="panel">
         <div class="panel-heading">
-            <h3 class="panel-title">Livrables obligatoires - {{ project.name|upper }}</h3>
+            <h3 class="panel-title">Livrables non obligatoires - {{ project.name|upper }}</h3>
             <div class="panel-actions">
                 {# Créer une nouvelle tâche #}
                 <a href="{{ path('ebmgdp_deliverable_add', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-primary waves-effect margin-right-10 white"><i class="icon md-plus"></i></a>

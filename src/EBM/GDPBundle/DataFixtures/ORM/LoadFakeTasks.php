@@ -41,7 +41,7 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
         $task1 = new Task();
         $task1->setName('Faire le ménage');
         $task1->setDeadline(\DateTime::createFromFormat('d/m/Y','30/02/2017'));
-        $task1->setStatus('IN_PROGRESS');
+        $task1->setStatus('VALIDATED');
         $task1->setType('logistic');
         $entityManager->persist($task1);
 
@@ -58,10 +58,31 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
 
         $task2 = new Task();
         $task2->setName('Ajouter Issues');
-        $task2->setStatus('IN_PROGRESS');
-        $task2->setDeadline(\DateTime::createFromFormat('d/m/Y','20/02/2017'));
+        $task2->setStatus('VALIDATED');
+        $task2->setDeadline(\DateTime::createFromFormat('d/m/Y','28/02/2017'));
         $task2->setType('IT');
         $entityManager->persist($task2);
+
+        $task3 = new Task();
+        $task3->setName('Faire une autre tâche');
+        $task3->setStatus('WAITING_FOR_REVIEW');
+        $task3->setDeadline(\DateTime::createFromFormat('d/m/Y','20/02/2017'));
+        $task3->setType('IT');
+        $entityManager->persist($task3);
+
+        $task4 = new Task();
+        $task4->setName('Bureaucratiser la bureaucratie');
+        $task4->setStatus('REJECTED');
+        $task4->setDeadline(\DateTime::createFromFormat('d/m/Y','20/02/2017'));
+        $task4->setType('IT');
+        $entityManager->persist($task4);
+
+        $task5 = new Task();
+        $task5->setName('Construire une maison');
+        $task5->setStatus('IN_PROGRESS');
+        $task5->setDeadline(\DateTime::createFromFormat('d/m/Y','20/03/2017'));
+        $task5->setType('IT');
+        $entityManager->persist($task5);
 
         $conversation2 = new Conversation();
         $task2->setConversation($conversation2);
@@ -80,6 +101,9 @@ class LoadFakeTasks implements FixtureInterface, ContainerAwareInterface
         $projet->setCode("MSP");
         $projet->addTask($task1);
         $projet->addTask($task2);
+        $projet->addTask($task3);
+        $projet->addTask($task4);
+        $projet->addTask($task5);
         $projet->setProjectType("G1G2");
         $entityManager->persist($projet);
 

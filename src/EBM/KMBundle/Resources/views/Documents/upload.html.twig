@@ -3,8 +3,61 @@
 
 {% block content_body %}
 
-    <a href="{{ path('ebmkm_document_index') }}">Retour aux documents</a>
+    <div class="page-header">
+        <h1 class="page-title">
+            Nouveau Document
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('core_dashboard_homepage') }}">Accueil</a></li>
+            <li><a href="{{ path('ebmkm_homepage') }}">Ressources</a></li>
+            <li><a href="{{ path('ebmkm_document_index') }}">Documents</a></li>
+            <li>Nouveau</li>
+        </ol>
 
-    Upload d'un document
-    {{ form(form) }}
+        <div class="page-header-actions">
+            <a class="btn btn-primary" href="{{ path('ebmkm_document_index') }}">Retour</a>
+
+        </div>
+    </div>
+
+    <div class="page-content">
+
+
+        <form name="document" method="post" enctype="multipart/form-data">
+            {{ form_widget(form._token) }}
+            <div class="form-group">
+                <input class="form-control  empty" id="document_name" name="document[name]" required="required" type="text">
+                <label class="floating-label" for="document_name">Nom du document</label>
+                <small><span></span></small>
+            </div>
+            <div class="form-group">
+                <textarea id="document_description" name="document[description]" required="required" class="form-control  empty"></textarea>
+                <label class="floating-label" for="document_description">Description du document</label>
+                <small><span></span></small>
+            </div>
+
+            {{ form_widget(form.tags) }}
+
+            <div class="margin-bottom-10">
+                <label class="control-label" for="document_file">Dépôt de fichier</label> 
+                <label class="btn btn-info btn-round waves-effect waves-light waves-round inputFile"><input id="document_file" name="document[file]" required="required" style="display:none!important" onchange="$('#name_document_file').html($(this).val());" type="file"><i class="icon md-upload"></i></label>
+                <small><span></span></small>
+                <span id="name_document_file"></span>
+            </div>
+            <div class="form-group">
+                <input class="form-control  empty" id="document_link" name="document[link]" type="text">
+                <label class="floating-label" for="document_link">Lien vers une ressource externe</label>
+                <small><span></span></small>
+            </div>
+            <div><button class="btn btn-primary" type="submit" id="document_submit" name="document[submit]"><span class="ladda-label">Valider l'upload du document</span><span class="ladda-spinner"></span></button></div>
+        </form>
+
+
+{#
+        {{ form(form) }}
+#}
+
+
+    </div>
+
 {% endblock %}
