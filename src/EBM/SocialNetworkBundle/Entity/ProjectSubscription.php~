@@ -2,6 +2,7 @@
 
 namespace EBM\SocialNetworkBundle\Entity;
 
+use Core\UserBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,7 +34,14 @@ class ProjectSubscription
      *
      * @ORM\JoinColumn(nullable=false)
      */
-    private $userProject;
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="EBM\UserInterfaceBuncle\Entity\Project", inversedBy="subscriptions",cascade={"persist"})
+     *
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $project;
 
 
     /**
@@ -73,13 +81,13 @@ class ProjectSubscription
     /**
      * Set userProject
      *
-     * @param \Core\UserBundle\Entity\User $userProject
+     * @param User $user
      *
      * @return ProjectSubscription
      */
-    public function setUserProject(\Core\UserBundle\Entity\User $userProject)
+    public function setUserProject(User $user)
     {
-        $this->userProject = $userProject;
+        $this->userProject = $user;
 
         return $this;
     }
@@ -87,10 +95,10 @@ class ProjectSubscription
     /**
      * Get userProject
      *
-     * @return \Core\UserBundle\Entity\User
+     * @return User
      */
-    public function getUserProject()
+    public function getUser()
     {
-        return $this->userProject;
+        return $this->user;
     }
 }

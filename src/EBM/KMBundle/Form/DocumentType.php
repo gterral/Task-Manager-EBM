@@ -30,7 +30,6 @@ class DocumentType extends AbstractType
                 'label' => 'Description du document'
             ))
             ->add('tags', EntityType::class, array(
-                'label' => 'Tags',
                 'class' => 'EBMKMBundle:Tag',
                 'choices' => $options['tags'],
                 'choice_label' => 'name',
@@ -39,7 +38,7 @@ class DocumentType extends AbstractType
             ))
             ->add('file', FileType::class, array(
                 'label' => 'Dépôt de fichier',
-                'required' => false
+                'required' => true
             ))
             ->add('link', TextType::class, array(
                 'label' => 'Lien vers une ressource externe',

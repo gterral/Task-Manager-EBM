@@ -8,6 +8,7 @@ use EBM\KMBundle\Entity\Document;
 use EBM\KMBundle\Entity\DocumentHistory;
 use EBM\SocialNetworkBundle\Entity\ProjectSubscription;
 use EBM\SocialNetworkBundle\Entity\Publication;
+use EBM\SocialNetworkBundle\Entity\SocialComment;
 use EBM\KMBundle\Entity\EvaluationDocument;
 use EBM\UserInterfaceBundle\Entity\Project;
 use EBM\KMBundle\Entity\CompetenceUser;
@@ -84,9 +85,16 @@ class User extends BaseUser
 
     /**
      * @ORM\ManyToMany(targetEntity="EBM\KMBundle\Entity\Tag", cascade= {"persist"})
-     * @ORM\JoinTable(name="tag_subscription")
+     * @ORM\JoinTable(name="sn_tag_subscription")
      */
     private $tags;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\UserInterfaceBundle\Entity\Project", cascade= {"persist"})
+     * @ORM\JoinTable(name="sn_project_subscription")
+     */
+    private $projectSubscriptions;
+
 
     /**
      * @var string
@@ -122,15 +130,16 @@ class User extends BaseUser
      */
     private $skills;
 
-    /**
-     * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\ProjectSubscription", mappedBy="userProject", cascade={"persist"})
-     */
-    private $projectSubscriptions;
 
     /**
      * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\Publication", mappedBy="userPublication", cascade={"persist"})
      */
     private $publications;
+
+    /**
+     * @Orm\OneToMany(targetEntity="EBM\SocialNetworkBundle\Entity\SocialComment", mappedBy="userComment", cascade={"persist"})
+     */
+    private $socialComments;
 
     /**
      * @ORM\OneToMany(targetEntity="EBM\KMBundle\Entity\EvaluationDocument", mappedBy="author", cascade= {"persist"})
@@ -641,40 +650,6 @@ class User extends BaseUser
     }
 
     /**
-     * Add projectSubscription
-     *
-     * @param ProjectSubscription $projectSubscription
-     *
-     * @return User
-     */
-    public function addProjectSubscription(ProjectSubscription $projectSubscription)
-    {
-        $this->projectSubscriptions[] = $projectSubscription;
-
-        return $this;
-    }
-
-    /**
-     * Remove projectSubscription
-     *
-     * @param ProjectSubscription $projectSubscription
-     */
-    public function removeProjectSubscription(ProjectSubscription $projectSubscription)
-    {
-        $this->projectSubscriptions->removeElement($projectSubscription);
-    }
-
-    /**
-     * Get projectSubscriptions
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProjectSubscriptions()
-    {
-        return $this->projectSubscriptions;
-    }
-
-    /**
      * Add createDocument
      *
      * @param DocumentHistory $createDocument
@@ -773,7 +748,7 @@ class User extends BaseUser
     {
         return $this->gdpTasks;
     }
-    
+
     public function getEmail()
     {
         return $this->email;
@@ -864,4 +839,71 @@ class User extends BaseUser
         $this->image = $image;
     }
 
+    /**
+     * Add projectSubscription
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $projectSubscription
+     *
+     * @return User
+     */
+    public function addProjectSubscription(Project $projectSubscription)
+    {
+        $this->projectSubscriptions[] = $projectSubscription;
+
+        return $this;
+    }
+
+    /**
+     * Remove projectSubscription
+     *
+     * @param \EBM\UserInterfaceBundle\Entity\Project $projectSubscription
+     */
+    public function removeProjectSubscription(Project $projectSubscription)
+    {
+        $this->projectSubscriptions->removeElement($projectSubscription);
+    }
+
+    /**
+     * Get projectSubscriptions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProjectSubscriptions()
+    {
+        return $this->projectSubscriptions;
+    }
+
+    /**
+     * Add socialComment
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\SocialComment $comment
+     *
+     * @return User
+     */
+    public function addSocialComment(SocialComment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove socialComment
+     *
+     * @param \EBM\SocialNetworkBundle\Entity\SocialComment $comment
+     */
+    public function removeSocialComment(SocialComment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get socialComments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSocialComments()
+    {
+        return $this->comments;
+    }
 }

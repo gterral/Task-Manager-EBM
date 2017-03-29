@@ -13,9 +13,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
                 {% if listProjects is not null %}
                 {% for project in listProjects %}
+                <tr>
+
                     <td>{{ project.name }}</td>
                     <td>
                         {{ project.tasks|length }}
@@ -26,11 +27,10 @@
                             <i class="icon md-eye" aria-hidden="true"></i>
                         </a>
                     </td>
-
+                </tr>
                 {% endfor %}
                 {% endif %}
 
-            </tr>
             </tbody>
         </table>
     </div>

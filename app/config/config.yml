@@ -126,6 +126,7 @@ vich_uploader:
             delete_on_update:   true
             delete_on_remove:   true
 
+
 # ElasticSearch
 #fos_elastica:
 #    clients:
