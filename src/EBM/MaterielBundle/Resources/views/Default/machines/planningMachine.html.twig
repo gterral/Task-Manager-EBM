@@ -51,6 +51,10 @@
                     </div>
                 </h1><hr>
             </div>
+
+            {% if permission == false %}
+                <h2 style="color: red">Vous ne disposez pas de la compétence requise par cette machine</h2>
+            {% endif %}
         </div>
 
 <div class="page-content container-fluid">

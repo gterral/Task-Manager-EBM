@@ -40,6 +40,16 @@ class MachineController extends Controller
     {
         $reservations = $this->getAllReservationsByMachineId($machineId);
 
+        $skills = $this->getUser()->getSkills();
+
+        $tags = $this->getMachine($machineId)->getTags();
+
+        //$permission = count(array_intersect($tags, $skills)) == count($tags);
+
+        $permission = false;
+
+
+
 
         $jsonEvents = '[';
 
@@ -70,7 +80,8 @@ class MachineController extends Controller
                     'machine' => $this->getMachine($machineId),
                     'events' => $reservations,
                     'jsonEvents' => $jsonEvents,
-                    'machines' => $this->getAllMachines()
+                    'machines' => $this->getAllMachines(),
+                    'permission' => $permission
                 )
             );
     }

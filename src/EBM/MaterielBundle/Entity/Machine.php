@@ -39,7 +39,6 @@ class Machine
     /**
      * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\Tag", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
-     * @ORM\JoinTable(name="fablab_machine_competence")
      */
     private $tags;
 
