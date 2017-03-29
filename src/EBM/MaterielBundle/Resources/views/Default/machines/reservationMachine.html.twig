@@ -11,11 +11,20 @@
 {% endblock %}
 
 {% block content_body %}
-    <div class="page-content">
 
-        <div class="page-header">
-            <h1 class="page-title">Nouvelle réservation de machine du Fab Lab</h1>
-        </div>
+    <div class="page-animsition">
+
+     <div class="page-header">
+    <h1 class="page-title">Nouvelle réservation de machine du Fab Lab</h1>
+         <ol class="breadcrumb">
+             <li><a href="{{ path('ebm_materiel_homepage') }}">Fab Lab</a></li>
+             <li><a href="{{ path('ebm_materiel_machines') }}">Machines</a></li>
+             <li><a href="{{ path('ebm_materiel_machines_reservation') }}">Réservation</a></li>
+         </ol>
+    </div>
+
+
+    <div class="page-content">
 
     <div class="panel">
         <div class="panel-body container-fluid">
@@ -82,11 +91,12 @@
                 <h4 class="example-title">Description</h4>
                 <textarea name="description" class="form-control" id="textareaDefault" rows="3"></textarea>
             </div>
-                <input type="submit" value="submit">
 
+            <button type="submit" value="submit" class="btn btn-primary waves-effect waves-light"><i class="icon md-plus" aria-hidden="true"></i>Envoyer</button>
         </form>
         </div>
         </div>
+    </div>
     </div>
 {% endblock %}
 

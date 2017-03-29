@@ -16,8 +16,11 @@
 
 {% block content_body %}
 
+    <div class="page-animsition">
+
     {# Header de la page #}
-    <div class="page-header page-header-bordered">
+    <div class="page-header text-center">
+        <h1 class="page-title">Fab Lab - Machines</h1>
         <ol class="breadcrumb">
             <li><a href="{{ path('ebm_materiel_homepage') }}">Fab Lab</a></li>
             <li><a href="{{ path('ebm_materiel_machines') }}">Machines</a></li>
@@ -26,10 +29,6 @@
 
 
     </div>
-
-        <div class="page-header text-center">
-            <h1 class="page-title">Fab Lab - Machines</h1>
-        </div>
         <div class="page-content container-fluid" style="max-width: 700px">
             <!-- Panel Header -->
             <div class="panel">
@@ -57,7 +56,7 @@
                 <!-- End Panel Header -->
             </div>
         </div>
-
+    </div>
 {% endblock %}
 
 
