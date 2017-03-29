@@ -39,7 +39,15 @@ class DocumentController extends Controller
      */
     public function indexAction(){
 
-        $documents = $this->getDoctrine()->getRepository('EBMKMBundle:Document')->findBy(['active' => true]);
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT d
+            FROM EBMKMBundle:Document d
+            WHERE d.active = :status
+            ORDER BY d.date DESC'
+        )->setParameter('status', true);
+
+        $documents = $query->getResult();
 
         return $this->render('EBMKMBundle:Documents:index.html.twig', array("documents" => $documents));
     }
@@ -76,7 +84,8 @@ class DocumentController extends Controller
             $em->persist($document);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('ebmkm_document_index'));
+            return $this->redirect($this->generateUrl('ebmkm_document_detail', array( "id" => $document->getId() )));
+
         }
 
         return $this->render('EBMKMBundle:Documents:upload.html.twig', array(
@@ -161,20 +170,35 @@ class DocumentController extends Controller
             $moyenne = -1;
         }
 
-        $personalEvaluation = $this->getDoctrine()->getRepository('EBMKMBundle:EvaluationDocument')
-            ->findBy(['author' => $this->getUser(), 'document' => $document]);
+
 
         /*
          * Evaluation du document par l'utilisateur courrant.
          */
+
         $evaluation = new EvaluationDocument();
         $evaluationForm = $this->createForm(EvaluationDocumentType::class, $evaluation);
         $evaluationForm->handleRequest($request);
         if($evaluationForm->isSubmitted() && $evaluationForm->isValid()){
-            $evaluation->setAuthor($user);
-            $evaluation->setDocument($document->getHistory());
-            $em->persist($evaluation);
-            $em->flush();
+
+            /** @var EvaluationDocument $personalEvaluation */
+            $personalEvaluation = $this->getDoctrine()->getRepository('EBMKMBundle:EvaluationDocument')
+                ->findOneBy(['author' => $this->getUser()]);
+            /*
+             * Si une évaluation existe déjà; on change simplement sa valeur.
+             * Sinon, on persist l'entité.
+             */
+            if($personalEvaluation){
+                $personalEvaluation->setValue($evaluation->getValue());
+                $em->flush();
+            }
+            else{
+                $evaluation->setAuthor($user);
+                $evaluation->setDocument($document->getHistory());
+                $em->persist($evaluation);
+                $em->flush();
+            }
+
             return $this->redirectToRoute('ebmkm_document_detail', array('id' => $document->getId()));
         }
 
@@ -182,7 +206,6 @@ class DocumentController extends Controller
             'document' => $document,
             'grade' => $moyenne,
             'form' => $form->createView(),
-            'personalEvaluation' => $personalEvaluation,
             'evaluationForm' => $evaluationForm->createView()
         ));
     }
