@@ -141,7 +141,7 @@ class CommentController extends Controller
 
         if ($request->isMethod('POST')  && $form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($comment);
+            $em->persist($conversation);
             $em->flush();
 
             return $this->redirect($request->headers->get('referer'));

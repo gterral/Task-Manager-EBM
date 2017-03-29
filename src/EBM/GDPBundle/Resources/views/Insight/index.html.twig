@@ -40,42 +40,49 @@
     <script>
 
         var data = [];
+        var colors = [];
 
         {% if nbTaskOpened > 0 %}
             data.push({
                 label: "Tâches ouvertes",
                 value: {{ nbTaskOpened }}
             });
+            colors.push("#9E9E9E");
         {% endif %}
         {% if nbTaskWorking > 0 %}
         data.push({
             label: "Tâches en cours",
             value: {{ nbTaskWorking }}
         });
+        colors.push("#F57C00");
         {% endif %}
         {% if nbTaskWaiting > 0 %}
         data.push({
             label: "En attente de validation",
             value: {{ nbTaskWaiting }}
         });
+        colors.push("#E65100");
         {% endif %}
         {% if nbTaskValidated > 0 %}
         data.push({
             label: "Tâches validées",
             value: {{ nbTaskValidated }}
         });
+        colors.push("#388E3C");
         {% endif %}
         {% if nbTaskRejected > 0 %}
         data.push({
             label: "Tâches rejetées",
             value: {{ nbTaskRejected }}
         });
+        colors.push("#F44336");
         {% endif %}
         {% if nbTaskArchived > 0 %}
         data.push({
             label: "Tâches archivées",
             value: {{ nbTaskArchived }}
         });
+        colors.push("#1976D2");
         {% endif %}
 
         Morris.Donut({
@@ -86,7 +93,7 @@
             formatter: function (y,data) {
                 return Math.round(y*100)+"%"
             },
-            colors: ["#9E9E9E", "#F57C00", "#E65100","#388E3C","#F44336","#1976D2"]
+            colors: colors
         });
     </script>
 

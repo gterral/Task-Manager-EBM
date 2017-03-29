@@ -2,6 +2,7 @@
 
 namespace EBM\GDPBundle\Controller;
 
+use EBM\GDPBundle\Entity\DocumentProject;
 use EBM\GDPBundle\Entity\DocumentTypeProject;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -93,6 +94,12 @@ class DocumentTypeProjectController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
+
+        /** @var DocumentProject $documentProject */
+        foreach ($documentTypeProject->getDocumentProjects() as $documentProject) {
+            $documentProject->setDocumentTypeProject(null);
+        }
+
         $em->remove($documentTypeProject);
         $em->flush();
 
