@@ -12,70 +12,91 @@
 
 {% block content_body %}
 
+    <div class="page-animsition">
 
-    <div class="col-md-6">
-        <!--
-        <h1 class="page-title">Nouvelle réservation de machine du Fab Lab</h1>
+     <div class="page-header">
+    <h1 class="page-title">Nouvelle réservation de machine du Fab Lab</h1>
+         <ol class="breadcrumb">
+             <li><a href="{{ path('ebm_materiel_homepage') }}">Fab Lab</a></li>
+             <li><a href="{{ path('ebm_materiel_machines') }}">Machines</a></li>
+             <li><a href="{{ path('ebm_materiel_machines_reservation') }}">Réservation</a></li>
+         </ol>
+    </div>
 
-        <h4 class="example-title">Prénom et nom de l'utilisateur</h4>
-        <input type="text" class="form-control" id="inputDisabled" placeholder="Prénom nom"
-           disabled>
 
-        <h4 class="example-title">Projet associé</h4>
-        <div class="form-group">
-            <select class="form-control">
-                <option>Projet 1</option>
-                <option>Projet 2</option>
-            </select>
+    <div class="page-content">
+
+    <div class="panel">
+        <div class="panel-body container-fluid">
+        <form action="{{ path('ebm_materiel_machines_reservation_submit') }}" method="post" id="reservationForm">
+
+            <h4 class="example-title">Prénom et nom de l'utilisateur</h4>
+            <div class="input-group input-group-icon">
+                    <span class="input-group-addon">
+                      <span class="icon md-account" aria-hidden="true"></span>
+                    </span>
+
+                <input type="text" name="username" class="form-control" value="{{ user.getUsername() }}" readonly>
+            </div><br>
+
+
+            <div class="example-wrap margin-sm-0">
+            <h4 class="example-title">Projet associé</h4>
+
+            <div class="form-group">
+                <select name="projet" class="form-control">
+                    {% for p in projets %}
+                        <option value="{{ p.getId() }}">{{ p.getName() }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            </div>
+
+            <div class="example-wrap margin-sm-0">
+            <h4 class="example-title">Machine à réserver</h4>
+            <div class="form-group">
+                <select name="machine" class="form-control">
+                    {% for m in machines %}
+                            <option value="{{ m.getId() }}" {% if m.getId() == selectedMachine %}selected{% endif %}>{{ m.getNom() }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            </div>
+
+
+
+            <h4 class="example-title">Date de réservation</h4>
+
+            <div class="input-group">
+                    <span class="input-group-addon">
+                      <i class="icon md-calendar" aria-hidden="true"></i>
+                    </span>
+                <input type="text" name="jour" value="{{ jour }}" class="form-control datepair-date datepair-start" data-plugin="datepicker">
+            </div>
+
+<br>
+            <div class="example-wrap margin-sm-0">
+            <h4 class="example-title">Créneau</h4>
+            <div class="form-group">
+                <select name="heure" class="form-control">
+                    <option value="08:00:00" {% if heure == '08:00:00' %}selected{% endif %}>8h -> 10h</option>
+                    <option value="10:00:00" {% if heure == '10:00:00' %}selected{% endif %}>10h -> 12h</option>
+                    <option value="14:00:00" {% if heure == '14:00:00' %}selected{% endif %}>14h -> 16h</option>
+                    <option value="16:00:00" {% if heure == '16:00:00' %}selected{% endif %}>16h -> 18h</option>
+                </select>
+            </div>
+            </div>
+
+            <div class="example-wrap">
+                <h4 class="example-title">Description</h4>
+                <textarea name="description" class="form-control" id="textareaDefault" rows="3"></textarea>
+            </div>
+
+            <button type="submit" value="submit" class="btn btn-primary waves-effect waves-light"><i class="icon md-plus" aria-hidden="true"></i>Envoyer</button>
+        </form>
         </div>
-
-        <h4 class="example-title">Machine à réserver</h4>
-        <div class="form-group">
-            <select class="form-control">
-                <option>Machine 1</option>
-                <option>Machine 2</option>
-                <option>Machine 3</option>
-                <option>Machine 4</option>
-                <option>Machine 5</option>
-            </select>
         </div>
-
-        <h4 class="example-title">Date de début de réservation</h4>
-        <div class="input-group">
-            <span class="input-group-addon">
-                <i class="icon md-calendar" aria-hidden="false"></i>
-            </span>
-            <input type="text" class="form-control" data-plugin="datepicker">
-        </div>
-        <div class="input-group">
-            <span class="input-group-addon">
-                <i class="icon md-time" aria-hidden="true"></i>
-            </span>
-            <input type="text" class="form-control" data-plugin="timepicker" data-min-time="8:00"
-                       data-max-time="18:00" data-show-duration="true" />
-        </div>
-
-        <h4 class="example-title">Date de fin de réservation</h4>
-        <div class="input-group">
-            <span class="input-group-addon">
-                <i class="icon md-calendar" aria-hidden="false"></i>
-            </span>
-            <input type="text" class="form-control" data-plugin="datepicker">
-        </div>
-        <div class="input-group">
-            <span class="input-group-addon">
-                <i class="icon md-time" aria-hidden="true"></i>
-            </span>
-            <input type="text" class="form-control" data-plugin="timepicker" data-min-time="8:00"
-                   data-max-time="18:00" data-show-duration="true" />
-        </div>
-
-        <h4 class="example-title">Description</h4>
-        <textarea class="form-control" id="textareaDefault" rows="3"></textarea>
-
-        <button type="button" class="btn btn-block btn-success margin-top-20 col-lg-2">Valider</button>
--->
-        {{ fin }}
+    </div>
     </div>
 {% endblock %}
 
@@ -83,5 +104,40 @@
 {# Scripts propres à cette page #}
 {% block scripts %}
 
+        <script src="https://jonthornton.github.io/jquery-timepicker/jquery.timepicker.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://jonthornton.github.io/jquery-timepicker/jquery.timepicker.css">
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.standalone.css">
+
+        <script src="{{ asset('datepair/lib/pikaday.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ asset('datepair/lib/pikaday.css')}}">
+
+        <script src="{{ asset('datepair/lib/jquery.ptTimeSelect.js')}}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ asset('datepair/lib/jquery.ptTimeSelect.css')}}">
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all">
+
+        <script src="{{ asset('datepair/lib/moment.min.js')}}"></script>
+        <script src="{{ asset('datepair/lib/site.js')}}"></script>
+        <link rel="stylesheet" type="text/css" href="lib/site.css">
+
+        <script src="{{ asset('datepair/dist/datepair.js')}}"></script>
+        <script src="{{ asset('datepair/dist/jquery.datepair.js')}}"></script>
+    <script>
+        // initialize input widgets first
+        $(document).ready(function() {
+
+            $('.datepair-time').timepicker({
+                'showDuration': true,
+                'timeFormat': 'g:ia',
+                'show2400': true
+            });
+
+            $('.datepair-date').datepicker({
+                'format': 'yyyy-mm-dd',
+                'autoclose': true
+            });
+
+        });
+    </script>
 {% endblock %}

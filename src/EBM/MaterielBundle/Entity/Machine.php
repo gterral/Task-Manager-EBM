@@ -37,19 +37,11 @@ class Machine
      */
     private $nom;
     /**
-     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\CompetenceUser", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="EBM\KMBundle\Entity\Tag", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
-     * @ORM\JoinTable(name="fablab_machine_competence")
      */
-    private $competences;
+    private $tags;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="EBM\MaterielBundle\Entity\MachineType", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     * @ORM\JoinTable(name="fablab_machine_machine_type")
-     */
-
-    private $type;
 
     public function __construct()
     {
@@ -59,7 +51,7 @@ class Machine
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -114,51 +106,28 @@ class Machine
         return $this->nom;
     }
 
+
     /**
-     * Set competences
+     * Set tags
      *
-     * @param \EBM\KMBundle\Entity\CompetenceUser $competences
+     * @param \EBM\KMBundle\Entity\Tag $tags
      *
      * @return Machine
      */
-    public function setCompetences(\EBM\KMBundle\Entity\CompetenceUser $competences = null)
+    public function setTags(\EBM\KMBundle\Entity\Tag $tags = null)
     {
-        $this->competences = $competences;
-
-        return $this;
+        return $this->tags = $tags;
     }
+
 
     /**
-     * Get competences
+     * Get tags
      *
-     * @return \EBM\KMBundle\Entity\CompetenceUser
+     * @return \EBM\KMBundle\Entity\Tag
      */
-    public function getCompetences()
+    public function getTags()
     {
-        return $this->competences;
+        return $this->tags;
     }
 
-    /**
-     * Set type
-     *
-     * @param \EBM\MaterielBundle\Entity\MachineType $type
-     *
-     * @return Machine
-     */
-    public function setType(\EBM\MaterielBundle\Entity\MachineType $type = null)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return \EBM\MaterielBundle\Entity\MachineType
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
 }

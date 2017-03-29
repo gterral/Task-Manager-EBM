@@ -36,6 +36,7 @@ class LoadFakePublications implements FixtureInterface, ContainerAwareInterface
      */
     public function load(ObjectManager $manager)
     {
+
         $encoder = $this->container->get('security.password_encoder');
 
         $tag1 = new Tag();

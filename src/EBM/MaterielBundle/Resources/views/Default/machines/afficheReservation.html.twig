@@ -1,0 +1,149 @@
+
+{% extends "@EBMMateriel/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion de mes réservations
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+{# Contenu de la page #}
+
+{% block content_body %}
+<div class="page-animsition">
+     {# Header de la page #}
+<div class="page-header">
+
+    <h1 class="page-title">Mes réservations</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ path('ebm_materiel_homepage') }}">Fab Lab</a></li>
+        <li><a href="{{ path('ebm_materiel_machines') }}">Machines</a></li>
+        <li><a href="{{ path('ebm_materiel_machine_affiche_reservation') }}">Mes réservations</a></li>
+    </ol>
+</div>
+        <div class="page-content container-fluid page-bordered" style="max-width: 700px">
+
+            <div class="example-wrap">
+
+                <!--<p> {{ dump(reservations) }} </p>
+                <p> {{ dump(user) }} </p> -->
+                <div class="example">
+                    <div class="bootstrap-table">
+                        <div class="fixed-table-toolbar"></div>
+                        <div class="fixed-table-container" style="height: 250px; padding-bottom: 36px;">
+                            <div class="fixed-table-header" style="margin-right: 0px;">
+                                <table class="table table-hover" style="width: 460px;">
+
+                                </table>
+                            </div>
+                            <div class="fixed-table-body">
+
+                                <table id="exampleTableFromData" data-mobile-responsive="true" class="table table-hover"
+                                       style="margin-top: -36px;">
+
+
+                                    <thead>
+
+
+                                    <tr>
+
+                                        <th style="" data-field="Tid" tabindex="0">
+                                            <div class="th-inner ">Type de machine</div>
+                                            <div class="fht-cell"></div>
+                                        </th>
+                                        <th style="" data-field="Tid" tabindex="0">
+                                            <div class="th-inner ">Date de réservation</div>
+                                            <div class="fht-cell"></div>
+                                        </th>
+                                        <th style="" data-field="First" tabindex="0">
+                                            <div class="th-inner ">Projet</div>
+                                            <div class="fht-cell"></div>
+                                        </th>
+                                        <th style="" data-field="Last" tabindex="0">
+                                            <div class="th-inner ">Debut</div>
+                                            <div class="fht-cell"></div>
+                                        </th>
+                                        <th style="" data-field="Score" tabindex="0">
+                                            <div class="th-inner ">Fin</div>
+                                            <div class="fht-cell"></div>
+                                        </th>
+
+                                        <th style="" data-field="Score" tabindex="0">
+                                            <div class="th-inner ">Annuler</div>
+                                            <div class="fht-cell"></div>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tableBody">
+
+                                    {% for reservation in reservations %}
+                                        <tr  class="columnToErase"data-index="0" >
+
+                                            <td style="">{{ reservation.getMachine.getNom()}}</td>
+                                            <td style=""> {{ reservation.getDebut() |date('d-m-y') }}</td>
+                                            <td style="">{{ reservation.getProjet().getName() }} </td>
+                                            <td style="">{{ reservation.getDebut() |date('h-i') }}</td>
+                                            <td style="">{{ reservation.getFin() |date('h-i') }}</td>
+                                            <td style=""><button id="rowButton" type="button" class="btn btn-block btn-danger waves-effect waves-light">X</button></td>
+
+
+
+                                        </tr>
+
+                                    {% endfor %}
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="fixed-table-footer" style="display: none;">
+                                <table>
+                                    <tbody>
+                                    <tr></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="fixed-table-pagination" style="display: none;"></div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div></div>
+</div>
+{% endblock %}
+
+
+{# Scripts propres à cette page #}
+{% block scripts %}
+
+
+    <script>
+
+        $(document).ready(function() {
+
+            console.log("it works")
+
+            $( "tr" ).insertAfter( "#tbody" )
+
+        });
+
+        $("#rowButton").click(function() {
+
+            $(this).fadeIn("slow");
+            alert("Etes vous sur de vouloir annuler cette réservation ?");
+
+
+
+        });
+
+
+    </script>
+
+</div>
+{% endblock %}
