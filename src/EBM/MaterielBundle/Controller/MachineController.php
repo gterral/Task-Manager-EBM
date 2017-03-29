@@ -118,7 +118,7 @@ class MachineController extends Controller
 
     public function reservationMachineAction($machine, $debut, $fin)
     {
-        if($fin == null)
+       /*if($fin == null)
         {
             $heure = intval(substr($debut, 11, 2)) + 2;
             $heureString = strval($heure);
@@ -128,12 +128,12 @@ class MachineController extends Controller
             }
             $fin = substr($debut, 0,11).$heureString.substr($debut,13);
         }
-
+*/
         return $this->render('EBMMaterielBundle:Default/machines:reservationMachine.html.twig',
             array(
                 'selectedMachine' => $machine,
-                'debut' => $debut,
-                'fin' => $fin,
+                'jour' => substr($debut,0,10),
+                'heure' => substr($debut,11,8),
                 'projets' => $this->getUser()->getProjects(),
                 'machines' => $this->getAllMachines(),
                 'user' => $this->getUser()
@@ -183,12 +183,10 @@ class MachineController extends Controller
         // Étape 2 : On « flush » tout ce qui a été persisté avant
         $em->flush();
 
-        return $this->render('EBMMaterielBundle:Default:testpost.html.twig', array('reservation' => $reservation));
+        return $this->redirectToRoute('ebm_materiel_machines_planning', array('machineId' => $request->request->get('machine')));
     }
 
     public function reservationAfficheAction()
-
-
     {
 
         $reservations = $this->getReservation();

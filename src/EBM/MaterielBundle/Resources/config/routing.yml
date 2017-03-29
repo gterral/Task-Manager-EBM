@@ -20,8 +20,8 @@ ebm_materiel_machines_reservation:
     path:     /machines/reservation/{machine}/{debut}/{fin}
     defaults:
         _controller: EBMMaterielBundle:Machine:reservationMachine
-        machine: 1
-        debut: "2017-01-01T08:00:00"
+        machine:
+        debut:
         fin:
 
 ebm_materiel_machines_ajout:

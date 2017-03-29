@@ -86,7 +86,7 @@
                                         <tr  class="columnToErase"data-index="0" >
 
                                             <td style="">{{ reservation.getMachine.getNom()}}</td>
-                                            <td style=""> {{ reservation.getDateCreation() |date('d-m-y') }}</td>
+                                            <td style=""> {{ reservation.getDebut() |date('d-m-y') }}</td>
                                             <td style="">{{ reservation.getProjet().getName() }} </td>
                                             <td style="">{{ reservation.getDebut() |date('h-i') }}</td>
                                             <td style="">{{ reservation.getFin() |date('h-i') }}</td>
