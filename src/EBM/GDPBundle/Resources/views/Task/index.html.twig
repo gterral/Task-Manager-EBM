@@ -1,0 +1,179 @@
+{% extends "@EBMGDP/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion de projet
+{% endblock %}
+
+{# CSS propres � cette page #}
+{% block stylesheets %}
+
+    {%  stylesheets filter='cssrewrite,scssphp'
+    'bundles/coreiconbar/theme/global/vendor/datatables-bootstrap/dataTables.bootstrap.css'
+    'bundles/coreiconbar/theme/global/vendor/datatables-fixedheader/dataTables.fixedHeader.css'
+    'bundles/coreiconbar/theme/global/vendor/datatables-responsive/dataTables.responsive.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('bundles/coreiconbar/theme/global/vendor/bootstrap-select/bootstrap-select.min.css') }}" type="text/css" >
+
+    <style>
+        #tasks-action .input-search {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        #searchField {
+            height: 40px;
+        }
+        .panel-actions a {
+            color:#757575;
+        }
+    </style>
+
+{% endblock %}
+
+
+{# Contenu de la page #}
+
+{% block content_body %}
+    <div class="panel panel-bordered panel-primary">
+
+        {# Header : titre + barre de recherche sur le tableau #}
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                {% if view_archives|default(0) == 1 %}
+                    Tâches archivées
+                {% else %}
+                    Liste des tâches
+                {% endif %}
+            </h3>
+            <div class="panel-actions" id="tasks-action">
+                {% if view_archives|default(0) == 1 %}
+                    {# Revenir à la liste des tâches non archivées #}
+                    <a href="{{ path('ebmgdp_projecttasks', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-default waves-effect margin-right-10"><i class="icon md-view-list"></i></a>
+
+                {% else %}
+                    {# Créer une nouvelle tâche #}
+                    <a href="{{ path('ebmgdp_task_add', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-default waves-effect margin-right-10"><i class="icon md-plus"></i></a>
+                    {# Consulter les tâches archivées #}
+                    <a href="{{ path('ebmgdp_projecttasksarchived', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-default waves-effect margin-right-10"><i class="icon md-archive"></i></a>
+                {% endif %}
+
+                {# Champ de recherche pour trier les lignes du tableau #}
+                <div class="input-search input-group-sm">
+                    <button type="submit" class="input-search-btn"><i class="icon md-search" aria-hidden="true" style="color: #757575!important;"></i> </button>
+                    <input type="text" class="form-control" name="" placeholder="Rechercher..." id="searchField">
+                </div>
+
+            </div>
+        </div>
+        {# Tableau des tâches #}
+        {%  if listTasks|length == 0 %}
+            <div class="panel-body">
+            {% if view_archives|default(0) == 1 %}
+                <p class="text-center">Aucune tâche archivée pour ce projet</p>
+            {% else %}
+                <p class="text-center">Aucune tâche n'a été créée pour ce projet</p>
+            {% endif %}
+            </div>
+        {% else %}
+            {% include "EBMGDPBundle:Task/components:tasksTable.html.twig" %}
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+
+
+{# Scripts propres � cette page #}
+{% block scripts %}
+
+    <script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+
+    {% javascripts filter='jsqueeze'
+    'bundles/coreiconbar/theme/global/vendor/datatables-fixedheader/dataTables.fixedHeader.js'
+    'bundles/coreiconbar/theme/global/vendor/datatables-bootstrap/dataTables.bootstrap.js'
+    'bundles/coreiconbar/theme/global/vendor/datatables-responsive/dataTables.responsive.js'
+    'bundles/coreiconbar/theme/global/vendor/datatables-tabletools/dataTables.tableTools.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/coreiconbar/theme/global/vendor/bootstrap-select/bootstrap-select.min.js') }}"></script>
+
+    <script type="text/javascript">
+
+        // Register Bootstrap select components
+        $.components.register("selectpicker", {
+            mode: "default",
+            defaults: {
+                style: "btn-select",
+                iconBase: "icon",
+                tickIcon: "md-check"
+            }
+        });
+
+        // Changer la couleur du bouton select Statut de la tâche
+        function changeStatusColor(btn,state) {
+            var statusButton = $(btn).parent().find("button");
+            statusButton.removeClass();
+            statusButton.addClass("btn dropdown-toggle");
+            if (state == "OPENED") {
+                statusButton.addClass("btn-primary");
+            } else if (state == "IN_PROGRESS") {
+                statusButton.addClass("btn-info");
+            } else if (state == "WAITING_FOR_REVIEW") {
+                statusButton.addClass("btn-warning");
+            } else if (state == "VALIDATED") {
+                statusButton.addClass("btn-success");
+            } else if (state == "REJECTED") {
+                statusButton.addClass("btn-danger");
+            }
+        }
+
+        $( document ).ready(function() {
+
+
+
+            $(".task-status").change(function () {
+
+                var status = $(this).find(':selected').data('status');
+                var task_id = $(this).find(':selected').data('task');
+
+                var postData = {"status":status,'task_id':task_id};
+
+                var route = "{{ path('ebmgdp_task_edit_status', {'code':project.code}) }}";
+
+                $.post( route, postData ,function( data ) {
+                });
+
+                changeStatusColor(this,status);
+
+            });
+
+
+
+
+            $("#tasksTable").DataTable({
+                "destroy":true,
+                "paging": false,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": false,
+                "autoWidth": false,
+                "order": [[ 3, "asc" ],[ 1, "asc" ]]
+            });
+
+            // Recherche depuis champ de recherche du header panel
+            $("#searchField").on('keyup', function (){
+                $('#tasksTable').dataTable().fnFilter(this.value,1,true);
+            });
+
+        });
+
+
+
+    </script>
+
+{% endblock %}

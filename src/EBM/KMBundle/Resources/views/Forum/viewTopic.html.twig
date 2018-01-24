@@ -1,0 +1,44 @@
+{% extends "EBMKMBundle::bundleLayout.html.twig" %}
+
+
+{% block content_body %}
+
+    <a type="button" href="{{ path('ebmkm_forum_homepage') }}" class="btn btn-primary ladda-button" data-style="slide-left" data-plugin="laddaProgress">
+        <span class="ladda-label"><i class="icon md-long-arrow-left margin-right-10" aria-hidden="true"></i>Retour au forum</span>
+        <span class="ladda-spinner"></span></a>
+
+    <div class ="page-header ">
+        <div class="row">
+            <div class="col-md-8">
+                <h2 class ="page-title vertical-align-middle">
+                    Topic :  {{ topic.title }}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    {% for post in topic.posts %}
+        <div class="well">
+            <div class="row">
+                <div class="col-md-1 ">
+                    <div> <a type="button"
+                             href="{{ path('ebmkm_forum_upvote', {'user_id': app.user.id, 'post_id': post.id}) }}">
+                            <h4> <i class="fa fa-thumbs-up green-800" aria-hidden="true"> </i> {{ post.getUpVotes() }} </h4> </a> </div>
+
+                    <div> <a type="button"
+                             href="{{ path('ebmkm_forum_downvote', {'user_id': app.user.id, 'post_id': post.id}) }}">
+                            <h4><i class="fa fa-thumbs-down red-800 " aria-hidden="true"> </i> {{ post.getDownVotes() }} </h4> </a></div>
+                </div>
+                <p><i>de </i> <b>{{ post.author.username }}</b>
+                    --{{ post.date | date('d-M-Y H:i:s') }} </p>
+                <p>{{ post.content }}</p>
+            </div>
+        </div>
+
+
+    {% endfor %}
+    <h4>Réponse : </h4>
+
+    {{ form(form) }}
+
+{% endblock %}

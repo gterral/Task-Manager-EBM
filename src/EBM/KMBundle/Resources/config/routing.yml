@@ -1,3 +1,107 @@
 ebmkm_homepage:
     path:     /
     defaults: { _controller: EBMKMBundle:Default:index }
+
+# --- Moteur de recherche ---
+ebmkm_search_engine:
+    path:     /search/query/
+    defaults: { _controller: EBMKMBundle:Search:search }
+
+ebmkm_search_tags:
+    path:     /search/tag/{tag_id}
+    defaults: { _controller: EBMKMBundle:Search:searchByTag }
+
+# --- Route autocomplete ---
+#mencommandes_ajaxnature:
+#    pattern: /ajaxnature
+#    defaults: { _controller: menCommandesBundle:Commandes:ajaxnature}
+#    requirements:
+#        _method: POST
+
+# --- Routes du forum ---
+ebmkm_forum_upvote:
+    path:     /forum/{user_id}/upvote/{post_id}
+    defaults: { _controller: EBMKMBundle:Forum:upVotePost }
+
+ebmkm_forum_downvote:
+    path:     /forum/{user_id}/downvote/{post_id}
+    defaults: { _controller: EBMKMBundle:Forum:downVotePost }
+
+ebmkm_forum_homepage:
+    path:     /forum/
+    defaults: { _controller: EBMKMBundle:Forum:index }
+    #TODO : ajouter un système de pagination
+
+ebmkm_forum_topic:
+    path:     /forum/topic/{id}
+    defaults: { _controller: EBMKMBundle:Forum:viewTopic }
+
+ebmkm_forum_create_topic:
+    path:     /forum/create
+    defaults: { _controller: EBMKMBundle:Forum:createTopic }
+
+ebmkm_forum_answer_topic:
+    path:    /forum/answer/{id}
+    defaults: { _controller: EBMKMBundle:Forum:answerTopic }
+
+# --- Routes de la gestion de documents ---
+
+ebmkm_document_create:
+    path: /documents/upload
+    defaults: { _controller: EBMKMBundle:Document:upload}
+
+ebmkm_document_index:
+    path: /documents
+    defaults: { _controller: EBMKMBundle:Document:index}
+
+ebmkm_document_detail:
+    path: /documents/{id}
+    defaults: { _controller: EBMKMBundle:Document:detail }
+    requirements:
+        id: '\d+'
+
+ebmkm_document_update:
+    path: /documents/{id}/edit
+    defaults: { _controller: EBMKMBundle:Document:update }
+    requirements:
+        id: '\d+'
+
+ebmkm_document_delete:
+    path: /documents/{id}/delete
+    defaults: { _controller: EBMKMBundle:Document:delete }
+    requirements:
+        id: '\d+'
+
+# --- Gestion des tags ---
+ebmkm_tag_index:
+    path:    /tags/
+    defaults: { _controller: EBMKMBundle:Tag:index }
+
+ebmkm_tag_begin:
+    path:    /tags/api/begin/{begin}
+    defaults: { _controller: EBMKMBundle:Tag:getTagsByBegin }
+
+# --- Gestion des compétences ---
+ebmkm_my_skills:
+    path:    /skills/me/
+    defaults: { _controller: EBMKMBundle:Skills:renderUserSkills }
+
+ebmkm_other_skills:
+    path:    /skills/{id}
+    defaults: { _controller: EBMKMBundle:Skills:seeSkill }
+
+ebmkm_recommend_skills:
+    path:    /skills/{user_id}/recommand/{skill_id}
+    defaults: { _controller: EBMKMBundle:Skills:recommendSkill }
+
+ebmkm_unrecommend_skills:
+    path:    /skills/{user_id}/unrecommand/{skill_id}
+    defaults: { _controller: EBMKMBundle:Skills:unRecommendSkill }
+
+ebmkm_add_skills:
+    path:    /skills/me/add/
+    defaults: { _controller: EBMKMBundle:Skills:addSkill }
+
+ebmkm_remove_skills:
+    path:    /skills/me/remove/{id}
+    defaults: { _controller: EBMKMBundle:Skills:removeSkill }

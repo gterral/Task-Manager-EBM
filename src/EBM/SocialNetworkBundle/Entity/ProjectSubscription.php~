@@ -1,0 +1,104 @@
+<?php
+
+namespace EBM\SocialNetworkBundle\Entity;
+
+use Core\UserBundle\Entity\User;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ProjectSubscription
+ *
+ * @ORM\Table(name="sn_project_subscription")
+ * @ORM\Entity(repositoryClass="EBM\SocialNetworkBundle\Repository\ProjectSubscriptionRepository")
+ */
+class ProjectSubscription
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User", inversedBy="projectSubscriptions",cascade={"persist"})
+     *
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="EBM\UserInterfaceBuncle\Entity\Project", inversedBy="subscriptions",cascade={"persist"})
+     *
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $project;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return ProjectSubscription
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set userProject
+     *
+     * @param User $user
+     *
+     * @return ProjectSubscription
+     */
+    public function setUserProject(User $user)
+    {
+        $this->userProject = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get userProject
+     *
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}

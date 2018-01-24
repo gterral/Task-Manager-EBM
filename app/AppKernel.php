@@ -19,13 +19,16 @@ class AppKernel extends Kernel
             new Core\IconbarBundle\CoreIconbarBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new \Vich\UploaderBundle\VichUploaderBundle(),
             new Core\DashboardBundle\CoreDashboardBundle(),
             new Core\UserBundle\CoreUserBundle(),
             new FOS\RestBundle\FOSRestBundle(),
+            new FOS\ElasticaBundle\FOSElasticaBundle(),
             new EBM\KMBundle\EBMKMBundle(),
             new EBM\MaterielBundle\EBMMaterielBundle(),
             new EBM\GDPBundle\EBMGDPBundle(),
             new EBM\SocialNetworkBundle\EBMSocialNetworkBundle(),
+            new EBM\UserInterfaceBundle\EBMUserInterfaceBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'staging'], true)) {

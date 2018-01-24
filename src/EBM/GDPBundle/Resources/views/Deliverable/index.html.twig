@@ -1,0 +1,152 @@
+
+{% extends "@EBMGDP/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion de projet
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+    <style>
+        .pricing-list {
+            border:none;
+            box-shadow: none;
+            -moz-box-shadow: none;
+        }
+        .pricing-list .pricing-features {
+            padding:0;
+        }
+    </style>
+{% endblock %}
+
+
+{# Contenu de la page #}
+
+{% block content_body %}
+
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="display:inline-block;"><a href="{{ path('ebmgdp_projectdeliverables',{'code': project.code }) }}" class="blue-a400"><i class="icon md-arrow-left"></i></a>
+                {{ project.name|upper }} : {{ documentProject.name }} - Livrable #{{ documentProject.id }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="pricing-list">
+                <div class="pricing-features">
+                    <ul class="padding-0">
+                        <li>Description: {{ documentProject.description }}</li>
+                        <li>
+                            Date Création: <strong>{{ documentProject.creationDate|date("Y-m-d") }}</strong>&emsp;|&emsp;
+                            Deadline: <strong>{{ documentProject.deadlineDate|date("Y-m-d") }}</strong>
+                        </li>
+                        <li>Derniere Modification: {{ documentProject.modificationDate|date("Y-m-d") }}</li>
+                        <li>
+                            <p class="text-center">
+                                    {{ include("EBMGDPBundle:Deliverable/component:upload.html.twig") }}
+                            </p>
+                        </li>
+                        <li>
+                            <div class="row">
+                                {% if documentProject.fileEntities is not null or documentProject.fileEntities |length>0 %}
+                                    <span>Liste des Documents</span>
+                                    <ul>
+                                        {%  for document in documentProject.fileEntities %}
+                                            <li>
+                                                <a href="{{ vich_uploader_asset(document, 'File') }}">{{ document.fileName }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="display:inline-block;vertical-align:baseline;padding-right:5px;">Messages</h3>
+            {% if documentProject.conversation %}
+                <span class="badge badge-danger">{{ documentProject.conversation.comments|length }}</span>
+            {% endif %}
+        </div>
+
+        <div class="panel-body">
+            <ul class="list-group">
+                {%  if documentProject.conversation %}
+                    {% for comment in documentProject.conversation.comments %}
+                        <li class="list-group-item">
+                            {{ include('EBMGDPBundle:Comment:view.html.twig') }}
+                        </li>
+                        <hr>
+                    {% endfor %}
+                {%  endif %}
+
+                {# Ecrire un commentaire #}
+                <li class="list-group-item">
+                    {{ include('EBMGDPBundle:Comment:add.html.twig') }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+
+{# Scripts propres à cette page #}
+{% block scripts %}
+
+<script>
+
+
+    $(".editCommentJS").on('show.bs.modal',function (e) {
+        var element= this;
+        var path = "{{ path('ebmgdp_deliverable',{'code':project.code,'id':documentProject.id }) }}";
+        path += "/comment/"+ element.title+"/edit";
+        console.log(path);
+
+        $.ajax({
+            url : path,
+            type : 'GET',
+            dataType : 'html',
+            success : function(code_html, statut){
+                $(code_html).appendTo("#comment"+element.title);
+            },
+            error : function(resultat, statut, erreur){
+            },
+            complete : function(resultat, statut){
+            }
+        });
+    });
+
+    var deleteComment = function(commentId) {
+        var path = "{{ path('ebmgdp_deliverable',{'code':project.code,'id':documentProject.id }) }}";
+        path += "/comment/"+ commentId+"/delete";
+
+        $.ajax({
+            url : path,
+            type : 'GET',
+            dataType : 'json',
+            success : function(response, statut){
+                if (response.success) {
+                    location.reload();
+                }
+            },
+            error : function(resultat, statut, erreur){
+            },
+            complete : function(resultat, statut){
+            }
+        });
+
+    };
+
+
+</script>
+
+{% endblock %}

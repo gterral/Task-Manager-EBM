@@ -1,0 +1,53 @@
+{% extends "EBMKMBundle::bundleLayout.html.twig" %}
+
+
+{% block content_body %}
+    <a type="button" href="{{ path('ebmkm_forum_homepage') }}" class="btn btn-sm btn-primary ladda-button" data-style="slide-left" data-plugin="laddaProgress">
+        <span class="ladda-label"><i class="icon md-long-arrow-left margin-right-10" aria-hidden="true"></i>Retour au forum</span>
+        <span class="ladda-spinner"></span></a>
+
+    <div class ="page-header ">
+        <h1 class ="page-title ">
+            Création d'un topic
+        </h1>
+    </div>
+    {#     <div>
+         <label for="tag">tag autocomplete</label> : <input type="text" name="tag" size="30" value="" id="inputString2"/>
+     </div>
+
+     <script>
+         $('#test').autocomplete({
+             source : function(requete, reponse){
+                 var motcle = $('#test').val();
+                 var DATA = 'motcle=' + motcle;
+                 $.ajax({
+                     type:"POST",
+                     url : "{{ path('mencommandes_ajaxnature') }}",
+                     dataType : 'json',
+                     data : DATA,
+
+                     success : function(donnee){
+                         reponse($.map(donnee, function(objet){
+                             return objet;
+                         }));
+                     }
+                 });
+             }
+         });
+     </script>
+      #}
+     {{ form(form) }}
+    {# TO DO : Editeur WYSIWYG
+      <div class="panel">
+         <div class="panel-heading">
+             <h3 class="panel-title">Standard Editor</h3>
+         </div>
+         <div class="panel-body">
+             <div id="summernote" data-plugin="summernote">
+             </div>
+         </div>
+     </div>
+     #}
+
+{% endblock %}
+

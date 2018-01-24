@@ -1,0 +1,47 @@
+
+{% extends "@EBMMateriel/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Selection de la machine
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+{# Contenu de la page #}
+
+{% block content_body %}
+    <div class="page-animsition">
+
+        <div class="page-header">
+            <h1 class="page-title">Selection de machine</h1>
+            <ol class="breadcrumb">
+                <li><a href="{{ path('ebm_materiel_homepage') }}">Fab Lab</a></li>
+                <li><a href="{{ path('ebm_materiel_machines') }}">Machines</a></li>
+                <li><a href="{{ path('ebm_materiel_machines_selection') }}">Selection</a></li>
+            </ol><br>
+        </div>
+
+            <div class="page-content container-fluid" style="max-width: 400px">
+        <h1 class="page-title">Liste des machines :</h1><hr>
+        <div class="list-group bg-grey-300 bg-inherit">
+    {% for machine in machines %}
+
+                <a class="list-group-item grey-600 waves-effect waves-block waves-classic" href="{{ path('ebm_materiel_machines_planning', {'machineId': machine.id })}}">
+                <i class="icon md-inbox" aria-hidden="true"></i> {{ machine.nom }}
+            </a>
+    {% endfor %}
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+
+{# Scripts propres à cette page #}
+{% block scripts %}
+
+{% endblock %}

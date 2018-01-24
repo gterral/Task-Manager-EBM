@@ -1,0 +1,84 @@
+{% extends "@EBMSocialNetwork/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Réseau Social
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="page-header" style="margin-top:-30px; margin-bottom:-25px;">
+        <h1 class="page-title">Social Network</h1>
+        <ol class="breadcrumb">
+            <li>Home</li>
+            <li class="active">Actualités</li>
+        </ol>
+        <div class="page-header-actions">
+            <a href="{{ path('ebm_social_network_add') }}">
+                <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                        data-original-title="Ajouter une publication">
+                    <i class="icon md-edit" aria-hidden="true"></i>
+                </button>
+            </a>
+            <a href="{{ path('ebm_social_network_homepage') }}">
+                <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                        data-original-title="Rafraichir">
+                    <i class="icon md-refresh" aria-hidden="true"></i>
+                </button>
+            </a>
+            <a href="{{ path('ebm_social_network_subscriptions') }}">
+                <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                        data-original-title="Abonnements">
+                    <i class="icon md-settings" aria-hidden="true"></i>
+                </button>
+            </a>
+        </div>
+    </div>
+
+    {# Contenu de la page #}
+{% block content_body %}
+    <div class="page-profile">
+        <div class="page-content container-fluid">
+            <div class="row">
+                <div class="col-xlg-12 col-md-12">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Vue détail de la publication de {{ publication.userPublication.username }}
+                        {% for tags in publication.tags %}
+                            <span class="badge badge-primary" style="float: right; margin-left: 8px;">{{ tags.name }}</span>
+                        {% endfor %}
+                        {% for projects in publication.projects %}
+                            <span class="badge badge-info" style="float: right; margin-left: 8px;">{{ projects.name }}</span>
+                        {% endfor %}
+                        <small class="margin-bottom-20 grey-500">{{ publication.date|date("m/d/Y") }}</small>
+                        </h3>
+                        <div class="panel-body">
+                            <h4 class="media-heading">{{ publication.content }}</h4>
+                            <span style="float: right; margin-left: 8px;">{{ publication.compteurComment }} commentaire(s)</span>
+                            <br>
+                            <div id="body_task">
+                                {% for comment in publication.comments %}
+                                    <p> <h5>{{ comment.userComment.username }} <small class="margin-bottom-20 grey-500">{{ comment.date|date("m/d/Y à H:i") }}</small> </h5>
+                                    <h6>{{ comment.content }}</h6>
+                                    </p>
+                                {% endfor %}
+                                <hr>
+                                <div id="body_comment">
+                                    {{ include("EBMSocialNetworkBundle:Comment:form.html.twig") }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{# Scripts propres à cette page #}
+{% block scripts %}
+{% endblock %}
+{% endblock %}

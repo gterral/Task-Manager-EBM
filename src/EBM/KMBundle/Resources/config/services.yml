@@ -1,4 +1,4 @@
 services:
-#    ebmkm.example:
-#        class: EBM\KMBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+  ebmkm.tag:
+    class: EBM\KMBundle\Service\TagService
+    arguments: ["@doctrine.orm.entity_manager"]

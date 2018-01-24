@@ -1,0 +1,100 @@
+{% extends "@EBMGDP/bundleLayoutTeacher.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion de projet
+{% endblock %}
+
+{# CSS propres � cette page #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/coreiconbar/theme/global/vendor/morris/morris.min.css') }}">
+
+{% endblock %}
+
+{# Contenu de la page #}
+
+{% block content_body %}
+
+    {# Tableau Projets #}
+    {%  if listProjects is null or listProjects|length == 0 %}
+        <p class="margin-20 text-center">Aucun projet n'a été trouvé</p>
+    {% else %}
+        {% include "EBMGDPBundle:Insight/components:projectsTable.html.twig" %}
+    {% endif %}
+
+    {# Tableau Taches #}
+    {%  if listTasks is null or listTasks|length == 0 %}
+        <p class="margin-20 text-center">Aucune tâche n'a été trouvée</p>
+    {% else %}
+        {% include "EBMGDPBundle:Insight/components:taskDashboard.html.twig" %}
+    {% endif %}
+
+
+{% endblock %}
+
+
+{# Scripts propres � cette page #}
+{% block scripts %}
+    <script src="{{ asset('bundles/coreiconbar/theme/global/vendor/morris/raphael.min.js') }}"></script>
+    <script src="{{ asset('bundles/coreiconbar/theme/global/vendor/morris/morris.min.js') }}"></script>
+    <script>
+
+        var data = [];
+        var colors = [];
+
+        {% if nbTaskOpened > 0 %}
+            data.push({
+                label: "Tâches ouvertes",
+                value: {{ nbTaskOpened }}
+            });
+            colors.push("#9E9E9E");
+        {% endif %}
+        {% if nbTaskWorking > 0 %}
+        data.push({
+            label: "Tâches en cours",
+            value: {{ nbTaskWorking }}
+        });
+        colors.push("#F57C00");
+        {% endif %}
+        {% if nbTaskWaiting > 0 %}
+        data.push({
+            label: "En attente de validation",
+            value: {{ nbTaskWaiting }}
+        });
+        colors.push("#E65100");
+        {% endif %}
+        {% if nbTaskValidated > 0 %}
+        data.push({
+            label: "Tâches validées",
+            value: {{ nbTaskValidated }}
+        });
+        colors.push("#388E3C");
+        {% endif %}
+        {% if nbTaskRejected > 0 %}
+        data.push({
+            label: "Tâches rejetées",
+            value: {{ nbTaskRejected }}
+        });
+        colors.push("#F44336");
+        {% endif %}
+        {% if nbTaskArchived > 0 %}
+        data.push({
+            label: "Tâches archivées",
+            value: {{ nbTaskArchived }}
+        });
+        colors.push("#1976D2");
+        {% endif %}
+
+        Morris.Donut({
+            element: 'morrisDonut',
+            data: data,
+            // barSizeRatio: 0.35,
+            resize: true,
+            formatter: function (y,data) {
+                return Math.round(y*100)+"%"
+            },
+            colors: colors
+        });
+    </script>
+
+{% endblock %}

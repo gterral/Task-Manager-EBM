@@ -1,0 +1,91 @@
+
+{% extends "@EBMSocialNetwork/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Réseau Social - Gestion des abonnements
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+{# Contenu de la page #}
+{% block body %}
+
+    <div class="page-header" style="margin-top:-30px; margin-bottom:-25px;">
+        <h1 class="page-title">Social Network - Mes abonnements</h1>
+        <ol class="breadcrumb">
+            <li>Home</li>
+            <li class="active">Abonnements</li>
+        </ol>
+        <div class="page-header-actions">
+            <a href="{{ path('ebm_social_network_add') }}">
+                <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                        data-original-title="Ajouter une publication">
+                    <i class="icon md-edit" aria-hidden="true"></i>
+                </button>
+            </a>
+            <a href="{{ path('ebm_social_network_homepage') }}">
+                <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                        data-original-title="Rafraichir">
+                    <i class="icon md-refresh" aria-hidden="true"></i>
+                </button>
+            </a>
+            <a href="{{ path('ebm_social_network_subscriptions') }}">
+                <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                        data-original-title="Abonnements">
+                    <i class="icon md-settings" aria-hidden="true"></i>
+                </button>
+            </a>
+        </div>
+    </div>
+
+    {% block content_body %}
+
+        <div class="page-profile">
+            <div class="page-content">
+                <ul>
+
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Mes tags
+                                <br>
+                                <small class="margin-bottom-20 grey-500">({{ app.user.username }})</small>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div id="body_task">
+                                {{ include("EBMSocialNetworkBundle:Subscriptions:tagform.html.twig") }}
+                            </div>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Mes projets
+                                    <br>
+                                    <small class="margin-bottom-20 grey-500">({{ app.user.username }})</small>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div id="body_task">
+                                    {{ include("EBMSocialNetworkBundle:Subscriptions:projectform.html.twig") }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+
+    {% endblock %}
+
+
+    {# Scripts propres à cette page #}
+    {% block scripts %}
+
+    {% endblock %}
+
+
+{% endblock %}

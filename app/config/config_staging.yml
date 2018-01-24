@@ -15,3 +15,38 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+# ElasticSearch
+fos_elastica:
+    clients:
+        default: { host: fablab_elastic, port: 9200 }
+    indexes:
+        fablab:
+            types:
+                post:
+                    properties:
+                        content: ~
+                        author: ~
+                    persistence:
+                        driver: orm
+                        model: EBM\KMBundle\Entity\Post
+                        provider: ~
+                        finder: ~
+                tags:
+                    properties:
+                        name: ~
+                        description: ~
+                    persistence:
+                        driver: orm
+                        model: EBM\KMBundle\Entity\Tag
+                        provider: ~
+                        finder: ~
+                ressources:
+                    properties:
+                        name: ~
+                        description: ~
+                    persistence:
+                        driver: orm
+                        model: EBM\KMBundle\Entity\Document
+                        provider: ~
+                        finder: ~

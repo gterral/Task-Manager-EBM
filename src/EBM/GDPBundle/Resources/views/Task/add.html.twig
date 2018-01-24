@@ -1,0 +1,31 @@
+{% extends "@EBMGDP/bundleLayout.html.twig" %}
+
+{% block title %}
+    Ajouter une tâche
+{% endblock %}
+
+{# CSS propres � cette page #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("bundles/coreiconbar/theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.css") }}">
+{% endblock %}
+
+{% block content_body %}
+
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="display:inline-block;">            <a href="{{ path('ebmgdp_projecttasks',{'code': project.code }) }}" class="blue-a400"><i class="icon md-arrow-left"></i></a>
+                Ajouter une tâche</h3>
+        </div>
+        <div class="panel-body">
+            {{ include("EBMGDPBundle:Task:form.html.twig") }}
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{# Scripts propres � cette page #}
+{% block scripts %}
+    <script src="{{ asset("bundles/coreiconbar/theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js") }}"></script>
+    <script src="{{ asset('bundles/coreiconbar/theme/global/js/components/bootstrap-datepicker.js') }}"></script>
+{% endblock %}

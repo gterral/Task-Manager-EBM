@@ -1,0 +1,9 @@
+{% extends "EBMKMBundle::bundleLayout.html.twig" %}
+
+
+{% block content_body %}
+    <a href="{{ path('ebmkm_my_skills') }}">Retour</a>
+    Ajoute ton skill !
+    {{ form(form) }}
+{% endblock %}
+

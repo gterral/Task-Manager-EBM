@@ -1,0 +1,5 @@
+
+services:
+  ebmui.project:
+    class: EBM\UserInterfaceBundle\Service\ProjectService
+    arguments: ["@doctrine.orm.entity_manager"]

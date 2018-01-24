@@ -1,0 +1,84 @@
+
+{% extends "@EBMGDP/bundleLayout.html.twig" %}
+
+{# Titre de l'onglet #}
+{% block title %}
+    Gestion de projet
+{% endblock %}
+
+{# CSS propres à cette page #}
+{% block stylesheets %}
+
+{% endblock %}
+
+
+{# Contenu de la page #}
+
+{% block content_body %}
+
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Livrables obligatoires - {{ project.name|upper }}</h3>
+            <div class="panel-actions">
+                {# Créer une nouvelle tâche #}
+                <a href="{{ path('ebmgdp_deliverable_add_mandatory', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-primary waves-effect margin-right-10 white"><i class="icon md-plus"></i></a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group list-group-dividered list-group-full">
+
+                {%  if listTypeDeliverables is null or listTypeDeliverables|length == 0 %}
+                    <p class="margin-20 text-center">Aucun livrable obligatoire n'a été définie pour ce projet</p>
+                {% else %}
+                    {% for deliverableType in listTypeDeliverables %}
+                       <h4> {{ deliverableType.name }} </h4>
+                            {% set i = 0 %}
+                            {% for deliverable in listDeliverables if deliverable.documentTypeProject == deliverableType %}
+                                {% set i = i + 1 %}
+                                {% if deliverable is not null %}
+                                    {% include "EBMGDPBundle:Project/components:deliverableList.html.twig" %}
+                                {% else %}
+                                    <span class="danger">Aucun livrable n'a été trouvé. Merci d'en uplaoder un</span>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if i == 0 %}
+                                <span style=color:red;">Aucun livrable n'a été trouvé. Merci d'en uploader un</span>
+                            {% endif %}
+
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Livrables non obligatoires - {{ project.name|upper }}</h3>
+            <div class="panel-actions">
+                {# Créer une nouvelle tâche #}
+                <a href="{{ path('ebmgdp_deliverable_add', {'code':project.code}) }}" class="btn btn-sm btn-floating btn-primary waves-effect margin-right-10 white"><i class="icon md-plus"></i></a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group list-group-dividered list-group-full">
+
+                {%  if listDeliverables is null or listDeliverables|length == 0 %}
+                    <p class="margin-20 text-center">Aucun livrable n'a été définie pour ce projet</p>
+                {% else %}
+                    {% for deliverable in listDeliverables if deliverable.documentTypeProject is null %}
+                        {% include "EBMGDPBundle:Project/components:deliverableList.html.twig" %}
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{# Scripts propres à cette page #}
+{% block scripts %}
+
+
+{% endblock %}

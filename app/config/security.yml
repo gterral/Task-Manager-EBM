@@ -8,8 +8,10 @@ security:
 
     # Roles possibles pour un utilisateur
     role_hierarchy:
-        ROLE_STUDENT:       ROLE_USER
-        ROLE_ADMIN:         [ROLE_ADMIN, ROLE_STUDENT]
+        ROLE_USER:         ROLE_USER
+        ROLE_ADMIN:        [ROLE_ADMIN, ROLE_USER]
+        ROLE_ANIMATOR:     [ROLE_ANIMATOR, ROLE_USER]
+        ROLE_APPLICATION:  [ROLE_APPLICATION, ROLE_USER]
 
     # Les providers permettent de définir la manière dont on récupère les utilisateurs qui peuvent s'authentifier
     # Le provider "in_memory" sert à tester notre sécurité sans avoir à créer une bdd pous les utilisateurs

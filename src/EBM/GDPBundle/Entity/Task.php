@@ -1,0 +1,456 @@
+<?php
+
+namespace EBM\GDPBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use EBM\UserInterfaceBundle\Entity\Project;
+use Gedmo\Mapping\Annotation as Gedmo;
+
+// N'oubliez pas de rajouter ce � use �, il d�finit le namespace pour les annotations de validation
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Task
+ *
+ * @ORM\Table(name="gdp_task")
+ * @ORM\Entity(repositoryClass="EBM\GDPBundle\Repository\TaskRepository")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Task
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\Length(min=8)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     * @Assert\NotBlank()
+     */
+    private $description;
+
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deadline", type="datetime", nullable=true)
+     * @Assert\DateTime()
+     */
+    private $deadline;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=255)
+     */
+    private $status = "OPENED";
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="realisationDate", type="datetime", nullable=true)
+     * @Assert\DateTime()
+     */
+    private $realisationDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     */
+    private $type;
+
+    /**
+     * @ORM\OneToOne(targetEntity="EBM\GDPBundle\Entity\Conversation", cascade={"persist","remove"})
+     *
+     */
+
+    private $conversation;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="creationDate", type="datetime")
+     * @Assert\DateTime()
+     */
+    private $creationDate;
+
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="modificationDate", type="datetime")
+     * @Assert\DateTime()
+     */
+    private $modificationDate;
+
+    // TODO : nullable=false quand c'est prêt du côté du Julien
+    /**
+     * @ORM\ManyToOne(targetEntity="EBM\UserInterfaceBundle\Entity\Project", inversedBy="tasks")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $project;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Core\UserBundle\Entity\User", inversedBy="gdpTasks")
+     * @ORM\JoinTable(name="gdp_task_members")
+     *
+     */
+    private $membersAssigned;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EBM\GDPBundle\Entity\FileEntity", inversedBy="tasks")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $fileEntities;
+
+    /**
+     * Add file
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $file
+     *
+     * @return Task
+     */
+    public function addFileEntities(\EBM\GDPBundle\Entity\FileEntity $file)
+    {
+        $this->fileEntities[] = $file;
+
+        return $this;
+    }
+
+    /**
+     * Remove file
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $file
+     *
+     */
+    public function removeFileEntities(\EBM\GDPBundle\Entity\FileEntity $file)
+    {
+        $this->fileEntities->removeElement($file);
+    }
+
+    /**
+     * Get files
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFileEntities()
+    {
+        return $this->fileEntities;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function setProject(Project $project)
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Task
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set deadline
+     *
+     * @param \DateTime $deadline
+     *
+     * @return Task
+     */
+    public function setDeadline($deadline)
+    {
+        $this->deadline = $deadline;
+
+        return $this;
+    }
+
+    /**
+     * Get deadline
+     *
+     * @return \DateTime
+     */
+    public function getDeadline()
+    {
+        return $this->deadline;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return Task
+     */
+    public function setStatus($status)
+    {
+        $states = ["OPENED","IN_PROGRESS","WAITING_FOR_REVIEW","VALIDATED","REJECTED","ARCHIVED"];
+
+        if (!in_array($status,$states)) {
+            throw new \Exception("Value not allowed : you must use one of these status : ".json_encode($states));
+        }
+
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set realisationDate
+     *
+     * @param \DateTime $realisationDate
+     *
+     * @return Task
+     */
+    public function setRealisationDate($realisationDate)
+    {
+        $this->realisationDate = $realisationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get realisationDate
+     *
+     * @return \DateTime
+     */
+    public function getRealisationDate()
+    {
+        return $this->realisationDate;
+    }
+
+    /**
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     *
+     * @return Task
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Task
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set conversation
+     *
+     * @param \EBM\GDPBundle\Entity\Conversation $conversation
+     *
+     * @return Task
+     */
+    public function setConversation(\EBM\GDPBundle\Entity\Conversation $conversation = null)
+    {
+        $this->conversation = $conversation;
+
+        return $this;
+    }
+
+    /**
+     * Get conversation
+     *
+     * @return \EBM\GDPBundle\Entity\Conversation
+     */
+    public function getConversation()
+    {
+        return $this->conversation;
+    }
+
+    /**
+     * Set modificationDate
+     *
+     * @param \DateTime $modificationDate
+     *
+     * @return Task
+     */
+    public function setModificationDate($modificationDate)
+    {
+        $this->modificationDate = $modificationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get modificationDate
+     *
+     * @return \DateTime
+     */
+    public function getModificationDate()
+    {
+        return $this->modificationDate;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->membersAssigned = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fileEntities = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add membersAssigned
+     *
+     * @param \Core\UserBundle\Entity\User $membersAssigned
+     *
+     * @return Task
+     */
+    public function addMembersAssigned(\Core\UserBundle\Entity\User $membersAssigned)
+    {
+        $this->membersAssigned[] = $membersAssigned;
+
+        return $this;
+    }
+
+    /**
+     * Remove membersAssigned
+     *
+     * @param \Core\UserBundle\Entity\User $membersAssigned
+     */
+    public function removeMembersAssigned(\Core\UserBundle\Entity\User $membersAssigned)
+    {
+        $this->membersAssigned->removeElement($membersAssigned);
+    }
+
+    /**
+     * Get membersAssigned
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMembersAssigned()
+    {
+        return $this->membersAssigned;
+    }
+
+    /**
+     * Add fileEntity
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $fileEntity
+     *
+     * @return Task
+     */
+    public function addFileEntity(\EBM\GDPBundle\Entity\FileEntity $fileEntity)
+    {
+        $this->fileEntities[] = $fileEntity;
+
+        return $this;
+    }
+
+    /**
+     * Remove fileEntity
+     *
+     * @param \EBM\GDPBundle\Entity\FileEntity $fileEntity
+     */
+    public function removeFileEntity(\EBM\GDPBundle\Entity\FileEntity $fileEntity)
+    {
+        $this->fileEntities->removeElement($fileEntity);
+    }
+}

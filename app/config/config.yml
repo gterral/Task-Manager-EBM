@@ -9,6 +9,7 @@ imports:
     - { resource: "@EBMGDPBundle/Resources/config/services.yml" }
     - { resource: "@EBMKMBundle/Resources/config/services.yml" }
     - { resource: "@EBMSocialNetworkBundle/Resources/config/services.yml" }
+    - { resource: "@EBMUserInterfaceBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -26,6 +27,7 @@ assetic:
             formatter: 'Leafo\ScssPhp\Formatter\Compressed'
     bundles:
         - CoreIconbarBundle
+        - EBMGDPBundle
 
 framework:
     #esi:             ~
@@ -59,7 +61,8 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form_themes:
-        - 'Core/IconbarBundle:components/form:fields.html.twig'
+        - 'CoreIconbarBundle:components/form:fields.html.twig'
+        - 'VichUploaderBundle:Form:fields.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -91,6 +94,70 @@ fos_user:
     db_driver:     orm                       # Le type de BDD à utiliser, nous utilisons l'ORM Doctrine depuis le début
     firewall_name: public                    # Le nom du firewall derrière lequel on utilisera ces utilisateurs
     user_class:    Core\UserBundle\Entity\User  # La classe de l'entité User que nous utilisons
+    from_email:
+            address: you@example.com
+            sender_name: You
     registration:
         form:
             type: Core\UserBundle\Form\RegistrationFormType
+
+# Doctrine Extensions
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
+            timestampable: true
+
+# Vich Uploader Extension
+vich_uploader:
+    db_driver: orm
+    mappings:
+       km:
+            uri_prefix:         /uploads/files/km
+            upload_destination: '%kernel.root_dir%/../web/uploads/files/km'
+            #namer: vich_uploader.namer_hash
+            inject_on_load:     false
+            delete_on_update:   false
+            delete_on_remove:   true
+       gdp:
+            uri_prefix:         /uploads/files/gdp
+            upload_destination: '%kernel.root_dir%/../web/uploads/files/gdp'
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+
+
+# ElasticSearch
+#fos_elastica:
+#    clients:
+#        default: { host: fablab_elastic, port: 9200 }
+#    indexes:
+#        fablab:
+#            types:
+#                post:
+#                    properties:
+#                        content: ~
+#                        author: ~
+#                    persistence:
+#                        driver: orm
+#                        model: EBM\KMBundle\Entity\Post
+#                        provider: ~
+#                        finder: ~
+#                tags:
+#                    properties:
+#                        name: ~
+#                        description: ~
+#                    persistence:
+#                        driver: orm
+#                        model: EBM\KMBundle\Entity\Tag
+#                        provider: ~
+#                        finder: ~
+#                ressources:
+#                    properties:
+#                        name: ~
+#                        description: ~
+#                    persistence:
+#                        driver: orm
+#                        model: EBM\KMBundle\Entity\Document
+#                        provider: ~
+#                        finder: ~
